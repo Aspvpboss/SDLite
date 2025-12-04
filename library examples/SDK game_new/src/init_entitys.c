@@ -35,7 +35,7 @@ SDK_Entity* create_block(SDK_Display *display, float x, float y, uint8_t block_w
 
 SDK_Entity* create_player(SDK_Display *display){
 
-    SDL_FRect rect = {0, 200, 13, 15};
+    SDL_FRect rect = {0, display->height - 250, 13, 15};
     SDL_FRect src_rect_down = {18, 16, 14, 15};
     SDL_FRect src_rect_left = {18, 32, 13, 15};
     SDL_FRect src_rect_right = {18, 48, 13, 15};
