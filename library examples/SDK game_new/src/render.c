@@ -35,14 +35,14 @@ int render(Appstate *state){
 
     SDK_Display *display = state->display;
 
-    SDK_Display_Clear(display);
+    SDL_RenderClear(display->renderer);
 
 
     render_entitys(display, &state->entity_manager, state->sprite_manager);
     render_text(&state->text_manager);
 
 
-    SDK_Display_Present(display);
+    SDL_RenderPresent(display->renderer);
 
     return 0;
 }
