@@ -67,9 +67,6 @@ int main(){
 
     SDK_Entity_SetLoopAnimation(entity_one, false);
 
-
-
-
     if(!entity_one){
         printf("Kys!\n");
         return 1;
