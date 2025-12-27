@@ -2,8 +2,8 @@
 GCC = gcc
 #GCC = gcc
 
-INCLUDE = -IC:\msys64\ucrt64\include -Iinclude/SDK1 
-LIB = -LC:\msys64\ucrt64\lib
+INCLUDE = -IC:/msys64/mingw64/include -Iinclude/SDK1 
+LIB = -LC:/msys64/mingw64/lib
 LINK = -lSDL3 -lSDL3_image -lSDL3_ttf -lMemTrack
 SRC_LIB = src/*.c src/sprite/*.c src/entity/*.c
 
