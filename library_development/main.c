@@ -1,4 +1,4 @@
-#include "SDK1/SDK.h"
+#include "SDK.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
