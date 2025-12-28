@@ -1,4 +1,4 @@
-#include "SDK1/SDK.h"
+#include "SDK.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
@@ -66,9 +66,6 @@ int main(){
 
 
     SDK_Entity_SetLoopAnimation(entity_one, false);
-
-
-
 
     if(!entity_one){
         printf("Kys!\n");

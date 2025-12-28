@@ -37,6 +37,11 @@ int init_entitys(Entity_Manager *manager, SDK_Display *display){
     entitys[amount_entitys] = new_entity;
     amount_entitys++;
 
+    new_entity = create_block(display, 200, 200, 2);
+    if(!new_entity) return 1;
+    entitys[amount_entitys] = new_entity;
+    amount_entitys++;
+
     new_entity = create_block(display, 0, display->height - (16 * ENTITY_SCALE), (int)(display->width / (16 * ENTITY_SCALE)) + 1);
     if(!new_entity) return 1;
     entitys[amount_entitys] = new_entity;
@@ -86,7 +91,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
     (*appstate) = t_malloc(sizeof(Appstate));
     Appstate *state = (Appstate*)(*appstate);
 
-    state->display = SDK_CreateDisplay("SDK game", 1000, 800, SDL_WINDOW_MAXIMIZED);
+    state->display = SDK_CreateDisplay("Zig game", 1000, 800, SDL_WINDOW_MAXIMIZED);
     if(!state->display){
         SDL_Log("Error: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;
