@@ -1,4 +1,10 @@
-#pragma once
+#ifndef SDK_SPRITE_H
+#define SDK_SPRITE_H
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 
 #include "../common_libs.h"
 #include "../SDK_display.h"
@@ -165,4 +171,9 @@ SDK1_API int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale);
 SDK1_API enum SDK_CollisionType SDK_Sprite_CheckCollision(SDK_Sprite *sprite_src, SDK_Sprite *sprite_dest);
 
 
+#ifdef __cplusplus
+}
+#endif
 
+
+#endif  

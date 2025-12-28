@@ -1,4 +1,12 @@
-#pragma once
+#ifndef SDK_TIME_H
+#define SDK_TIME_H
+
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+
+
 #include "common_libs.h"
 
 
@@ -27,7 +35,7 @@ typedef struct{
 
     fps_limit can be changed during runtime
 
-    returns 0 for success, returns 1 for failure
+    returns SDK_Time* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
 SDK1_API SDK_Time* SDK_CreateTime(int fps_limit);
@@ -88,3 +96,9 @@ SDK1_API int SDK_CalculateFPS(SDK_Time *time);
 */
 SDK1_API int SDK_LimitFPS(SDK_Time *time);
 
+#ifdef __cplusplus
+}
+#endif
+
+
+#endif

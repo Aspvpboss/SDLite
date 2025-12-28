@@ -1,4 +1,11 @@
-#pragma once
+#ifndef SDK_ENTITY_H
+#define SDK_ENTITY_H
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+
+
 
 #include "../common_libs.h"
 #include "../sprite/SDK_sprite.h"
@@ -41,7 +48,7 @@ typedef struct SDK_Entity{
 
     SDK_Entity needs to be freed by SDK_Destroy_Entity()
 
-    returns 0 for success, returns 1 for failure
+    returns SDK_Entity* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
 SDK1_API SDK_Entity* SDK_Create_Entity(
@@ -115,4 +122,10 @@ SDK1_API int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity);
 
 SDK1_API enum SDK_CollisionType SDK_Entity_CheckCollision(SDK_Entity *entity_a, SDK_Entity *entity_b);
 
+#ifdef __cplusplus
+}
+#endif
 
+
+
+#endif

@@ -1,4 +1,12 @@
-#pragma once
+#ifndef SDK_SPRITE_MANAGER_H
+#define SDK_SPRITE_MANAGER_H
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 
 #include "SDK_sprite.h"
 #include "../entity/SDK_entity.h"
@@ -20,7 +28,7 @@ typedef struct{
 
     SDK_Sprite_Manager needs to be freed by SDK_Destroy_SpriteManager()
 
-    returns 0 for success, returns 1 for failure
+    returns SDK_Sprite_Manager* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
 SDK1_API SDK_Sprite_Manager* SDK_Create_SpriteManager(uint64_t max_z_depth, uint64_t max_sprites);
@@ -50,3 +58,12 @@ SDK1_API int SDK_SpriteManager_AddEntitySprites(SDK_Sprite_Manager *manager, SDK
     call SDL_GetError() for more info
 */
 SDK1_API int SDK_Render_SpriteManager(SDK_Display *display, SDK_Sprite_Manager *manager);
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+
+

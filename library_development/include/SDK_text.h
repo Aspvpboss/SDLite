@@ -1,4 +1,11 @@
-#pragma once
+#ifndef SDK_TEXT_H
+#define SDK_TEXT_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #include "common_libs.h"
 #include "SDK_display.h"
 
@@ -23,7 +30,7 @@ typedef struct SDK_Text{
     If you do you must update the font using SDK_TextUpdateFont() 
     and update the text using
 
-    returns 0 for success, 1 for failure
+    returns SDK_Text* for success, NULL for failure
     Use SDL_GetError() for more error details
 */
 SDK1_API SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color);
@@ -105,3 +112,10 @@ SDK1_API int SDK_Text_UpdateColor(SDK_Text *text, SDL_Color color);
     Use SDL_GetError() for more error details
 */
 SDK1_API int SDK_Render_Text(SDK_Text *text);
+
+#ifdef __cplusplus
+}
+#endif
+
+
+#endif

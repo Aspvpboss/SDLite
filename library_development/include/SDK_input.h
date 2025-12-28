@@ -1,4 +1,11 @@
-#pragma once
+#ifndef SDK_INPUT_H
+#define SDK_INPUT_H
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+
+
 #include "common_libs.h"
 
 /*
@@ -26,7 +33,7 @@ typedef struct{
 
     SDK_Input must be freed with SDK_DestroyInput
 
-    returns 0 for success, returns 1 for failure
+    returns SDK_Input* for success, returns NULL for failure
     call SDL_GetError() for more info    
 */
 SDK1_API SDK_Input* SDK_CreateInput();
@@ -96,4 +103,13 @@ SDK1_API void SDK_Update_Previous_MouseState(SDK_Input *input);
     This is for QOL
 */
 SDK1_API void SDK_Update_Previous_Inputs(SDK_Input *input);
+
+
+#ifdef __cplusplus
+}
+#endif
+
+
+
+#endif
 

@@ -1,4 +1,10 @@
-#pragma once
+#ifndef SDK_DISPLAY_H
+#define SDK_DISPLAY_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "common_libs.h"
 
 /*
@@ -23,7 +29,7 @@ typedef struct{
 
     SDK_Display needs to be freed by SDK_DestroyDisplay()
 
-    returns 0 for success, returns 1 for failure
+    returns SDK_Display* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
 SDK1_API SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag);
@@ -35,25 +41,6 @@ SDK1_API SDK_Display* SDK_CreateDisplay(const char* window_title, int window_wid
 */
 SDK1_API void SDK_DestroyDisplay(SDK_Display *display);
 
-/*
-    This presents what you have rendered onto the display
-
-    returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info    
-*/
-inline int SDK_Display_Present(SDK_Display *display){
-    return !SDL_RenderPresent(display->renderer);
-}
-
-/*
-    This clears what you have rendered onto the display
-
-    returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info    
-*/
-inline int SDK_Display_Clear(SDK_Display *display){
-    return !SDL_RenderClear(display->renderer);
-}
 
 
 /*
@@ -73,3 +60,10 @@ SDK1_API int SDK_DisplaySetWindowed(SDK_Display *display, int width, int height)
     call SDL_GetError() for more info
 */
 SDK1_API int SDK_DisplaySetFullscreen(SDK_Display *display);
+
+#ifdef __cplusplus
+}
+#endif
+
+
+#endif
