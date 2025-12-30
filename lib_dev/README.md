@@ -1,9 +1,1 @@
-
-
-
-new features wanted
-
-
-flush out SDK_Entity more
-added debug overlay that displays useful info
-buttons
+SDK version 1.1

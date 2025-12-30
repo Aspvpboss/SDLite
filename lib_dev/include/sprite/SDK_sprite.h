@@ -42,17 +42,10 @@ typedef struct{
 
     enum SDK_SpriteType sprite_type;
 
-    union{
-
-        void *static_s;
-        void *animate_s;
-
-    } data;
-
+    void *data;
 
     SDL_Texture *texture;
     SDL_FRect render_rect;
-    SDL_Point entity_index;
 
     SDL_FlipMode flip_mode;
     double base_width;
