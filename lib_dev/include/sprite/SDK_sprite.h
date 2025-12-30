@@ -40,16 +40,15 @@ enum SDK_CollisionType{
 */
 typedef struct{
 
+    void *data;
     enum SDK_SpriteType sprite_type;
 
-    void *data;
-
-    SDL_Texture *texture;
-    SDL_FRect render_rect;
-
-    SDL_FlipMode flip_mode;
     double base_width;
     double base_height;
+    SDL_Texture *texture;
+
+    SDL_FRect render_rect;
+    SDL_FlipMode flip_mode;
     double scale;
     double angle;
     SDL_FPoint pivot_point;

@@ -9,7 +9,6 @@ extern "C" {
 
 
 #include "SDK_sprite.h"
-#include "../entity/SDK_entity.h"
 #include "../common_libs.h"
 
 
@@ -49,7 +48,7 @@ SDK1_API void SDK_Destroy_SpriteManager(SDK_Sprite_Manager *manager);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_SpriteManager_AddEntitySprites(SDK_Sprite_Manager *manager, SDK_Entity *entity);
+// SDK1_API int SDK_SpriteManager_AddEntitySprites(SDK_Sprite_Manager *manager, SDK_Entity *entity);
 
 /*
     Renders all the sprites within each z_layer contained in SDK_Sprite_Manager

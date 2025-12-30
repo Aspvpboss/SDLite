@@ -2,9 +2,11 @@
 
 
 
-
 typedef struct{
 
+    double base_width;
+    double base_height;
+    SDL_Texture *texture;
     SDL_FRect src_rect;
 
 } SDK_StaticSprite_Data;
@@ -26,6 +28,9 @@ typedef struct{
 
 typedef struct{
 
+    double base_width;
+    double base_height;
+    SDL_Texture *texture;
     SDK_Animation *animation;
     uint8_t amount_animation;
     uint8_t current_animation;
