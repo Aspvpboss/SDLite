@@ -40,6 +40,7 @@ SDK1_API SDK_Sprite_Manager* SDK_Create_SpriteManager(uint64_t max_z_depth, uint
 SDK1_API void SDK_Destroy_SpriteManager(SDK_Sprite_Manager *manager);
 
 
+
 /*
     Renders all the sprites within each z_layer contained in SDK_Sprite_Manager
 

@@ -40,9 +40,19 @@ enum SDK_CollisionType{
 */
 typedef struct{
 
+<<<<<<< HEAD
     const enum SDK_SpriteType sprite_type;
     void *data;
 
+=======
+    void *data;
+    enum SDK_SpriteType sprite_type;
+
+    double base_width;
+    double base_height;
+    SDL_Texture *texture;
+
+>>>>>>> 3adde8e8c2d72a8f3a238b1c9792b0d69af6df1a
     SDL_FRect render_rect;
     SDL_FlipMode flip_mode;
     double scale;

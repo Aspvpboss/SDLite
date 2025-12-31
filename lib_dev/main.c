@@ -17,7 +17,6 @@ void update_text(SDK_Text *text, double fps){
 
 
 
-
 int main(){
 
     if(SDK_Init(NULL, NULL, true, true, true)){
@@ -67,24 +66,17 @@ int main(){
             update_text(text, time->fps);
 
 
-
         SDL_RenderClear(display->renderer);
-
 
 
         SDK_Render_SpriteManager(display, manager);
         SDK_Render_Text(text);
 
 
-
         SDL_RenderPresent(display->renderer);
-
- 
 
         SDK_TimeFunctions(time);
         SDK_Update_Previous_Inputs(input);
-
-
     }
 
     SDK_DestroyDisplay(display);
@@ -100,9 +92,8 @@ int main(){
     SDK_DestroySprite(player);
     player = NULL;
 
-
+    
     SDK_Quit();
-
     
     return 0;
 }

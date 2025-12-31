@@ -2,7 +2,6 @@
 
 
 
-
 typedef struct{
 
     double base_width;
@@ -48,6 +47,7 @@ typedef struct{
 SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
 
     enum SDK_SpriteType sprite_type = SDK_STATIC_SPRITE;
+
     SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
 
     if(!sprite)
@@ -82,7 +82,6 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
     sprite->flip_mode = SDL_FLIP_NONE;
 
     sprite->render_rect = (SDL_FRect){sprite_pos.x, sprite_pos.y, src_rect.w, src_rect.h};
-
     
     return sprite;
 }
@@ -129,7 +128,6 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
     sprite->angle = 0.0f;
     sprite->scale = 1.0f;
     sprite->flip_mode = SDL_FLIP_NONE;
-
     sprite->render_rect = (SDL_FRect){sprite_pos.x, sprite_pos.y, src_rect.w, src_rect.h};
 
     
@@ -306,7 +304,6 @@ int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
     //         return 1;
     //
     // }
-
 
     return 0;
 }
