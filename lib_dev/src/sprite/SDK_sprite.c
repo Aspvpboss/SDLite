@@ -7,8 +7,8 @@ typedef struct{
 
     double base_width;
     double base_height;
-    
     SDL_Texture *texture;
+    
     SDL_FRect src_rect;
 
 } SDK_StaticSprite_Data;
@@ -47,12 +47,13 @@ typedef struct{
 
 SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
 
+    enum SDK_SpriteType sprite_type = SDK_STATIC_SPRITE;
     SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
 
     if(!sprite)
         return NULL;
     
-    memcpy((void*)sprite, &sprite_type, sizeof(SDK_SpriteType));
+    memcpy((void*)sprite, &sprite_type, sizeof(enum SDK_SpriteType));
     
     sprite->data = t_malloc(sizeof(SDK_StaticSprite_Data));
 
@@ -75,9 +76,7 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
     data->base_height = src_rect.h;
     data->src_rect = src_rect;
 
-    sprite->entity_index = (SDL_Point){0, 0};
     sprite->pivot_point = sprite_pos;
-    sprite->sprite_type = SDK_STATIC_SPRITE;
     sprite->angle = 0.0f;
     sprite->scale = 1.0f;
     sprite->flip_mode = SDL_FLIP_NONE;
@@ -93,7 +92,7 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
 
 SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
 
-    SDK_SpriteType sprite_type = SDK_ANIMATED_SPRITE;
+    enum SDK_SpriteType sprite_type = SDK_ANIMATED_SPRITE;
 
     SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
 
@@ -101,7 +100,7 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
         return NULL;
     
     // this allows for me to set the const SDK_SpriteType
-    memcpy((void*)sprite, &sprite_type, sizeof(SDK_SpriteType));
+    memcpy((void*)sprite, &sprite_type, sizeof(enum SDK_SpriteType));
     
     sprite->data = t_malloc(sizeof(SDK_StaticSprite_Data));
 
@@ -127,7 +126,6 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
     data->base_height = src_rect.h;
 
     sprite->pivot_point = sprite_pos;
-    sprite->sprite_type = SDK_ANIMATED_SPRITE;
     sprite->angle = 0.0f;
     sprite->scale = 1.0f;
     sprite->flip_mode = SDL_FLIP_NONE;
@@ -277,37 +275,37 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 
 int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
 
-    SDL_FRect *src_rect;
-
-    if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
-
-        SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data.animate_s;
-
-        if(data->current_animation >= data->amount_animation){
-            return 1;
-        }
-        
-        src_rect = &data->animation[data->current_animation].src_rect;
-
-    } else{
-
-        SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data.animate_s;
-        
-        src_rect = &data->src_rect;
-        
-    }
-
-    if(sprite->angle == 0.0f && sprite->flip_mode == SDL_FLIP_NONE){
-
-        if(!SDL_RenderTexture(display->renderer, sprite->texture, src_rect, &sprite->render_rect))
-            return 1;
-
-    } else{
-
-        if(!SDL_RenderTextureRotated(display->renderer, sprite->texture, src_rect, &sprite->render_rect, sprite->angle, &sprite->pivot_point, sprite->flip_mode))
-            return 1;
-
-    }
+    // SDL_FRect *src_rect;
+    //
+    // if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
+    //
+    //     SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data.animate_s;
+    //
+    //     if(data->current_animation >= data->amount_animation){
+    //         return 1;
+    //     }
+    //
+    //     src_rect = &data->animation[data->current_animation].src_rect;
+    //
+    // } else{
+    //
+    //     SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data.animate_s;
+    //
+    //     src_rect = &data->src_rect;
+    //
+    // }
+    //
+    // if(sprite->angle == 0.0f && sprite->flip_mode == SDL_FLIP_NONE){
+    //
+    //     if(!SDL_RenderTexture(display->renderer, sprite->texture, src_rect, &sprite->render_rect))
+    //         return 1;
+    //
+    // } else{
+    //
+    //     if(!SDL_RenderTextureRotated(display->renderer, sprite->texture, src_rect, &sprite->render_rect, sprite->angle, &sprite->pivot_point, sprite->flip_mode))
+    //         return 1;
+    //
+    // }
 
 
     return 0;
@@ -391,28 +389,25 @@ enum SDK_CollisionType SDK_Sprite_CheckCollision(SDK_Sprite *sprite_src, SDK_Spr
 
 
 
-
-
-
-
 void SDK_DestroySprite(SDK_Sprite *sprite){
 
     if(!sprite) return;
 
     if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
 
-        SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data.animate_s;
+        SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
         t_free(data->animation);
-        t_free(sprite->data.animate_s);
+        SDL_DestroyTexture(data->texture);
+        t_free(sprite->data);
 
     } else{
 
-        t_free(sprite->data.static_s);
+        SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
+        SDL_DestroyTexture(data->texture);
+        t_free(sprite->data);
 
     }
 
-
-    SDL_DestroyTexture(sprite->texture);
     t_free(sprite);
 
 }

@@ -8,4 +8,3 @@
 
 #include "sprite/SDK_sprite.h"
 #include "sprite/SDK_sprite_manager.h"
-#include "entity/SDK_entity.h"

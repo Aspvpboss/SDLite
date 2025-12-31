@@ -17,34 +17,6 @@ void update_text(SDK_Text *text, double fps){
 
 
 
-SDK_Entity* init_entity_one(SDK_Display *display){
-
-    SDK_Entity *entity = SDK_Create_Entity((SDL_FRect){0, 0, 13, 16}, (SDL_FRect){0, 0, 13, 16}, NULL, 1, NULL, NULL);
-
-
-    SDK_Sprite *sprite = SDK_Entity_AddSprite(
-        entity, display, TEXTURE_PATH_COOL, (SDL_FRect){18, 16, 13, 16}, (SDL_Point){0, 0}, SDK_ANIMATED_SPRITE);
-
-    if(!sprite)
-        return NULL;
-
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 6.7f, 3.0f, true, false);
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 32, 13, 16}, 5, 6.7f, 3.0f, true, false);
-    SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
-
-    sprite = SDK_Entity_AddSprite(
-        entity, display, TEXTURE_PATH_COOL, (SDL_FRect){18, 16, 13, 16}, (SDL_Point){1, 0}, SDK_ANIMATED_SPRITE);
-
-    if(!sprite)
-        return NULL;
-
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 6.7f, 3.0f, true, false);
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 32, 13, 16}, 5, 6.7f, 3.0f, true, false);
-    SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
-
-    return entity;
-}
-
 
 int main(){
 
@@ -60,17 +32,12 @@ int main(){
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
 
 
-    SDK_Entity *entity_one = init_entity_one(display);
-    entity_one->scale = 8.0f;
-    SDK_Entity_UpdateSpriteRects(entity_one);
-
-
-    SDK_Entity_SetLoopAnimation(entity_one, false);
-
-    if(!entity_one){
-        printf("Kys!\n");
+    SDK_Sprite *player = SDK_Create_StaticSprite(display, "assets/char_spritesheet.png", (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
+    if(!player){
+        SDL_Log("Error loading player: %s\n", SDL_GetError());
         return 1;
     }
+
 
     if(!text){
         printf("Kys!\n");
@@ -98,41 +65,6 @@ int main(){
 
         if(time->fps_updated)
             update_text(text, time->fps);
-
-        if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_A)){
-            double movement = 128 * time->dt;
-            entity_one->render_rect.x -= movement;
-            entity_one->collision_rect.x -= movement;
-            entity_one->is_updated = true;
-        }
-        if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_D)){
-            double movement = 128 * time->dt;
-            entity_one->render_rect.x += movement;
-            entity_one->collision_rect.x += movement;
-            entity_one->is_updated = true;
-        }
-        if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_W)){
-            double movement = 128 * time->dt;
-            entity_one->render_rect.y -= movement;
-            entity_one->collision_rect.y -= movement;
-            entity_one->is_updated = true;
-        }
-        if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_S)){
-            double movement = 128 * time->dt;
-            entity_one->render_rect.y += movement;
-            entity_one->collision_rect.y += movement;
-            entity_one->is_updated = true;
-        }
-
-        if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_UP)){
-            SDK_Entity_SetPlayAnimation(entity_one, true);
-            entity_one->is_updated = true;
-        }
-
-
-        SDK_Entity_UpdateAnimation(entity_one, time);
-        SDK_Entity_UpdateSpriteRects(entity_one);
-        SDK_SpriteManager_AddEntitySprites(manager, entity_one);
 
 
 
@@ -165,10 +97,10 @@ int main(){
     text = NULL;
     SDK_Destroy_SpriteManager(manager);
     manager = NULL;
-    SDK_Destroy_Entity(entity_one);
-    entity_one = NULL;
+    SDK_DestroySprite(player);
+    player = NULL;
 
-    
+
     SDK_Quit();
 
     
