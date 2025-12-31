@@ -269,41 +269,62 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 // }
 
 
+SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite){
+
+    if(!sprite) return NULL;
+
+
+    if(sprite->sprite_type == SDK_STATIC_SPRITE){
+        SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
+        return data->texture;
+    }
+
+    if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
+        SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
+        return data->texture;
+    }
+
+    return NULL;
+}
+
 
 
 int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
 
-    // SDL_FRect *src_rect;
-    //
-    // if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
-    //
-    //     SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data.animate_s;
-    //
-    //     if(data->current_animation >= data->amount_animation){
-    //         return 1;
-    //     }
-    //
-    //     src_rect = &data->animation[data->current_animation].src_rect;
-    //
-    // } else{
-    //
-    //     SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data.animate_s;
-    //
-    //     src_rect = &data->src_rect;
-    //
-    // }
-    //
-    // if(sprite->angle == 0.0f && sprite->flip_mode == SDL_FLIP_NONE){
-    //
-    //     if(!SDL_RenderTexture(display->renderer, sprite->texture, src_rect, &sprite->render_rect))
-    //         return 1;
-    //
-    // } else{
-    //
-    //     if(!SDL_RenderTextureRotated(display->renderer, sprite->texture, src_rect, &sprite->render_rect, sprite->angle, &sprite->pivot_point, sprite->flip_mode))
-    //         return 1;
-    //
-    // }
+    SDL_FRect *src_rect;
+    SDL_Texture *texture = NULL;
+
+    if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
+
+        SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
+
+        if(data->current_animation >= data->amount_animation){
+            return 1;
+        }
+
+        src_rect = &data->animation[data->current_animation].src_rect;
+        texture = data->texture;
+
+    } else{
+
+        SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
+
+        src_rect = &data->src_rect;
+        texture = data->texture;
+
+    }
+
+    if(sprite->angle == 0.0f && sprite->flip_mode == SDL_FLIP_NONE){
+
+        if(!SDL_RenderTexture(display->renderer, texture, src_rect, &sprite->render_rect))
+            return 1;
+
+    } else{
+
+        if(!SDL_RenderTextureRotated(display->renderer, texture, src_rect, &sprite->render_rect, sprite->angle, &sprite->pivot_point, sprite->flip_mode))
+            return 1;
+
+    }
 
     return 0;
 }

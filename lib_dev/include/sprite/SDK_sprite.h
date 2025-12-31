@@ -40,19 +40,9 @@ enum SDK_CollisionType{
 */
 typedef struct{
 
-<<<<<<< HEAD
     const enum SDK_SpriteType sprite_type;
     void *data;
 
-=======
-    void *data;
-    enum SDK_SpriteType sprite_type;
-
-    double base_width;
-    double base_height;
-    SDL_Texture *texture;
-
->>>>>>> 3adde8e8c2d72a8f3a238b1c9792b0d69af6df1a
     SDL_FRect render_rect;
     SDL_FlipMode flip_mode;
     double scale;
@@ -70,7 +60,7 @@ typedef struct{
 
     SDK_Sprite needs to be freed by SDK_DestroySprite()
 
-    returns 0 for success, returns 1 for failure
+    returns SDK_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
 SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
@@ -83,7 +73,7 @@ SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *t
 
     SDK_Sprite needs to be freed by SDK_DestroySprite()
 
-    returns 0 for success, returns 1 for failure
+    returns SDK_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
 SDK1_API SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
@@ -103,6 +93,14 @@ SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
     call SDL_GetError() for more info
 */
 SDK1_API int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite);
+
+
+/*
+    Returns the SDL_Texture* of the given SDK_Sprite*
+
+    returns SDL_Texture* for success, returns NULL for failure
+*/
+SDK1_API SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite);
 
 /*
     Adds an animation onto an animated sprite

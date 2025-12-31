@@ -1,7 +1,9 @@
 #include "SDK.h"
+#include "sprite/SDK_sprite.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
+
 
 
 
@@ -37,6 +39,9 @@ int main(){
         return 1;
     }
 
+    SDK_Sprite_UpdateScale(player, 8.0f);
+    SDL_SetTextureScaleMode(SDK_Sprite_GetTexture(player), SDL_SCALEMODE_NEAREST);
+
 
     if(!text){
         printf("Kys!\n");
@@ -69,7 +74,7 @@ int main(){
         SDL_RenderClear(display->renderer);
 
 
-        SDK_Render_SpriteManager(display, manager);
+        SDK_Render_Sprite(display, player);
         SDK_Render_Text(text);
 
 
