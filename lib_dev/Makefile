@@ -9,7 +9,7 @@ SRC_LIB = $(wildcard src/*.c src/sprite/*.c src/entity/*.c)
 
 
 
-FLAGS = -Wall -Werror -Wpedantic -pedantic
+FLAGS = -Wall -Werror -Wpedantic
 OPT = -O2 -march=native 
 OUTPUT = test_build/out.exe
 
