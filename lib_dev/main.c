@@ -40,12 +40,15 @@ int main(){
     SDK_Text *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
 
+
+    // goat player
     SDK_Sprite *player = SDK_Create_AnimatedSprite(display, "assets/char_spritesheet.png", (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
     if(!player){
         SDL_Log("Error loading player: %s\n", SDL_GetError());
         return 1;
     }
 
+    // boilerplate stuff for animations
     SDK_Sprite_AllocAnimation(player, MAX_ANIMATIONS);
     SDK_Sprite_AddAnimation(player, (SDL_FRect){18, 16, 13, 16}, 6, 5.0f, 3.0f, IDLE_ANIMATION);
     SDK_Sprite_SetLoopAnimation(player, IDLE_ANIMATION, true);
@@ -56,10 +59,6 @@ int main(){
     SDL_SetTextureScaleMode(SDK_Sprite_GetTexture(player), SDL_SCALEMODE_NEAREST);
 
     
-
-
-
-
     if(!text){
         printf("Kys!\n");
         return 1;

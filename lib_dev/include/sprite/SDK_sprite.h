@@ -104,7 +104,10 @@ SDK1_API SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite);
 
 
 /*
-    Allocations storage for animations a SDK_Sprite*
+    Allocations storage for animations in the SDK_Sprite*
+
+    Function will use realloc if called a multiple times 
+    Recommended to just call this function once per sprite
 
     returns 0 for success, returns 1 for failure
 */
@@ -120,7 +123,7 @@ SDK1_API int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t ani
 SDK1_API int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect src_rect, uint8_t amount_frames, double fps, double offset_width, uint16_t animation_index);
 
 /*
-    Updates frames of an animation, must be called per frame for animations to work
+    Updates frames of an animation, must be called once per frame for animations to work
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
@@ -130,7 +133,7 @@ SDK1_API int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *t
 /*
     Selects an animation within the SDK_Sprite
 
-    will return 1 if 'uint8_t animation_select' is greater than the amount of animations in the sprite
+    function will fail if 'animation_select' is greater than the amount of animations allocated in the sprite
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
@@ -171,6 +174,8 @@ SDK1_API int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t a
     Sets the bool that enables the selected animation 
     If you set the bool to true it will enable the animation to play
     If you set the bool to false it will disable the animation from playing
+
+    returns 0 for success, returns 1 for failure
 */
 SDK1_API int SDK_Sprite_EnableAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
 
