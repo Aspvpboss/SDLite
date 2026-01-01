@@ -273,7 +273,7 @@ int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, uint16_t animation_
     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE) return 1;
 
     SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data;
-    if(animation_index >= data->animation_count) return 1;
+    if(animation_index >= data->amount_animation) return 1;
 
     data->animation[animation_index].play_animation = play;
 
@@ -288,7 +288,7 @@ int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t animation_
     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE) return 1;
 
     SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data;
-    if(animation_index >= data->animation_count) return 1;
+    if(animation_index >= data->amount_animation) return 1;
 
     data->animation[animation_index].loop_animation = loop;
     
@@ -303,8 +303,7 @@ int SDK_Sprite_EnableAnimation(SDK_Sprite *animated_sprite, uint16_t animation_i
     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE) return 1;
 
     SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data;
-    if(animation_index >= data->animation_count) return 1;
-
+    if(animation_index >= data->amount_animation) return 1;
     
     data->animation[animation_index].enable_animation = enabled;
 

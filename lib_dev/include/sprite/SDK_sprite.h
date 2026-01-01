@@ -112,8 +112,7 @@ SDK1_API int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t ani
 
 
 /*
-    Adds an animation onto an animated sprite
-
+    Adds an animation at the specified index in the animated_sprite
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
@@ -136,16 +135,50 @@ SDK1_API int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *t
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint8_t animation_select);
+SDK1_API int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index);
 
 
 /*
-    This sets the state of an animation in a sprite
+    Sets the bool that plays the selected animation once
+    
+    If you set the bool to true it will play the animation once
+    After the animation is done playing, the bool will be set to false
+
+    If you set the bool to false while the animation is playing, the animation will simply reset and stop
+    
+    Animation will not play if it isn't enabled by SDK_Sprite_EnableAnimation(); 
+
+    returns 0 for success, returns 1 for failure
 */
+SDK1_API int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool play);
+
 
 
 /*
-    This will update the render_rect of a sprite with the 'double new_scale' value
+    Sets the bool that loops the selected animation
+    If you set the bool to true it will loop the animation
+    If you set the bool to false it will stop looping the animation
+
+    Animation will not play if it isn't enabled by SDK_Sprite_EnableAnimation();
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool loop);
+
+
+
+/*
+    Sets the bool that enables the selected animation 
+    If you set the bool to true it will enable the animation to play
+    If you set the bool to false it will disable the animation from playing
+*/
+SDK1_API int SDK_Sprite_EnableAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
+
+
+
+
+/*
+    Scales the width and height of the render_rect relative to the original width and height when the sprite was created
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
