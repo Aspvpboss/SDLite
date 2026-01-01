@@ -1,0 +1,59 @@
+#ifndef SDK_SPRITE_MANAGER_H
+#define SDK_SPRITE_MANAGER_H
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
+#include "SDK_sprite.h"
+#include "../common_libs.h"
+
+
+
+typedef struct{
+
+    void *data;
+    uint64_t max_z_depth;
+    uint64_t max_sprites;
+
+} SDK_Sprite_Manager;
+
+
+/*
+    Creates a SDK_Sprite_Manager with the specified attributes
+
+    SDK_Sprite_Manager needs to be freed by SDK_Destroy_SpriteManager()
+
+    returns SDK_Sprite_Manager* for success, returns NULL for failure
+    call SDL_GetError() for more info
+*/
+SDK1_API SDK_Sprite_Manager* SDK_Create_SpriteManager(uint64_t max_z_depth, uint64_t max_sprites);
+
+/*
+    Frees a SDK_Sprite_Manager
+
+    Will return early if SDK_Sprite_Manager is NULL
+*/
+SDK1_API void SDK_Destroy_SpriteManager(SDK_Sprite_Manager *manager);
+
+
+
+/*
+    Renders all the sprites within each z_layer contained in SDK_Sprite_Manager
+
+    returns 0 for success, returns 1 for failure
+    call SDL_GetError() for more info
+*/
+SDK1_API int SDK_Render_SpriteManager(SDK_Display *display, SDK_Sprite_Manager *manager);
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+
+
