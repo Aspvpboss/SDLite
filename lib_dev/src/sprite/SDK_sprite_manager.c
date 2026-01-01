@@ -1,5 +1,6 @@
 #include "sprite/SDK_sprite_manager.h"
 
+
 typedef struct{
 
     SDK_Sprite **sprites;

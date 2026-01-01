@@ -102,7 +102,7 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
     // this allows for me to set the const SDK_SpriteType
     memcpy((void*)sprite, &sprite_type, sizeof(enum SDK_SpriteType));
     
-    sprite->data = t_malloc(sizeof(SDK_StaticSprite_Data));
+    sprite->data = t_malloc(sizeof(SDK_AnimatedSprite_Data));
 
     if(!sprite->data){
         t_free(sprite);
@@ -137,17 +137,41 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 
 
 
-SDK1_API int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t animation_capacity){
+
+int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t animation_capacity){
+
+    if(!animated_sprite || animation_capacity > UINT16_MAX) return 1;
+
+    SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data;
+
+
+    if(data->amount_animation == 0){
+
+        data->animation = t_malloc(sizeof(SDK_AnimatedSprite_Data) * animation_capacity);
+        if(!data->animation) return 1;
+
+    } else{
+
+        SDK_AnimatedSprite_Data *new_animation = t_realloc(data->animation, sizeof(SDK_AnimatedSprite_Data) * animation_capacity);
+        if(!new_animation) return 1;
+
+
+    }
+
+
 
     return 0;
 }
+
+
+
 
 int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect src_rect, uint8_t amount_frames, double fps, double offset_width, uint16_t animation_index){
 
     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
         return 1;
 
-    SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data.animate_s;
+    SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data;
 
     if(animation_index >= data->amount_animation) return 1;
 

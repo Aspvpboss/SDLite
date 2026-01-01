@@ -34,6 +34,8 @@ build_lib: opt_build_lib
 opt_build_lib:
 	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}	
 
+
+
 debug_build: build_lib
 	@${GCC} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -DTRACK_ALLOCATIONS -lSDK1_debug ${LINK} ${LIB} ${FLAGS}  
 
