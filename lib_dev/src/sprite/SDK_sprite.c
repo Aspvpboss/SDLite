@@ -154,11 +154,11 @@ int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t animation_ca
 
         SDK_AnimatedSprite_Data *new_animation = t_realloc(data->animation, sizeof(SDK_AnimatedSprite_Data) * animation_capacity);
         if(!new_animation) return 1;
-
+        data->animation = new_animation;
 
     }
 
-
+    data->amount_animation = animation_capacity;
 
     return 0;
 }
