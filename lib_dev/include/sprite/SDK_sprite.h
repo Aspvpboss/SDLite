@@ -157,7 +157,7 @@ SDK1_API int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, uint16_t a
 /*
     Sets the bool that loops the selected animation
     If you set the bool to true it will loop the animation
-    If you set the bool to false it will stop looping the animation
+    If you set the bool to false it will stop looping the animatio
 
     Animation will not play if it isn't enabled by SDK_Sprite_EnableAnimation();
 

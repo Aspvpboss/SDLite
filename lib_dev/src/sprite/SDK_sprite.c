@@ -140,19 +140,19 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 
 int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t animation_capacity){
 
-    if(!animated_sprite || animation_capacity > UINT16_MAX) return 1;
+    if(!animated_sprite|| animated_sprite->sprite_type != SDK_ANIMATED_SPRITE || animation_capacity > UINT16_MAX) return 1;
 
     SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data;
 
 
     if(data->amount_animation == 0){
 
-        data->animation = t_malloc(sizeof(SDK_AnimatedSprite_Data) * animation_capacity);
+        data->animation = t_malloc(sizeof(SDK_Animation) * animation_capacity);
         if(!data->animation) return 1;
 
     } else{
 
-        SDK_Animation *new_animation = t_realloc(data->animation, sizeof(SDK_AnimatedSprite_Data) * animation_capacity);
+        SDK_Animation *new_animation = t_realloc(data->animation, sizeof(SDK_Animation) * animation_capacity);
         if(!new_animation) return 1;
         data->animation = new_animation;
 

@@ -5,6 +5,14 @@
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
 
 
+typedef enum{
+
+    IDLE_ANIMATION,
+    MAX_ANIMATIONS
+
+} Player_Animations;
+
+
 
 
 void update_text(SDK_Text *text, double fps){
@@ -32,15 +40,24 @@ int main(){
     SDK_Text *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
 
-
-    SDK_Sprite *player = SDK_Create_StaticSprite(display, "assets/char_spritesheet.png", (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
+    SDK_Sprite *player = SDK_Create_AnimatedSprite(display, "assets/char_spritesheet.png", (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
     if(!player){
         SDL_Log("Error loading player: %s\n", SDL_GetError());
         return 1;
     }
 
+    SDK_Sprite_AllocAnimation(player, MAX_ANIMATIONS);
+    SDK_Sprite_AddAnimation(player, (SDL_FRect){18, 16, 13, 16}, 6, 5.0f, 3.0f, IDLE_ANIMATION);
+    SDK_Sprite_SetLoopAnimation(player, IDLE_ANIMATION, true);
+    SDK_Sprite_EnableAnimation(player, IDLE_ANIMATION, true);
+
+
     SDK_Sprite_UpdateScale(player, 8.0f);
     SDL_SetTextureScaleMode(SDK_Sprite_GetTexture(player), SDL_SCALEMODE_NEAREST);
+
+    
+
+
 
 
     if(!text){
@@ -73,13 +90,17 @@ int main(){
 
         SDL_RenderClear(display->renderer);
 
-
-        SDK_Render_Sprite(display, player);
+        
+        if(SDK_Render_Sprite(display, player)){
+            running = false;
+        }
         SDK_Render_Text(text);
 
 
         SDL_RenderPresent(display->renderer);
 
+
+        SDK_Sprite_UpdateAnimation(player, time);
         SDK_TimeFunctions(time);
         SDK_Update_Previous_Inputs(input);
     }
