@@ -152,7 +152,7 @@ int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t animation_ca
 
     } else{
 
-        SDK_AnimatedSprite_Data *new_animation = t_realloc(data->animation, sizeof(SDK_AnimatedSprite_Data) * animation_capacity);
+        SDK_Animation *new_animation = t_realloc(data->animation, sizeof(SDK_AnimatedSprite_Data) * animation_capacity);
         if(!new_animation) return 1;
         data->animation = new_animation;
 
@@ -198,102 +198,120 @@ int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect src_rect, uin
 
 
 
-// int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
-//
-//     if(!animated_sprite || !time)
-//         return 1;
-//
-//     if(animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
-//         return 0;
-//
-//     SDK_AnimatedSprite_Data *m_data = (SDK_AnimatedSprite_Data*)animated_sprite->data.animate_s;
-//
-//     if(m_data->current_animation >= m_data->amount_animation){
-//         return 1;
-//     }
-//
-//     SDK_Animation *data = &m_data->animation[m_data->current_animation];
-//
-//     if(data->loop_animation){
-//         data->play_animation = true;
-//     }
-//
-//     if(!data->play_animation){
-//
-//         data->current_frame = 0;
-//         data->time_elapsed = 0.0f;
-//         data->src_rect.x = data->base_src_rect.x + (0 * (data->base_src_rect.w + data->width_offset));
-//
-//         return 0;
-//     }
-//
-//
-//     SDL_FRect *base_src_rect = &data->base_src_rect;
-//
-//     data->time_elapsed += time->dt;
-//
-//     if(data->time_elapsed < data->frame_duration)
-//         return 0;
-//
-//     int frames_advanced = (int)(data->time_elapsed / data->frame_duration);
-//     data->time_elapsed -= frames_advanced * data->frame_duration;
-//     data->current_frame = (data->current_frame + frames_advanced) % data->amount_frames;
-//
-//     data->src_rect.x = base_src_rect->x + (data->current_frame * (base_src_rect->w + data->width_offset));
-//
-//     if(data->current_frame == 0)
-//         data->play_animation = false;    
-//
-//     return 0;
-// }
+int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
+
+    if(!animated_sprite || !time)
+        return 1;
+
+    if(animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
+        return 0;
+
+    SDK_AnimatedSprite_Data *m_data = (SDK_AnimatedSprite_Data*)animated_sprite->data;
+
+    if(m_data->current_animation >= m_data->amount_animation){
+        return 1;
+    }
+
+    SDK_Animation *animation = &m_data->animation[m_data->current_animation];
+
+    if(animation->loop_animation){
+        animation->play_animation = true;
+    }
+
+    if(!animation->play_animation || !animation->enable_animation){
+
+        animation->current_frame = 0;
+        animation->time_elapsed = 0.0f;
+        animation->src_rect.x = animation->base_src_rect.x + (0 * (animation->base_src_rect.w + animation->width_offset));
+
+        return 0;
+    }
+
+
+    SDL_FRect *base_src_rect = &animation->base_src_rect;
+
+    animation->time_elapsed += time->dt;
+
+    if(animation->time_elapsed < animation->frame_duration)
+        return 0;
+
+    int frames_advanced = (int)(animation->time_elapsed / animation->frame_duration);
+    animation->time_elapsed -= frames_advanced * animation->frame_duration;
+    animation->current_frame = (animation->current_frame + frames_advanced) % animation->amount_frames;
+
+    animation->src_rect.x = base_src_rect->x + (animation->current_frame * (base_src_rect->w + animation->width_offset));
+
+    if(animation->current_frame == 0)
+        animation->play_animation = false;    
+
+    return 0;
+}
 
 
 
 
-// int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint8_t animation_select){
-//
-//     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE || animation_select < 0)
-//         return 1;
-//
-//     SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data.animate_s;
-//
-//     if(animation_select >= data->amount_animation)
-//         return 1;
-//
-//     data->current_animation = animation_select;
-//
-//     return 0;
-// }
-//
-//
-//
-//
-// int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, bool play_animation){
-//
-//     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
-//         return 1;
-//
-//     SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data.animate_s;
-//
-//     data->animation[data->current_animation].play_animation = play_animation;
-//
-//     return 0;
-// }
-//
-//
-//
-//
-// int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, bool loop_animation){
-//
-//     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
-//         return 1;
-//
-//     SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data.animate_s;
-//
-//     data->animation[data->current_animation].loop_animation = loop_animation;
-//
-//     return 0;
-// }
+int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index){
+
+    if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
+        return 1;
+
+    SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data;
+
+    if(animation_index >= data->amount_animation)
+        return 1;
+
+    data->current_animation = animation_index;
+
+    return 0;
+}
+
+
+
+
+int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool play){
+
+    if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE) return 1;
+
+    SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data;
+    if(animation_index >= data->animation_count) return 1;
+
+    data->animation[animation_index].play_animation = play;
+
+    return 0;
+}
+
+
+
+
+int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool loop){
+
+    if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE) return 1;
+
+    SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data;
+    if(animation_index >= data->animation_count) return 1;
+
+    data->animation[animation_index].loop_animation = loop;
+    
+    return 0;
+}
+
+
+
+
+int SDK_Sprite_EnableAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool enabled){
+    
+    if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE) return 1;
+
+    SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data;
+    if(animation_index >= data->animation_count) return 1;
+
+    
+    data->animation[animation_index].enable_animation = enabled;
+
+    return 0;
+}
+
+
 
 
 SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite){
