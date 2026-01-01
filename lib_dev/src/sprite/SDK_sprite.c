@@ -24,6 +24,7 @@ typedef struct{
     float width_offset;
     bool play_animation;
     bool loop_animation;
+    bool enable_animation;
 
 } SDK_Animation;
 
@@ -136,37 +137,39 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 
 
 
+SDK1_API int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t animation_capacity){
 
-// int SDK_Sprite_AddAnimation(
-//     SDK_Sprite *animated_sprite, SDL_FRect src_rect, 
-//     uint8_t amount_frames, double fps, double offset_width, 
-//     bool loop_animation, bool play_animation){
-//
-//     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
-//         return 1;
-//
-//     SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data.animate_s;
-//     data->amount_animation++;
-//     data->animation = t_realloc(data->animation, sizeof(SDK_Animation) * data->amount_animation);
-//
-//     SDK_Animation *animation = &data->animation[data->amount_animation - 1];
-//
-//     animation->width_offset = offset_width;
-//     animation->base_src_rect = src_rect;
-//     animation->src_rect = src_rect;
-//
-//     animation->amount_frames = amount_frames;
-//     animation->current_frame = 0;
-//
-//     animation->frame_duration = 1.0f / fps;
-//     animation->time_elapsed = 0.0f;
-//
-//
-//     animation->loop_animation = loop_animation;
-//     animation->play_animation = play_animation;
-//
-//     return 0;
-// }
+    return 0;
+}
+
+int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect src_rect, uint8_t amount_frames, double fps, double offset_width, uint16_t animation_index){
+
+    if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
+        return 1;
+
+    SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)animated_sprite->data.animate_s;
+
+    if(animation_index >= data->amount_animation) return 1;
+
+    SDK_Animation *animation = &data->animation[animation_index];
+
+    animation->width_offset = offset_width;
+    animation->base_src_rect = src_rect;
+    animation->src_rect = src_rect;
+
+    animation->amount_frames = amount_frames;
+    animation->current_frame = 0;
+
+    animation->frame_duration = 1.0f / fps;
+    animation->time_elapsed = 0.0f;
+
+
+    animation->loop_animation = false;
+    animation->play_animation = false;
+    animation->enable_animation = false;
+
+    return 0;
+}
 
 
 
@@ -272,7 +275,6 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite){
 
     if(!sprite) return NULL;
-
 
     if(sprite->sprite_type == SDK_STATIC_SPRITE){
         SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;

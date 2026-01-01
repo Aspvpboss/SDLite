@@ -102,6 +102,15 @@ SDK1_API int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite);
 */
 SDK1_API SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite);
 
+
+/*
+    Allocations storage for animations a SDK_Sprite*
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t animation_capacity);
+
+
 /*
     Adds an animation onto an animated sprite
 
@@ -110,9 +119,7 @@ SDK1_API SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite);
     call SDL_GetError() for more info
 */
 SDK1_API int SDK_Sprite_AddAnimation(
-    SDK_Sprite *animated_sprite, SDL_FRect src_rect, 
-    uint8_t amount_frames, double fps, double offset_width, 
-    bool loop_animation, bool play_animation);
+    SDK_Sprite *animated_sprite, SDL_FRect src_rect, uint8_t amount_frames, double fps, double offset_width, bool loop_animation, uint16_t animation_index){
 
 /*
     Updates timing and data needed for proper animation
