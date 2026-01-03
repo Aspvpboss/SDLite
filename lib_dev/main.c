@@ -55,6 +55,13 @@ int main(){
     SDK_Sprite_EnableAnimation(player, IDLE_ANIMATION, true);
 
 
+    
+    SDK_Sprite *square = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){10.0f, 0.0f}, (SDL_FRect){0.0f, 0.0f, 400.0f, 400.0f});
+    if(!square){
+        SDL_Log("Error loading square: %s\n", SDL_GetError());
+        return 1;
+    } 
+
     SDK_Sprite_UpdateScale(player, 8.0f);
     SDL_SetTextureScaleMode(SDK_Sprite_GetTexture(player), SDL_SCALEMODE_NEAREST);
 
@@ -124,10 +131,11 @@ int main(){
 
         SDL_RenderClear(display->renderer);
 
-        
-        if(SDK_Render_Sprite(display, player)){
-            running = false;
-        }
+        SDK_SpriteManager_QueueSprite(manager, player, 1); 
+        SDK_SpriteManager_QueueSprite(manager, square, 0); 
+
+       
+        SDK_Render_SpriteManager(display, manager);
         SDK_Render_Text(text);
 
 
@@ -151,7 +159,8 @@ int main(){
     manager = NULL;
     SDK_DestroySprite(player);
     player = NULL;
-
+    SDK_DestroySprite(square);
+    square = NULL;
     
     SDK_Quit();
     

@@ -37,7 +37,19 @@ SDK1_API SDK_Sprite_Manager* SDK_Create_SpriteManager(uint64_t max_z_depth, uint
 */
 SDK1_API void SDK_Destroy_SpriteManager(SDK_Sprite_Manager *manager);
 
+/*
+    Queues a sprite for rendering at the specified Z depth.
 
+    The sprite is added to the sprite manager’s per-frame render queue and
+    will be rendered when SDK_Render_SpriteManager() is called. Sprites with
+    higher Z depth values are rendered after lower ones.
+
+    This function does not take ownership of the sprite and performs no
+    rendering itself. The queue is cleared after rendering.
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_SpriteManager_QueueSprite(SDK_Sprite_Manager *manager, SDK_Sprite *sprite, uint64_t z_depth);
 
 /*
     Renders all the sprites within each z_layer contained in SDK_Sprite_Manager
