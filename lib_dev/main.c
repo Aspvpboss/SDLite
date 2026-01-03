@@ -34,6 +34,9 @@ int main(){
     }
 
 
+     
+
+
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDK_Time *time = SDK_CreateTime(144);
     SDK_Input *input = SDK_CreateInput();
@@ -117,6 +120,18 @@ int main(){
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_ESCAPE)){
             running = false;
         }
+
+
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_1)){
+            time->fps_limit = 60.0f;
+        }
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_2)){
+            time->fps_limit = 144.0f;
+        }
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_3)){
+            time->fps_limit = 240.0f;
+        }
+
 
         if(time->fps_updated)
             update_text(text, time->fps);

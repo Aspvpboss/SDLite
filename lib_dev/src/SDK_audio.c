@@ -1,6 +1,6 @@
 
 
-// so gcc doesn't get angry
+// so gcc doesn't get angr
 int audio(){
 
 
