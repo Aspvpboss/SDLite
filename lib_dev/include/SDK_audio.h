@@ -21,9 +21,11 @@ typedef struct{
 
 typedef struct{
 
-    SDL_AudioStream *stream;
-    uint8_t *raw_audio_data;
-    uint32_t audio_len
+    void *raw_audio;
+    uint32_t frames;
+    int channels;
+    int freq;
+    SDL_AudioFormat format;
 
 } SDK_Sound;
 
