@@ -60,7 +60,6 @@ int main(){
 
     
     if(!text){
-        printf("Kys!\n");
         return 1;
     }
 
