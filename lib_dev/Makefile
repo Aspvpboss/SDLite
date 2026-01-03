@@ -5,7 +5,7 @@ GCC = gcc
 INCLUDE = -Iinclude 
 LIB = -LSDK1/lib
 LINK = -lSDL3 -lSDL3_image -lSDL3_ttf -lMemTrack
-SRC_LIB = $(wildcard src/*.c src/sprite/*.c src/entity/*.c)
+SRC_LIB = $(wildcard src/*.c src/sprite/*.c)
 
 
 
@@ -19,7 +19,9 @@ DEBUG_DLL_OUTPUT = test_build/libSDK1_debug.dll
 DEBUG_DLL_FLAGS = -fPIC -shared  -Wl,--out-implib,SDK1/lib/libSDK1_debug.a
 
 
-default: json debug_build run
+default: debug_build run
+
+all: json default
 
 opt: opt_build run
 
