@@ -1,4 +1,5 @@
 #include "SDK.h"
+#include "SDL3/SDL_audio.h"
 #include "sprite/SDK_sprite.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
@@ -33,9 +34,8 @@ int main(){
         return 1;
     }
 
-
-     
-
+    SDL_AudioStream *stream = audio();  
+    SDL_ResumeAudioStreamDevice(stream);
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDK_Time *time = SDK_CreateTime(144);

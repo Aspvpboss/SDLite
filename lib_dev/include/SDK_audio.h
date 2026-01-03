@@ -32,7 +32,8 @@ typedef struct{
 
 
 
-SDK1_API int audio();
+SDK1_API SDL_AudioStream *audio(void);
+
 
 
 
