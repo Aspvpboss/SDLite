@@ -16,8 +16,6 @@ extern "C" {
 typedef struct{
 
     void *data;
-    uint64_t max_z_depth;
-    uint64_t max_sprites;
 
 } SDK_Sprite_Manager;
 
