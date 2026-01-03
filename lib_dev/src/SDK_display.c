@@ -4,6 +4,8 @@
 
 SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag){
 
+    if(!window_title) return NULL;
+
     SDK_Display *display = t_malloc(sizeof(SDK_Display));
     display->window_flag = window_flag;
     display->width = window_width;

@@ -15,17 +15,23 @@ enum SDK_CollisionType{
     SDK_COLLISION_RIGHT,
     SDK_COLLISION_UP,
     SDK_COLLISION_DOWN,
+    SDK_COLLISION_ERROR
 
 };
 
+/*
+    Checks for a collision between two SDL_FRects
 
+    returns 0 for no collision, 1 for collision, and -1 for failure
+*/
+SDK1_API int SDK_RectCollision(const SDL_FRect *a, const SDL_FRect *b);
 
 /*
     Check collisions between render_rects of sprite_src relatively to sprite_dest
 
-    returns enum SDK_CollisionType, look in SDK_sprite.h for enum names
+    returns enum SDK_CollisionType, returns SDK_COLLISION_ERROR for failure  
 */
-SDK1_API enum SDK_CollisionType SDK_CheckCollision(SDK_Sprite *sprite_src, SDK_Sprite *sprite_dest);
+SDK1_API enum SDK_CollisionType SDK_RectCollision_Dir(const SDL_FRect *source, const SDL_FRect *target);
 
 
 #ifdef __cplusplus

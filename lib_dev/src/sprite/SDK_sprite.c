@@ -47,6 +47,8 @@ typedef struct{
 
 SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
 
+    if(!display) return NULL;
+
     enum SDK_SpriteType sprite_type = SDK_STATIC_SPRITE;
 
     SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
@@ -91,6 +93,8 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
 
 
 SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
+
+    if(!display) return NULL;
 
     enum SDK_SpriteType sprite_type = SDK_ANIMATED_SPRITE;
 
@@ -334,6 +338,8 @@ SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite){
 
 int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
 
+    if(!display || !sprite) return 1;
+
     SDL_FRect *src_rect;
     SDL_Texture *texture = NULL;
 
@@ -377,7 +383,7 @@ int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
 
 int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale){
 
-    if(!sprite)
+    if(!sprite || new_scale <= 0.0f)
         return 1;
 
     if(sprite->sprite_type == SDK_STATIC_SPRITE){
