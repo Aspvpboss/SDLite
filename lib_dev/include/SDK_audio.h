@@ -7,6 +7,7 @@ extern "C"{
 #endif
 
 #include "common_libs.h"
+#include "dr_mp3.h"
 
 // header file stuff goes here
 
@@ -28,6 +29,11 @@ typedef struct{
     SDL_AudioFormat format;
 
 } SDK_Sound;
+
+
+
+SDK1_API int audio();
+
 
 
 #ifdef __cplusplus
