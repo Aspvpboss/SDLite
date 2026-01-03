@@ -5,18 +5,18 @@ int SDK_RectCollision(const SDL_FRect *a, const SDL_FRect *b){
 
     if(!a || !b) return -1;
 
-    if(a->x + a->w >= b->x) return 1;
-    if(a->y + a->h >= b->y) return 1;
-    if(b->x + b->w >= a->x) return 1;
-    if(b->y + b->h >= a->y) return 1;
+    if(a->x + a->w <= b->x) return 0; 
+    if(a->x >= b->x + b->w) return 0; 
+    if(a->y + a->h <= b->y) return 0; 
+    if(a->y >= b->y + b->h) return 0; 
 
-    return 0;
+    return 1;
 }
 
 
 
 
-enum SDK_CollisionType SDK_RectCollision_Dir(const SDL_FRect *source, const SDL_FRect *target){
+enum SDK_CollisionType SDK_RectCollision_Dir(const SDL_FRect *target, const SDL_FRect *source){
 
     if(!source || !target)
         return SDK_COLLISION_ERROR;

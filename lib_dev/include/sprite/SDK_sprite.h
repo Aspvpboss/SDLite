@@ -22,16 +22,6 @@ enum SDK_SpriteType{
 
 
 
-enum SDK_CollisionType{
-
-    SDK_COLLISION_NONE,
-    SDK_COLLISION_LEFT,
-    SDK_COLLISION_RIGHT,
-    SDK_COLLISION_UP,
-    SDK_COLLISION_DOWN,
-
-};
-
 
 
 /*
@@ -189,13 +179,6 @@ SDK1_API int SDK_Sprite_EnableAnimation(SDK_Sprite *animated_sprite, uint16_t an
     call SDL_GetError() for more info
 */
 SDK1_API int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale);
-
-/*
-    Check collisions between render_rects of sprite_src relatively to sprite_dest
-
-    returns enum SDK_CollisionType, look in SDK_sprite.h for enum names
-*/
-SDK1_API enum SDK_CollisionType SDK_Sprite_CheckCollision(SDK_Sprite *sprite_src, SDK_Sprite *sprite_dest);
 
 
 #ifdef __cplusplus

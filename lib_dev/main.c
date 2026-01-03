@@ -64,6 +64,42 @@ int main(){
         return 1;
     }
 
+
+
+
+    SDL_FRect a = {0.0f, 0.0f, 10.0f, 10.0f};
+    SDL_FRect b = {0.0f, 9.0f, 10.0f, 10.0f};
+
+
+
+    if(SDK_RectCollision(&a, &b)){
+        printf("Ayo jit, these rects are lowkey touching my fellow\n");
+    } else{
+        printf("These hoodlums ain't touching\n");
+    }
+
+    
+
+    switch(SDK_RectCollision_Dir(&a, &b)){
+
+        case(SDK_COLLISION_UP):
+            printf("colliding on top\n");
+            break;
+        
+        case(SDK_COLLISION_DOWN):
+            printf("colliding on bottom\n");
+            break;
+
+        case(SDK_COLLISION_NONE):
+            printf("these jits ain't colliding yo\n");
+            break;
+
+        default:
+            printf("some collision direction\n");
+            break;
+    }
+
+
     bool running = true;
     SDL_Event e;
 
