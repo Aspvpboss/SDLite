@@ -35,8 +35,8 @@ typedef struct{
     SDL_Texture *texture;
 
     SDK_Animation *animation;
-    uint8_t amount_animation;
-    uint8_t current_animation;
+    uint16_t amount_animation;
+    uint16_t current_animation;
 
 } SDK_AnimatedSprite_Data;
 
@@ -170,7 +170,7 @@ int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t animation_ca
 
 
 
-int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect src_rect, uint8_t amount_frames, double fps, double offset_width, uint16_t animation_index){
+int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect src_rect, uint16_t amount_frames, double fps, double offset_width, uint16_t animation_index){
 
     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
         return 1;
