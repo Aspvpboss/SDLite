@@ -4,7 +4,7 @@ GCC = gcc
 
 INCLUDE = -Iinclude 
 LIB = -LSDK1/lib
-LINK = -lSDL3 -lSDL3_image -lSDL3_ttf -lMemTrack
+LINK = -lSDL3 -lSDL3_image -lSDL3_ttf -lSDL3_mixer -lMemTrack
 SRC_LIB = $(wildcard src/*.c src/sprite/*.c)
 
 

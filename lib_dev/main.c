@@ -34,8 +34,7 @@ int main(){
         return 1;
     }
 
-    SDL_AudioStream *stream = audio();  
-    SDL_ResumeAudioStreamDevice(stream);
+
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDK_Time *time = SDK_CreateTime(144);
