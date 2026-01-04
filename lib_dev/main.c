@@ -1,6 +1,4 @@
 #include "SDK.h"
-#include "SDL3/SDL_audio.h"
-#include "sprite/SDK_sprite.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
@@ -34,6 +32,18 @@ int main(){
         return 1;
     }
 
+
+    // MIX_Mixer *mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+    // if(!mixer){
+    //     printf("mixer failed to load\n");
+    //     return 1;
+    // }
+    // MIX_Audio *audio = MIX_LoadAudio(mixer, "SDK1/assets/sample_mp3.mp3", true);
+    // if(!audio){
+    //     printf("audio failed to laod\n");
+    //     return 1;
+    // }
+    
 
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);

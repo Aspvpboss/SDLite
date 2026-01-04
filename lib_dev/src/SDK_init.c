@@ -12,6 +12,9 @@ int SDK_Init(void (*func)(void*), void *func_data, bool memory_failure_abort, bo
         return 1;
     }
 
+    if(!MIX_Init()){
+        fprintf(stderr, "ayo jit, SDL_mixer failed to init %s\n", SDL_GetError());
+    }
 
     Set_MemTrack_Context(&ctx);
     Set_Malloc_Error_Function(func, func_data);
