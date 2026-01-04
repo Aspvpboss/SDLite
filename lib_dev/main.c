@@ -1,4 +1,5 @@
 #include "SDK.h"
+#include "SDL3/SDL_properties.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
@@ -33,17 +34,24 @@ int main(){
     }
 
 
-    // MIX_Mixer *mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
-    // if(!mixer){
-    //     printf("mixer failed to load\n");
-    //     return 1;
-    // }
-    // MIX_Audio *audio = MIX_LoadAudio(mixer, "SDK1/assets/sample_mp3.mp3", true);
-    // if(!audio){
-    //     printf("audio failed to laod\n");
-    //     return 1;
-    // }
+    MIX_Mixer *mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+    if(!mixer){
+        printf("mixer failed to load\n");
+        return 1;
+    }
+    MIX_Audio *audio = MIX_LoadAudio(mixer, "SDK1/assets/sample_mp3.mp3", true);
+    if(!audio){
+        printf("audio failed to laod\n");
+        return 1;
+    }
     
+    MIX_Track *track = MIX_CreateTrack(mixer);
+
+    MIX_SetTrackAudio(track, audio);
+    SDL_PropertiesID props = SDL_CreateProperties();
+    SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
+    MIX_SetTrackGain(track, 0.01);
+    MIX_PlayTrack(track, props);
 
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
@@ -51,6 +59,14 @@ int main(){
     SDK_Input *input = SDK_CreateInput();
     SDK_Text *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
+
+
+    SDL_Texture *test = IMG_LoadTexture(display->renderer, "assets/char_spritesheet.png");
+    if(!test){
+        SDL_Log("Error loading blue: %s\n", SDL_GetError());
+        return 1;
+    }
+    
 
 
     // goat player

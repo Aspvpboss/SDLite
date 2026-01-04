@@ -8,12 +8,15 @@ int SDK_Init(void (*func)(void*), void *func_data, bool memory_failure_abort, bo
         return 1;
     }
 
+    
+
+
     if(!TTF_Init()){
         return 1;
     }
 
     if(!MIX_Init()){
-        fprintf(stderr, "ayo jit, SDL_mixer failed to init %s\n", SDL_GetError());
+        return 1;
     }
 
     Set_MemTrack_Context(&ctx);
