@@ -23,7 +23,7 @@ SDK_Audio_Handler* SDK_Create_AudioHandler(uint16_t track_capacity, float master
 
     audio_handler->track_capacity = track_capacity;
     audio_handler->master_volume = master_volume;
-    MIX_SetMasterGain(master_volume);
+    MIX_SetMasterGain(audio_handler->mixer, master_volume);
 
     // this makes properly freeing each SDK_Track if failure later easier
     for(uint16_t i = 0; i < track_capacity; i++){
@@ -38,8 +38,9 @@ SDK_Audio_Handler* SDK_Create_AudioHandler(uint16_t track_capacity, float master
 
         // properly frees all existing tracks if a track fails to create, this is hard to look at
         if(!track->track || !track->track_prop){
+
             for(uint16_t a = 0; a < track_capacity; a++){
-                SDK_Track *tracks = audio_handler.tracks;  
+                SDK_Track *tracks = audio_handler->tracks;  
                 if(tracks[a].track) MIX_DestroyTrack(tracks[a].track);
                 if(tracks[a].track_prop) SDL_DestroyProperties(tracks[a].track_prop);
                 MIX_DestroyMixer(audio_handler->mixer);
@@ -48,13 +49,31 @@ SDK_Audio_Handler* SDK_Create_AudioHandler(uint16_t track_capacity, float master
             }
         }
 
-        track->loops = 0
+        track->loops = 0;
         SDL_SetNumberProperty(track->track_prop, MIX_PROP_PLAY_LOOPS_NUMBER, track->loops);
         track->track_volume = 1.0f;
-        MIX_SetTrackGain(track->track_volume);
+        MIX_SetTrackGain(track->track, track->track_volume);
 
 
     }
 
     return audio_handler;
+}
+
+
+void SDK_Destroy_AudioHandler(SDK_Audio_Handler *audio_handler){
+
+    if(!audio_handler) return;
+
+    for(uint16_t i = 0; i < audio_handler->track_capacity; i++){
+
+        SDK_Track *track = &audio_handler->tracks[i];
+        if(track->track_prop) SDL_DestroyProperties(track->track_prop);
+        if(track->track) MIX_DestroyTrack(track->track);
+        
+    }
+
+    t_free(audio_handler->tracks);
+    t_free(audio_handler);
+
 }
