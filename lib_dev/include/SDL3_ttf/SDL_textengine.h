@@ -1,6 +1,6 @@
 /*
   SDL_ttf:  A companion library to SDL for working with TrueType (tm) fonts
-  Copyright (C) 2001-2025 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 2001-2026 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -142,7 +142,8 @@ struct TTF_TextEngine
 
     void *userdata;     /**< User data pointer passed to callbacks */
 
-    /* Create a text representation from draw instructions.
+    /**
+     * Create a text representation from draw instructions.
      *
      * All fields of `text` except `internal->engine_text` will already be filled out.
      *

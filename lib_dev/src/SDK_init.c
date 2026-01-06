@@ -8,10 +8,16 @@ int SDK_Init(void (*func)(void*), void *func_data, bool memory_failure_abort, bo
         return 1;
     }
 
+    
+
+
     if(!TTF_Init()){
         return 1;
     }
 
+    if(!MIX_Init()){
+        return 1;
+    }
 
     Set_MemTrack_Context(&ctx);
     Set_Malloc_Error_Function(func, func_data);
