@@ -20,10 +20,11 @@ extern "C"{
 */
 typedef struct{
 
-    double dt, fps;
-    int fps_limit;
-    bool fps_updated;
-    void *data;
+    const double dt;
+    const bool fps_updated;
+    const uint16_t fps;
+    uint16_t fps_limit;
+    void *const data;
 
 } SDK_Time;
 

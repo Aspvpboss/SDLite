@@ -84,7 +84,6 @@ int main(){
         printf("These hoodlums ain't touching\n");
     }
 
-    
 
     switch(SDK_RectCollision_Dir(&a, &b)){
 

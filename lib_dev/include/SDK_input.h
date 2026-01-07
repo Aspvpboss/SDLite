@@ -16,12 +16,8 @@ extern "C"{
 */
 typedef struct{
 
-    bool *previous_keyboard;
-    const bool *current_keyboard;
-    int num_keys;
-
-    SDL_MouseButtonFlags previous_mouse, current_mouse;
-    float mouse_x, mouse_y;
+    void *const data;
+    const float mouse_x, mouse_y;
 
 } SDK_Input;
 
@@ -66,7 +62,7 @@ SDK1_API int SDK_Keyboard_JustReleased(SDK_Input *input, SDL_Scancode scancode);
     This function must be called for just_pressed logic to work
     You can call this after every keyboard input call or at the end of them all
 */
-SDK1_API void SDK_Update_Previous_KeyboardState(SDK_Input *input);
+SDK1_API int SDK_Update_Previous_KeyboardState(SDK_Input *input);
 
 
 /*
@@ -94,7 +90,7 @@ SDK1_API void SDK_Mouse_UpdatePosition(SDK_Input *input);
     This function must be called for just_pressed logic to work
     You can call this after every keyboard input call or at the end of them all
 */
-SDK1_API void SDK_Update_Previous_MouseState(SDK_Input *input);
+SDK1_API int SDK_Update_Previous_MouseState(SDK_Input *input);
 
 /*
     calls both SDK_Update_Previous_MouseState

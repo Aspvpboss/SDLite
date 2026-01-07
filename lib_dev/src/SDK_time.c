@@ -1,7 +1,7 @@
 #include "SDK_time.h"
 
 
-#define MAX_SAMPLES 100
+#define MAX_SAMPLES 200
 
 
 typedef struct{
@@ -22,7 +22,8 @@ SDK_Time* SDK_CreateTime(int fps_limit){
     if(fps_limit <= 0) return NULL;
 
     SDK_Time *time = t_malloc(sizeof(SDK_Time));
-    time->data = t_malloc(sizeof(Time_Data));
+    void **data_temp = (void**)&time->data;
+    *data_temp = t_malloc(sizeof(Time_Data));
     if(!time->data){
         t_free(time);
         return NULL;
@@ -39,9 +40,12 @@ SDK_Time* SDK_CreateTime(int fps_limit){
     memset(data->dt_buffer, 0, sizeof(data->dt_buffer));
 
     time->fps_limit = fps_limit;
-    time->dt = 0;
-    time->fps = 0;
-    time->fps_updated = false;
+    double *dt = (double *)&time->dt;
+    *dt = 0;
+    uint16_t *fps = (uint16_t *)&time->fps;
+    *fps = 0;
+    bool *fps_updated = (bool *)&time->fps_updated;
+    *fps_updated = false;
 
 
 
@@ -64,17 +68,18 @@ int SDK_CalculateDT(SDK_Time *time){
     if(!time) return 1;
 
     Time_Data *data = (Time_Data*)time->data;
-
+    double *dt = (double *)&time->dt;
+    
     if(data->counter_frequency == 0){
         data->counter_frequency = SDL_GetPerformanceFrequency();
         data->previous_counter = SDL_GetPerformanceCounter();
-        time->dt = 0.0f;
+        *dt = 0.0f;
         return 0;
     }
     
 
     uint64_t current = SDL_GetPerformanceCounter();
-    time->dt = (double)(current - data->previous_counter) / (double)data->counter_frequency;
+    *dt = (double)(current - data->previous_counter) / (double)data->counter_frequency;
     data->previous_counter = current;
 
     return 0;
@@ -85,9 +90,11 @@ int SDK_CalculateFPS(SDK_Time *time){
 
     if(!time) return 1;
     Time_Data *data = (Time_Data*)time->data;
+    bool *fps_updated = (bool *)&time->fps_updated;
+    uint16_t *fps = (uint16_t *)&time->fps;
 
     if(time->fps_updated == 1){
-        time->fps_updated = 0;
+        *fps_updated = false;
     }
 
     double *dt_buffer = data->dt_buffer;
@@ -99,11 +106,11 @@ int SDK_CalculateFPS(SDK_Time *time){
     if(data->collected_frames < MAX_SAMPLES) data->collected_frames++;
 
     data->frame = (data->frame + 1) % MAX_SAMPLES;
-    time->fps = 1 / (data->total / data->collected_frames);
+    *fps = 1 / (data->total / data->collected_frames);
     data->update_count++;
 
     if(data->update_count > time->fps_limit){
-        time->fps_updated = 1;
+        *fps_updated = 1;
         data->update_count = 0;
     }
         
@@ -115,7 +122,7 @@ int SDK_LimitFPS(SDK_Time *time){
 
     if(!time) return 1;
     Time_Data *data = (Time_Data*)time->data;
-
+    double *dt = (double *)&time->dt;
 
 
     uint64_t counter_frequency = data->counter_frequency;
@@ -144,7 +151,7 @@ int SDK_LimitFPS(SDK_Time *time){
 
     data->previous_counter = current_counter;
 
-    time->dt = delta_time;
+    *dt = delta_time;
 
     return 0;
 }
