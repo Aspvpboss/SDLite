@@ -156,7 +156,12 @@ void SDK_Mouse_UpdatePosition(SDK_Input *input){
 
 
 
-void SDK_Update_Previous_Inputs(SDK_Input *input){
-    SDK_Update_Previous_MouseState(input);
-    SDK_Update_Previous_KeyboardState(input);
+int SDK_Update_Previous_Inputs(SDK_Input *input){
+    
+    if(SDK_Update_Previous_MouseState(input)) return 1;
+    if(SDK_Update_Previous_KeyboardState(input)) return 1;
+
+    return 0;   
 }
+
+

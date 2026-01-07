@@ -61,6 +61,10 @@ SDK1_API int SDK_Keyboard_JustReleased(SDK_Input *input, SDL_Scancode scancode);
     Updates previous keyboard state
     This function must be called for just_pressed logic to work
     You can call this after every keyboard input call or at the end of them all
+
+    Function only fails if SDK_Input* is NULL
+
+    returns 0 for success, returns 1 for failure
 */
 SDK1_API int SDK_Update_Previous_KeyboardState(SDK_Input *input);
 
@@ -89,6 +93,10 @@ SDK1_API void SDK_Mouse_UpdatePosition(SDK_Input *input);
     Updates previous mouse state
     This function must be called for just_pressed logic to work
     You can call this after every keyboard input call or at the end of them all
+
+    Function only fails if SDK_Input* is NULL
+
+    returns 0 for success, returns 1 for failure
 */
 SDK1_API int SDK_Update_Previous_MouseState(SDK_Input *input);
 
@@ -97,8 +105,12 @@ SDK1_API int SDK_Update_Previous_MouseState(SDK_Input *input);
     and SDK_Update_Previous_KeyboardState
 
     This is for QOL
+
+    Function only fails if SDK_Input* is NULL
+
+    returns 0 for success, returns 1 for failure
 */
-SDK1_API void SDK_Update_Previous_Inputs(SDK_Input *input);
+SDK1_API int SDK_Update_Previous_Inputs(SDK_Input *input);
 
 
 #ifdef __cplusplus
