@@ -9,10 +9,8 @@ extern "C"{
 #include "common_libs.h"
 
 /*
-    SDK_Input contains variables need for SDK input functions
 
-    You can access the mouse_x and mouse_y values in your program,
-    just don't modify them.
+    You can access the mouse_x and mouse_y values in your program
 */
 typedef struct{
 
@@ -43,17 +41,29 @@ SDK1_API void SDK_DestroyInput(SDK_Input *input);
 
 
 /*
-    returns 1 if the SDL_Scancode is pressed
+    returns 1 if the specified keyboard key is pressed
+
+    Function only fails if SDK_Input* is NULL
+
+    returns 0 for no keyboard key pressed, returns 1 for keyboard key pressed, returns -1 for failure
 */
 SDK1_API int SDK_Keyboard_Pressed(SDK_Input *input, SDL_Scancode scancode);
 
 /*
-    returns 1 if the SDL_Scancode was just pressed
+    returns 1 if the specified keyboard key was just pressed
+
+    Function only fails if SDK_Input* is NULL
+
+    returns 0 for no keyboard key pressed, returns 1 for keyboard key pressed, returns -1 for failure
 */
 SDK1_API int SDK_Keyboard_JustPressed(SDK_Input *input, SDL_Scancode scancode);
 
 /*
-    returns 1 if the SDL_Scancode was just released
+    returns 1 if the specified keyboard key was just released
+
+    Function only fails if SDK_Input* is NULL
+
+    returns 0 for no keyboard key pressed, returns 1 for keyboard key pressed, returns -1 for failure
 */
 SDK1_API int SDK_Keyboard_JustReleased(SDK_Input *input, SDL_Scancode scancode);
 
@@ -70,24 +80,40 @@ SDK1_API int SDK_Update_Previous_KeyboardState(SDK_Input *input);
 
 
 /*
-    returns 1 if the SDL_BUTTON macro mouse button is pressed
+    returns 1 if the specified mouse button is pressed
+
+    Function only fails if SDK_Input* is NULL
+
+    returns 0 for no mouse button pressed, returns 1 for mouse button pressed, returns -1 for failure
 */
 SDK1_API int SDK_Mouse_Pressed(SDK_Input *input, uint32_t SDL_MouseButtonMask);
 
 /*
-    returns 1 if the SDL_BUTTON macro mouse button was just pressed
+    returns 1 if the specified mouse button was just pressed
+
+    Function only fails if SDK_Input* is NULL
+
+    returns 0 for no mouse button pressed, returns 1 for mouse button pressed, returns -1 for failure
 */
 SDK1_API int SDK_Mouse_JustPressed(SDK_Input *input, uint32_t SDL_MouseButtonMask);
 
 /*
-    returns 1 if the SDL_BUTTON macro mouse button was just released
+    returns 1 if the specified mouse button was just released
+
+    Function only fails if SDK_Input* is NULL
+
+    returns 0 for no mouse button pressed, returns 1 for mouse button pressed, returns -1 for failure
 */
 SDK1_API int SDK_Mouse_JustReleased(SDK_Input *input, uint32_t SDL_MouseButtonMask);
 
 /*
     updates mouse x and y position to the current mouse position within SDK_Input
+
+    Function only fails if SDK_Input* is NULL
+
+    returns 0 for success, returns 1 for failure
 */
-SDK1_API void SDK_Mouse_UpdatePosition(SDK_Input *input);
+SDK1_API int SDK_Mouse_UpdatePosition(SDK_Input *input);
 
 /*
     Updates previous mouse state

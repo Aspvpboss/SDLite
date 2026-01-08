@@ -11,6 +11,8 @@ typedef struct{
 } Input_Data;
 
 
+
+
 SDK_Input* SDK_CreateInput(){
     
     SDK_Input *input = t_malloc(sizeof(SDK_Input));
@@ -47,6 +49,8 @@ SDK_Input* SDK_CreateInput(){
 }
 
 
+
+
 void SDK_DestroyInput(SDK_Input *input){
 
     if(!input) return;
@@ -77,6 +81,8 @@ int SDK_Update_Previous_KeyboardState(SDK_Input *input){
 }
 
 
+
+
 int SDK_Keyboard_Pressed(SDK_Input *input, SDL_Scancode scancode){
 
     if(!input) return -1;
@@ -89,6 +95,8 @@ int SDK_Keyboard_Pressed(SDK_Input *input, SDL_Scancode scancode){
 }
 
 
+
+
 int SDK_Keyboard_JustPressed(SDK_Input *input, SDL_Scancode scancode){
 
     if(!input) return -1;
@@ -99,6 +107,8 @@ int SDK_Keyboard_JustPressed(SDK_Input *input, SDL_Scancode scancode){
 
     return data->current_keyboard[scancode] && !data->previous_keyboard[scancode];
 }
+
+
 
 
 int SDK_Keyboard_JustReleased(SDK_Input *input, SDL_Scancode scancode){
@@ -115,8 +125,6 @@ int SDK_Keyboard_JustReleased(SDK_Input *input, SDL_Scancode scancode){
 
 
 
-
-
 int SDK_Update_Previous_MouseState(SDK_Input *input){
 
     if(!input) return 1;
@@ -129,28 +137,57 @@ int SDK_Update_Previous_MouseState(SDK_Input *input){
 }
 
 
-int SDK_Mouse_Pressed(SDK_Input *input, uint32_t SDL_MouseButtonMask){
-    input->current_mouse = SDL_GetMouseState(NULL, NULL);
 
-    return (input->current_mouse & SDL_MouseButtonMask) != 0;
+
+int SDK_Mouse_Pressed(SDK_Input *input, uint32_t SDL_MouseButtonMask){
+
+    if(!input) return -1;
+
+    Input_Data *data = (Input_Data *const)input->data;
+    
+    data->current_mouse = SDL_GetMouseState(NULL, NULL);
+
+    return (data->current_mouse & SDL_MouseButtonMask) != 0;
 }
+
+
 
 
 int SDK_Mouse_JustPressed(SDK_Input *input, uint32_t SDL_MouseButtonMask){
-    input->current_mouse = SDL_GetMouseState(NULL, NULL);
+    
+    if(!input) return -1;
 
-    return ((input->current_mouse & SDL_MouseButtonMask) && !(input->previous_mouse & SDL_MouseButtonMask)) != 0;
+    Input_Data *data = (Input_Data *const)input->data;
+
+    data->current_mouse = SDL_GetMouseState(NULL, NULL);
+
+    return ((data->current_mouse & SDL_MouseButtonMask) && !(data->previous_mouse & SDL_MouseButtonMask)) != 0;
 }
+
+
 
 
 int SDK_Mouse_JustReleased(SDK_Input *input, uint32_t SDL_MouseButtonMask){
-    input->current_mouse = SDL_GetMouseState(NULL, NULL);
 
-    return (!(input->current_mouse & SDL_MouseButtonMask) && (input->previous_mouse & SDL_MouseButtonMask)) != 0;
+    if(!input) return -1;
+
+    Input_Data *data = (Input_Data *const)input->data;
+   
+    data->current_mouse = SDL_GetMouseState(NULL, NULL);
+
+    return (!(data->current_mouse & SDL_MouseButtonMask) && (data->previous_mouse & SDL_MouseButtonMask)) != 0;
 }
 
-void SDK_Mouse_UpdatePosition(SDK_Input *input){
-    SDL_GetMouseState(&input->mouse_x, &input->mouse_y);
+
+
+
+int SDK_Mouse_UpdatePosition(SDK_Input *input){
+
+    if(!input) return 1;
+
+    SDL_GetMouseState((float *)&input->mouse_x, (float *)&input->mouse_y);
+
+    return 0;
 }
 
 
@@ -160,7 +197,8 @@ int SDK_Update_Previous_Inputs(SDK_Input *input){
     
     if(SDK_Update_Previous_MouseState(input)) return 1;
     if(SDK_Update_Previous_KeyboardState(input)) return 1;
-
+    if(SDK_Mouse_UpdatePosition(input)) return 1;
+ 
     return 0;   
 }
 
