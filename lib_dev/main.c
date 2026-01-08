@@ -15,11 +15,11 @@ typedef enum{
 
 
 
-void update_text(SDK_Text *text, double fps){
+void update_text(SDK_Text *text, uint16_t fps){
 
     char fps_text[40];
 
-    snprintf(fps_text, sizeof(fps_text), "FPS: %.2f", fps);
+    snprintf(fps_text, sizeof(fps_text), "FPS: %d", fps);
 
     SDK_Text_UpdateString(text, fps_text);
 
@@ -36,7 +36,7 @@ int main(){
 
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
-    SDK_Time *time = SDK_CreateTime(144);
+    SDK_Time *time = SDK_CreateTime(144 + 1);
     SDK_Input *input = SDK_CreateInput();
     SDK_Text *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
@@ -56,10 +56,10 @@ int main(){
         {33, 16, 14, 16},
         {49, 16, 13, 16},
         {65, 16, 13, 16},
-        {81, 16, 14, 16},
-        {}
+        {81, 16, 14, 16}
     };
-    SDK_Sprite_AddAnimation(player, frames, sizeof(frames) / sizeof(SDL_FRect), 5.0f, IDLE_ANIMATION);
+    uint16_t num_frames = SDK_GET_ANIMATION_FRAMES(frames);
+    SDK_Sprite_AddAnimation(player, frames, num_frames, num_frames, IDLE_ANIMATION);
     SDK_Sprite_SetLoopAnimation(player, IDLE_ANIMATION, true);
     SDK_Sprite_EnableAnimation(player, IDLE_ANIMATION, true);
 
@@ -135,7 +135,7 @@ int main(){
 
         if(time->fps_updated)
             update_text(text, time->fps);
-
+         
 
         SDL_RenderClear(display->renderer);
 
