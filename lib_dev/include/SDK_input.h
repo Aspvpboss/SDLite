@@ -41,7 +41,7 @@ SDK1_API void SDK_DestroyInput(SDK_Input *input);
 
 
 /*
-    returns 1 if the specified keyboard key is pressed
+    returns 1 if the specified keyboard key i pressed
 
     Function only fails if SDK_Input* is NULL
 
