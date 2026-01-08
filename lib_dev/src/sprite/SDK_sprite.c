@@ -15,13 +15,11 @@ typedef struct{
 
 typedef struct{
 
-    SDL_FRect src_rect;
-    SDL_FRect base_src_rect;
+    SDL_FRect *frames;
     uint8_t amount_frames;
     uint8_t current_frame;
     double frame_duration;
     double time_elapsed;
-    float width_offset;
     bool play_animation;
     bool loop_animation;
     bool enable_animation;
@@ -39,8 +37,6 @@ typedef struct{
     uint8_t current_animation;
 
 } SDK_AnimatedSprite_Data;
-
-
 
 
 
@@ -170,7 +166,7 @@ int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t animation_ca
 
 
 
-int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect src_rect, uint8_t amount_frames, double fps, double offset_width, uint16_t animation_index){
+int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect *frames, uint8_t amount_frames, double fps, uint16_t animation_index){
 
     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
         return 1;
@@ -181,9 +177,9 @@ int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect src_rect, uin
 
     SDK_Animation *animation = &data->animation[animation_index];
 
-    animation->width_offset = offset_width;
-    animation->base_src_rect = src_rect;
-    animation->src_rect = src_rect;
+    animation->frames = t_malloc(sizeof(SDL_FRect) * amount_frames);
+    if(!animation->frames) return 1;
+    SDL_memcpy(animation->frames, frames, sizeof(SDL_FRect) * amount_frames); 
 
     animation->amount_frames = amount_frames;
     animation->current_frame = 0;
@@ -226,13 +222,11 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
 
         animation->current_frame = 0;
         animation->time_elapsed = 0.0f;
-        animation->src_rect.x = animation->base_src_rect.x + (0 * (animation->base_src_rect.w + animation->width_offset));
 
         return 0;
     }
 
 
-    SDL_FRect *base_src_rect = &animation->base_src_rect;
 
     animation->time_elapsed += time->dt;
 
@@ -243,7 +237,6 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
     animation->time_elapsed -= frames_advanced * animation->frame_duration;
     animation->current_frame = (animation->current_frame + frames_advanced) % animation->amount_frames;
 
-    animation->src_rect.x = base_src_rect->x + (animation->current_frame * (base_src_rect->w + animation->width_offset));
 
     if(animation->current_frame == 0)
         animation->play_animation = false;    
@@ -351,7 +344,9 @@ int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
             return 1;
         }
 
-        src_rect = &data->animation[data->current_animation].src_rect;
+        SDK_Animation *animation = &data->animation[data->current_animation];
+
+        src_rect = &animation->frames[animation->current_frame];
         texture = data->texture;
 
     } else{
@@ -425,6 +420,9 @@ void SDK_DestroySprite(SDK_Sprite *sprite){
     if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
 
         SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
+        for(uint16_t i = 0; i < data->amount_animation; i++){
+            t_free(data->animation[i].frames);
+        }
         t_free(data->animation);
         SDL_DestroyTexture(data->texture);
         t_free(sprite->data);

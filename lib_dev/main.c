@@ -27,6 +27,7 @@ void update_text(SDK_Text *text, double fps){
 
 
 
+
 int main(){
 
     if(SDK_Init(NULL, NULL, true, true, true)){
@@ -50,7 +51,14 @@ int main(){
 
     // boilerplate stuff for animations
     SDK_Sprite_AllocAnimation(player, MAX_ANIMATIONS);
-    SDK_Sprite_AddAnimation(player, (SDL_FRect){18, 16, 13, 16}, 6, 5.0f, 3.0f, IDLE_ANIMATION);
+    SDL_FRect frames[] = {
+        {18, 16, 13, 16},
+        {33, 16, 14, 16},
+        {49, 16, 13, 16},
+        {64, 16, 13, 16},
+        {79, 16, 14, 16}
+    };
+    SDK_Sprite_AddAnimation(player, frames, sizeof(frames) / sizeof(SDL_FRect), 5.0f, IDLE_ANIMATION);
     SDK_Sprite_SetLoopAnimation(player, IDLE_ANIMATION, true);
     SDK_Sprite_EnableAnimation(player, IDLE_ANIMATION, true);
 
