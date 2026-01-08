@@ -55,8 +55,9 @@ int main(){
         {18, 16, 13, 16},
         {33, 16, 14, 16},
         {49, 16, 13, 16},
-        {64, 16, 13, 16},
-        {79, 16, 14, 16}
+        {65, 16, 13, 16},
+        {81, 16, 14, 16},
+        {}
     };
     SDK_Sprite_AddAnimation(player, frames, sizeof(frames) / sizeof(SDL_FRect), 5.0f, IDLE_ANIMATION);
     SDK_Sprite_SetLoopAnimation(player, IDLE_ANIMATION, true);
