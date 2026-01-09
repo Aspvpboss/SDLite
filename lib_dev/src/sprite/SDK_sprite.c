@@ -4,13 +4,23 @@
 
 typedef struct{
 
-    double base_width;
-    double base_height;
+    float base_width;
+    float base_height;
     SDL_Texture *texture;
     
     SDL_FRect src_rect;
 
 } SDK_StaticSprite_Data;
+
+
+typedef struct{
+
+    float base_width;
+    float base_height;
+    SDL_Color color;
+    bool is_filled;
+
+} SDK_RectSprite_Data;
 
 
 typedef struct{
@@ -28,8 +38,8 @@ typedef struct{
 
 typedef struct{
 
-    double base_width;
-    double base_height;
+    float base_width;
+    float base_height;
     SDL_Texture *texture;
 
     SDK_Animation *animation;
@@ -45,16 +55,17 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
 
     if(!display) return NULL;
 
-    enum SDK_SpriteType sprite_type = SDK_STATIC_SPRITE;
 
     SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
 
     if(!sprite)
         return NULL;
-    
-    memcpy((void*)sprite, &sprite_type, sizeof(enum SDK_SpriteType));
-    
-    sprite->data = t_malloc(sizeof(SDK_StaticSprite_Data));
+
+    enum SDK_SpriteType *sprite_type = (enum SDK_SpriteType *)&sprite->sprite_type;
+    *sprite_type = SDK_STATIC_SPRITE;
+
+    void **data_t = (void **)&sprite->data;
+    *data_t = t_malloc(sizeof(SDK_StaticSprite_Data));
 
     if(!sprite->data){
         t_free(sprite);
@@ -92,17 +103,17 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 
     if(!display) return NULL;
 
-    enum SDK_SpriteType sprite_type = SDK_ANIMATED_SPRITE;
-
     SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
 
     if(!sprite)
         return NULL;
     
-    // this allows for me to set the const SDK_SpriteType
-    memcpy((void*)sprite, &sprite_type, sizeof(enum SDK_SpriteType));
+    enum SDK_SpriteType *sprite_type = (enum SDK_SpriteType *)&sprite->sprite_type;
+    *sprite_type = SDK_ANIMATED_SPRITE;
+
+    void **data_t = (void **)&sprite->data;
     
-    sprite->data = t_malloc(sizeof(SDK_AnimatedSprite_Data));
+    *data_t = t_malloc(sizeof(SDK_AnimatedSprite_Data));
 
     if(!sprite->data){
         t_free(sprite);
@@ -132,6 +143,45 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
     sprite->render_rect = (SDL_FRect){sprite_pos.x, sprite_pos.y, src_rect.w, src_rect.h};
 
     
+    return sprite;
+}
+
+
+
+
+SDK_Sprite *SDK_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled){
+
+    SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
+
+    if(!sprite){
+        return NULL;
+    }
+
+    enum SDK_SpriteType *sprite_type = (enum SDK_SpriteType *)&sprite->sprite_type;
+    *sprite_type = SDK_RECT_SPRITE;
+
+    void **data_t = (void **)&sprite->data;
+    
+    *data_t = t_malloc(sizeof(SDK_RectSprite_Data));
+
+    if(!sprite->data){
+        t_free(sprite);
+        return NULL;
+    }
+
+    SDK_RectSprite_Data *data = (SDK_RectSprite_Data*)sprite->data;
+  
+    sprite->render_rect = rect;
+    sprite->scale = 1.0f;
+    sprite->angle = 0.0f;
+    sprite->flip_mode = SDL_FLIP_NONE;
+    sprite->pivot_point = (SDL_FPoint){0.0f, 0.0f};
+
+    data->is_filled = is_filled;
+    data->color = color;
+    data->base_height = rect.h;
+    data->base_width = rect.w;
+
     return sprite;
 }
 
@@ -333,30 +383,52 @@ int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
 
     if(!display || !sprite) return 1;
 
-    SDL_FRect *src_rect;
+    SDL_Color *color = NULL;
+    SDL_FRect *src_rect = NULL;
     SDL_Texture *texture = NULL;
 
-    if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
+    switch(sprite->sprite_type){
 
-        SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
+        case(SDK_ANIMATED_SPRITE):
 
-        if(data->current_animation >= data->amount_animation){
-            return 1;
-        }
+            SDK_AnimatedSprite_Data *a_data = (SDK_AnimatedSprite_Data*)sprite->data;
 
-        SDK_Animation *animation = &data->animation[data->current_animation];
+            if(a_data->current_animation >= a_data->amount_animation){
+                return 1;
+            }
 
-        src_rect = &animation->frames[animation->current_frame];
-        texture = data->texture;
+            SDK_Animation *animation = &a_data->animation[a_data->current_animation];
 
-    } else{
+            src_rect = &animation->frames[animation->current_frame];
+            texture = a_data->texture;
+            
+            break;
 
-        SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
+        case(SDK_STATIC_SPRITE):
 
-        src_rect = &data->src_rect;
-        texture = data->texture;
+            SDK_StaticSprite_Data *s_data = (SDK_StaticSprite_Data*)sprite->data;
 
+            src_rect = &s_data->src_rect;
+            texture = s_data->texture;
+        
+            break;
+
+        case(SDK_RECT_SPRITE):
+
+            SDK_RectSprite_Data *r_data = (SDK_RectSprite_Data *)sprite->data;
+
+            src_rect = &sprite->render_rect;
+            color = &r_data->color;
+
+             
+
+            return 0;
+
+        default: return 1;
     }
+
+
+
 
     if(sprite->angle == 0.0f && sprite->flip_mode == SDL_FLIP_NONE){
 

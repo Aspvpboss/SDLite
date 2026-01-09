@@ -16,7 +16,8 @@ extern "C"{
 enum SDK_SpriteType{
 
     SDK_STATIC_SPRITE,
-    SDK_ANIMATED_SPRITE
+    SDK_ANIMATED_SPRITE,
+    SDK_RECT_SPRITE
 
 };
 
@@ -35,7 +36,7 @@ enum SDK_SpriteType{
 typedef struct{
 
     const enum SDK_SpriteType sprite_type;
-    void *data;
+    void *const data;
 
     SDL_FRect render_rect;
     SDL_FlipMode flip_mode;
