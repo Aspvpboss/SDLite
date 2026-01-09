@@ -146,11 +146,10 @@ int main(){
 
         SDK_SpriteManager_QueueSprite(manager, player, 1); 
         SDK_SpriteManager_QueueSprite(manager, square, 0); 
-
+        SDK_SpriteManager_QueueSprite(manager, rectangle, 0);
        
         SDK_Render_SpriteManager(display, manager);
         SDK_Render_Text(text);
-        SDK_Render_Sprite(display, rectangle);
 
         SDL_RenderPresent(display->renderer);
 
