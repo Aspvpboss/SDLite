@@ -174,7 +174,9 @@ int main(){
     player = NULL;
     SDK_DestroySprite(square);
     square = NULL;
-    
+    SDK_DestroySprite(rectangle);
+    rectangle = NULL;
+
     SDK_Quit();
     
     return 0;

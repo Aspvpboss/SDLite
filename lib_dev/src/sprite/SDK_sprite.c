@@ -428,6 +428,8 @@ int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
                 result = SDL_RenderRect(display->renderer, src_rect);
             }
 
+            SDL_SetRenderDrawColor(display->renderer, 0, 0, 0, 0);
+
             if(!result) return 1;
 
             return 0;
@@ -518,11 +520,15 @@ void SDK_DestroySprite(SDK_Sprite *sprite){
         SDL_DestroyTexture(data->texture);
         t_free(sprite->data);
 
-    } else{
+    } else if(sprite->sprite_type == SDK_STATIC_SPRITE){
 
         SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
         SDL_DestroyTexture(data->texture);
         t_free(sprite->data);
+
+    } else if(sprite->sprite_type == SDK_RECT_SPRITE){
+
+       t_free(sprite->data); 
 
     }
 
