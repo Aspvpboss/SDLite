@@ -74,6 +74,18 @@ SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *t
 SDK1_API SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 
+
+/*
+    Creates a rectangle SDK_Sprite with the specified attributes
+
+    SDK_Sprite needs to be freed by SDK_DestroySprite()
+
+    returns SDK_Sprite* for success, returns NULL for failure
+    call SDL_GetError() for more info
+*/
+SDK1_API SDK_Sprite* SDK_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled);
+
+
 /*
     Frees a SDK_Sprite (whether animated or static)
 

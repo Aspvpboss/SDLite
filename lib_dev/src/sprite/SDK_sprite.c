@@ -149,7 +149,7 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 
 
 
-SDK_Sprite *SDK_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled){
+SDK_Sprite* SDK_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled){
 
     SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
 
@@ -383,7 +383,6 @@ int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
 
     if(!display || !sprite) return 1;
 
-    SDL_Color *color = NULL;
     SDL_FRect *src_rect = NULL;
     SDL_Texture *texture = NULL;
 
@@ -418,9 +417,18 @@ int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
             SDK_RectSprite_Data *r_data = (SDK_RectSprite_Data *)sprite->data;
 
             src_rect = &sprite->render_rect;
-            color = &r_data->color;
 
-             
+            SDL_SetRenderDrawColor(display->renderer, r_data->color.r, r_data->color.g, r_data->color.b, r_data->color.a);
+            
+            bool result;
+
+            if(r_data->is_filled){
+                result = SDL_RenderFillRect(display->renderer, src_rect);
+            } else{
+                result = SDL_RenderRect(display->renderer, src_rect);
+            }
+
+            if(!result) return 1;
 
             return 0;
 
@@ -453,6 +461,7 @@ int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale){
     if(!sprite || new_scale <= 0.0f)
         return 1;
 
+
     if(sprite->sprite_type == SDK_STATIC_SPRITE){
 
         SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
@@ -466,6 +475,16 @@ int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale){
     } else if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
 
         SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
+
+        SDL_FRect *render_rect = &sprite->render_rect;
+        sprite->scale = new_scale;
+
+        render_rect->w = data->base_width * new_scale;
+        render_rect->h = data->base_height * new_scale;
+
+    } else if(sprite->sprite_type == SDK_RECT_SPRITE){
+
+        SDK_RectSprite_Data *data = (SDK_RectSprite_Data*)sprite->data;
 
         SDL_FRect *render_rect = &sprite->render_rect;
         sprite->scale = new_scale;

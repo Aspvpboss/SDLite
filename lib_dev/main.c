@@ -74,7 +74,12 @@ int main(){
     SDK_Sprite_UpdateScale(player, 8.0f);
     SDL_SetTextureScaleMode(SDK_Sprite_GetTexture(player), SDL_SCALEMODE_NEAREST);
 
-    
+
+    SDK_Sprite *rectangle = SDK_Create_RectSprite((SDL_FRect){350, 0, 150, 150}, (SDL_Color){255, 0, 0, 0}, true);
+
+    if(!rectangle)
+        return 1;
+
     if(!text){
         return 1;
     }
@@ -145,7 +150,7 @@ int main(){
        
         SDK_Render_SpriteManager(display, manager);
         SDK_Render_Text(text);
-
+        SDK_Render_Sprite(display, rectangle);
 
         SDL_RenderPresent(display->renderer);
 
