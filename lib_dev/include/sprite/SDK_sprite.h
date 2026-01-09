@@ -11,8 +11,16 @@ extern "C"{
 #include "../SDK_time.h"
 
 
+/*
+    Three main sprite types
 
+    Rect - renders a simple color rect, either filled or not filled 
 
+    Static - renders a texture that was loaded from an image
+
+    Animated - renders an animated texture, it uses the image as a spritesheet
+
+*/
 enum SDK_SpriteType{
 
     SDK_STATIC_SPRITE,
@@ -187,7 +195,14 @@ SDK1_API int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t a
 SDK1_API int SDK_Sprite_EnableAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
 
 
+/*
+    Sets new color to rect SDK_Sprite*
 
+    Functions only fails if SDK_Sprite* is NULL or if it isn't a SDK_RECT_SPRITE 
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_SetRectColor(SDK_Sprite *rect_sprite, SDL_Color color);
 
 /*
     Scales the width and height of the render_rect relative to the original width and height when the sprite was created
