@@ -4,15 +4,16 @@ GCC = gcc
 
 INCLUDE = -Iinclude 
 LIB = -LSDK1/lib
-LINK = -lSDL3 -lSDL3_image -lSDL3_ttf -lMemTrack
+LINK = -lSDL3 -lSDL3_image -lSDL3_ttf
 SRC_LIB = $(wildcard src/*.c src/sprite/*.c)
 
 
 
 FLAGS = -Wall -Werror -Wpedantic
-OPT = -O2 -march=native 
+OPT = -O2
 OUTPUT = test_build/out.exe
 
+DLL_EXPORT = -DDLL_EXPORTS -DMEMTRACK_BUILD_DLL
 DLL_FLAGS = -fPIC -shared  -Wl,--out-implib,SDK1/lib/libSDK1.a
 DLL_OUTPUT = test_build/libSDK1.dll
 DEBUG_DLL_OUTPUT = test_build/libSDK1_debug.dll
@@ -31,10 +32,10 @@ json:
 
 
 build_lib: opt_build_lib
-	@${GCC} ${SRC_LIB} -o ${DEBUG_DLL_OUTPUT} -DTRACK_ALLOCATIONS -DDLL_EXPORTS ${DEBUG_DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
+	@${GCC} ${SRC_LIB} -o ${DEBUG_DLL_OUTPUT} -DTRACK_ALLOCATIONS ${DLL_EXPORT} ${DEBUG_DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
 
 opt_build_lib:
-	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}	
+	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} ${DLL_EXPORT} ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}	
 
 
 
