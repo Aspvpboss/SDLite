@@ -39,7 +39,7 @@ int main(){
         printf("mixer failed to load\n");
         return 1;
     }
-    MIX_Audio *audio = MIX_LoadAudio(mixer, "SDK1/assets/sample_mp3.mp3", true);
+    MIX_Audio *audio = MIX_LoadAudio(mixer, "SDK1/assets/sample_wav.wav", true);
     if(!audio){
         printf("audio failed to laod\n");
         return 1;
@@ -49,9 +49,9 @@ int main(){
 
     MIX_SetTrackAudio(track, audio);
     SDL_PropertiesID props = SDL_CreateProperties();
-    SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
-    MIX_SetTrackGain(track, 0.01);
-    MIX_PlayTrack(track, props);
+    // SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
+    MIX_SetTrackGain(track, 0.10);
+    // MIX_PlayTrack(track, props);
 
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
@@ -151,6 +151,10 @@ int main(){
 
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_ESCAPE)){
             running = false;
+        }
+
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP)){
+            MIX_PlayTrack(track, props);
         }
 
 

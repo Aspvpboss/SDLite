@@ -77,3 +77,47 @@ void SDK_Destroy_AudioHandler(SDK_Audio_Handler *audio_handler){
     t_free(audio_handler);
 
 }
+
+
+
+
+int SDK_Audio_PlayTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio){
+
+    if(!audio_handler || !audio) return 1;
+
+    if(audio_track >= audio_handler->track_capacity) return 1;
+
+    SDK_Track *track = &audio_handler->tracks[audio_track];
+
+    if(!MIX_PlayTrack(track->track, track->track_prop)) return 1; 
+
+    return 0;
+}
+
+
+
+
+int SDK_Audio_SetTrackAudio(SDK_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio){
+
+    if(!audio_handler || !audio) return 1;
+
+    if(audio_track >= audio_handler->track_capacity) return 1;
+
+    SDK_Track *track = &audio_handler->tracks[audio_track];
+
+    if(!MIX_SetTrackAudio(track->track, audio)) return 1; 
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
