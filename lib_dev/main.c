@@ -1,3 +1,4 @@
+#include "MemTrack.h"
 #include "SDK.h"
 #include "SDL3/SDL_properties.h"
 
@@ -33,7 +34,8 @@ int main(){
         return 1;
     }
 
-
+    void *boy = t_malloc(sizeof(int));
+    t_free(boy);
     
 
     SDK_Audio_Handler *audio_handler = SDK_Create_AudioHandler(4, 1.0f);
@@ -49,7 +51,7 @@ int main(){
         printf("audio failed to laod\n");
         return 1;
     }
-    
+    SDK_Audio_SetTrackAudio(audio_handler, 0, audio); 
 
     // goat player
     SDK_Sprite *player = SDK_Create_AnimatedSprite(display, "assets/char_spritesheet.png", (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
@@ -136,7 +138,7 @@ int main(){
         }
 
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP)){
-
+            SDK_Audio_PlayTrack(audio_handler, 0);
         }
 
 
