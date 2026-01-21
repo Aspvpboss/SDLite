@@ -81,9 +81,9 @@ void SDK_Destroy_AudioHandler(SDK_Audio_Handler *audio_handler){
 
 
 
-int SDK_Audio_PlayTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio){
+int SDK_Audio_PlayTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track){
 
-    if(!audio_handler || !audio) return 1;
+    if(!audio_handler) return 1;
 
     if(audio_track >= audio_handler->track_capacity) return 1;
 
@@ -94,6 +94,33 @@ int SDK_Audio_PlayTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track, 
     return 0;
 }
 
+
+
+
+int SDK_Audio_StopTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track, int64_t fade_out_frames){
+
+    if(!audio_handler) return 1;
+
+    if(audio_track >= audio_handler->track_capacity) return 1;
+
+    SDK_Track *track = &audio_handler->tracks[audio_track];
+
+    if(!MIX_StopTrack(track->track, fade_out_frames)) return 1; 
+
+    return 0;
+}
+
+
+
+
+SDK_Track* SDK_Audio_GetTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track){
+
+    if(!audio_handler) return NULL;
+
+    if(audio_track >= audio_handler->track_capacity) return NULL;
+
+    return &audio_handler->tracks[audio_track];
+}
 
 
 
@@ -113,11 +140,45 @@ int SDK_Audio_SetTrackAudio(SDK_Audio_Handler *audio_handler, uint16_t audio_tra
 
 
 
+int SDK_Audio_SetTrackProp(SDK_Audio_Handler *audio_handler, uint16_t audio_track, const char *prop_name, int64_t value){
+
+    if(!audio_handler || !prop_name) return 1;
+
+    if(audio_track >= audio_handler->track_capacity) return 1;
+
+    SDK_Track *track = &audio_handler->tracks[audio_track];
+
+    if(!SDL_SetNumberProperty(track->track_prop, prop_name, value)) return 1;
+
+    return 0;
+}
 
 
 
 
+int SDK_Audio_SetMasterVolume(SDK_Audio_Handler *audio_handler, float master_volume){
+
+    if(!audio_handler) return 1;
+
+    MIX_SetMasterGain(audio_handler->mixer, master_volume);
+    audio_handler->master_volume = master_volume;
+
+    return 0;
+}
 
 
 
 
+int SDK_Audio_SetTrackVolume(SDK_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume){
+
+    if(!audio_handler) return 1;
+
+    if(audio_track >= audio_handler->track_capacity) return 1;
+    SDK_Track *track = &audio_handler->tracks[audio_track];
+    
+    if(!MIX_SetTrackGain(track->track, track_volume)) return 1;
+
+    track->track_volume = track_volume;
+
+    return 0;
+}
