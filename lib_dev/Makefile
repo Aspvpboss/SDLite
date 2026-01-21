@@ -42,7 +42,7 @@ debug_build: build_lib
 	@${GCC} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -DTRACK_ALLOCATIONS -lSDK1_debug ${LINK} ${LIB} ${FLAGS}  
 
 opt_build: build_lib
-	@${GCC} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -lSDK1 ${LINK} ${LIB} ${FLAGS}  
+	@${GCC} main.c -o ${OUTPUT} -save-temps -Iinclude ${INCLUDE} -DSTDLIB_ALLOCATIONS -lSDK1 ${LINK} ${LIB} ${FLAGS}  
 
 run:
 	@${OUTPUT}

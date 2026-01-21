@@ -30,15 +30,15 @@ typedef struct{
 
 
 
-SDK_Audio_Handler* SDK_Create_AudioHandler(uint16_t track_capacity, float master_volume);
-void SDK_Destroy_AudioHandler(SDK_Audio_Handler *audio_handler);
-SDK_Track* SDK_Audio_GetTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track);
-int SDK_Audio_PlayTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track);
-int SDK_Audio_StopTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track, int64_t fade_out_frames);
-int SDK_Audio_SetTrackAudio(SDK_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio);
-int SDK_Audio_SetTrackProp(SDK_Audio_Handler *audio_handler, uint16_t audio_track, const char *prop_name, int64_t value);
-int SDK_Audio_SetMasterVolume(SDK_Audio_Handler *audio_handler, float master_volume);
-int SDK_Audio_SetTrackVolume(SDK_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume);
+SDK1_API SDK_Audio_Handler* SDK_Create_AudioHandler(uint16_t track_capacity, float master_volume);
+SDK1_API void SDK_Destroy_AudioHandler(SDK_Audio_Handler *audio_handler);
+SDK1_API SDK_Track* SDK_Audio_GetTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track);
+SDK1_API int SDK_Audio_PlayTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track);
+SDK1_API int SDK_Audio_StopTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track, int64_t fade_out_frames);
+SDK1_API int SDK_Audio_SetTrackAudio(SDK_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio);
+SDK1_API int SDK_Audio_SetTrackProp(SDK_Audio_Handler *audio_handler, uint16_t audio_track, const char *prop_name, int64_t value);
+SDK1_API int SDK_Audio_SetMasterVolume(SDK_Audio_Handler *audio_handler, float master_volume);
+SDK1_API int SDK_Audio_SetTrackVolume(SDK_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume);
 
 
 

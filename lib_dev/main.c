@@ -34,26 +34,9 @@ int main(){
     }
 
 
-    MIX_Mixer *mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
-    if(!mixer){
-        printf("mixer failed to load\n");
-        return 1;
-    }
-    MIX_Audio *audio = MIX_LoadAudio(mixer, "SDK1/assets/sample_wav.wav", true);
-    if(!audio){
-        printf("audio failed to laod\n");
-        return 1;
-    }
     
-    MIX_Track *track = MIX_CreateTrack(mixer);
 
-    MIX_SetTrackAudio(track, audio);
-    SDL_PropertiesID props = SDL_CreateProperties();
-    // SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
-    MIX_SetTrackGain(track, 0.10);
-    // MIX_PlayTrack(track, props);
-
-
+    SDK_Audio_Handler *audio_handler = SDK_Create_AudioHandler(4, 1.0f);
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDK_Time *time = SDK_CreateTime(144);
     SDK_Input *input = SDK_CreateInput();
@@ -61,13 +44,12 @@ int main(){
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
 
 
-    SDL_Texture *test = IMG_LoadTexture(display->renderer, "assets/char_spritesheet.png");
-    if(!test){
-        SDL_Log("Error loading blue: %s\n", SDL_GetError());
+    MIX_Audio *audio = MIX_LoadAudio(audio_handler->mixer, "SDK1/assets/sample_wav.wav", true);
+    if(!audio){
+        printf("audio failed to laod\n");
         return 1;
     }
     
-
 
     // goat player
     SDK_Sprite *player = SDK_Create_AnimatedSprite(display, "assets/char_spritesheet.png", (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
@@ -154,7 +136,7 @@ int main(){
         }
 
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP)){
-            MIX_PlayTrack(track, props);
+
         }
 
 
@@ -201,6 +183,8 @@ int main(){
     text = NULL;
     SDK_Destroy_SpriteManager(manager);
     manager = NULL;
+    SDK_Destroy_AudioHandler(audio_handler);
+    audio_handler = NULL;
     SDK_DestroySprite(player);
     player = NULL;
     SDK_DestroySprite(square);
