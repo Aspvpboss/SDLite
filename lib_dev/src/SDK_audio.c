@@ -62,7 +62,7 @@ SDK_Audio_Handler* SDK_Create_AudioHandler(uint16_t track_capacity, float master
 
 
 void SDK_Destroy_AudioHandler(SDK_Audio_Handler *audio_handler){
-
+    
     if(!audio_handler) return;
 
     for(uint16_t i = 0; i < audio_handler->track_capacity; i++){
