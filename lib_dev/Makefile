@@ -4,7 +4,7 @@ GCC = gcc
 
 INCLUDE = -Iinclude 
 LIB = -LSDK1/lib
-LINK = -lSDL3 -lSDL3_image -lSDL3_ttf
+LINK = -lSDL3 -lSDL3_image -lSDL3_ttf -lSDL3_mixer
 SRC_LIB = $(wildcard src/*.c src/sprite/*.c)
 
 
@@ -43,7 +43,7 @@ debug_build: build_lib
 	@${GCC} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -DTRACK_ALLOCATIONS -lSDK1_debug ${LINK} ${LIB} ${FLAGS}  
 
 opt_build: build_lib
-	@${GCC} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -lSDK1 ${LINK} ${LIB} ${FLAGS}  
+	@${GCC} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -DSTDLIB_ALLOCATIONS -lSDK1 ${LINK} ${LIB} ${FLAGS}  
 
 run:
 	@${OUTPUT}

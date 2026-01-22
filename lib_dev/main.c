@@ -1,5 +1,9 @@
+// this is my test file for the framework
+
+
+#include "MemTrack.h"
 #include "SDK.h"
-#include "sprite/SDK_sprite.h"
+#include "SDL3/SDL_properties.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
@@ -34,7 +38,11 @@ int main(){
         return 1;
     }
 
+    void *boy = t_malloc(sizeof(int));
+    t_free(boy);
+    
 
+    SDK_Audio_Handler *audio_handler = SDK_Create_AudioHandler(4, 1.0f);
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDK_Time *time = SDK_CreateTime(144 + 1);
     SDK_Input *input = SDK_CreateInput();
@@ -42,8 +50,16 @@ int main(){
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
 
 
+    MIX_Audio *audio = MIX_LoadAudio(audio_handler->mixer, "SDK1/assets/sample_mp3.mp3", true);
+    if(!audio){
+        printf("audio failed to laod\n");
+        return 1;
+    }
+    SDK_Audio_SetTrackAudio(audio_handler, 0, audio); 
+    SDK_Audio_SetTrackProp(audio_handler, 0, MIX_PROP_PLAY_MAX_MILLISECONDS_NUMBER, 10000);
+
     // goat player
-    SDK_Sprite *player = SDK_Create_AnimatedSprite(display, "assets/char_spritesheet.png", (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
+    SDK_Sprite *player = SDK_Create_AnimatedSprite(display, TEXTURE_PATH_COOL, (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
     if(!player){
         SDL_Log("Error loading player: %s\n", SDL_GetError());
         return 1;
@@ -138,6 +154,22 @@ int main(){
             running = false;
         }
 
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP)){
+            SDK_Audio_PlayTrack(audio_handler, 0);
+        }
+
+
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_1)){
+            time->fps_limit = 60.0f;
+        }
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_2)){
+            time->fps_limit = 144.0f;
+        }
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_3)){
+            time->fps_limit = 240.0f;
+        }
+
+
         if(time->fps_updated)
             update_text(text, time->fps);
          
@@ -169,6 +201,8 @@ int main(){
     text = NULL;
     SDK_Destroy_SpriteManager(manager);
     manager = NULL;
+    SDK_Destroy_AudioHandler(audio_handler);
+    audio_handler = NULL;
     SDK_DestroySprite(player);
     player = NULL;
     SDK_DestroySprite(square);

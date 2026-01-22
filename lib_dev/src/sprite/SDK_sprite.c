@@ -43,8 +43,8 @@ typedef struct{
     SDL_Texture *texture;
 
     SDK_Animation *animation;
-    uint8_t amount_animation;
-    uint8_t current_animation;
+    uint16_t amount_animation;
+    uint16_t current_animation;
 
 } SDK_AnimatedSprite_Data;
 
