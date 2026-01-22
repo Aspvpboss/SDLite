@@ -13,7 +13,6 @@ typedef struct{
     MIX_Track *track;
     SDL_PropertiesID track_prop;
     float track_volume;
-    int16_t loops;
 
 } SDK_Track;
 

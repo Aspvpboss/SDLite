@@ -49,8 +49,7 @@ SDK_Audio_Handler* SDK_Create_AudioHandler(uint16_t track_capacity, float master
             }
         }
 
-        track->loops = 0;
-        SDL_SetNumberProperty(track->track_prop, MIX_PROP_PLAY_LOOPS_NUMBER, track->loops);
+        SDL_SetNumberProperty(track->track_prop, MIX_PROP_PLAY_LOOPS_NUMBER, 0);
         track->track_volume = 1.0f;
         MIX_SetTrackGain(track->track, track->track_volume);
 
