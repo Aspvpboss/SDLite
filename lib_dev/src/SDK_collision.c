@@ -8,6 +8,19 @@
 #include "SDK_collision.h"
 
 
+
+int SDK_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point){
+    
+    if(!rect || !point) return -1;
+
+    if(rect->x + rect->w <= point->x) return 0;
+    if(rect->y + rect->h <= point->y) return 0;
+
+    return 1;
+}
+
+
+
 int SDK_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b){
 
     if(!a || !b) return -1;
@@ -56,4 +69,7 @@ enum SDK_CollisionType SDK_Collision_RectDir(const SDL_FRect *target, const SDL_
 
     return side;
 }
+
+
+
 

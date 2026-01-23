@@ -174,10 +174,14 @@ int SDK_Text_UpdatePosition(SDK_Text *text, int x, int y){
 
     Text_Data *data = (Text_Data*)text->data;
     SDL_Rect *render_rect = (SDL_Rect *)&text->render_rect;
-    
-    if(!TTF_SetTextPosition(data->text, render_rect->x, render_rect->y)){
+   
+
+    if(!TTF_SetTextPosition(data->text, x, y)){
         return 1;
     }
+
+    render_rect->x = x;
+    render_rect->y = y;
 
     return 0;
 }
@@ -195,8 +199,10 @@ int SDK_Text_UpdateSize(SDK_Text *text){
         return 1;
     }
 
-    text->rect.w = w;
-    text->rect.h = h;
+    SDL_Rect *render_rect = (SDL_Rect *)&text->render_rect;
+
+    render_rect->w = w;
+    render_rect->h = h;
 
     return 0;
 }
@@ -240,7 +246,9 @@ int SDK_Render_Text(SDK_Text *text){
 
     Text_Data *data = (Text_Data*)text->data;
 
-    if(!TTF_DrawRendererText(data->text, text->rect.x, text->rect.y))
+    SDL_Rect *render_rect = (SDL_Rect *)&text->render_rect;
+
+    if(!TTF_DrawRendererText(data->text, (float)render_rect->x, (float)render_rect->y))
         return 1;
 
     return 0;

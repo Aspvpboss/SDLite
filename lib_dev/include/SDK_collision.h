@@ -26,6 +26,12 @@ enum SDK_CollisionType{
 
 };
 
+
+
+SDK1_API int SDK_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point);
+
+
+
 /*
     Checks for a collision between two SDL_FRects
 
