@@ -104,8 +104,11 @@ int main(){
     // testing with these rects
     SDL_FRect a = {0.0f, 0.0f, 10.0f, 10.0f};
     SDL_FRect b = {0.0f, 9.0f, 10.0f, 10.0f};
+    SDL_FPoint point = {1.0f, 10.0f};
 
-
+    if(SDK_Collision_RectPoint(&b, &point)){
+        printf("rectangle and point are colliding\n");
+    }
 
     if(SDK_Collision_Rect(&a, &b)){
         printf("The rectangles are colliding\n");
