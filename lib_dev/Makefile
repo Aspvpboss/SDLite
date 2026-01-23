@@ -10,7 +10,7 @@ SRC_LIB = $(wildcard src/*.c src/sprite/*.c)
 
 
 FLAGS = -Wall -Werror -Wpedantic
-OPT = -O2
+OPT = -O3 -s -flto -fomit-frame-pointer -mtune=generic -fstack-protector-strong -D_FORTIFY_SOURCE=2
 OUTPUT = test_build/out.exe
 
 DLL_EXPORT = -DDLL_EXPORTS -DMEMTRACK_BUILD_DLL
@@ -32,7 +32,7 @@ json:
 
 
 build_lib: opt_build_lib
-	@${GCC} ${SRC_LIB} -o ${DEBUG_DLL_OUTPUT} -DTRACK_ALLOCATIONS ${DLL_EXPORT} ${DEBUG_DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
+	@${GCC} -g ${SRC_LIB} -o ${DEBUG_DLL_OUTPUT} -DTRACK_ALLOCATIONS ${DLL_EXPORT} ${DEBUG_DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
 
 opt_build_lib:
 	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} ${DLL_EXPORT} ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}	
@@ -40,10 +40,10 @@ opt_build_lib:
 
 
 debug_build: build_lib
-	@${GCC} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -DTRACK_ALLOCATIONS -lSDK1_debug ${LINK} ${LIB} ${FLAGS}  
+	@${GCC} -g main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -DTRACK_ALLOCATIONS -lSDK1_debug ${LINK} ${LIB} ${FLAGS}  
 
 opt_build: build_lib
-	@${GCC} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -DSTDLIB_ALLOCATIONS -lSDK1 ${LINK} ${LIB} ${FLAGS}  
+	@${GCC} ${OPT} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -DSTDLIB_ALLOCATIONS -lSDK1 ${LINK} ${LIB} ${FLAGS}  
 
 run:
 	@${OUTPUT}

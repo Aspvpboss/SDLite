@@ -169,7 +169,7 @@ int main(){
             time->fps_limit = 144.0f;
         }
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_3)){
-            time->fps_limit = 1000.0f;
+            time->fps_limit = 512.0f;
         }
 
 
