@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2026 Benjamin Vaughan
+ *
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for license information.
+*/
+
 #include "SDK_time.h"
 
 
@@ -17,7 +24,7 @@ typedef struct{
 } Time_Data;
 
 
-SDK_Time* SDK_CreateTime(int fps_limit){
+SDK_Time* SDK_CreateTime(double fps_limit){
 
     if(fps_limit <= 0) return NULL;
 
@@ -42,8 +49,8 @@ SDK_Time* SDK_CreateTime(int fps_limit){
     time->fps_limit = fps_limit;
     double *dt = (double *)&time->dt;
     *dt = 0;
-    uint16_t *fps = (uint16_t *)&time->fps;
-    *fps = 0;
+    double *fps = (double *)&time->fps;
+    *fps = 0.0f;
     bool *fps_updated = (bool *)&time->fps_updated;
     *fps_updated = false;
 
@@ -91,7 +98,7 @@ int SDK_CalculateFPS(SDK_Time *time){
     if(!time) return 1;
     Time_Data *data = (Time_Data*)time->data;
     bool *fps_updated = (bool *)&time->fps_updated;
-    uint16_t *fps = (uint16_t *)&time->fps;
+    double *fps = (double *)&time->fps;
 
     if(time->fps_updated == 1){
         *fps_updated = false;

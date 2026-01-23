@@ -1,9 +1,7 @@
 // this is my test file for the framework
 
 
-#include "MemTrack.h"
 #include "SDK.h"
-#include "SDL3/SDL_properties.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
@@ -19,11 +17,11 @@ typedef enum{
 
 
 
-void update_text(SDK_Text *text, uint16_t fps){
+void update_text(SDK_Text *text, double fps){
 
     char fps_text[40];
 
-    snprintf(fps_text, sizeof(fps_text), "FPS: %d", fps);
+    snprintf(fps_text, sizeof(fps_text), "FPS: %.1f", fps);
 
     SDK_Text_UpdateString(text, fps_text);
 
@@ -38,13 +36,11 @@ int main(){
         return 1;
     }
 
-    void *boy = t_malloc(sizeof(int));
-    t_free(boy);
-    
+
 
     SDK_Audio_Handler *audio_handler = SDK_Create_AudioHandler(4, 1.0f);
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
-    SDK_Time *time = SDK_CreateTime(144 + 1);
+    SDK_Time *time = SDK_CreateTime(144);
     SDK_Input *input = SDK_CreateInput();
     SDK_Text *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
@@ -160,13 +156,13 @@ int main(){
 
 
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_1)){
-            time->fps_limit = 60.0f;
+            time->fps_limit = 10.0f;
         }
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_2)){
             time->fps_limit = 144.0f;
         }
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_3)){
-            time->fps_limit = 240.0f;
+            time->fps_limit = 1000.0f;
         }
 
 

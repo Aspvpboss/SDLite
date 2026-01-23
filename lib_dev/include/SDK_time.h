@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2026 Benjamin Vaughan
+ *
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for license information.
+*/
+
 #ifndef SDK_TIME_H
 #define SDK_TIME_H
 
@@ -22,8 +29,8 @@ typedef struct{
 
     const double dt;
     const bool fps_updated;
-    const uint16_t fps;
-    uint16_t fps_limit;
+    const double fps;
+    double fps_limit;
     void *const data;
 
 } SDK_Time;
@@ -38,7 +45,7 @@ typedef struct{
     returns SDK_Time* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDK_Time* SDK_CreateTime(int fps_limit);
+SDK1_API SDK_Time* SDK_CreateTime(double fps_limit);
 
 /*
     Frees a SDK_Time

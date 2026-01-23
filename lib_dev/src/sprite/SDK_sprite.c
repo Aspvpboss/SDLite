@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2026 Benjamin Vaughan
+ *
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for license information.
+*/
+
 #include "sprite/SDK_sprite.h"
 
 
@@ -264,11 +271,8 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
 
     SDK_Animation *animation = &m_data->animation[m_data->current_animation];
 
-    if(animation->loop_animation){
-        animation->play_animation = true;
-    }
 
-    if(!animation->play_animation || !animation->enable_animation){
+    if((!animation->loop_animation && !animation->play_animation) || !animation->enable_animation){
 
         animation->current_frame = 0;
         animation->time_elapsed = 0.0f;

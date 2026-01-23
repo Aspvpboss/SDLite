@@ -1,4 +1,16 @@
-#pragma once
+/*
+ * Copyright (c) 2026 Benjamin Vaughan
+ *
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for license information.
+*/
+
+#ifndef SDK_COMMON_LIBS_H
+#define SDK_COMMON_LIBS_H
+
+#ifdef __cplusplus
+extern "C"{
+#endif
 
 #ifdef _WIN32
     #ifdef DLL_EXPORTS
@@ -25,3 +37,11 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+
+
+#ifdef __cplusplus
+}
+#endif
+
+
+#endif
