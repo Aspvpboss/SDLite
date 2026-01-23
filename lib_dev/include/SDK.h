@@ -20,6 +20,7 @@ extern "C"{
 #include "SDK_init.h"
 #include "SDK_collision.h"
 #include "SDK_audio.h"
+#include "SDK_version.h"
 
 #include "sprite/SDK_sprite.h"
 #include "sprite/SDK_sprite_manager.h"

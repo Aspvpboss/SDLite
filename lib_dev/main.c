@@ -1,5 +1,5 @@
 // this is my test file for the framework
-
+// the entire file is just bad practice, but idc
 
 #include "SDK.h"
 
@@ -96,21 +96,21 @@ int main(){
         return 1;
     }
 
+    printf("SDK version: %s\n", SDK_Version_GetString());
 
-
-
+    // testing with these rects
     SDL_FRect a = {0.0f, 0.0f, 10.0f, 10.0f};
     SDL_FRect b = {0.0f, 9.0f, 10.0f, 10.0f};
 
 
 
     if(SDK_RectCollision(&a, &b)){
-        printf("Ayo jit, these rects are lowkey touching my fellow\n");
+        printf("The rectangles are colliding\n");
     } else{
-        printf("These hoodlums ain't touching\n");
+        printf("The rectangles aren't colliding\n");
     }
 
-
+    // didn't feel like making all the switch statements
     switch(SDK_RectCollision_Dir(&a, &b)){
 
         case(SDK_COLLISION_UP):
@@ -122,7 +122,7 @@ int main(){
             break;
 
         case(SDK_COLLISION_NONE):
-            printf("these jits ain't colliding yo\n");
+            printf("not colliding\n");
             break;
 
         default:

@@ -18,7 +18,10 @@ extern "C"{
 #define SDK_MINOR_VERSION 1
 #define SDK_MICRO_VERSION 0
 
-const char* SDK_Version_GetString();
+/* 
+    returns string for the current SDK version
+*/
+SDK1_API const char* SDK_Version_GetString();
 
 
 #ifdef __cplusplus
