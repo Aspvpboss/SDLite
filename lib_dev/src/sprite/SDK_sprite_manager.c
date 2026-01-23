@@ -33,8 +33,9 @@ SDK_Sprite_Manager* SDK_Create_SpriteManager(uint64_t max_z_depth, uint64_t max_
     SDK_Sprite_Manager *manager = t_malloc(sizeof(SDK_Sprite_Manager));
     if(!manager)
         return NULL;
-    
-    manager->data = t_malloc(sizeof(Sprite_Manager_Data));
+
+    void **t_data = (void**)&manager->data;
+    *t_data = t_malloc(sizeof(Sprite_Manager_Data));
     if(!manager->data){
         t_free(manager);
         return NULL;

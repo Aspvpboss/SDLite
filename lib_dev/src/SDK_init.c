@@ -15,9 +15,6 @@ int SDK_Init(void (*func)(void*), void *func_data, bool memory_failure_abort, bo
         return 1;
     }
 
-    
-
-
     if(!TTF_Init()){
         return 1;
     }
@@ -31,7 +28,7 @@ int SDK_Init(void (*func)(void*), void *func_data, bool memory_failure_abort, bo
 
     ctx.config.memory_failure_abort = memory_failure_abort;
     ctx.config.print_error_info = print_memtrack_info;
-    ctx.config.auto_null_pointers = true;
+    ctx.config.auto_null_pointers = auto_null_pointers;
 
     return 0;
 }
@@ -39,10 +36,11 @@ int SDK_Init(void (*func)(void*), void *func_data, bool memory_failure_abort, bo
 
 void SDK_Quit(){
 
+    TTF_Quit();
+    MIX_Quit();
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
     SDL_QuitSubSystem(SDL_INIT_AUDIO);
     SDL_Quit();
-    TTF_Quit();
 
     if(check_memory_leak())
         print_tracking_info();

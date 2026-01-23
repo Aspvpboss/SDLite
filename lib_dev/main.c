@@ -2,6 +2,7 @@
 // the entire file is just bad practice, but idc
 
 #include "SDK.h"
+#include "SDL3/SDL_surface.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
@@ -77,7 +78,7 @@ int main(){
     SDK_Sprite_AddAnimation(player, frames, num_frames, num_frames, IDLE_ANIMATION);
     SDK_Sprite_SetLoopAnimation(player, IDLE_ANIMATION, true);
     SDK_Sprite_EnableAnimation(player, IDLE_ANIMATION, true);
-
+    // player->flip_mode = SDL_FLIP_HORIZONTAL;
 
     
     SDK_Sprite *square = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){10.0f, 0.0f}, (SDL_FRect){0.0f, 0.0f, 400.0f, 400.0f});

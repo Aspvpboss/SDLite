@@ -22,7 +22,7 @@ extern "C" {
 
 typedef struct{
 
-    void *data;
+    void *const data;
 
 } SDK_Sprite_Manager;
 
@@ -31,6 +31,9 @@ typedef struct{
     Creates a SDK_Sprite_Manager with the specified attributes
 
     SDK_Sprite_Manager needs to be freed by SDK_Destroy_SpriteManager()
+
+    SDK_Sprite_Manager allows for rendering sprites is certain orders,
+    it does this by using z_depth
 
     returns SDK_Sprite_Manager* for success, returns NULL for failure
     call SDL_GetError() for more info
