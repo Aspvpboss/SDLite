@@ -36,6 +36,9 @@ int main(){
         return 1;
     }
 
+    int macro, minor, micro;
+    SDK_Version_GetNumbers(&macro, &minor, &micro);
+    printf("SDK version: %d.%d.%d\n", macro, minor, micro);
 
 
     SDK_Audio_Handler *audio_handler = SDK_Create_AudioHandler(4, 1.0f);
@@ -86,6 +89,7 @@ int main(){
     SDK_Sprite_UpdateScale(player, 8.0f);
     SDL_SetTextureScaleMode(SDK_Sprite_GetTexture(player), SDL_SCALEMODE_NEAREST);
 
+    
 
     SDK_Sprite *rectangle = SDK_Create_RectSprite((SDL_FRect){350, 0, 150, 150}, (SDL_Color){255, 0, 0, 0}, true);
 
@@ -96,7 +100,6 @@ int main(){
         return 1;
     }
 
-    printf("SDK version: %s\n", SDK_Version_GetString());
 
     // testing with these rects
     SDL_FRect a = {0.0f, 0.0f, 10.0f, 10.0f};

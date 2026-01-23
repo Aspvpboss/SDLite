@@ -19,10 +19,11 @@ extern "C"{
 #define SDK_MICRO_VERSION 0
 
 /* 
-    returns string for the current SDK version
-*/
-SDK1_API const char* SDK_Version_GetString();
+    takes in int* and writes the version numbers to those pointers
 
+    returns early if any pointer is NULL
+*/
+SDK1_API void SDK_Version_GetNumbers(int *major, int *minor, int *micro);
 
 #ifdef __cplusplus
 }

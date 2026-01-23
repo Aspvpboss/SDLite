@@ -7,6 +7,11 @@
 
 
 // some complex stuff here
-const char* SDK_Version_GetString(){
-    return "1.1.0";
+#include "SDK_version.h"
+void SDK_Version_GetNumbers(int *major, int *minor, int *micro){
+    if(!major || !minor || !micro) return; 
+
+    *major = SDK_MAJOR_VERSION;
+    *minor = SDK_MINOR_VERSION;
+    *micro = SDK_MICRO_VERSION;
 }
