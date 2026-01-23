@@ -24,7 +24,7 @@ extern "C" {
 typedef struct SDK_Text{
 
     void *const data;
-    const SDL_Rect render_rect;
+    const SDL_FRect render_rect;
 
 } SDK_Text;
 

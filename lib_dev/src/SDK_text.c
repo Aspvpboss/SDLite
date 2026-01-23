@@ -37,7 +37,7 @@ SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font
 
     data->engine = display->text_engine;
     data->color = color;
-    SDL_Rect *render_rect = (SDL_Rect *)&text->render_rect;
+    SDL_FRect *render_rect = (SDL_FRect *)&text->render_rect;
     render_rect->x = x;
     render_rect->y = y;
     data->font_size = font_size;
@@ -173,7 +173,7 @@ int SDK_Text_UpdatePosition(SDK_Text *text, int x, int y){
     if(!text) return 1;
 
     Text_Data *data = (Text_Data*)text->data;
-    SDL_Rect *render_rect = (SDL_Rect *)&text->render_rect;
+    SDL_FRect *render_rect = (SDL_FRect *)&text->render_rect;
    
 
     if(!TTF_SetTextPosition(data->text, x, y)){
@@ -199,7 +199,7 @@ int SDK_Text_UpdateSize(SDK_Text *text){
         return 1;
     }
 
-    SDL_Rect *render_rect = (SDL_Rect *)&text->render_rect;
+    SDL_FRect *render_rect = (SDL_FRect *)&text->render_rect;
 
     render_rect->w = w;
     render_rect->h = h;
@@ -246,9 +246,9 @@ int SDK_Render_Text(SDK_Text *text){
 
     Text_Data *data = (Text_Data*)text->data;
 
-    SDL_Rect *render_rect = (SDL_Rect *)&text->render_rect;
+    SDL_FRect *render_rect = (SDL_FRect *)&text->render_rect;
 
-    if(!TTF_DrawRendererText(data->text, (float)render_rect->x, (float)render_rect->y))
+    if(!TTF_DrawRendererText(data->text, render_rect->x, render_rect->y))
         return 1;
 
     return 0;
