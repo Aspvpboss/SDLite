@@ -31,7 +31,7 @@ enum SDK_CollisionType{
 
     returns 0 for no collision, 1 for collision, and -1 for failure
 */
-SDK1_API int SDK_RectCollision(const SDL_FRect *a, const SDL_FRect *b);
+SDK1_API int SDK_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b);
 
 /*
     Checks relative collisions between SDL_Rects 'target' and 'source'
@@ -40,7 +40,7 @@ SDK1_API int SDK_RectCollision(const SDL_FRect *a, const SDL_FRect *b);
 
     returns enum SDK_CollisionType for success, returns SDK_COLLISION_ERROR for failure  
 */
-SDK1_API enum SDK_CollisionType SDK_RectCollision_Dir(const SDL_FRect *target, const SDL_FRect *source);
+SDK1_API enum SDK_CollisionType SDK_Collision_RectDir(const SDL_FRect *target, const SDL_FRect *source);
 
 
 #ifdef __cplusplus

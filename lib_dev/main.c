@@ -107,14 +107,14 @@ int main(){
 
 
 
-    if(SDK_RectCollision(&a, &b)){
+    if(SDK_Collision_Rect(&a, &b)){
         printf("The rectangles are colliding\n");
     } else{
         printf("The rectangles aren't colliding\n");
     }
 
     // didn't feel like making all the switch statements
-    switch(SDK_RectCollision_Dir(&a, &b)){
+    switch(SDK_Collision_RectDir(&a, &b)){
 
         case(SDK_COLLISION_UP):
             printf("colliding on top\n");

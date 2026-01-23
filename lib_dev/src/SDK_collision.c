@@ -8,7 +8,7 @@
 #include "SDK_collision.h"
 
 
-int SDK_RectCollision(const SDL_FRect *a, const SDL_FRect *b){
+int SDK_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b){
 
     if(!a || !b) return -1;
 
@@ -23,7 +23,7 @@ int SDK_RectCollision(const SDL_FRect *a, const SDL_FRect *b){
 
 
 
-enum SDK_CollisionType SDK_RectCollision_Dir(const SDL_FRect *target, const SDL_FRect *source){
+enum SDK_CollisionType SDK_Collision_RectDir(const SDL_FRect *target, const SDL_FRect *source){
 
     if(!source || !target)
         return SDK_COLLISION_ERROR;

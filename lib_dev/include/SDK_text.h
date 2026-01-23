@@ -20,13 +20,11 @@ extern "C" {
     contains variables needed to display a string onto the screen
     you can read values from rect, but to change the actual values
     you must use SDK_Text_UpdatePosition
-    
-    Do not modify the values directly, use the SDK_Text functions
 */
 typedef struct SDK_Text{
 
-    void *data;
-    SDL_FRect rect;
+    void *const data;
+    const SDL_Rect render_rect;
 
 } SDK_Text;
 

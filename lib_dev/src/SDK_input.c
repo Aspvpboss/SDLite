@@ -47,10 +47,10 @@ SDK_Input* SDK_CreateInput(){
     data->current_mouse = 0;
     data->previous_mouse = 0;
 
-    float *mouse_x = (float *)&input->mouse_x;
-    *mouse_x = 0.0f;
-    float *mouse_y = (float *)&input->mouse_y;
-    *mouse_y = 0;
+    SDL_FPoint *mouse_pos = (SDL_FPoint *)&input->mouse_pos;
+
+    mouse_pos->x = 0.0f;
+    mouse_pos->y = 0.0f;
 
     return input;
 }
@@ -192,7 +192,9 @@ int SDK_Mouse_UpdatePosition(SDK_Input *input){
 
     if(!input) return 1;
 
-    SDL_GetMouseState((float *)&input->mouse_x, (float *)&input->mouse_y);
+    SDL_FPoint *mouse_pos = (SDL_FPoint *)&input->mouse_pos;
+
+    SDL_GetMouseState((float *)&mouse_pos->x, (float *)&mouse_pos->y);
 
     return 0;
 }

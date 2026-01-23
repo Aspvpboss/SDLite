@@ -16,13 +16,12 @@ extern "C"{
 #include "common_libs.h"
 
 /*
-
-    You can access the mouse_x and mouse_y values in your program
+    read from SDL_FPoint for mouse_pos
 */
 typedef struct{
 
     void *const data;
-    const float mouse_x, mouse_y;
+    const SDL_FPoint mouse_pos;
 
 } SDK_Input;
 

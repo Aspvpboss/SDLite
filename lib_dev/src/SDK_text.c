@@ -25,8 +25,8 @@ SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font
     SDK_Text *text = t_malloc(sizeof(SDK_Text));
 
     if(!text) return NULL;
-
-    text->data = t_malloc(sizeof(Text_Data));
+    void **t_data = (void **)&text->data;
+    *t_data = t_malloc(sizeof(Text_Data));
 
     if(!text->data){
         t_free(text);
@@ -37,8 +37,9 @@ SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font
 
     data->engine = display->text_engine;
     data->color = color;
-    text->rect.x = x;
-    text->rect.y = y;
+    SDL_Rect *render_rect = (SDL_Rect *)&text->render_rect;
+    render_rect->x = x;
+    render_rect->y = y;
     data->font_size = font_size;
     data->wrap_width = 0;
 
@@ -87,8 +88,8 @@ SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font
         return NULL;
     }
 
-    text->rect.w = w;
-    text->rect.h = h;
+    render_rect->w = w;
+    render_rect->h = h;
 
     return text;
 }
@@ -114,7 +115,6 @@ int SDK_Text_UpdateFont(SDK_Text *text, const char *font_path, float font_size){
     if(!text) return 1;
     
     if(font_path == NULL){
-        printf("font_path can't be null\n");
         return 1;
     }
 
@@ -173,13 +173,11 @@ int SDK_Text_UpdatePosition(SDK_Text *text, int x, int y){
     if(!text) return 1;
 
     Text_Data *data = (Text_Data*)text->data;
-
-    if(!TTF_SetTextPosition(data->text, x, y)){
+    SDL_Rect *render_rect = (SDL_Rect *)&text->render_rect;
+    
+    if(!TTF_SetTextPosition(data->text, render_rect->x, render_rect->y)){
         return 1;
     }
-
-    text->rect.x = x;
-    text->rect.y = y;
 
     return 0;
 }
