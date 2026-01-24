@@ -25,7 +25,8 @@ typedef struct{
     SDL_WindowFlags window_flag;
     SDL_Renderer *renderer;
     TTF_TextEngine *text_engine;
-    int width, height;
+    const int width; 
+    const int height;
 
 } SDK_Display;
 
