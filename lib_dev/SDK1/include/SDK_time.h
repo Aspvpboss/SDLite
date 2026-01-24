@@ -1,4 +1,18 @@
-#pragma once
+/*
+ * Copyright (c) 2026 Benjamin Vaughan
+ *
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for license information.
+*/
+
+#ifndef SDK_TIME_H
+#define SDK_TIME_H
+
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 #include "common_libs.h"
 
 
@@ -13,10 +27,11 @@
 */
 typedef struct{
 
-    double dt, fps;
-    int fps_limit;
-    bool fps_updated;
-    void *data;
+    const double dt;
+    const bool fps_updated;
+    const double fps;
+    double fps_limit;
+    void *const data;
 
 } SDK_Time;
 
@@ -27,10 +42,10 @@ typedef struct{
 
     fps_limit can be changed during runtime
 
-    returns 0 for success, returns 1 for failure
+    returns SDK_Time* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDK_Time* SDK_CreateTime(int fps_limit);
+SDK1_API SDK_Time* SDK_CreateTime(double fps_limit);
 
 /*
     Frees a SDK_Time
@@ -88,3 +103,9 @@ SDK1_API int SDK_CalculateFPS(SDK_Time *time);
 */
 SDK1_API int SDK_LimitFPS(SDK_Time *time);
 
+#ifdef __cplusplus
+}
+#endif
+
+
+#endif

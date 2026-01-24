@@ -1,4 +1,18 @@
-#pragma once
+/*
+ * Copyright (c) 2026 Benjamin Vaughan
+ *
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for license information.
+*/
+
+#ifndef SDK_INIT_H
+#define SDK_INIT_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 
 #include "common_libs.h"
 
@@ -30,3 +44,11 @@ SDK1_API int SDK_Init(
     If you are using SDK1_debug, it will print tracking info for any memory you haven't freed
 */
 SDK1_API void SDK_Quit();
+
+#ifdef __cplusplus
+}
+#endif
+
+
+
+#endif

@@ -1,30 +1,46 @@
-#pragma once
+/*
+ * Copyright (c) 2026 Benjamin Vaughan
+ *
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for license information.
+*/
+
+#ifndef SDK_SPRITE_H
+#define SDK_SPRITE_H
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 
 #include "../common_libs.h"
 #include "../SDK_display.h"
 #include "../SDK_time.h"
 
 
+/*
+    Three main sprite types
 
+    Rect - renders a simple color rect, either filled or not filled 
 
+    Static - renders a texture that was loaded from an image
+
+    Animated - renders an animated texture, it uses the image as a spritesheet
+
+*/
 enum SDK_SpriteType{
 
     SDK_STATIC_SPRITE,
-    SDK_ANIMATED_SPRITE
+    SDK_ANIMATED_SPRITE,
+    SDK_RECT_SPRITE
 
 };
 
-
-
-enum SDK_CollisionType{
-
-    SDK_COLLISION_NONE,
-    SDK_COLLISION_LEFT,
-    SDK_COLLISION_RIGHT,
-    SDK_COLLISION_UP,
-    SDK_COLLISION_DOWN,
-
-};
+/*
+    Only use this with stack arrays such as 'SDL_FRect frames[5];'
+    This macro calculates the amounts of frames with the array
+*/
+#define SDK_GET_ANIMATION_FRAMES(frames) sizeof(frames) / sizeof(SDL_FRect)
 
 
 
@@ -34,23 +50,11 @@ enum SDK_CollisionType{
 */
 typedef struct{
 
-    enum SDK_SpriteType sprite_type;
+    const enum SDK_SpriteType sprite_type;
+    void *const data;
 
-    union{
-
-        void *static_s;
-        void *animate_s;
-
-    } data;
-
-
-    SDL_Texture *texture;
     SDL_FRect render_rect;
-    SDL_Point entity_index;
-
     SDL_FlipMode flip_mode;
-    double base_width;
-    double base_height;
     double scale;
     double angle;
     SDL_FPoint pivot_point;
@@ -66,7 +70,7 @@ typedef struct{
 
     SDK_Sprite needs to be freed by SDK_DestroySprite()
 
-    returns 0 for success, returns 1 for failure
+    returns SDK_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
 SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
@@ -79,10 +83,22 @@ SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *t
 
     SDK_Sprite needs to be freed by SDK_DestroySprite()
 
-    returns 0 for success, returns 1 for failure
+    returns SDK_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
 SDK1_API SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
+
+
+
+/*
+    Creates a rectangle SDK_Sprite with the specified attributes
+
+    SDK_Sprite needs to be freed by SDK_DestroySprite()
+
+    returns SDK_Sprite* for success, returns NULL for failure
+    call SDL_GetError() for more info
+*/
+SDK1_API SDK_Sprite* SDK_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled);
 
 
 /*
@@ -100,20 +116,36 @@ SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
 */
 SDK1_API int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite);
 
-/*
-    Adds an animation onto an animated sprite
 
+/*
+    Returns the SDL_Texture* of the given SDK_Sprite*
+
+    returns SDL_Texture* for success, returns NULL for failure
+*/
+SDK1_API SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite);
+
+
+/*
+    Allocations storage for animations in the SDK_Sprite*
+
+    Function will use realloc if called a multiple times 
+    Recommended to just call this function once per sprite
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t animation_capacity);
+
+
+/*
+    Adds an animation at the specified index in the animated_sprite
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_Sprite_AddAnimation(
-    SDK_Sprite *animated_sprite, SDL_FRect src_rect, 
-    uint8_t amount_frames, double fps, double offset_width, 
-    bool loop_animation, bool play_animation);
+SDK1_API int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect *frames, uint8_t amount_frames, double fps, uint16_t animation_index);
 
 /*
-    Updates timing and data needed for proper animation
+    Updates frames of an animation, must be called once per frame for animations to work
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
@@ -123,46 +155,74 @@ SDK1_API int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *t
 /*
     Selects an animation within the SDK_Sprite
 
-    will return 1 if 'uint8_t animation_select' is greater than the amount of animations in the sprite
+    function will fail if 'animation_select' is greater than the amount of animations allocated in the sprite
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint8_t animation_select);
+SDK1_API int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index);
+
 
 /*
-    This will set the play_animation bool within a sprite, the animation will play once set to true
+    Sets the bool that plays the selected animation once
+    
+    If you set the bool to true it will play the animation once
+    After the animation is done playing, the bool will be set to false
 
-    If you set it false before the animation completes, the animation will automatically reset
+    If you set the bool to false while the animation is playing, the animation will simply reset and stop
+    
+    Animation will not play if it isn't enabled by SDK_Sprite_EnableAnimation(); 
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
 */
-SDK1_API int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, bool play_animation);
+SDK1_API int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool play);
+
+
 
 /*
-    This will set the loop_animation bool within the SDK_Sprite,
-    the animation will loop until you set loop_animation to false
+    Sets the bool that loops the selected animation
+    If you set the bool to true it will loop the animation
+    If you set the bool to false it will stop looping the animatio
+
+    Animation will not play if it isn't enabled by SDK_Sprite_EnableAnimation();
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
 */
-SDK1_API int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, bool loop_animation);
+SDK1_API int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool loop);
+
+
 
 /*
-    This will update the render_rect of a sprite with the 'double new_scale' value
+    Sets the bool that enables the selected animation 
+    If you set the bool to true it will enable the animation to play
+    If you set the bool to false it will disable the animation from playing
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_EnableAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
+
+
+/*
+    Sets new color to rect SDK_Sprite*
+
+    Functions only fails if SDK_Sprite* is NULL or if it isn't a SDK_RECT_SPRITE 
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_SetRectColor(SDK_Sprite *rect_sprite, SDL_Color color);
+
+/*
+    Scales the width and height of the render_rect relative to the original width and height when the sprite was created
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
 SDK1_API int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale);
 
-/*
-    Check collisions between render_rects of sprite_src relatively to sprite_dest
 
-    returns enum SDK_CollisionType, look in SDK_sprite.h for enum names
-*/
-SDK1_API enum SDK_CollisionType SDK_Sprite_CheckCollision(SDK_Sprite *sprite_src, SDK_Sprite *sprite_dest);
+#ifdef __cplusplus
+}
+#endif
 
 
-
+#endif  
