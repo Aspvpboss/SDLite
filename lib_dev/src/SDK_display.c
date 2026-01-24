@@ -15,8 +15,10 @@ SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int w
 
     SDK_Display *display = t_malloc(sizeof(SDK_Display));
     display->window_flag = window_flag;
-    display->width = window_width;
-    display->height = window_height;
+    int *width = (int *)&display->width;
+    *width = window_width;
+    int *height = (int *)&display->height;
+    *height = window_height;
 
 
     display->window = SDL_CreateWindow(window_title, window_width, window_height, window_flag);
@@ -74,8 +76,10 @@ int SDK_DisplaySetWindowed(SDK_Display *display, int width, int height){
         return 1;
     }
 
-    display->width = width;
-    display->height = height;
+    int *p_width = (int *)&display->width;
+    *p_width = width;
+    int *p_height = (int *)&display->height;
+    *p_height = height;
 
     return 0;
 }
@@ -88,7 +92,7 @@ int SDK_DisplaySetFullscreen(SDK_Display *display){
         return 1;
     }
 
-    if(!SDL_GetWindowSize(display->window, &display->width, &display->height)){
+    if(!SDL_GetWindowSize(display->window, (int *)&display->width, (int *)&display->height)){
         return 1;
     }
 
