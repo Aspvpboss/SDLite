@@ -79,3 +79,10 @@ This SDK is designed to:
 
 This project is licensed under the MIT License.  
 See the LICENSE file for details.
+
+SDL is licensed under the zlib license.
+Copyright (C) 1997-2025 Sam Lantinga.
+See licenses/SDL_LICENSE.txt for details.
+
+Credits:
+- SDL (Simple DirectMedia Layer) by Sam Lantinga and contributors
