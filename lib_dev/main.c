@@ -179,7 +179,7 @@ int main(){
             update_text(text, time->fps);
          
 
-        SDL_RenderClear(display->renderer);
+        SDK_DisplayClear(display);
 
         SDK_SpriteManager_QueueSprite(manager, player, 1); 
         SDK_SpriteManager_QueueSprite(manager, square, 0); 
@@ -188,8 +188,7 @@ int main(){
         SDK_Render_SpriteManager(display, manager);
         SDK_Render_Text(text);
 
-        SDL_RenderPresent(display->renderer);
-
+        SDK_DisplayPresent(display);
 
         SDK_Sprite_UpdateAnimation(player, time);
         SDK_TimeFunctions(time);

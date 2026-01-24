@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDK1/SDK.h"
+#include "SDK.h"
 #include <math.h>
 
 

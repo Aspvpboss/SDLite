@@ -48,6 +48,24 @@ SDK1_API SDK_Display* SDK_CreateDisplay(const char* window_title, int window_wid
 */
 SDK1_API void SDK_DestroyDisplay(SDK_Display *display);
 
+/*
+    Clears all rendered objects (SDK_Sprite, SDK_Text) from the screen
+
+    returns 0 for success, returns 1 for failure
+*/
+static inline int SDK_DisplayClear(SDK_Display *display){
+    return !SDL_RenderClear(display->renderer);
+}
+
+
+/*
+    Present all rendered objects (SDK_Sprite, SDK_Text) to the screen 
+
+    returns 0 for success, returns 1 for failure
+*/
+static inline int SDK_DisplayPresent(SDK_Display *display){
+    return !SDL_RenderPresent(display->renderer);
+}
 
 
 /*
