@@ -2,7 +2,6 @@
 // the entire file is just bad practice, but idc
 
 #include "SDK.h"
-#include "SDL3/SDL_surface.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
@@ -159,6 +158,9 @@ int main(){
 
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP)){
             SDK_Audio_PlayTrack(audio_handler, 0);
+        }
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_DOWN)){
+            SDK_Audio_StopTrack(audio_handler, 0, 24000);
         }
 
 
