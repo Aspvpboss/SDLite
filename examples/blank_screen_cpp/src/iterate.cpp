@@ -4,7 +4,7 @@
 #include "frame_events.h"
 
 
-SDL_AppResult SDL_AppIterate(void *appstate){
+extern "C" SDL_AppResult SDL_AppIterate(void *appstate){
 
     Appstate *state = (Appstate*)(appstate);
 

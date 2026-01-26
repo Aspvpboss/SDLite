@@ -1,7 +1,7 @@
 
-GCC = gcc
+GCC = g++
 
-SRC = $(wildcard src/*.c)
+SRC = $(wildcard src/*.cpp)
 OUT = build/blank_screen.exe
 
 INCLUDE = -ISDK1/include -Iinclude 
@@ -9,7 +9,7 @@ LIB = -LSDK1/lib
 LINK = -lSDL3 -lSDL3_image -lSDL3_mixer -lSDL3_ttf
 
 
-W_FLAGS = -Wall -Werror -Wpedantic
+W_FLAGS = -Wall -Werror
 OPT_FLAG = -O2 -s
 DEBUG_FLAG = -g
 

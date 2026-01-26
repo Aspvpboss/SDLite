@@ -1,11 +1,11 @@
 
 #define SDL_MAIN_USE_CALLBACKS 1
 
-#include "init.h"
 #include "SDL3/SDL_main.h"
+#include "init.h"
 
-
-SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
+// bruh why do these need to be extern "C", I strongly dislike C++
+extern "C" SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
     SDK_Init(NULL, NULL, true, true, false);
 

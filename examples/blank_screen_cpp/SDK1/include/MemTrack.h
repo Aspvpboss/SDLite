@@ -1,6 +1,4 @@
 /* 
-    MIT License
-
     Copyright (c) 2026 Benjamin Vaughan
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -223,10 +221,10 @@ MEMTRACK_API void* safe_malloc(size_t size);
 MEMTRACK_API void* safe_realloc(void *memory, size_t size);
 MEMTRACK_API char* safe_strdup(const char *src);
 
-MEMTRACK_API void debug_free(void **mem, char *file, int line);
-MEMTRACK_API void* debug_malloc(size_t size, char *file, int line);
-MEMTRACK_API void* debug_realloc(void *mem, size_t size, char *file, int line);
-MEMTRACK_API char* debug_strdup(const char* src, char *file, int line);
+MEMTRACK_API void debug_free(void **mem, const char *file, int line);
+MEMTRACK_API void* debug_malloc(size_t size, const char *file, int line);
+MEMTRACK_API void* debug_realloc(void *mem, size_t size, const char *file, int line);
+MEMTRACK_API char* debug_strdup(const char* src, const char *file, int line);
 
 
 
@@ -367,8 +365,8 @@ void print_tracking_info(){
 }
 
 
-static int append_allocation(void *ptr, char *file, int line, size_t size){
-    Mem_Info *node = malloc(sizeof(Mem_Info));
+static int append_allocation(void *ptr, const char *file, int line, size_t size){
+    Mem_Info *node = (Mem_Info *)malloc(sizeof(Mem_Info));
     if(!node)
         return 1;
     node->size = size;
@@ -498,7 +496,7 @@ static void check_malloc_error(void *mem){
     return; 
 }
 
-static void debug_check_malloc_error(void *mem, char *file, int line){
+static void debug_check_malloc_error(void *mem, const char *file, int line){
 
     if(mem || !check_context_init())
         return;
@@ -547,7 +545,7 @@ void safe_free(void **mem){
 
 }
 
-void debug_free(void **mem, char *file, int line){
+void debug_free(void **mem, const char *file, int line){
 
     if(!mem || !(*mem))
         return;
@@ -567,7 +565,7 @@ void debug_free(void **mem, char *file, int line){
 }
 
 
-void* debug_malloc(size_t size, char *file, int line){
+void* debug_malloc(size_t size, const char *file, int line){
 
     void *mem = malloc(size);
 
@@ -589,7 +587,7 @@ void* debug_malloc(size_t size, char *file, int line){
 }
 
 
-void* debug_realloc(void *mem, size_t size, char *file, int line){
+void* debug_realloc(void *mem, size_t size, const char *file, int line){
 
     if(!mem){
         void *new_mem = debug_malloc(size, file, line);
@@ -625,14 +623,14 @@ void* debug_realloc(void *mem, size_t size, char *file, int line){
     return new_mem;
 }
 
-char* debug_strdup(const char* src, char *file, int line){
+char* debug_strdup(const char* src, const char *file, int line){
 
     if(!src)
         return NULL;
 
     size_t src_len = strlen(src);
 
-    char *dup = debug_malloc(sizeof(char) * (src_len + 1), file, line);
+    char *dup = (char *)debug_malloc(sizeof(char) * (src_len + 1), file, line);
     if(!dup)
         return NULL;
 
