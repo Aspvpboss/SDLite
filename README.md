@@ -1,8 +1,16 @@
-# SDK Version 1.1.0
+# SDK Version 1.1.1
 
-SDK is a lightweight C framework built on top of **SDL3**, designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
+SDK is a lightweight C / C++ framework built on top of **SDL3**, designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
 
 This framework is intended to be a **generic SDL helper library**, slightly tailored toward 2D game development.
+
+---
+
+## Patch Notes
+
+- fixed bugs with C++ support, C++ is now supported
+- added blank_scree_cpp example
+
 
 ---
 
@@ -45,7 +53,7 @@ Additionally, the included **MemTrack** library header contains documentation fo
 
 ## Prerequisites
 
-This framework assumes you already have a basic understanding of SDL.  
+This framework assumes you already have a basic understanding of SDL, and are comfortable with C / C++.  
 Knowing how SDL works internally will make the SDK much easier to understand and use effectively.
 
 ---
