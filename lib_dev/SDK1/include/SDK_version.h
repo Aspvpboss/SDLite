@@ -16,7 +16,7 @@ extern "C"{
 
 #define SDK_MAJOR_VERSION 1
 #define SDK_MINOR_VERSION 1
-#define SDK_MICRO_VERSION 0
+#define SDK_MICRO_VERSION 1
 
 /* 
     takes in int* and writes the version numbers to those pointers

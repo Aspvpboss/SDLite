@@ -45,6 +45,26 @@ debug_build: build_lib
 opt_build: build_lib
 	@${GCC} ${OPT} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -DSTDLIB_ALLOCATIONS -lSDK1 ${LINK} ${LIB} ${FLAGS}  
 
-run:
+run: 
 	@${OUTPUT}
+
+
+
+
+G++ = g++
+OUTPUT_CPP = test_build/out_cpp.exe  
+FLAGS_CPP = -Wall -Werror
+
+all_cpp: json debug_build_cpp run_cpp 
+
+opt_cpp: json opt_build_cpp run_cpp
+
+debug_build_cpp:
+	@${G++} -g main.cpp -o ${OUTPUT_CPP} -Iinclude ${INCLUDE} -DTRACK_ALLOCATIONS -lSDK1_debug ${LINK} ${LIB} ${FLAGS_CPP}  
+
+opt_build_cpp:
+	@${G++} ${OPT} main.cpp -o ${OUTPUT_CPP} -Iinclude ${INCLUDE} -DSTDLIB_ALLOCATIONS -lSDK1 ${LINK} ${LIB} ${FLAGS_CPP}  
+
+run_cpp:
+	@${OUTPUT_CPP}
 
