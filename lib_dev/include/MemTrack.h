@@ -163,7 +163,7 @@ extern "C"{
 #endif
 
 // uncomment this for use in DLLs
-// #define MEMTRACK_DLL
+#define MEMTRACK_DLL
 
 #if defined(MEMTRACK_DLL)
 
