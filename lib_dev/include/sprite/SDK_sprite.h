@@ -120,10 +120,20 @@ SDK1_API int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite);
 /*
     Returns the SDL_Texture* of the given SDK_Sprite*
 
+    will fail if SDK_Sprite* or SDL_Texture* are NULL, or if the SDK_Sprite* is a SDK_RECT_SPRITE 
+    
     returns SDL_Texture* for success, returns NULL for failure
 */
 SDK1_API SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite);
 
+/*
+    Sets the SDL_Texture* of the given SDK_Sprite*
+
+    will fail if SDK_Sprite* or SDL_Texture* are NULL, or if the SDK_Sprite* is a SDK_RECT_SPRITE 
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_SetTexture(SDK_Sprite *sprite, SDL_Texture *texture);
 
 /*
     Allocations storage for animations in the SDK_Sprite*

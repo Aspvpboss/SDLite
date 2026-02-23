@@ -40,6 +40,8 @@ int main(){
         return 1;
     }
 
+
+
     void *data = NULL;
     SDL_Thread *thread = SDL_CreateThread(thread_func, "function", data);
     int result = 0;
@@ -57,6 +59,7 @@ int main(){
     SDK_Text *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
 
+    
 
     MIX_Audio *audio = MIX_LoadAudio(audio_handler->mixer, "SDK1/assets/sample_mp3.mp3", true);
     if(!audio){

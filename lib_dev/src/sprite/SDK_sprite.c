@@ -34,11 +34,15 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
 
     SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
 
-    data->texture = IMG_LoadTexture(display->renderer, texture_path);
-    if(!data->texture){
-        t_free(data);
-        t_free(sprite);
-        return NULL;
+    if(texture_path){
+        data->texture = IMG_LoadTexture(display->renderer, texture_path);
+        if(!data->texture){
+            t_free(data);
+            t_free(sprite);
+            return NULL;
+        }
+    } else{
+        data->texture = NULL;
     }
 
      
@@ -59,52 +63,26 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
 
 
 
+int SDK_Sprite_SetTexture(SDK_Sprite *sprite, SDL_Texture *texture){
 
+    if(!sprite || !texture) return 1;
 
-
-
-SDK_Sprite* SDK_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled){
-
-    SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
-
-    if(!sprite){
-        return NULL;
+    if(sprite->sprite_type == SDK_STATIC_SPRITE){
+        SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
+        data->texture = texture;
+        texture++;
+        return 0; 
     }
 
-    enum SDK_SpriteType *sprite_type = (enum SDK_SpriteType *)&sprite->sprite_type;
-    *sprite_type = SDK_RECT_SPRITE;
-
-    void **data_t = (void **)&sprite->data;
-    
-    *data_t = t_malloc(sizeof(SDK_RectSprite_Data));
-
-    if(!sprite->data){
-        t_free(sprite);
-        return NULL;
+    if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
+        SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
+        data->texture = texture;
+        texture++; 
+        return 0;
     }
 
-    SDK_RectSprite_Data *data = (SDK_RectSprite_Data*)sprite->data;
-  
-    sprite->render_rect = rect;
-    sprite->scale = 1.0f;
-    sprite->angle = 0.0f;
-    sprite->flip_mode = SDL_FLIP_NONE;
-    sprite->pivot_point = (SDL_FPoint){0.0f, 0.0f};
-
-    data->is_filled = is_filled;
-    data->color = color;
-    data->base_height = rect.h;
-    data->base_width = rect.w;
-
-    return sprite;
+    return 1;
 }
-
-
-
-
-
-
-
 
 
 

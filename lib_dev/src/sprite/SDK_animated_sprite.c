@@ -25,13 +25,16 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 
     SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
 
-    data->texture = IMG_LoadTexture(display->renderer, texture_path);
-    if(!data->texture){
-        t_free(data);
-        t_free(sprite);
-        return NULL;
+    if(texture_path){
+        data->texture = IMG_LoadTexture(display->renderer, texture_path);
+        if(!data->texture){
+            t_free(data);
+            t_free(sprite);
+            return NULL;
+        }
+    } else{
+        data->texture = NULL;
     }
-
 
     data->amount_animation = 0;
     data->current_animation = 0;
