@@ -23,8 +23,6 @@ extern "C"{
 #include "SDK_version.h"
 
 #include "sprite/SDK_sprite.h"
-#include "sprite/SDK_rect_sprite.h"
-#include "sprite/SDK_animated_sprite.h"
 #include "sprite/SDK_sprite_manager.h"
 
 
