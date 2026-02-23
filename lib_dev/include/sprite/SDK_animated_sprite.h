@@ -3,6 +3,11 @@
 
 #include "sprite/SDK_sprite.h"
 
+/*
+    Only use this with stack arrays such as 'SDL_FRect frames[5];'
+    This macro calculates the amounts of frames with the array
+*/
+#define SDK_GET_ANIMATION_FRAMES(frames) sizeof(frames) / sizeof(SDL_FRect)
 
 
 

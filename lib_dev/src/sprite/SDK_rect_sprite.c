@@ -1,4 +1,4 @@
-#include "sprite/SDK_sprite.h"
+#include "sprite/SDK_rect_sprite.h"
 #include "SDK_sprite_internal.h"
 
 
