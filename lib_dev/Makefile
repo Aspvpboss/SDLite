@@ -22,13 +22,8 @@ DEBUG_DLL_FLAGS = -fPIC -shared  -Wl,--out-implib,SDK1/lib/libSDK1_debug.a
 
 default: debug_build run
 
-all: json default
-
 opt: opt_build run
 
-
-json:
-	@compiledb -n -- make build_lib
 
 
 build_lib: opt_build_lib
@@ -55,9 +50,9 @@ G++ = g++
 OUTPUT_CPP = test_build/out_cpp.exe  
 FLAGS_CPP = -Wall -Werror
 
-all_cpp: json debug_build_cpp run_cpp 
+all_cpp: debug_build_cpp run_cpp 
 
-opt_cpp: json opt_build_cpp run_cpp
+opt_cpp: opt_build_cpp run_cpp
 
 debug_build_cpp:
 	@${G++} -g main.cpp -o ${OUTPUT_CPP} -Iinclude ${INCLUDE} -DTRACK_ALLOCATIONS -lSDK1_debug ${LINK} ${LIB} ${FLAGS_CPP}  

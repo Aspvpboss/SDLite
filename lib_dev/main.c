@@ -1,4 +1,4 @@
-// this is my test file for the framework
+// this is the test file for the framework
 // the entire file is just bad practice, but idc
 
 #include "SDK.h"
@@ -28,13 +28,22 @@ void update_text(SDK_Text *text, double fps){
 }
 
 
+int thread_func(void *ptr){
+    t_malloc(10);
+    return 0;
+}
 
 
 int main(){
 
-    if(SDK_Init(NULL, NULL, true, true, true)){
+    if(SDK_Init(NULL, NULL, true, true)){
         return 1;
     }
+
+    void *data = NULL;
+    SDL_Thread *thread = SDL_CreateThread(thread_func, "function", data);
+    int result = 0;
+    SDL_WaitThread(thread, &result);
 
     int macro, minor, micro;
     SDK_Version_GetNumbers(&macro, &minor, &micro);

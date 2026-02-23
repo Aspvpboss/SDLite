@@ -36,7 +36,7 @@ extern "C" {
     call SDL_GetError() for more info    
 */
 SDK1_API int SDK_Init(
-    void (*func)(void*), void *func_data, bool memory_failure_abort, bool print_memtrack_info, bool auto_null_pointers);
+    void (*func)(void*), void *func_data, bool memory_failure_abort, bool auto_null_pointers);
 
 /*
     deinitializes all SDL systems, and MemTrack for SDK
