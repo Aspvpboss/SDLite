@@ -10,7 +10,7 @@ SRC_LIB = $(wildcard src/*.c src/sprite/*.c)
 
 
 FLAGS = -Wall -Werror -Wpedantic
-OPT = -O3 -s -flto -fomit-frame-pointer -mtune=generic -fstack-protector-strong -D_FORTIFY_SOURCE=2
+OPT = -O2 
 OUTPUT = test_build/out.exe
 
 DLL_EXPORT = -DDLL_EXPORTS -DMEMTRACK_BUILD_DLL
@@ -27,7 +27,7 @@ opt: opt_build run
 
 
 build_lib: opt_build_lib
-	@${GCC} -g ${SRC_LIB} -o ${DEBUG_DLL_OUTPUT} -DTRACK_ALLOCATIONS ${DLL_EXPORT} ${DEBUG_DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
+	${GCC} -g ${SRC_LIB} -o ${DEBUG_DLL_OUTPUT} -DTRACK_ALLOCATIONS ${DLL_EXPORT} ${DEBUG_DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
 
 opt_build_lib:
 	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} ${DLL_EXPORT} ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}	

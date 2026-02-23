@@ -22,8 +22,8 @@
 
 
 
-#ifndef MEMTRACK_test_H
-#define MEMTRACK_test_H 
+#ifndef MEMTRACK_SDK_H
+#define MEMTRACK_SDK_H 
 
 
 #ifdef __cplusplus 
@@ -34,6 +34,7 @@ extern "C"{
 #include "SDL3/SDL_stdinc.h"
 #include "SDL3/SDL_mutex.h"
 #include <stdlib.h>
+#include <stdbool.h>
 
 // uncomment this for use in DLLs
 #define MEMTRACK_DLL
@@ -55,7 +56,6 @@ extern "C"{
 #endif
 
 
-#include <stdbool.h>
 
 // changes these macros to use what functions you want, be careful
 
