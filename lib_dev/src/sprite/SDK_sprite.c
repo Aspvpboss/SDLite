@@ -70,14 +70,14 @@ int SDK_Sprite_SetTexture(SDK_Sprite *sprite, SDL_Texture *texture){
     if(sprite->sprite_type == SDK_STATIC_SPRITE){
         SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
         data->texture = texture;
-        texture++;
+        texture->refcount++;
         return 0; 
     }
 
     if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
         SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
         data->texture = texture;
-        texture++; 
+        texture->refcount++; 
         return 0;
     }
 
