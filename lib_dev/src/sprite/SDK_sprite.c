@@ -260,6 +260,54 @@ int SDK_Sprite_SetAngle(SDK_Sprite *sprite, double angle){
 
 
 
+int SDK_Sprite_SetPivotPoint(SDK_Sprite *sprite, SDL_FPoint pivot_point){
+
+    if(!sprite) return 1;
+
+    sprite->pivot_point = pivot_point;
+
+    return 0;
+}
+
+
+
+
+int SDK_Sprite_GetPivotPoint(SDK_Sprite *sprite, SDL_FPoint *pivot_point){
+
+    if(!sprite || !pivot_point) return 1;
+
+    *pivot_point = sprite->pivot_point;
+
+    return 0;
+}
+
+
+
+
+int SDK_Sprite_SetFlipMode(SDK_Sprite *sprite, SDL_FlipMode flip_mode){
+
+    if(!sprite) return 1;
+
+    sprite->flip_mode = flip_mode;
+
+    return 0;
+}
+
+
+
+
+int SDK_Sprite_GetFlipMode(SDK_Sprite *sprite, SDL_FlipMode *flip_mode){
+
+    if(!sprite || !flip_mode) return 1;
+
+    *flip_mode = sprite->flip_mode;
+
+    return 0;
+}
+
+
+
+
 void SDK_DestroySprite(SDK_Sprite *sprite){
 
     if(!sprite) return;

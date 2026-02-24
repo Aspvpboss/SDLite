@@ -75,6 +75,7 @@ SDK1_API SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite);
 
 /*
     Sets the SDL_Texture* of the given SDK_Sprite*
+    The SDL_Texture* is used when rendering the SDK_Sprite*
 
     Will fail if SDK_Sprite* or SDL_Texture* are NULL, or if the SDK_Sprite* is a SDK_RECT_SPRITE 
 
@@ -84,9 +85,9 @@ SDK1_API int SDK_Sprite_SetTexture(SDK_Sprite *sprite, SDL_Texture *texture);
 
 
 /*
-    Fills in double pointer with the scale of the SDK_Sprite*
+    Fills in double* with the scale of the SDK_Sprite*
 
-    Will fail if SDK_Sprite* is NULL or if scale if NULL
+    Will fail if SDK_Sprite* is NULL or if scale is NULL
 
     returns 0 for success, returns 1 for failure
 */
@@ -94,6 +95,7 @@ SDK1_API int SDK_Sprite_GetScale(SDK_Sprite *sprite, double *scale);
 
 /*
     Scales the width and height of the render_rect relative to the original width and height when the sprite was created
+    The scale is used when rendering the SDK_Sprite*
 
     Will fail if SDK_Sprite* is NULL or if the new_scale <= 0.0f
 
@@ -104,7 +106,7 @@ SDK1_API int SDK_Sprite_SetScale(SDK_Sprite *sprite, double new_scale);
 
 
 /*
-    Fills in double pointer with the angle of the SDK_Sprite*
+    Fills in double* with the angle in degrees of the SDK_Sprite*
 
     Will fail if SDK_Sprite* is NULL or if angle is NULL
 
@@ -114,7 +116,8 @@ SDK1_API int SDK_Sprite_GetAngle(SDK_Sprite *sprite, double *angle);
 
 
 /*
-    Sets the angle of the SDK_Sprite*
+    Sets the angle in degrees of the SDK_Sprite*
+    The angle is used for rendering the SDK_Sprite*
 
     Will fail if SDK_Sprite* is NULL
 
@@ -123,6 +126,38 @@ SDK1_API int SDK_Sprite_GetAngle(SDK_Sprite *sprite, double *angle);
 SDK1_API int SDK_Sprite_SetAngle(SDK_Sprite *sprite, double angle);
 
 
+/*
+    Fills in SDL_FPoint* with the SDL_FPoint of the SDK_Sprite*
+
+    Will fail if SDK_Sprite* is NULL or if pivot_point is NULL
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_GetPivotPoint(SDK_Sprite *sprite, SDL_FPoint *pivot_point);
+
+/*
+    Sets the pivot_point of the SDK_Sprite*
+    The pivot_point is where on the sprite it rotates around when rendered
+
+    Will fail if SDK_Sprite* is NULL
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_SetPivotPoint(SDK_Sprite *sprite, SDL_FPoint pivot_point);
+
+
+SDK1_API int SDK_Sprite_GetFlipMode(SDK_Sprite *sprite, SDL_FlipMode *flip_mode);
+
+
+/*
+    Sets the SDL_FlipMode of the SDK_Sprite*
+    The SDL_FlipMode is used when rendering the SDK_Sprite*
+
+    Will fail if SDK_Sprite* is NULL
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_SetFlipMode(SDK_Sprite *sprite, SDL_FlipMode flip_mode);
 
 /* ============== Animated sprite functions ============== */
 
