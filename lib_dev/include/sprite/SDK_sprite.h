@@ -14,8 +14,8 @@ extern "C"{
 
 
 #include "../common_libs.h"
-#include "../SDK_display.h"
-#include "../SDK_time.h"
+#include "SDK_display.h"
+#include "SDK_time.h"
 
 
 /*
@@ -28,34 +28,10 @@ extern "C"{
     Animated - renders an animated texture, it uses the image as a spritesheet
 
 */
-enum SDK_SpriteType{
-
-    SDK_STATIC_SPRITE,
-    SDK_ANIMATED_SPRITE,
-    SDK_RECT_SPRITE
-
-};
 
 
+typedef struct SDK_Sprite SDK_Sprite;
 
-
-/*
-    contains data for static / animated sprites
-    enum SDK_SpriteType sprite_type determines whether it is animated or static
-*/
-typedef struct{
-
-    const enum SDK_SpriteType sprite_type;
-    void *const data;
-
-    SDL_FRect render_rect;
-    SDL_FlipMode flip_mode;
-    double scale;
-    double angle;
-    SDL_FPoint pivot_point;
-    
-
-} SDK_Sprite;
 
 /* ============== Static sprite / general sprite functions ============== */
 
@@ -107,14 +83,32 @@ SDK1_API SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite);
 SDK1_API int SDK_Sprite_SetTexture(SDK_Sprite *sprite, SDL_Texture *texture);
 
 
+/*
+    Fills in double pointer with the scale of the SDK_Sprite*
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_GetScale(SDK_Sprite *sprite, double *scale);
 
 /*
     Scales the width and height of the render_rect relative to the original width and height when the sprite was created
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
 */
-SDK1_API int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale);
+SDK1_API int SDK_Sprite_SetScale(SDK_Sprite *sprite, double new_scale);
+
+
+
+/*
+    Fills in double pointer with the angle of the SDK_Sprite*
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_GetAngle(SDK_Sprite *sprite, double *angle);
+
+
+
+SDK1_API int SDK_Sprite_SetAngle(SDK_Sprite *sprite, double angle);
 
 
 

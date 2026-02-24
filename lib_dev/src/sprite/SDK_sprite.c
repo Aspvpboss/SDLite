@@ -21,8 +21,7 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
     if(!sprite)
         return NULL;
 
-    enum SDK_SpriteType *sprite_type = (enum SDK_SpriteType *)&sprite->sprite_type;
-    *sprite_type = SDK_STATIC_SPRITE;
+    sprite->sprite_type = SDK_STATIC_SPRITE;
 
     void **data_t = (void **)&sprite->data;
     *data_t = t_malloc(sizeof(SDK_StaticSprite_Data));
@@ -183,10 +182,17 @@ int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
     return 0;
 }
 
+int SDK_Sprite_GetScale(SDK_Sprite *sprite, double *scale){
+    
+    if(!sprite || !scale) return 1;
+
+    *scale = sprite->scale;
+
+    return 0;
+}
 
 
-
-int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale){
+int SDK_Sprite_SetScale(SDK_Sprite *sprite, double new_scale){
 
     if(!sprite || new_scale <= 0.0f)
         return 1;
@@ -223,6 +229,30 @@ int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale){
         render_rect->h = data->base_height * new_scale;
 
     }  
+
+    return 0;
+}
+
+
+
+
+int SDK_Sprite_GetAngle(SDK_Sprite *sprite, double *angle){
+
+    if(!sprite || !angle) return 1;
+
+    *angle = sprite->angle;
+
+    return 0;
+}
+
+
+
+
+int SDK_Sprite_SetAngle(SDK_Sprite *sprite, double angle){
+
+    if(!sprite) return 1;
+
+    sprite->angle = angle;
 
     return 0;
 }

@@ -1,4 +1,4 @@
-#include "sprite/SDK_animated_sprite.h"
+#include "sprite/SDK_sprite.h"
 #include "SDK_sprite_internal.h"
 
 
@@ -10,9 +10,8 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 
     if(!sprite)
         return NULL;
-    
-    enum SDK_SpriteType *sprite_type = (enum SDK_SpriteType *)&sprite->sprite_type;
-    *sprite_type = SDK_ANIMATED_SPRITE;
+
+    sprite->sprite_type = SDK_ANIMATED_SPRITE;
 
     void **data_t = (void **)&sprite->data;
     

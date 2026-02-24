@@ -2,6 +2,24 @@
 #define SDK_SPRITE_INTERNAL_H
 
 #include "common_libs.h"
+#include "SDK_display.h"
+#include "SDK_time.h"
+#include "sprite/SDK_sprite_type.h"
+
+struct SDK_Sprite{
+
+    enum SDK_SpriteType sprite_type;
+    void *data;
+
+    SDL_FRect render_rect;
+    SDL_FlipMode flip_mode;
+    double scale;
+    double angle;
+    SDL_FPoint pivot_point;
+
+};
+
+
 
 typedef struct{
 

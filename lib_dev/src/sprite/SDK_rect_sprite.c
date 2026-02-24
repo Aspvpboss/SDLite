@@ -1,4 +1,4 @@
-#include "sprite/SDK_rect_sprite.h"
+#include "sprite/SDK_sprite.h"
 #include "SDK_sprite_internal.h"
 
 
@@ -12,8 +12,7 @@ SDK_Sprite* SDK_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_fille
         return NULL;
     }
 
-    enum SDK_SpriteType *sprite_type = (enum SDK_SpriteType *)&sprite->sprite_type;
-    *sprite_type = SDK_RECT_SPRITE;
+    sprite->sprite_type = SDK_RECT_SPRITE;
 
     void **data_t = (void **)&sprite->data;
     
