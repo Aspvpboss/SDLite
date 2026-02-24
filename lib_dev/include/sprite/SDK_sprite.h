@@ -76,7 +76,7 @@ SDK1_API SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite);
 /*
     Sets the SDL_Texture* of the given SDK_Sprite*
 
-    will fail if SDK_Sprite* or SDL_Texture* are NULL, or if the SDK_Sprite* is a SDK_RECT_SPRITE 
+    Will fail if SDK_Sprite* or SDL_Texture* are NULL, or if the SDK_Sprite* is a SDK_RECT_SPRITE 
 
     returns 0 for success, returns 1 for failure
 */
@@ -86,12 +86,16 @@ SDK1_API int SDK_Sprite_SetTexture(SDK_Sprite *sprite, SDL_Texture *texture);
 /*
     Fills in double pointer with the scale of the SDK_Sprite*
 
+    Will fail if SDK_Sprite* is NULL or if scale if NULL
+
     returns 0 for success, returns 1 for failure
 */
 SDK1_API int SDK_Sprite_GetScale(SDK_Sprite *sprite, double *scale);
 
 /*
     Scales the width and height of the render_rect relative to the original width and height when the sprite was created
+
+    Will fail if SDK_Sprite* is NULL or if the new_scale <= 0.0f
 
     returns 0 for success, returns 1 for failure
 */
@@ -102,12 +106,20 @@ SDK1_API int SDK_Sprite_SetScale(SDK_Sprite *sprite, double new_scale);
 /*
     Fills in double pointer with the angle of the SDK_Sprite*
 
+    Will fail if SDK_Sprite* is NULL or if angle is NULL
+
     returns 0 for success, returns 1 for failure
 */
 SDK1_API int SDK_Sprite_GetAngle(SDK_Sprite *sprite, double *angle);
 
 
+/*
+    Sets the angle of the SDK_Sprite*
 
+    Will fail if SDK_Sprite* is NULL
+
+    returns 0 for success, returns 1 for failure
+*/
 SDK1_API int SDK_Sprite_SetAngle(SDK_Sprite *sprite, double angle);
 
 
