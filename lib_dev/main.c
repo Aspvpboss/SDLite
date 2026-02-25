@@ -33,6 +33,82 @@ int thread_func(void *ptr){
     return 0;
 }
 
+int test_sprite_getters_setters(SDK_Sprite *sprite){
+
+    /* ---------- SCALE ---------- */
+    if (SDK_Sprite_SetScale(sprite, 2.0) == 0) {
+        double scale = 0.0;
+        if (SDK_Sprite_GetScale(sprite, &scale) == 0) {
+            printf("Scale: %f\n", scale);
+        } else {
+            printf("Failed to get scale\n");
+        }
+    } else {
+        printf("Failed to set scale\n");
+    }
+
+    /* ---------- ANGLE ---------- */
+    if (SDK_Sprite_SetAngle(sprite, 45.0) == 0) {
+        double angle = 0.0;
+        if (SDK_Sprite_GetAngle(sprite, &angle) == 0) {
+            printf("Angle: %f\n", angle);
+        } else {
+            printf("Failed to get angle\n");
+        }
+    } else {
+        printf("Failed to set angle\n");
+    }
+
+    /* ---------- PIVOT POINT ---------- */
+    SDL_FPoint pivot_set = { 10.0f, 20.0f };
+    if (SDK_Sprite_SetPivotPoint(sprite, pivot_set) == 0) {
+        SDL_FPoint pivot_get;
+        if (SDK_Sprite_GetPivotPoint(sprite, &pivot_get) == 0) {
+            printf("Pivot: (%f, %f)\n", pivot_get.x, pivot_get.y);
+        } else {
+            printf("Failed to get pivot\n");
+        }
+    } else {
+        printf("Failed to set pivot\n");
+    }
+
+    /* ---------- FLIP MODE ---------- */
+    if (SDK_Sprite_SetFlipMode(sprite, SDL_FLIP_HORIZONTAL) == 0) {
+        SDL_FlipMode flip;
+        if (SDK_Sprite_GetFlipMode(sprite, &flip) == 0) {
+            printf("Flip mode: %d\n", flip);
+        } else {
+            printf("Failed to get flip mode\n");
+        }
+    } else {
+        printf("Failed to set flip mode\n");
+    }
+
+    /* ---------- RENDER RECT ---------- */
+    SDL_FRect rect;
+    if (SDK_Sprite_Get_RenderRect(sprite, &rect) == 0) {
+        printf("RenderRect: x=%f y=%f w=%f h=%f\n",
+               rect.x, rect.y, rect.w, rect.h);
+    } else {
+        printf("Failed to get render rect\n");
+    }
+
+    /* ---------- POSITION ---------- */
+    SDL_FPoint pos = { 100.0f, 200.0f };
+    if (SDK_Sprite_Set_Position(sprite, pos) == 0) {
+        SDL_FRect rect2;
+        if (SDK_Sprite_Get_RenderRect(sprite, &rect2) == 0) {
+            printf("Position after set: (%f, %f)\n", rect2.x, rect2.y);
+        }
+    } else {
+        printf("Failed to set position\n");
+    }
+
+    return 0;
+}
+
+
+
 
 int main(){
 
@@ -75,6 +151,8 @@ int main(){
         SDL_Log("Error loading player: %s\n", SDL_GetError());
         return 1;
     }
+
+    test_sprite_getters_setters(player);
 
     // boilerplate stuff for animations
     SDK_Sprite_AllocAnimation(player, MAX_ANIMATIONS);
