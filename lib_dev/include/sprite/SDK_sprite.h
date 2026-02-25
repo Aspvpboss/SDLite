@@ -49,7 +49,7 @@ SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *t
 
 
 /*
-    Frees a SDK_Sprite (whether animated or static)
+    Frees a SDK_Sprite (whether animated, static, or rect)
 
     Will return early if SDK_Sprite is NULL
 */
