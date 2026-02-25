@@ -87,7 +87,7 @@ SDK1_API int SDK_Sprite_SetTexture(SDK_Sprite *sprite, SDL_Texture *texture);
 /*
     Fills in double* with the scale of the SDK_Sprite*
 
-    Will fail if SDK_Sprite* is NULL or if scale is NULL
+    Will fail if SDK_Sprite* is NULL or if double* is NULL
 
     returns 0 for success, returns 1 for failure
 */
@@ -108,7 +108,7 @@ SDK1_API int SDK_Sprite_SetScale(SDK_Sprite *sprite, double new_scale);
 /*
     Fills in double* with the angle in degrees of the SDK_Sprite*
 
-    Will fail if SDK_Sprite* is NULL or if angle is NULL
+    Will fail if SDK_Sprite* is NULL or if double* is NULL
 
     returns 0 for success, returns 1 for failure
 */
@@ -129,7 +129,7 @@ SDK1_API int SDK_Sprite_SetAngle(SDK_Sprite *sprite, double angle);
 /*
     Fills in SDL_FPoint* with the SDL_FPoint of the SDK_Sprite*
 
-    Will fail if SDK_Sprite* is NULL or if pivot_point is NULL
+    Will fail if SDK_Sprite* is NULL or if SDL_FPoint* is NULL
 
     returns 0 for success, returns 1 for failure
 */
@@ -146,6 +146,13 @@ SDK1_API int SDK_Sprite_GetPivotPoint(SDK_Sprite *sprite, SDL_FPoint *pivot_poin
 SDK1_API int SDK_Sprite_SetPivotPoint(SDK_Sprite *sprite, SDL_FPoint pivot_point);
 
 
+/*
+    Fills in SDL_FPoint* with the SDL_FlipMode of the SDK_Sprite*
+
+    Will fail if SDK_Sprite* is NULL or if SDL_FlipMode* is NULL
+
+    returns 0 for success, returns 1 for failure
+*/
 SDK1_API int SDK_Sprite_GetFlipMode(SDK_Sprite *sprite, SDL_FlipMode *flip_mode);
 
 
@@ -158,6 +165,31 @@ SDK1_API int SDK_Sprite_GetFlipMode(SDK_Sprite *sprite, SDL_FlipMode *flip_mode)
     returns 0 for success, returns 1 for failure
 */
 SDK1_API int SDK_Sprite_SetFlipMode(SDK_Sprite *sprite, SDL_FlipMode flip_mode);
+
+
+/*
+    Fills in SDL_FRect* with the render_rect of the SDK_Sprite*
+
+    Will fail if SDK_Sprite* is NULL or if SDL_FRect* is NULL
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_Get_RenderRect(SDK_Sprite *sprite, SDL_FRect *render_rect);
+
+
+
+/*
+    Sets the position of the SDK_Sprite*
+    This changes the x & y parameters of the render_rect used for rendering
+
+    Will fail if SDK_Sprite* is NULL
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Sprite_Set_Position(SDK_Sprite *sprite, SDL_FPoint position);
+
+
+
 
 /* ============== Animated sprite functions ============== */
 

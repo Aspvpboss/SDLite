@@ -308,6 +308,31 @@ int SDK_Sprite_GetFlipMode(SDK_Sprite *sprite, SDL_FlipMode *flip_mode){
 
 
 
+int SDK_Sprite_Set_Position(SDK_Sprite *sprite, SDL_FPoint position){
+
+    if(!sprite) return 1;
+
+    sprite->render_rect.x = position.x;
+    sprite->render_rect.y = position.y;
+
+    return 0;
+}
+
+
+
+
+int SDK_Sprite_Get_RenderRect(SDK_Sprite *sprite, SDL_FRect *render_rect){
+
+    if(!sprite || !render_rect) return 1;
+
+    *render_rect = sprite->render_rect;
+
+    return 0;
+}
+
+
+
+
 void SDK_DestroySprite(SDK_Sprite *sprite){
 
     if(!sprite) return;

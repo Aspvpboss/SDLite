@@ -98,7 +98,7 @@ int main(){
         return 1;
     } 
 
-    SDK_Sprite_UpdateScale(player, 8.0f);
+    SDK_Sprite_SetScale(player, 8.0f);
     SDL_SetTextureScaleMode(SDK_Sprite_GetTexture(player), SDL_SCALEMODE_NEAREST);
 
     
