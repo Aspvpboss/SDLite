@@ -27,7 +27,10 @@ typedef struct SDK_Time SDK_Time;
 /*
     Creates and returns a SDK_Time struct
 
+    set the fps_limit to be less than 0.0f to uncap the fps
     fps_limit can be changed during runtime
+
+    Will fail if fps_limit == 0.0f or if malloc fails
 
     returns SDK_Time* for success, returns NULL for failure
     call SDL_GetError() for more info
@@ -75,14 +78,16 @@ SDK1_API bool SDK_Time_FPS_Update(SDK_Time *time);
 
     Will fail if SDK_Time* is NULL
 
-    returns the fps_limit for success, returns -1.0f for failure
+    returns the fps_limit for success, returns 0.0f for failure
 */
 SDK1_API double SDK_Time_Get_FPSLimit(SDK_Time *time);
 
 /*
     Sets the fps_limit of the SDK_Time*
 
-    
+    Set the fps_limit below 0.0f to uncap the fps
+
+    Will fail if SDK_Time* is NULL or if new_fps_limit == 0.0f
 
     returns 0 for success, returns 1 for failure
 */

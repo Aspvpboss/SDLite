@@ -255,18 +255,18 @@ int main(){
 
 
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_1)){
-            time->fps_limit = 10.0f;
+            SDK_Time_Set_FPSLimit(time, 10);
         }
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_2)){
-            time->fps_limit = 144.0f;
+            SDK_Time_Set_FPSLimit(time, 144.0f);
         }
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_3)){
-            time->fps_limit = 512.0f;
+            SDK_Time_Set_FPSLimit(time, -1.0f);
         }
 
 
-        if(time->fps_updated)
-            update_text(text, time->fps);
+        if(SDK_Time_FPS_Update(time))
+            update_text(text, SDK_Time_GetFPS(time));
          
 
         SDK_DisplayClear(display);

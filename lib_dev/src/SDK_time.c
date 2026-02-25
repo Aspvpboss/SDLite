@@ -32,7 +32,7 @@ struct SDK_Time{
 
 SDK_Time* SDK_CreateTime(double fps_limit){
 
-    if(fps_limit <= 0) return NULL;
+    if(fps_limit == 0) return NULL;
 
     SDK_Time *time = t_malloc(sizeof(SDK_Time));
     if(!time) return NULL;
@@ -88,14 +88,14 @@ bool SDK_Time_FPS_Update(SDK_Time *time){
 
 double SDK_Time_Get_FPSLimit(SDK_Time *time){
 
-    if(!time) return -1.0f;
+    if(!time) return 0.0f;
 
     return time->fps_limit;
 }
 
 int SDK_Time_Set_FPSLimit(SDK_Time *time, double new_fps_limit){
 
-    if(!time) return 1;
+    if(!time || new_fps_limit == 0.0f) return 1;
 
     time->fps_limit = new_fps_limit;
 
@@ -157,7 +157,7 @@ int SDK_CalculateFPS(SDK_Time *time){
 
 int SDK_LimitFPS(SDK_Time *time){
 
-    if(!time) return 1;
+    if(!time || time->fps_limit < 0.0f) return 1;
     double *dt = (double *)&time->dt;
 
 
