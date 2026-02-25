@@ -20,21 +20,8 @@ extern "C"{
 
     SDK_Time holds variable that are used for time calculations
 
-    You use dt and fps for functions
-    fps_updated becomes true whenever the new fps gets calculated
-    becomes false after the update
-
 */
-typedef struct{
-
-    const double dt;
-    const bool fps_updated;
-    const double fps;
-    double fps_limit;
-    void *const data;
-
-} SDK_Time;
-
+typedef struct SDK_Time SDK_Time;
 
 
 /*
@@ -53,6 +40,54 @@ SDK1_API SDK_Time* SDK_CreateTime(double fps_limit);
     Will return early if SDK_Time is NULL
 */
 SDK1_API void SDK_DestroyTime(SDK_Time *time);
+
+/*
+    Gets the fps of the SDK_Time*
+
+    Will fail if SDK_Time* is NULL
+
+    returns the fps for success, returns -1.0f for failure
+*/
+SDK1_API double SDK_Time_GetFPS(SDK_Time *time);
+
+/*
+    Gets the delta time of the SDK_Time*
+
+    Will fail if SDK_Time* is NULL
+
+    returns the delta time for success, returns -1.0f for failure
+*/
+SDK1_API double SDK_Time_GetDT(SDK_Time *time);
+
+
+/*
+    Returns either true or false if the fps value inside SDK_Time* updated
+
+    Will fail if SDK_Time* is NULL
+
+    returns a bool of the fps updated for success, returns false for failure
+*/
+SDK1_API bool SDK_Time_FPS_Update(SDK_Time *time);
+
+
+/*
+    Gets the fps_limit of the SDK_Time*
+
+    Will fail if SDK_Time* is NULL
+
+    returns the fps_limit for success, returns -1.0f for failure
+*/
+SDK1_API double SDK_Time_Get_FPSLimit(SDK_Time *time);
+
+/*
+    Sets the fps_limit of the SDK_Time*
+
+    
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Time_Set_FPSLimit(SDK_Time *time, double new_fps_limit);
+
 
 /*
     Calls the time.h functions in order of use
