@@ -261,7 +261,7 @@ int main(){
             SDK_Time_Set_FPSLimit(time, 144.0f);
         }
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_3)){
-            SDK_Time_Set_FPSLimit(time, -1.0f);
+            SDK_Time_Set_FPSLimit(time, 100000.0f);
         }
 
 

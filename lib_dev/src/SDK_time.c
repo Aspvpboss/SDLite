@@ -20,11 +20,11 @@ struct SDK_Time{
 
     uint64_t previous_counter;
     uint64_t counter_frequency;
-    uint64_t update_count;
     uint16_t frame;
     uint16_t collected_frames;
     double total;
     double dt_buffer[MAX_SAMPLES];
+    double fps_update_count;
 
 };
 
@@ -40,7 +40,6 @@ SDK_Time* SDK_CreateTime(double fps_limit){
     time->collected_frames = 0;
     time->frame = 0;
     time->total = 0.0f;
-    time->update_count = 0;
     time->previous_counter = 0;
     time->counter_frequency = 0;
 
@@ -50,7 +49,7 @@ SDK_Time* SDK_CreateTime(double fps_limit){
     time->dt = 0.0f;
     time->fps = 0.0f;
     time->fps_updated = false;
-
+    time->fps_update_count = 0.0f;
 
     return time;
 }
@@ -130,7 +129,7 @@ int SDK_CalculateFPS(SDK_Time *time){
     bool *fps_updated = (bool *)&time->fps_updated;
     double *fps = (double *)&time->fps;
 
-    if(time->fps_updated == 1){
+    if(time->fps_updated == true){
         *fps_updated = false;
     }
 
@@ -139,16 +138,16 @@ int SDK_CalculateFPS(SDK_Time *time){
     time->total -= dt_buffer[time->frame];
     dt_buffer[time->frame] = time->dt;
     time->total += time->dt;
+    time->fps_update_count += time->dt;
     
     if(time->collected_frames < MAX_SAMPLES) time->collected_frames++;
 
     time->frame = (time->frame + 1) % MAX_SAMPLES;
     *fps = 1 / (time->total / time->collected_frames);
-    time->update_count++;
 
-    if(time->update_count > time->fps_limit){
-        *fps_updated = 1;
-        time->update_count = 0;
+    if(time->fps_update_count > 1.0f){
+        *fps_updated = true;
+        time->fps_update_count = 0.0f;
     }
         
     return 0;
