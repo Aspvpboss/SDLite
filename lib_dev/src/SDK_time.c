@@ -156,7 +156,8 @@ int SDK_CalculateFPS(SDK_Time *time){
 
 int SDK_LimitFPS(SDK_Time *time){
 
-    if(!time || time->fps_limit < 0.0f) return 1;
+    if(!time || time->fps_limit == 0.0f) return 1;
+    if(time->fps_limit < 0.0f) return 0;
     double *dt = (double *)&time->dt;
 
 

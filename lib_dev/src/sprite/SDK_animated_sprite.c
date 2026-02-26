@@ -141,7 +141,7 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
 
 
 
-    animation->time_elapsed += SDK_Time_GetFPS(time);
+    animation->time_elapsed += SDK_Time_GetDT(time);
 
     if(animation->time_elapsed < animation->frame_duration)
         return 0;
