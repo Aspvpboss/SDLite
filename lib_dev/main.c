@@ -29,7 +29,8 @@ void update_text(SDK_Text *text, double fps){
 
 
 int thread_func(void *ptr){
-    t_malloc(10);
+    int *ptrptr = t_malloc(sizeof(int));
+    ptrptr[0] = 0;
     return 0;
 }
 
@@ -238,8 +239,8 @@ int main(){
 
             if(e.type == SDL_EVENT_QUIT){
                 running = false;
-            }
-                
+            }        
+        
         }
 
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_ESCAPE)){
