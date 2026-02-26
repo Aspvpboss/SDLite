@@ -29,6 +29,7 @@ typedef struct SDK_Time SDK_Time;
 
     set the fps_limit to be less than 0.0f to uncap the fps
     fps_limit can be changed during runtime
+    if fps is above several 1000s, it will become unstable and break animation timing
 
     Will fail if fps_limit == 0.0f or if malloc fails
 
@@ -86,7 +87,8 @@ SDK1_API double SDK_Time_Get_FPSLimit(SDK_Time *time);
     Sets the fps_limit of the SDK_Time*
 
     Set the fps_limit below 0.0f to uncap the fps
-
+    if fps is above several 1000s, it will become unstable and break animation timing
+    
     Will fail if SDK_Time* is NULL or if new_fps_limit == 0.0f
 
     returns 0 for success, returns 1 for failure
@@ -104,14 +106,15 @@ SDK1_API int SDK_Time_Set_FPSLimit(SDK_Time *time, double new_fps_limit);
     **
     Functions Called:
     
-    SDK_CalculateDT(&time);
-    SDK_LimitFPS(&time);
-    SDK_CalculateFPS(&time);  
+    SDK_CalculateDT(time);
+    SDK_LimitFPS(time);
+    SDK_CalculateFPS(time);  
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
 SDK1_API int SDK_TimeFunctions(SDK_Time *time);
+
 
 /*
     Updates 'dt' within SDK_Time with current delta time
