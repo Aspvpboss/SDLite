@@ -123,6 +123,7 @@ int SDK_CalculateDT(SDK_Time *time){
 }
 
 
+
 int SDK_CalculateFPS(SDK_Time *time){
 
     if(!time) return 1;
@@ -145,7 +146,6 @@ int SDK_CalculateFPS(SDK_Time *time){
     time->frame = (time->frame + 1) % MAX_SAMPLES;
     *fps = 1 / (time->total / time->collected_frames);
 
-    // printf("%.15f                                       \r", time->fps_update_count);
     
     if(time->fps_update_count > 1.0f){
         *fps_updated = true;
@@ -163,15 +163,9 @@ int SDK_LimitFPS(SDK_Time *time){
     if(time->fps_limit < 0.0f) return 0;
 
 
-    uint64_t counter_frequency = time->counter_frequency;
-    uint64_t current_counter = SDL_GetPerformanceCounter();
-    uint64_t previous_counter = time->previous_counter;
-    double delta_time = time->dt;
     double target_delta_time = (1.0 / time->fps_limit); 
-    
 
-
-    double remaining = target_delta_time - delta_time;
+    double remaining = target_delta_time - time->dt;
     if(remaining < 0){
         return 0;
     }
@@ -182,14 +176,16 @@ int SDK_LimitFPS(SDK_Time *time){
         if (ms > 0) SDL_Delay(ms);
     }
 
+    uint64_t current_counter = SDL_GetPerformanceCounter();
+    
     do{
         current_counter = SDL_GetPerformanceCounter();
-        delta_time = (double)(current_counter - previous_counter) / (double)counter_frequency;
-    } while(delta_time < target_delta_time);
+        time->dt = (double)(current_counter - time->previous_counter) / (double)time->counter_frequency;
+    } while(time->dt < target_delta_time);
 
     time->previous_counter = current_counter;
 
-    time->dt = delta_time;
+    time->dt = time->dt;
 
     return 0;
 }
