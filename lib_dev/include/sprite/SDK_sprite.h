@@ -219,7 +219,7 @@ SDK1_API SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char 
 
 
 /*
-    Allocations storage for animations in the SDK_Sprite*
+    Allocates storage for animations in the SDK_Sprite*
 
     Function will use realloc if called a multiple times 
     Recommended to just call this function once per sprite
