@@ -25,20 +25,21 @@ typedef struct SDK_Text SDK_Text;
 
 
 /*
-    Creates a SDK_Text, this must be freed using SDK_DestroyText()
+    Creates a SDK_Text*, this must be freed using SDK_DestroyText()
 
     You can pass NULL into 'const char *font_path' and 'const char *display_text'.
-    If you do you must update the font using SDK_TextUpdateFont() 
-    and update the text using
+    If you make font_path NULL, you must update the font using SDK_Text_SetFont() 
+    and update the text using SDK_Text_SetString();
 
     returns SDK_Text* for success, NULL for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color);
+SDK1_API SDK_Text* SDK_CreateText(
+    SDK_Display *display, const char *display_text, const char *font_path, float font_size, int x, int y, SDL_Color color);
 
 
 /*
-    Frees a SDK_Text
+    Frees a SDK_Text*
 
     Will return early if SDK_Text is NULL
 */
@@ -91,7 +92,7 @@ SDK1_API int SDK_Text_SetString(SDK_Text *text, const char *string);
 SDK1_API int SDK_Text_SetPosition(SDK_Text *text, int x, int y);
 
 /*
-    fills values of SDL_FRect of the current x, y, w, and h of the SDK_Text*
+    Fills values of SDL_FRect of the current x, y, w, and h of the SDK_Text*
 
     Will fail if SDK_Text* is NULL or if SDL_FRect* is NULL
 
@@ -102,8 +103,10 @@ SDK1_API int SDK_Text_Get_RenderRect(SDK_Text *text, SDL_FRect *render_rect);
 
 
 /*
-    updates wrap width of a SDK_Text
-    set wrap_width to 0 for no wrap around
+    Sets wrap width of a SDK_Text in pixels
+    Set wrap_width to 0 for no wrap around
+    
+    Will fail if SDK_Text* is NULL
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
@@ -112,7 +115,9 @@ SDK1_API int SDK_Text_SetWrapWidth(SDK_Text *text, int wrap_width_pixels);
 
 
 /*
-    updates color of a SDK_Text
+    Sets color of a SDK_Text
+
+    Will fail if SDK_Text* is NULL
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
@@ -121,8 +126,10 @@ SDK1_API int SDK_Text_SetColor(SDK_Text *text, SDL_Color color);
 
 
 /*
-    renders the SDK_Text to the display it was created with
+    Renders the SDK_Text to the display it was created with
 
+    Will fail if SDK_Text* is NULL
+    
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */

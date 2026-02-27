@@ -23,7 +23,7 @@ void update_text(SDK_Text *text, double fps){
 
     snprintf(fps_text, sizeof(fps_text), "FPS: %.1f", fps);
 
-    SDK_Text_UpdateString(text, fps_text);
+    SDK_Text_SetString(text, fps_text);
 
 }
 
@@ -133,7 +133,7 @@ int main(){
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDK_Time *time = SDK_CreateTime(144);
     SDK_Input *input = SDK_CreateInput();
-    SDK_Text *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
+    SDK_Text *text = SDK_CreateText(display, NULL, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
 
     

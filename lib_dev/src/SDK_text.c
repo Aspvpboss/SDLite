@@ -21,7 +21,8 @@ struct SDK_Text{
 };
 
 
-SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color){
+SDK_Text* SDK_CreateText(
+    SDK_Display *display, const char *display_text, const char *font_path, float font_size, int x, int y, SDL_Color color){
     
     SDK_Text *text = t_malloc(sizeof(SDK_Text));
 
@@ -55,8 +56,11 @@ SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font
     }
 
 
+    if(!display_text){
+        display_text = "";
+    }
 
-    text->text = TTF_CreateText(text->engine, text->font, "", text->wrap_width);
+    text->text = TTF_CreateText(text->engine, text->font, display_text, text->wrap_width);
     
     if(text->text == NULL){
         t_free(text);
