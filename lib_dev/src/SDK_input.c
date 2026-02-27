@@ -34,7 +34,6 @@ SDK_Input* SDK_CreateInput(){
         t_free(input);
         return NULL;
     }
-    input->current_keyboard = NULL;
     input->current_mouse = 0;
     input->previous_mouse = 0;
 
@@ -181,9 +180,9 @@ int SDK_Input_Mouse_GetPosition(SDK_Input *input, int *x, int *y){
 
 int SDK_Input_UpdateAllPrev(SDK_Input *input){
     
-    if(SDK_Update_Previous_MouseState(input)) return 1;
-    if(SDK_Update_Previous_KeyboardState(input)) return 1;
-    if(SDK_Mouse_UpdatePosition(input)) return 1;
+    if(SDK_Input_Update_PrevMouseState(input)) return 1;
+    if(SDK_Input_Update_PrevKeyState(input)) return 1;
+    if(SDK_Input_Mouse_UpdatePosition(input)) return 1;
  
     return 0;   
 }

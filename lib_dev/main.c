@@ -133,6 +133,10 @@ int main(){
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDK_Time *time = SDK_CreateTime(144);
     SDK_Input *input = SDK_CreateInput();
+    if(!input){
+        SDL_Log("%s\n", SDL_GetError());
+        return 1;
+    }
     SDK_Text *text = SDK_CreateText(display, NULL, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
 
@@ -243,28 +247,28 @@ int main(){
         
         }
 
-        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_ESCAPE)){
+        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_ESCAPE)){
             running = false;
         }
 
-        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP)){
+        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_UP)){
             SDK_Audio_PlayTrack(audio_handler, 0);
         }
-        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_DOWN)){
+        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_DOWN)){
             SDK_Audio_StopTrack(audio_handler, 0, 24000);
         }
 
 
-        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_1)){
+        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_1)){
             SDK_Time_Set_FPSLimit(time, 10);
         }
-        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_2)){
+        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_2)){
             SDK_Time_Set_FPSLimit(time, 144.0f);
         }
-        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_3)){
+        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_3)){
             SDK_Time_Set_FPSLimit(time, 1500.0f);
         }
-        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_4)){
+        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_4)){
             SDK_Time_Set_FPSLimit(time, -1.0f);
         }
 
@@ -286,7 +290,7 @@ int main(){
 
         SDK_Sprite_UpdateAnimation(player, time);
         SDK_TimeFunctions(time);
-        SDK_Update_Previous_Inputs(input);
+        SDK_Input_UpdateAllPrev(input);
     }
 
     SDK_DestroyDisplay(display);
