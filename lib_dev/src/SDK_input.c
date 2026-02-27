@@ -166,6 +166,19 @@ int SDK_Input_Mouse_UpdatePosition(SDK_Input *input){
 
 
 
+int SDK_Input_Mouse_GetPosition(SDK_Input *input, int *x, int *y){
+
+    if(!input || !x || !y) return 1;
+
+    *x = input->mouse_pos.x;
+    *y = input->mouse_pos.y;
+
+    return 0;
+}
+
+
+
+
 int SDK_Input_UpdateAllPrev(SDK_Input *input){
     
     if(SDK_Update_Previous_MouseState(input)) return 1;

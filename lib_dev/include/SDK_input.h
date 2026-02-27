@@ -105,13 +105,22 @@ SDK1_API int SDK_Input_MouseJustPressed(SDK_Input *input, uint32_t SDL_MouseButt
 SDK1_API int SDK_Input_MouseJustPressed(SDK_Input *input, uint32_t SDL_MouseButtonMask);
 
 /*
-    updates mouse x and y position to the current mouse position within SDK_Input
+    Updates mouse x and y position to the current mouse position within SDK_Input
 
     Function only fails if SDK_Input* is NULL
 
     returns 0 for success, returns 1 for failure
 */
 SDK1_API int SDK_Input_Mouse_UpdatePosition(SDK_Input *input);
+
+/*
+    Fills in values of the mouse x and y position into the int*
+
+    Functions only fails if SDK_Input* other if either of the int* are NULL
+
+    returns 0 for success, returns 1 for failure
+*/
+SDK1_API int SDK_Input_Mouse_GetPosition(SDK_Input *input, int *x, int *y);
 
 /*
     Updates previous mouse state
