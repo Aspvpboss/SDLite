@@ -8,7 +8,7 @@
 #include "SDK_Text.h"
 
 
-typedef struct{
+struct SDK_Text{
 
     TTF_Font *font;
     SDL_Color color;
@@ -16,38 +16,28 @@ typedef struct{
     TTF_TextEngine *engine;
     int wrap_width;
     float font_size;
+    SDL_FRect render_rect;
 
-} Text_Data;
+};
 
 
 SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color){
     
     SDK_Text *text = t_malloc(sizeof(SDK_Text));
 
-    if(!text) return NULL;
-    void **t_data = (void **)&text->data;
-    *t_data = t_malloc(sizeof(Text_Data));
 
-    if(!text->data){
-        t_free(text);
-        return NULL;
-    }
-
-    Text_Data *data = (Text_Data*)text->data;
-
-    data->engine = display->text_engine;
-    data->color = color;
+    text->engine = display->text_engine;
+    text->color = color;
     SDL_FRect *render_rect = (SDL_FRect *)&text->render_rect;
     render_rect->x = x;
     render_rect->y = y;
-    data->font_size = font_size;
-    data->wrap_width = 0;
+    text->font_size = font_size;
+    text->wrap_width = 0;
 
     if(font_path == NULL){
 
-        data->font = TTF_OpenFont("./SDK1/assets/default.ttf", font_size);
-        if(data->font == NULL){
-            t_free(text->data);
+        text->font = TTF_OpenFont("./assets/default.ttf", font_size);
+        if(text->font == NULL){
             t_free(text);
             return NULL;
         }
@@ -55,9 +45,8 @@ SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font
 
     } else{
 
-        data->font = TTF_OpenFont(font_path, font_size);
-        if(data->font == NULL){
-            t_free(text->data);
+        text->font = TTF_OpenFont(font_path, font_size);
+        if(text->font == NULL){
             t_free(text);
             return NULL;
         }
@@ -67,23 +56,21 @@ SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font
 
 
 
-    data->text = TTF_CreateText(data->engine, data->font, "", data->wrap_width);
+    text->text = TTF_CreateText(text->engine, text->font, "", text->wrap_width);
     
-    if(data->text == NULL){
+    if(text->text == NULL){
         t_free(text);
-        t_free(text->data);
         return NULL;
     }
     
-    TTF_SetTextColor(data->text, color.r, color.g, color.b, color.a);
+    TTF_SetTextColor(text->text, color.r, color.g, color.b, color.a);
 
-    TTF_SetTextWrapWidth(data->text, 0);
+    TTF_SetTextWrapWidth(text->text, 0);
 
     int w, h;
 
-    if(!TTF_GetTextSize(data->text, &w,  &h)){
-        TTF_DestroyText(data->text);
-        t_free(text->data);
+    if(!TTF_GetTextSize(text->text, &w,  &h)){
+        TTF_DestroyText(text->text);
         t_free(text);
         return NULL;
     }
@@ -99,18 +86,15 @@ void SDK_DestroyText(SDK_Text *text){
 
     if(!text) return;
 
-    Text_Data *data = (Text_Data*)text->data;
-
-    TTF_DestroyText(data->text);
-    TTF_CloseFont(data->font);
-    data->engine = NULL;
-    t_free(data);
+    TTF_DestroyText(text->text);
+    TTF_CloseFont(text->font);
+    text->engine = NULL;
     t_free(text);
 
 }
 
 
-int SDK_Text_UpdateFont(SDK_Text *text, const char *font_path, float font_size){
+int SDK_Text_SetFont(SDK_Text *text, const char *font_path, float font_size){
 
     if(!text) return 1;
     
@@ -118,20 +102,18 @@ int SDK_Text_UpdateFont(SDK_Text *text, const char *font_path, float font_size){
         return 1;
     }
 
-    Text_Data *data = (Text_Data*)text->data;
-    
     TTF_Font *new_font = TTF_OpenFont(font_path, font_size);
 
     if(new_font == NULL){
         return 1;
     }
 
-    TTF_CloseFont(data->font);
+    TTF_CloseFont(text->font);
 
-    data->font = new_font;
-    data->font_size = font_size;
+    text->font = new_font;
+    text->font_size = font_size;
     
-    if(!TTF_SetTextFont(data->text, data->font)){
+    if(!TTF_SetTextFont(text->text, text->font)){
         return 1;
     }
 
@@ -139,28 +121,24 @@ int SDK_Text_UpdateFont(SDK_Text *text, const char *font_path, float font_size){
 }
 
 
-int SDK_Text_UpdateFontSize(SDK_Text *text, float font_size){
+int SDK_Text_SetFontSize(SDK_Text *text, float font_size){
 
     if(!text) return 1;
 
-    Text_Data *data = (Text_Data*)text->data;
-
-    if(!TTF_SetFontSize(data->font, font_size))
+    if(!TTF_SetFontSize(text->font, font_size))
         return 1;
 
-    data->font_size = font_size;
+    text->font_size = font_size;
 
     return 0;
 }
 
 
-int SDK_Text_UpdateString(SDK_Text *text, const char *string){
+int SDK_Text_SetString(SDK_Text *text, const char *string){
 
     if(!text) return 1;
 
-    Text_Data *data = (Text_Data*)text->data;
-
-    if(!TTF_SetTextString(data->text, string, 0)){
+    if(!TTF_SetTextString(text->text, string, 0)){
         return 1;
     }
 
@@ -168,87 +146,76 @@ int SDK_Text_UpdateString(SDK_Text *text, const char *string){
 }
 
 
-int SDK_Text_UpdatePosition(SDK_Text *text, int x, int y){
+int SDK_Text_SetPosition(SDK_Text *text, int x, int y){
 
     if(!text) return 1;
 
-    Text_Data *data = (Text_Data*)text->data;
-    SDL_FRect *render_rect = (SDL_FRect *)&text->render_rect;
-   
-
-    if(!TTF_SetTextPosition(data->text, x, y)){
+    if(!TTF_SetTextPosition(text->text, x, y)){
         return 1;
     }
 
-    render_rect->x = x;
-    render_rect->y = y;
+    text->render_rect.x = x;
+    text->render_rect.y = y;
 
     return 0;
 }
 
 
-int SDK_Text_UpdateSize(SDK_Text *text){
+int SDK_Text_Get_RenderRect(SDK_Text *text, SDL_FRect *render_rect){
 
-    if(!text) return 1;
-
-    Text_Data *data = (Text_Data*)text->data;
+    if(!text || !render_rect) return 1;
 
     int w, h;
 
-    if(!TTF_GetTextSize(data->text, &w, &h)){
+    if(!TTF_GetTextSize(text->text, &w, &h)){
         return 1;
     }
-
-    SDL_FRect *render_rect = (SDL_FRect *)&text->render_rect;
 
     render_rect->w = w;
     render_rect->h = h;
+    render_rect->x = text->render_rect.x;
+    render_rect->y = text->render_rect.y;    
 
     return 0;
 }
 
 
-int SDK_Text_UpdateWrapWidth(SDK_Text *text, int wrap_width){
+int SDK_Text_SetWrapWidth(SDK_Text *text, int wrap_width_pixels){
 
     if(!text) return 1;
 
-    Text_Data *data = (Text_Data*)text->data;
-
-    if(!TTF_SetTextWrapWidth(data->text, wrap_width)){
+    if(!TTF_SetTextWrapWidth(text->text, wrap_width_pixels)){
         return 1;
     }
 
-    data->wrap_width = wrap_width;
+    text->wrap_width = wrap_width_pixels;
 
     return 0;
 }
 
 
-int SDK_Text_UpdateColor(SDK_Text *text, SDL_Color color){
+int SDK_Text_SetColor(SDK_Text *text, SDL_Color color){
 
     if(!text) return 1;
 
-    Text_Data *data = (Text_Data*)text->data;
-
-    if(!TTF_SetTextColor(data->text, color.r, color.g, color.b, color.a)){
+    if(!TTF_SetTextColor(text->text, color.r, color.g, color.b, color.a)){
         return 1;
     }
 
-    data->color = color;
+    text->color = color;
 
     return 0;
 }
+
 
 
 int SDK_Render_Text(SDK_Text *text){
 
     if(!text) return 1;
 
-    Text_Data *data = (Text_Data*)text->data;
-
     SDL_FRect *render_rect = (SDL_FRect *)&text->render_rect;
 
-    if(!TTF_DrawRendererText(data->text, render_rect->x, render_rect->y))
+    if(!TTF_DrawRendererText(text->text, render_rect->x, render_rect->y))
         return 1;
 
     return 0;

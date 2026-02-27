@@ -19,14 +19,10 @@ extern "C" {
 /*
     contains variables needed to display a string onto the screen
     you can read values from rect, but to change the actual values
-    you must use SDK_Text_UpdatePosition
+    you must use SDK_Text_SetPosition
 */
-typedef struct SDK_Text{
+typedef struct SDK_Text SDK_Text;
 
-    void *const data;
-    const SDL_FRect render_rect;
-
-} SDK_Text;
 
 /*
     Creates a SDK_Text, this must be freed using SDK_DestroyText()
@@ -50,45 +46,59 @@ SDK1_API void SDK_DestroyText(SDK_Text *text);
 
 
 /*
-    updates the font, and font size of a SDK_Text
+    Sets the font and font_size of the SDK_Text*
+
+    Will fail if SDK_Text* is NULL or if the font fails to open
+
+    If the SDK_Text* already has a font it will properly free it before opening the current font
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdateFont(SDK_Text *text, const char *font_path, float font_size);
+SDK1_API int SDK_Text_SetFont(SDK_Text *text, const char *font_path, float font_size);
 
 
 /*
-    updates font size of a SDK_Text
+    Sets font_size of the SDK_Text*
+
+    Will fail if SDK_Text* is NULL
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdateFontSize(SDK_Text *text, float font_size);
+SDK1_API int SDK_Text_SetFontSize(SDK_Text *text, float font_size);
 
 
 /*
-    updates text of a SDK_Text
+    Sets text of SDK_Text*
+
+    Will fail if SDK_Text* is NULL or if char* is NULL
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdateString(SDK_Text *text, const char *string);
+SDK1_API int SDK_Text_SetString(SDK_Text *text, const char *string);
 
 
 /*
-    updates text position of a SDK_Text
+    Sets position of the SDK_Text*
+
+    Will fail if SDK_Text* is NULL
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdatePosition(SDK_Text *text, int x, int y);
+SDK1_API int SDK_Text_SetPosition(SDK_Text *text, int x, int y);
 
 /*
-    updates width and height of a SDK_Text
+    fills values of SDL_FRect of the current x, y, w, and h of the SDK_Text*
 
+    Will fail if SDK_Text* is NULL or if SDL_FRect* is NULL
+
+    returns 0 for success, returns 1 for failure
+    Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdateSize(SDK_Text *text);
+SDK1_API int SDK_Text_Get_RenderRect(SDK_Text *text, SDL_FRect *render_rect);
 
 
 /*
@@ -98,7 +108,7 @@ SDK1_API int SDK_Text_UpdateSize(SDK_Text *text);
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdateWrapWidth(SDK_Text *text, int wrap_width);
+SDK1_API int SDK_Text_SetWrapWidth(SDK_Text *text, int wrap_width_pixels);
 
 
 /*
@@ -107,7 +117,7 @@ SDK1_API int SDK_Text_UpdateWrapWidth(SDK_Text *text, int wrap_width);
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdateColor(SDK_Text *text, SDL_Color color);
+SDK1_API int SDK_Text_SetColor(SDK_Text *text, SDL_Color color);
 
 
 /*
