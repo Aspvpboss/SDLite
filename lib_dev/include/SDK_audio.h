@@ -50,13 +50,24 @@ SDK1_API void SDK_Destroy_AudioHandler(SDK_Audio_Handler *audio_handler);
 /*
     Gets the specified SDK_Track*, the SDK_Audio_Handler still owns the SDK_Track*  
 
-    Use the SDK_Track* cautiously   
-
+    Use the SDK_Track* cautiously.
+    Do not free SDK_Track. It is owned by SDK_Audio_Handler*   
+    
     returns SDK_Track* for success, returns NULL for failure
 */
 SDK1_API SDK_Track* SDK_Audio_GetTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_track);
 
 /*
+    Gets the MIX_Mixer*, the SDK_Audio_Handler still owns the MIX_Mixer*. 
+    Do not free the MIX_Mixer*
+
+    Will fail if SDK_Audio_Handler* is NULL
+
+    returns MIX_Mixer* for success, returns NULL for failure
+*/
+SDK1_API MIX_Mixer* SDK_Audio_GetMixer(SDK_Audio_Handler *audio_handler);
+
+    /*
     Plays the audio that has been loaded to the specified audio_track
 
     Function will fail if no audio has been loaded to the track

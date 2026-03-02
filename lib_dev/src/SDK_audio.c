@@ -134,6 +134,13 @@ SDK_Track* SDK_Audio_GetTrack(SDK_Audio_Handler *audio_handler, uint16_t audio_t
     return &audio_handler->tracks[audio_track];
 }
 
+MIX_Mixer* SDK_Audio_GetMixer(SDK_Audio_Handler *audio_handler){
+
+    if(!audio_handler) return NULL;
+
+    return audio_handler->mixer;
+}
+
 
 
 int SDK_Audio_SetTrackAudio(SDK_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio){
