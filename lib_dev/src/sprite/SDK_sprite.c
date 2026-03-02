@@ -109,7 +109,7 @@ int SDK_Render_Sprite(const SDK_Display *display, const SDK_Sprite *sprite){
 
     if(!display || !sprite) return 1;
 
-    SDL_FRect *src_rect = NULL;
+    const SDL_FRect *src_rect = NULL;
     SDL_Texture *texture = NULL;
 
     switch(sprite->sprite_type){

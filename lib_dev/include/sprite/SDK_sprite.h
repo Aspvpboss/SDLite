@@ -62,7 +62,7 @@ SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_Render_Sprite(const SDK_Display *display, SDK_Sprite *sprite);
+SDK1_API int SDK_Render_Sprite(const SDK_Display *display, const SDK_Sprite *sprite);
 
 
 /*
