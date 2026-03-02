@@ -25,15 +25,7 @@ typedef struct{
 
 
 
-typedef struct{
-
-    float master_volume;
-    MIX_Mixer *mixer;
-    SDK_Track *tracks;
-    uint16_t track_capacity;
-
-} SDK_Audio_Handler;
-
+typedef struct SDK_Audio_Handler SDK_Audio_Handler;
 
 /*
     Creates an SDK_Audio_Handler*
@@ -94,6 +86,15 @@ SDK1_API int SDK_Audio_StopTrack(SDK_Audio_Handler *audio_handler, uint16_t audi
 */
 SDK1_API int SDK_Audio_SetTrackAudio(SDK_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio);
 
+
+/*
+    Sets the track volume for a specified track_volume, volume range between 0.0f - 1.0f
+
+    returns 0 for success, returns 1 for failure 
+*/
+SDK1_API int SDK_Audio_SetTrackVolume(SDK_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume);
+
+
 /*
     Sets a value to a specified property in the specified audio_track 
 
@@ -112,12 +113,13 @@ SDK1_API int SDK_Audio_SetTrackProp(SDK_Audio_Handler *audio_handler, uint16_t a
 SDK1_API int SDK_Audio_SetMasterVolume(SDK_Audio_Handler *audio_handler, float master_volume);
 
 /*
-    Sets the track volume for a specified track_volume, volume range between 0.0f - 1.0f
+    Gets the master volume and fills in the float* with it
 
-    returns 0 for success, returns 1 for failure 
+    Will fail if either SDK_Audio_Handler* or float* is NULL
+
+    returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Audio_SetTrackVolume(SDK_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume);
-
+SDK1_API int SDK_Audio_GetMasterVolume(SDK_Audio_Handler *audio_handler, float *master_volume);
 
 
 

@@ -7,6 +7,13 @@
 
 #include "SDK_audio.h"
 
+struct SDK_Audio_Handler{
+
+    MIX_Mixer *mixer;
+    SDK_Track *tracks;
+    uint16_t track_capacity;
+
+};
 
 
 
@@ -29,7 +36,6 @@ SDK_Audio_Handler* SDK_Create_AudioHandler(uint16_t track_capacity, float master
     }
 
     audio_handler->track_capacity = track_capacity;
-    audio_handler->master_volume = master_volume;
     MIX_SetMasterGain(audio_handler->mixer, master_volume);
 
     // this makes properly freeing each SDK_Track if failure later easier
@@ -167,7 +173,16 @@ int SDK_Audio_SetMasterVolume(SDK_Audio_Handler *audio_handler, float master_vol
     if(!audio_handler) return 1;
 
     MIX_SetMasterGain(audio_handler->mixer, master_volume);
-    audio_handler->master_volume = master_volume;
+
+    return 0;
+}
+
+
+int SDK_Audio_GetMasterVolume(SDK_Audio_Handler *audio_handler, float *master_volume){
+
+    if(!audio_handler || !master_volume) return 1;
+
+    *master_volume = MIX_GetMasterGain(audio_handler->mixer);
 
     return 0;
 }
