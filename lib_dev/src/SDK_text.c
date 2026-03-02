@@ -22,7 +22,7 @@ struct SDK_Text{
 
 
 SDK_Text* SDK_CreateText(
-    SDK_Display *display, const char *display_text, const char *font_path, float font_size, int x, int y, SDL_Color color){
+    const SDK_Display *display, const char *display_text, const char *font_path, float font_size, int x, int y, SDL_Color color){
     
     SDK_Text *text = t_malloc(sizeof(SDK_Text));
 
@@ -165,7 +165,7 @@ int SDK_Text_SetPosition(SDK_Text *text, int x, int y){
 }
 
 
-int SDK_Text_Get_RenderRect(SDK_Text *text, SDL_FRect *render_rect){
+int SDK_Text_Get_RenderRect(const SDK_Text *text, SDL_FRect *render_rect){
 
     if(!text || !render_rect) return 1;
 
