@@ -11,7 +11,7 @@
 
 
 
-SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
+SDK_Sprite* SDK_Create_StaticSprite(const SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
 
     if(!display) return NULL;
 
@@ -23,8 +23,7 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
 
     sprite->sprite_type = SDK_STATIC_SPRITE;
 
-    void **data_t = (void **)&sprite->data;
-    *data_t = t_malloc(sizeof(SDK_StaticSprite_Data));
+    sprite->data = t_malloc(sizeof(SDK_StaticSprite_Data));
 
     if(!sprite->data){
         t_free(sprite);
