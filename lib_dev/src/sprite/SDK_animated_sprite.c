@@ -3,7 +3,7 @@
 #include "SDK_display_internal.h"
 
 
-SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
+SDK_Sprite* SDK_Create_AnimatedSprite(const SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
 
     if(!display) return NULL;
 
@@ -14,9 +14,7 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 
     sprite->sprite_type = SDK_ANIMATED_SPRITE;
 
-    void **data_t = (void **)&sprite->data;
-    
-    *data_t = t_malloc(sizeof(SDK_AnimatedSprite_Data));
+    sprite->data = t_malloc(sizeof(SDK_AnimatedSprite_Data));
 
     if(!sprite->data){
         t_free(sprite);
@@ -115,7 +113,7 @@ int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect *frames, uint
 
 
 
-int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
+int SDK_Sprite_UpdateAnimation(const SDK_Sprite *animated_sprite, SDK_Time *time){
 
     if(!animated_sprite || !time)
         return 1;
@@ -179,7 +177,7 @@ int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint16_t animation_i
 
 
 
-int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool play){
+int SDK_Sprite_SetPlayAnimation(const SDK_Sprite *animated_sprite, uint16_t animation_index, bool play){
 
     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE) return 1;
 
@@ -194,7 +192,7 @@ int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, uint16_t animation_
 
 
 
-int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool loop){
+int SDK_Sprite_SetLoopAnimation(const SDK_Sprite *animated_sprite, uint16_t animation_index, bool loop){
 
     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE) return 1;
 
@@ -209,7 +207,7 @@ int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t animation_
 
 
 
-int SDK_Sprite_EnableAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool enabled){
+int SDK_Sprite_EnableAnimation(const SDK_Sprite *animated_sprite, uint16_t animation_index, bool enabled){
     
     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE) return 1;
 

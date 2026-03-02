@@ -45,7 +45,8 @@ typedef struct SDK_Sprite SDK_Sprite;
     returns SDK_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
+SDK1_API SDK_Sprite* SDK_Create_StaticSprite(
+    const SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 
 /*
@@ -61,7 +62,7 @@ SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite);
+SDK1_API int SDK_Render_Sprite(const SDK_Display *display, SDK_Sprite *sprite);
 
 
 /*
@@ -71,7 +72,7 @@ SDK1_API int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite);
     
     returns SDL_Texture* for success, returns NULL for failure
 */
-SDK1_API SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite);
+SDK1_API SDL_Texture* SDK_Sprite_GetTexture(const SDK_Sprite *sprite);
 
 /*
     Sets the SDL_Texture* of the given SDK_Sprite*
@@ -91,7 +92,7 @@ SDK1_API int SDK_Sprite_SetTexture(SDK_Sprite *sprite, SDL_Texture *texture);
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_GetScale(SDK_Sprite *sprite, double *scale);
+SDK1_API int SDK_Sprite_GetScale(const SDK_Sprite *sprite, double *scale);
 
 /*
     Scales the width and height of the render_rect relative to the original width and height when the sprite was created
@@ -112,7 +113,7 @@ SDK1_API int SDK_Sprite_SetScale(SDK_Sprite *sprite, double new_scale);
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_GetAngle(SDK_Sprite *sprite, double *angle);
+SDK1_API int SDK_Sprite_GetAngle(const SDK_Sprite *sprite, double *angle);
 
 
 /*
@@ -133,7 +134,7 @@ SDK1_API int SDK_Sprite_SetAngle(SDK_Sprite *sprite, double angle);
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_GetPivotPoint(SDK_Sprite *sprite, SDL_FPoint *pivot_point);
+SDK1_API int SDK_Sprite_GetPivotPoint(const SDK_Sprite *sprite, SDL_FPoint *pivot_point);
 
 /*
     Sets the pivot_point of the SDK_Sprite*
@@ -153,7 +154,7 @@ SDK1_API int SDK_Sprite_SetPivotPoint(SDK_Sprite *sprite, SDL_FPoint pivot_point
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_GetFlipMode(SDK_Sprite *sprite, SDL_FlipMode *flip_mode);
+SDK1_API int SDK_Sprite_GetFlipMode(const SDK_Sprite *sprite, SDL_FlipMode *flip_mode);
 
 
 /*
@@ -174,7 +175,7 @@ SDK1_API int SDK_Sprite_SetFlipMode(SDK_Sprite *sprite, SDL_FlipMode flip_mode);
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_Get_RenderRect(SDK_Sprite *sprite, SDL_FRect *render_rect);
+SDK1_API int SDK_Sprite_Get_RenderRect(const SDK_Sprite *sprite, SDL_FRect *render_rect);
 
 
 
@@ -213,7 +214,8 @@ SDK1_API int SDK_Sprite_Set_Position(SDK_Sprite *sprite, SDL_FPoint position);
     returns SDK_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
+SDK1_API SDK_Sprite* SDK_Create_AnimatedSprite(
+    const SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 
 
@@ -243,7 +245,7 @@ SDK1_API int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect *fra
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time);
+SDK1_API int SDK_Sprite_UpdateAnimation(const SDK_Sprite *animated_sprite, SDK_Time *time);
 
 /*
     Selects an animation within the SDK_Sprite
@@ -268,7 +270,7 @@ SDK1_API int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint16_t an
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool play);
+SDK1_API int SDK_Sprite_SetPlayAnimation(const SDK_Sprite *animated_sprite, uint16_t animation_index, bool play);
 
 
 
@@ -281,7 +283,7 @@ SDK1_API int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, uint16_t a
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool loop);
+SDK1_API int SDK_Sprite_SetLoopAnimation(const SDK_Sprite *animated_sprite, uint16_t animation_index, bool loop);
 
 
 
@@ -292,7 +294,7 @@ SDK1_API int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t a
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_EnableAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
+SDK1_API int SDK_Sprite_EnableAnimation(const SDK_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
 
 
 

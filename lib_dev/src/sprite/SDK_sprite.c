@@ -85,7 +85,7 @@ int SDK_Sprite_SetTexture(SDK_Sprite *sprite, SDL_Texture *texture){
 
 
 
-SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite){
+SDL_Texture* SDK_Sprite_GetTexture(const SDK_Sprite *sprite){
 
     if(!sprite) return NULL;
 
@@ -105,7 +105,7 @@ SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite){
 
 
 
-int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
+int SDK_Render_Sprite(const SDK_Display *display, const SDK_Sprite *sprite){
 
     if(!display || !sprite) return 1;
 
@@ -164,8 +164,6 @@ int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
     }
 
 
-
-
     if(sprite->angle == 0.0f && sprite->flip_mode == SDL_FLIP_NONE){
 
         if(!SDL_RenderTexture(display->renderer, texture, src_rect, &sprite->render_rect))
@@ -181,7 +179,7 @@ int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
     return 0;
 }
 
-int SDK_Sprite_GetScale(SDK_Sprite *sprite, double *scale){
+int SDK_Sprite_GetScale(const SDK_Sprite *sprite, double *scale){
     
     if(!sprite || !scale) return 1;
 
@@ -235,7 +233,7 @@ int SDK_Sprite_SetScale(SDK_Sprite *sprite, double new_scale){
 
 
 
-int SDK_Sprite_GetAngle(SDK_Sprite *sprite, double *angle){
+int SDK_Sprite_GetAngle(const SDK_Sprite *sprite, double *angle){
 
     if(!sprite || !angle) return 1;
 
@@ -271,7 +269,7 @@ int SDK_Sprite_SetPivotPoint(SDK_Sprite *sprite, SDL_FPoint pivot_point){
 
 
 
-int SDK_Sprite_GetPivotPoint(SDK_Sprite *sprite, SDL_FPoint *pivot_point){
+int SDK_Sprite_GetPivotPoint(const SDK_Sprite *sprite, SDL_FPoint *pivot_point){
 
     if(!sprite || !pivot_point) return 1;
 
@@ -295,7 +293,7 @@ int SDK_Sprite_SetFlipMode(SDK_Sprite *sprite, SDL_FlipMode flip_mode){
 
 
 
-int SDK_Sprite_GetFlipMode(SDK_Sprite *sprite, SDL_FlipMode *flip_mode){
+int SDK_Sprite_GetFlipMode(const SDK_Sprite *sprite, SDL_FlipMode *flip_mode){
 
     if(!sprite || !flip_mode) return 1;
 
@@ -320,7 +318,7 @@ int SDK_Sprite_Set_Position(SDK_Sprite *sprite, SDL_FPoint position){
 
 
 
-int SDK_Sprite_Get_RenderRect(SDK_Sprite *sprite, SDL_FRect *render_rect){
+int SDK_Sprite_Get_RenderRect(const SDK_Sprite *sprite, SDL_FRect *render_rect){
 
     if(!sprite || !render_rect) return 1;
 
