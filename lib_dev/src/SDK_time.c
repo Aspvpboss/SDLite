@@ -62,14 +62,14 @@ void SDK_DestroyTime(SDK_Time *time){
 }
 
 
-double SDK_Time_GetFPS(SDK_Time *time){
+double SDK_Time_GetFPS(const SDK_Time *time){
     
     if(!time) return -1.0f;
 
     return time->fps;
 }
 
-double SDK_Time_GetDT(SDK_Time *time){
+double SDK_Time_GetDT(const SDK_Time *time){
     
     if(!time) return -1.0f;
 
@@ -77,7 +77,7 @@ double SDK_Time_GetDT(SDK_Time *time){
 }
 
 
-bool SDK_Time_FPS_Update(SDK_Time *time){
+bool SDK_Time_FPS_Update(const SDK_Time *time){
 
     if(!time) return false;
 
@@ -85,7 +85,7 @@ bool SDK_Time_FPS_Update(SDK_Time *time){
 }
 
 
-double SDK_Time_Get_FPSLimit(SDK_Time *time){
+double SDK_Time_Get_FPSLimit(const SDK_Time *time){
 
     if(!time) return 0.0f;
 

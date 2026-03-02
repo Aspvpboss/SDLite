@@ -52,7 +52,7 @@ SDK1_API void SDK_DestroyTime(SDK_Time *time);
 
     returns the fps for success, returns -1.0f for failure
 */
-SDK1_API double SDK_Time_GetFPS(SDK_Time *time);
+SDK1_API double SDK_Time_GetFPS(const SDK_Time *time);
 
 /*
     Gets the delta time of the SDK_Time*
@@ -61,7 +61,7 @@ SDK1_API double SDK_Time_GetFPS(SDK_Time *time);
 
     returns the delta time for success, returns -1.0f for failure
 */
-SDK1_API double SDK_Time_GetDT(SDK_Time *time);
+SDK1_API double SDK_Time_GetDT(const SDK_Time *time);
 
 
 /*
@@ -71,7 +71,7 @@ SDK1_API double SDK_Time_GetDT(SDK_Time *time);
 
     returns a bool of the fps updated for success, returns false for failure
 */
-SDK1_API bool SDK_Time_FPS_Update(SDK_Time *time);
+SDK1_API bool SDK_Time_FPS_Update(const SDK_Time *time);
 
 
 /*
@@ -81,7 +81,7 @@ SDK1_API bool SDK_Time_FPS_Update(SDK_Time *time);
 
     returns the fps_limit for success, returns 0.0f for failure
 */
-SDK1_API double SDK_Time_Get_FPSLimit(SDK_Time *time);
+SDK1_API double SDK_Time_Get_FPSLimit(const SDK_Time *time);
 
 /*
     Sets the fps_limit of the SDK_Time*
