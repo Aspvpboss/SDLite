@@ -6,7 +6,7 @@
 */
 
 #include "SDK_display.h"
-
+#include "SDK_display_internal.h"
 
 
 SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag){
@@ -15,10 +15,6 @@ SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int w
 
     SDK_Display *display = t_malloc(sizeof(SDK_Display));
     display->window_flag = window_flag;
-    int *width = (int *)&display->width;
-    *width = window_width;
-    int *height = (int *)&display->height;
-    *height = window_height;
 
 
     display->window = SDL_CreateWindow(window_title, window_width, window_height, window_flag);
@@ -45,6 +41,42 @@ SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int w
     return display;
 }
 
+
+
+
+int SDK_DisplayClear(SDK_Display *display){
+
+    if(!display) return 1;
+
+    if(!SDL_RenderClear(display->renderer)){
+        return 1;
+    }
+
+    return 0;
+}
+
+int SDK_DisplayPresent(SDK_Display *display){
+
+    if(!display) return 1;
+
+    if(!SDL_RenderPresent(display->renderer)){
+        return 1;
+    }
+
+    return 0;
+}
+
+
+int SDK_Display_IsFullscreen(SDK_Display *display){
+
+    if(!display) return -1;
+
+    display->window_flag = SDL_GetWindowFlags(display->window); 
+
+    if(display->window_flag & SDL_WINDOW_FULLSCREEN) return 1;
+
+    return 0;
+}
 
 
 void SDK_DestroyDisplay(SDK_Display *display){
@@ -76,11 +108,6 @@ int SDK_DisplaySetWindowed(SDK_Display *display, int width, int height){
         return 1;
     }
 
-    int *p_width = (int *)&display->width;
-    *p_width = width;
-    int *p_height = (int *)&display->height;
-    *p_height = height;
-
     return 0;
 }
 
@@ -92,9 +119,16 @@ int SDK_DisplaySetFullscreen(SDK_Display *display){
         return 1;
     }
 
-    if(!SDL_GetWindowSize(display->window, (int *)&display->width, (int *)&display->height)){
-        return 1;
-    }
+    return 0;
+}
+
+
+int SDK_Display_GetSize(SDK_Display *display, int *w, int *h){
+
+    if(!display || !w || !h) return 1;
+
+    if(!SDL_GetWindowSize(display->window, w, h)) return 1;
 
     return 0;
 }
+

@@ -7,7 +7,7 @@
 
 #include "sprite/SDK_sprite.h"
 #include "SDK_sprite_internal.h"
-
+#include "SDK_display_internal.h"
 
 
 

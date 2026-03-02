@@ -1,5 +1,6 @@
 #include "sprite/SDK_sprite.h"
 #include "SDK_sprite_internal.h"
+#include "SDK_display_internal.h"
 
 
 SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){

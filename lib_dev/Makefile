@@ -2,7 +2,7 @@
 GCC = gcc
 #GCC = gcc
 
-INCLUDE = -Iinclude -Isrc/sprite 
+INCLUDE = -Iinclude -Isrc/sprite -Isrc
 LIB = -LSDK1/lib
 LINK = -lSDL3 -lSDL3_image -lSDL3_ttf -lSDL3_mixer
 SRC_LIB = $(wildcard src/*.c src/sprite/*.c)

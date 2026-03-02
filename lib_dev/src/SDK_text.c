@@ -6,7 +6,7 @@
 */
 
 #include "SDK_Text.h"
-
+#include "SDK_display_internal.h"
 
 struct SDK_Text{
 
