@@ -236,6 +236,12 @@ int main(){
     SDL_Event e;
 
 
+    if(SDK_Display_IsFullscreen(display)){
+        printf("is fullscreen\n");
+    } else{
+        printf("not fullscreen\n");
+    }
+
 
     while(running){
 
