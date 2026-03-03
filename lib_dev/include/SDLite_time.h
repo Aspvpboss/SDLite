@@ -19,6 +19,7 @@ extern "C"{
 /*
 
     SDLite_Time holds variable that are used for time calculations
+    
     There should only be one SDLite_Time per thread. 
     You should only use the SDLite_Time in the thread it was created in
 

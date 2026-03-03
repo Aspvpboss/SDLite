@@ -17,9 +17,7 @@ extern "C" {
 #include "SDLite_display.h"
 
 /*
-    contains variables needed to display a string onto the screen
-    you can read values from rect, but to change the actual values
-    you must use SDLite_Text_SetPosition
+    These functions should only be called on the thread the SDLite_Text was created in
 */
 typedef struct SDLite_Text SDLite_Text;
 
