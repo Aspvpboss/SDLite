@@ -77,7 +77,7 @@ double SDLite_Time_GetDT(const SDLite_Time *time){
 }
 
 
-bool SDLite_Time_FPS_Update(const SDLite_Time *time){
+bool SDLite_Time_Is_FPSUpdated(const SDLite_Time *time){
 
     if(!time) return false;
 

@@ -19,6 +19,8 @@ extern "C"{
 /*
 
     SDLite_Time holds variable that are used for time calculations
+    There should only be one SDLite_Time per thread. 
+    You should only use the SDLite_Time in the thread it was created in
 
 */
 typedef struct SDLite_Time SDLite_Time;
@@ -71,7 +73,7 @@ SDLite_DLL double SDLite_Time_GetDT(const SDLite_Time *time);
 
     returns a bool of the fps updated for success, returns false for failure
 */
-SDLite_DLL bool SDLite_Time_FPS_Update(const SDLite_Time *time);
+SDLite_DLL bool SDLite_Time_Is_FPSUpdated(const SDLite_Time *time);
 
 
 /*

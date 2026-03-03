@@ -21,6 +21,8 @@ extern "C"{
 /* 
     takes in int* and writes the version numbers to those pointers
 
+    Can be called from any thread
+
     returns early if any pointer is NULL
 */
 SDLite_DLL void SDLite_Version_GetNumbers(int *major, int *minor, int *micro);

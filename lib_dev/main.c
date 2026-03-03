@@ -279,7 +279,7 @@ int main(){
         }
 
 
-        if(SDLite_Time_FPS_Update(time))
+        if(SDLite_Time_Is_FPSUpdated(time))
             update_text(text, SDLite_Time_GetFPS(time));
          
 
