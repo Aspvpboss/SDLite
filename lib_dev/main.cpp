@@ -1,7 +1,7 @@
 // this is the test file for the framework
 // the entire file is just bad practice, but idc
 
-#include "SDK.h"
+#include "SDLite.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
