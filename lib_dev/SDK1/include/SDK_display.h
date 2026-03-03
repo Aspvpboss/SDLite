@@ -40,14 +40,14 @@ typedef struct{
     returns SDLite_Display* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag);
+SDLite_DLL SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag);
 
 /*
     Frees a SDLite_Display 
 
     Will return early if SDLite_Display is NULL
 */
-SDK1_API void SDLite_DestroyDisplay(SDLite_Display *display);
+SDLite_DLL void SDLite_DestroyDisplay(SDLite_Display *display);
 
 /*
     Clears all rendered objects (SDLite_Sprite, SDLite_Text) from the screen
@@ -75,7 +75,7 @@ static inline int SDLite_DisplayPresent(SDLite_Display *display){
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height);
+SDLite_DLL int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height);
 
 
 /*
@@ -85,7 +85,7 @@ SDK1_API int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int h
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_DisplaySetFullscreen(SDLite_Display *display);
+SDLite_DLL int SDLite_DisplaySetFullscreen(SDLite_Display *display);
 
 #ifdef __cplusplus
 }

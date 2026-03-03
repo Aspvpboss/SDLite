@@ -34,7 +34,7 @@ typedef struct SDLite_Text SDLite_Text;
     returns SDLite_Text* for success, NULL for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API SDLite_Text* SDLite_CreateText(
+SDLite_DLL SDLite_Text* SDLite_CreateText(
     const SDLite_Display *display, const char *display_text, const char *font_path, float font_size, int x, int y, SDL_Color color);
 
 
@@ -43,7 +43,7 @@ SDK1_API SDLite_Text* SDLite_CreateText(
 
     Will return early if SDLite_Text is NULL
 */
-SDK1_API void SDLite_DestroyText(SDLite_Text *text);
+SDLite_DLL void SDLite_DestroyText(SDLite_Text *text);
 
 
 /*
@@ -56,7 +56,7 @@ SDK1_API void SDLite_DestroyText(SDLite_Text *text);
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDLite_Text_SetFont(SDLite_Text *text, const char *font_path, float font_size);
+SDLite_DLL int SDLite_Text_SetFont(SDLite_Text *text, const char *font_path, float font_size);
 
 
 /*
@@ -67,7 +67,7 @@ SDK1_API int SDLite_Text_SetFont(SDLite_Text *text, const char *font_path, float
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDLite_Text_SetFontSize(SDLite_Text *text, float font_size);
+SDLite_DLL int SDLite_Text_SetFontSize(SDLite_Text *text, float font_size);
 
 
 /*
@@ -78,7 +78,7 @@ SDK1_API int SDLite_Text_SetFontSize(SDLite_Text *text, float font_size);
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDLite_Text_SetString(SDLite_Text *text, const char *string);
+SDLite_DLL int SDLite_Text_SetString(SDLite_Text *text, const char *string);
 
 
 /*
@@ -89,7 +89,7 @@ SDK1_API int SDLite_Text_SetString(SDLite_Text *text, const char *string);
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDLite_Text_SetPosition(SDLite_Text *text, int x, int y);
+SDLite_DLL int SDLite_Text_SetPosition(SDLite_Text *text, int x, int y);
 
 /*
     Fills values of SDL_FRect of the current x, y, w, and h of the SDLite_Text*
@@ -99,7 +99,7 @@ SDK1_API int SDLite_Text_SetPosition(SDLite_Text *text, int x, int y);
     returns 0 for success, returns 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *render_rect);
+SDLite_DLL int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *render_rect);
 
 
 /*
@@ -111,7 +111,7 @@ SDK1_API int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *rend
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDLite_Text_SetWrapWidth(SDLite_Text *text, int wrap_width_pixels);
+SDLite_DLL int SDLite_Text_SetWrapWidth(SDLite_Text *text, int wrap_width_pixels);
 
 
 /*
@@ -122,7 +122,7 @@ SDK1_API int SDLite_Text_SetWrapWidth(SDLite_Text *text, int wrap_width_pixels);
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDLite_Text_SetColor(SDLite_Text *text, SDL_Color color);
+SDLite_DLL int SDLite_Text_SetColor(SDLite_Text *text, SDL_Color color);
 
 
 /*
@@ -133,7 +133,7 @@ SDK1_API int SDLite_Text_SetColor(SDLite_Text *text, SDL_Color color);
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDLite_Render_Text(SDLite_Text *text);
+SDLite_DLL int SDLite_Render_Text(SDLite_Text *text);
 
 #ifdef __cplusplus
 }

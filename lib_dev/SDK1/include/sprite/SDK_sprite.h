@@ -73,7 +73,7 @@ typedef struct{
     returns SDLite_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDLite_Sprite* SDLite_Create_StaticSprite(SDLite_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
+SDLite_DLL SDLite_Sprite* SDLite_Create_StaticSprite(SDLite_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 
 
@@ -86,7 +86,7 @@ SDK1_API SDLite_Sprite* SDLite_Create_StaticSprite(SDLite_Display *display, cons
     returns SDLite_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDLite_Sprite* SDLite_Create_AnimatedSprite(SDLite_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
+SDLite_DLL SDLite_Sprite* SDLite_Create_AnimatedSprite(SDLite_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 
 
@@ -98,7 +98,7 @@ SDK1_API SDLite_Sprite* SDLite_Create_AnimatedSprite(SDLite_Display *display, co
     returns SDLite_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDLite_Sprite* SDLite_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled);
+SDLite_DLL SDLite_Sprite* SDLite_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled);
 
 
 /*
@@ -106,7 +106,7 @@ SDK1_API SDLite_Sprite* SDLite_Create_RectSprite(SDL_FRect rect, SDL_Color color
 
     Will return early if SDLite_Sprite is NULL
 */
-SDK1_API void SDLite_DestroySprite(SDLite_Sprite *sprite);
+SDLite_DLL void SDLite_DestroySprite(SDLite_Sprite *sprite);
 
 /*
     Renders a sprite onto the display
@@ -114,7 +114,7 @@ SDK1_API void SDLite_DestroySprite(SDLite_Sprite *sprite);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_Render_Sprite(SDLite_Display *display, SDLite_Sprite *sprite);
+SDLite_DLL int SDLite_Render_Sprite(SDLite_Display *display, SDLite_Sprite *sprite);
 
 
 /*
@@ -122,7 +122,7 @@ SDK1_API int SDLite_Render_Sprite(SDLite_Display *display, SDLite_Sprite *sprite
 
     returns SDL_Texture* for success, returns NULL for failure
 */
-SDK1_API SDL_Texture* SDLite_Sprite_GetTexture(SDLite_Sprite *sprite);
+SDLite_DLL SDL_Texture* SDLite_Sprite_GetTexture(SDLite_Sprite *sprite);
 
 
 /*
@@ -133,7 +133,7 @@ SDK1_API SDL_Texture* SDLite_Sprite_GetTexture(SDLite_Sprite *sprite);
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_capacity);
+SDLite_DLL int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_capacity);
 
 
 /*
@@ -142,7 +142,7 @@ SDK1_API int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint16
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames, uint8_t amount_frames, double fps, uint16_t animation_index);
+SDLite_DLL int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames, uint8_t amount_frames, double fps, uint16_t animation_index);
 
 /*
     Updates frames of an animation, must be called once per frame for animations to work
@@ -150,7 +150,7 @@ SDK1_API int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRec
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, SDLite_Time *time);
+SDLite_DLL int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, SDLite_Time *time);
 
 /*
     Selects an animation within the SDLite_Sprite
@@ -160,7 +160,7 @@ SDK1_API int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, SDLit
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index);
+SDLite_DLL int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index);
 
 
 /*
@@ -175,7 +175,7 @@ SDK1_API int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uint1
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDLite_Sprite_SetPlayAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool play);
+SDLite_DLL int SDLite_Sprite_SetPlayAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool play);
 
 
 
@@ -188,7 +188,7 @@ SDK1_API int SDLite_Sprite_SetPlayAnimation(SDLite_Sprite *animated_sprite, uint
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDLite_Sprite_SetLoopAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool loop);
+SDLite_DLL int SDLite_Sprite_SetLoopAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool loop);
 
 
 
@@ -199,7 +199,7 @@ SDK1_API int SDLite_Sprite_SetLoopAnimation(SDLite_Sprite *animated_sprite, uint
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDLite_Sprite_EnableAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
+SDLite_DLL int SDLite_Sprite_EnableAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
 
 
 /*
@@ -209,7 +209,7 @@ SDK1_API int SDLite_Sprite_EnableAnimation(SDLite_Sprite *animated_sprite, uint1
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDLite_Sprite_SetRectColor(SDLite_Sprite *rect_sprite, SDL_Color color);
+SDLite_DLL int SDLite_Sprite_SetRectColor(SDLite_Sprite *rect_sprite, SDL_Color color);
 
 /*
     Scales the width and height of the render_rect relative to the original width and height when the sprite was created
@@ -217,7 +217,7 @@ SDK1_API int SDLite_Sprite_SetRectColor(SDLite_Sprite *rect_sprite, SDL_Color co
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_Sprite_UpdateScale(SDLite_Sprite *sprite, double new_scale);
+SDLite_DLL int SDLite_Sprite_UpdateScale(SDLite_Sprite *sprite, double new_scale);
 
 
 #ifdef __cplusplus

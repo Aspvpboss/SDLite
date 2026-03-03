@@ -23,7 +23,7 @@ extern "C"{
 
     returns early if any pointer is NULL
 */
-SDK1_API void SDLite_Version_GetNumbers(int *major, int *minor, int *micro);
+SDLite_DLL void SDLite_Version_GetNumbers(int *major, int *minor, int *micro);
 
 #ifdef __cplusplus
 }

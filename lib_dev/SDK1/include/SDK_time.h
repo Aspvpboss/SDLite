@@ -45,14 +45,14 @@ typedef struct{
     returns SDLite_Time* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDLite_Time* SDLite_CreateTime(double fps_limit);
+SDLite_DLL SDLite_Time* SDLite_CreateTime(double fps_limit);
 
 /*
     Frees a SDLite_Time
 
     Will return early if SDLite_Time is NULL
 */
-SDK1_API void SDLite_DestroyTime(SDLite_Time *time);
+SDLite_DLL void SDLite_DestroyTime(SDLite_Time *time);
 
 /*
     Calls the time.h functions in order of use
@@ -71,7 +71,7 @@ SDK1_API void SDLite_DestroyTime(SDLite_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_TimeFunctions(SDLite_Time *time);
+SDLite_DLL int SDLite_TimeFunctions(SDLite_Time *time);
 
 /*
     Updates 'dt' within SDLite_Time with current delta time
@@ -79,7 +79,7 @@ SDK1_API int SDLite_TimeFunctions(SDLite_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_CalculateDT(SDLite_Time *time);
+SDLite_DLL int SDLite_CalculateDT(SDLite_Time *time);
 
 /*
     Updates 'fps' within SDLite_Time with current fps
@@ -91,7 +91,7 @@ SDK1_API int SDLite_CalculateDT(SDLite_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_CalculateFPS(SDLite_Time *time);
+SDLite_DLL int SDLite_CalculateFPS(SDLite_Time *time);
 
 /*
     This function limits the fps of the application. 
@@ -101,7 +101,7 @@ SDK1_API int SDLite_CalculateFPS(SDLite_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_LimitFPS(SDLite_Time *time);
+SDLite_DLL int SDLite_LimitFPS(SDLite_Time *time);
 
 #ifdef __cplusplus
 }

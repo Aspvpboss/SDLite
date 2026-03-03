@@ -32,7 +32,7 @@ enum SDLite_CollisionType{
 
     returns 0 for no collision, 1 for collision, and -1 for failure
 */
-SDK1_API int SDLite_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point);
+SDLite_DLL int SDLite_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point);
 
 
 
@@ -41,7 +41,7 @@ SDK1_API int SDLite_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint 
 
     returns 0 for no collision, 1 for collision, and -1 for failure
 */
-SDK1_API int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b);
+SDLite_DLL int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b);
 
 /*
     Checks relative collisions between SDL_Rects 'target' and 'source'
@@ -50,7 +50,7 @@ SDK1_API int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b);
 
     returns enum SDLite_CollisionType for success, returns SDLite_COLLISION_ERROR for failure  
 */
-SDK1_API enum SDLite_CollisionType SDLite_Collision_RectDir(const SDL_FRect *target, const SDL_FRect *source);
+SDLite_DLL enum SDLite_CollisionType SDLite_Collision_RectDir(const SDL_FRect *target, const SDL_FRect *source);
 
 
 #ifdef __cplusplus

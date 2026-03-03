@@ -14,14 +14,14 @@ extern "C"{
 
 #ifdef _WIN32
     #ifdef DLL_EXPORTS
-        #define SDK1_API __declspec(dllexport)
+        #define SDLite_DLL __declspec(dllexport)
     #elif defined(STATIC_LINK)
-        #define SDK1_API
+        #define SDLite_DLL
     #else
-        #define SDK1_API __declspec(dllimport)
+        #define SDLite_DLL __declspec(dllimport)
     #endif
 #else
-    #define SDK1_API
+    #define SDLite_DLL
 #endif
 
 

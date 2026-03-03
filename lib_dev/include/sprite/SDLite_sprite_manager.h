@@ -38,14 +38,14 @@ typedef struct{
     returns SDLite_Sprite_Manager* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDLite_Sprite_Manager* SDLite_Create_SpriteManager(uint64_t max_z_depth, uint64_t max_sprites);
+SDLite_DLL SDLite_Sprite_Manager* SDLite_Create_SpriteManager(uint64_t max_z_depth, uint64_t max_sprites);
 
 /*
     Frees a SDLite_Sprite_Manager
 
     Will return early if SDLite_Sprite_Manager is NULL
 */
-SDK1_API void SDLite_Destroy_SpriteManager(SDLite_Sprite_Manager *manager);
+SDLite_DLL void SDLite_Destroy_SpriteManager(SDLite_Sprite_Manager *manager);
 
 /*
     Queues a sprite for rendering at the specified Z depth.
@@ -59,7 +59,7 @@ SDK1_API void SDLite_Destroy_SpriteManager(SDLite_Sprite_Manager *manager);
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDLite_SpriteManager_QueueSprite(SDLite_Sprite_Manager *manager, SDLite_Sprite *sprite, uint64_t z_depth);
+SDLite_DLL int SDLite_SpriteManager_QueueSprite(SDLite_Sprite_Manager *manager, SDLite_Sprite *sprite, uint64_t z_depth);
 
 /*
     Renders all the sprites within each z_layer contained in SDLite_Sprite_Manager
@@ -67,7 +67,7 @@ SDK1_API int SDLite_SpriteManager_QueueSprite(SDLite_Sprite_Manager *manager, SD
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDLite_Render_SpriteManager(SDLite_Display *display, SDLite_Sprite_Manager *manager);
+SDLite_DLL int SDLite_Render_SpriteManager(SDLite_Display *display, SDLite_Sprite_Manager *manager);
 
 
 #ifdef __cplusplus

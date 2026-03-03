@@ -36,7 +36,7 @@ typedef struct SDLite_Audio_Handler SDLite_Audio_Handler;
 
     returns SDLite_Audio_Handler* for success, returns NULL for failure
 */
-SDK1_API SDLite_Audio_Handler* SDLite_Create_AudioHandler(uint16_t track_capacity, float master_volume);
+SDLite_DLL SDLite_Audio_Handler* SDLite_Create_AudioHandler(uint16_t track_capacity, float master_volume);
 
 
 /*
@@ -44,7 +44,7 @@ SDK1_API SDLite_Audio_Handler* SDLite_Create_AudioHandler(uint16_t track_capacit
 
     Will return early if SDLite_Audio_Handler* is NULL
 */
-SDK1_API void SDLite_Destroy_AudioHandler(SDLite_Audio_Handler *audio_handler);
+SDLite_DLL void SDLite_Destroy_AudioHandler(SDLite_Audio_Handler *audio_handler);
 
 
 /*
@@ -55,7 +55,7 @@ SDK1_API void SDLite_Destroy_AudioHandler(SDLite_Audio_Handler *audio_handler);
     
     returns SDLite_Track* for success, returns NULL for failure
 */
-SDK1_API SDLite_Track* SDLite_Audio_GetTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track);
+SDLite_DLL SDLite_Track* SDLite_Audio_GetTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track);
 
 /*
     Gets the MIX_Mixer*, the SDLite_Audio_Handler still owns the MIX_Mixer*. 
@@ -65,7 +65,7 @@ SDK1_API SDLite_Track* SDLite_Audio_GetTrack(SDLite_Audio_Handler *audio_handler
 
     returns MIX_Mixer* for success, returns NULL for failure
 */
-SDK1_API MIX_Mixer* SDLite_Audio_GetMixer(SDLite_Audio_Handler *audio_handler);
+SDLite_DLL MIX_Mixer* SDLite_Audio_GetMixer(SDLite_Audio_Handler *audio_handler);
 
     /*
     Plays the audio that has been loaded to the specified audio_track
@@ -74,7 +74,7 @@ SDK1_API MIX_Mixer* SDLite_Audio_GetMixer(SDLite_Audio_Handler *audio_handler);
 
     returns 0 for success, returns 1 for failure 
 */
-SDK1_API int SDLite_Audio_PlayTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track);
+SDLite_DLL int SDLite_Audio_PlayTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track);
 
 /*
     Stops the audio that's playing on the specified audio_track
@@ -83,7 +83,7 @@ SDK1_API int SDLite_Audio_PlayTrack(SDLite_Audio_Handler *audio_handler, uint16_
 
     returns 0 for success, returns 1 for failure 
 */
-SDK1_API int SDLite_Audio_StopTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, int64_t fade_out_frames);
+SDLite_DLL int SDLite_Audio_StopTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, int64_t fade_out_frames);
 
 /*
     Loads a MIX_Audio* to the specified audio_track
@@ -95,7 +95,7 @@ SDK1_API int SDLite_Audio_StopTrack(SDLite_Audio_Handler *audio_handler, uint16_
 
     returns 0 for success, returns 1 for failure 
 */
-SDK1_API int SDLite_Audio_SetTrackAudio(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio);
+SDLite_DLL int SDLite_Audio_SetTrackAudio(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio);
 
 
 /*
@@ -103,7 +103,7 @@ SDK1_API int SDLite_Audio_SetTrackAudio(SDLite_Audio_Handler *audio_handler, uin
 
     returns 0 for success, returns 1 for failure 
 */
-SDK1_API int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume);
+SDLite_DLL int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume);
 
 
 /*
@@ -114,14 +114,14 @@ SDK1_API int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, ui
 
     returns 0 for success, returns 1 for failure 
 */
-SDK1_API int SDLite_Audio_SetTrackProp(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, const char *prop_name, int64_t value);
+SDLite_DLL int SDLite_Audio_SetTrackProp(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, const char *prop_name, int64_t value);
 
 /*
     Sets the master volume of all audio, volume range between 0.0f - 1.0f
 
     returns 0 for success, returns 1 for failure 
 */
-SDK1_API int SDLite_Audio_SetMasterVolume(SDLite_Audio_Handler *audio_handler, float master_volume);
+SDLite_DLL int SDLite_Audio_SetMasterVolume(SDLite_Audio_Handler *audio_handler, float master_volume);
 
 /*
     Gets the master volume and fills in the float* with it
@@ -130,7 +130,7 @@ SDK1_API int SDLite_Audio_SetMasterVolume(SDLite_Audio_Handler *audio_handler, f
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDLite_Audio_GetMasterVolume(SDLite_Audio_Handler *audio_handler, float *master_volume);
+SDLite_DLL int SDLite_Audio_GetMasterVolume(SDLite_Audio_Handler *audio_handler, float *master_volume);
 
 
 
