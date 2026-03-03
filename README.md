@@ -1,6 +1,6 @@
-# SDK Version 1.1.1
+# SDLite Version 1.2.0
 
-SDK is a lightweight C / C++ framework built on top of **SDL3**, designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
+SDLite is a lightweight C / C++ framework built on top of **SDL3**, designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
 
 This framework is intended to be a **generic SDL helper library**, slightly tailored toward 2D game development.
 
@@ -8,10 +8,12 @@ This framework is intended to be a **generic SDL helper library**, slightly tail
 
 ## Patch Notes
 
-- fixed bugs with C++ support, C++ is now supported
-- added blank_scree_cpp example
-
-
+- changed SDK prefix to SDLite, (SDK was a bad name)
+- replaced const variables in SDLite structs to be opaque (mostly)
+- created many new getters and setters for all modules of SDLite
+- SDLite_Sprites can now share the same texture, read the new docs to learn how
+- Updated to Memtrack v1.1, made functions names cleaner and added support for multithreading
+- Documented multithreading support for each module of SDLite
 ---
 
 ## Dependencies
@@ -23,20 +25,20 @@ The included folder **`SDL_libs_all`** contains all required SDL libraries used 
 - SDL3_mixer v3.1  
 - SDL3_ttf v3.3  
 
-You must link against these libraries to build projects using the SDK.
+You must link against these libraries to build projects using SDLite.
 
 ---
 
-## SDK Builds
+## SDLite Builds
 
 Two prebuilt DLL versions of the framework are included:
 
-- **SDK.dll**  
+- **SDLite.dll**  
   Standard release build.  
   No memory allocation tracking.  
   Intended for normal application or game builds.
 
-- **debugSDK.dll**  
+- **debugSDLite.dll**  
   Debug build with **MemTrack** memory allocation tracking enabled.  
   Useful for detecting memory leaks and tracking allocations during development.
 
@@ -54,7 +56,7 @@ Additionally, the included **MemTrack** library header contains documentation fo
 ## Prerequisites
 
 This framework assumes you already have a basic understanding of SDL, and are comfortable with C / C++.  
-Knowing how SDL works internally will make the SDK much easier to understand and use effectively.
+Knowing how SDL works internally will make the SDLite much easier to understand and use effectively.
 
 ---
 
@@ -74,7 +76,7 @@ These examples serve as both references and starting templates.
 
 ## Purpose
 
-This SDK is designed to:
+This SDLite is designed to:
 
 - Reduce SDL boilerplate code  
 - Provide reusable game-oriented helpers  
