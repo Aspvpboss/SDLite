@@ -142,7 +142,7 @@ int main(){
 
     
 
-    MIX_Audio *audio = MIX_LoadAudio(SDLite_Audio_GetMixer(audio_handler), "SDK1/assets/sample_mp3.mp3", true);
+    MIX_Audio *audio = MIX_LoadAudio(SDLite_Audio_GetMixer(audio_handler), "SDLite/assets/sample_mp3.mp3", true);
     if(!audio){
         printf("audio failed to laod\n");
         return 1;
