@@ -1,9 +1,9 @@
-#ifndef SDK_DISPLAY_INTERNAL_H
-#define SDK_DISPLAY_INTERNAL_H
+#ifndef SDLite_DISPLAY_INTERNAL_H
+#define SDLite_DISPLAY_INTERNAL_H
 
 #include "common_libs.h"
 
-struct SDK_Display{
+struct SDLite_Display{
 
     SDL_Window *window;
     SDL_WindowFlags window_flag;

@@ -14,22 +14,7 @@ extern "C" {
 
 #include "common_libs.h"
 
-/*
-    SDLite_Display contains variables needed for SDK functions
-    
-    width and height are the dimensions of the display
-*/
-typedef struct{
-
-    SDL_Window *window;
-    SDL_WindowFlags window_flag;
-    SDL_Renderer *renderer;
-    TTF_TextEngine *text_engine;
-    const int width; 
-    const int height;
-
-} SDLite_Display;
-
+typedef struct SDLite_Display SDLite_Display;
 
 /*
     Creates a SDLite_Display 
@@ -54,9 +39,7 @@ SDK1_API void SDLite_DestroyDisplay(SDLite_Display *display);
 
     returns 0 for success, returns 1 for failure
 */
-static inline int SDLite_DisplayClear(SDLite_Display *display){
-    return !SDL_RenderClear(display->renderer);
-}
+SDK1_API int SDLite_DisplayClear(SDLite_Display *display);
 
 
 /*
@@ -64,9 +47,7 @@ static inline int SDLite_DisplayClear(SDLite_Display *display){
 
     returns 0 for success, returns 1 for failure
 */
-static inline int SDLite_DisplayPresent(SDLite_Display *display){
-    return !SDL_RenderPresent(display->renderer);
-}
+SDK1_API int SDLite_DisplayPresent(SDLite_Display *display);
 
 
 /*
@@ -77,6 +58,16 @@ static inline int SDLite_DisplayPresent(SDLite_Display *display){
 */
 SDK1_API int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height);
 
+/*
+    Fills int* with width and height of window
+
+    Will fail if SDLite_Display*, or if int* is NULL
+
+    returns 0 for success, returns 1 for failure
+    call SDL_GetError() for more info
+*/
+SDK1_API int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h);
+
 
 /*
     This sets a SDLite_Display to be fullscreen, the width and height will be
@@ -86,6 +77,17 @@ SDK1_API int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int h
     call SDL_GetError() for more info
 */
 SDK1_API int SDLite_DisplaySetFullscreen(SDLite_Display *display);
+
+/*
+    Checks if the window is fullscreen or not
+
+    Will fail if SDLite_Display* is NULL
+
+    returns 0 or 1 if SDLite_Display* is fullscreen, returns -1 for failure
+    call SDL_GetError() for more info
+*/
+SDK1_API int SDLite_Display_IsFullscreen(SDLite_Display *display);
+
 
 #ifdef __cplusplus
 }

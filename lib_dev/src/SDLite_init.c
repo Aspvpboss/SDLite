@@ -5,10 +5,10 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "SDK_init.h"
+#include "SDLite_init.h"
 
 
-int SDK_Init(void (*func)(void*), void *func_data, bool memory_failure_abort, bool auto_null_pointers){
+int SDLite_Init(void (*func)(void*), void *func_data, bool memory_failure_abort, bool auto_null_pointers){
 
     if(!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)){
         return 1;
@@ -42,7 +42,7 @@ int SDK_Init(void (*func)(void*), void *func_data, bool memory_failure_abort, bo
 }
 
 
-void SDK_Quit(){
+void SDLite_Quit(){
 
     TTF_Quit();
     MIX_Quit();

@@ -5,8 +5,8 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#ifndef SDK_INIT_H
-#define SDK_INIT_H
+#ifndef SDLite_INIT_H
+#define SDLite_INIT_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,7 +35,7 @@ extern "C" {
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info    
 */
-SDK1_API int SDK_Init(
+SDK1_API int SDLite_Init(
     void (*func)(void*), void *func_data, bool memory_failure_abort, bool print_memtrack_info, bool auto_null_pointers);
 
 /*
@@ -43,7 +43,7 @@ SDK1_API int SDK_Init(
     
     If you are using SDK1_debug, it will print tracking info for any memory you haven't freed
 */
-SDK1_API void SDK_Quit();
+SDK1_API void SDLite_Quit();
 
 #ifdef __cplusplus
 }

@@ -17,13 +17,13 @@ typedef enum{
 
 
 
-void update_text(SDK_Text *text, double fps){
+void update_text(SDLite_Text *text, double fps){
 
     char fps_text[40];
 
     snprintf(fps_text, sizeof(fps_text), "FPS: %.1f", fps);
 
-    SDK_Text_SetString(text, fps_text);
+    SDLite_Text_SetString(text, fps_text);
 
 }
 
@@ -34,12 +34,12 @@ int thread_func(void *ptr){
     return 0;
 }
 
-int test_sprite_getters_setters(SDK_Sprite *sprite){
+int test_sprite_getters_setters(SDLite_Sprite *sprite){
 
     /* ---------- SCALE ---------- */
-    if (SDK_Sprite_SetScale(sprite, 2.0) == 0) {
+    if (SDLite_Sprite_SetScale(sprite, 2.0) == 0) {
         double scale = 0.0;
-        if (SDK_Sprite_GetScale(sprite, &scale) == 0) {
+        if (SDLite_Sprite_GetScale(sprite, &scale) == 0) {
             printf("Scale: %f\n", scale);
         } else {
             printf("Failed to get scale\n");
@@ -49,9 +49,9 @@ int test_sprite_getters_setters(SDK_Sprite *sprite){
     }
 
     /* ---------- ANGLE ---------- */
-    if (SDK_Sprite_SetAngle(sprite, 45.0) == 0) {
+    if (SDLite_Sprite_SetAngle(sprite, 45.0) == 0) {
         double angle = 0.0;
-        if (SDK_Sprite_GetAngle(sprite, &angle) == 0) {
+        if (SDLite_Sprite_GetAngle(sprite, &angle) == 0) {
             printf("Angle: %f\n", angle);
         } else {
             printf("Failed to get angle\n");
@@ -62,9 +62,9 @@ int test_sprite_getters_setters(SDK_Sprite *sprite){
 
     /* ---------- PIVOT POINT ---------- */
     SDL_FPoint pivot_set = { 10.0f, 20.0f };
-    if (SDK_Sprite_SetPivotPoint(sprite, pivot_set) == 0) {
+    if (SDLite_Sprite_SetPivotPoint(sprite, pivot_set) == 0) {
         SDL_FPoint pivot_get;
-        if (SDK_Sprite_GetPivotPoint(sprite, &pivot_get) == 0) {
+        if (SDLite_Sprite_GetPivotPoint(sprite, &pivot_get) == 0) {
             printf("Pivot: (%f, %f)\n", pivot_get.x, pivot_get.y);
         } else {
             printf("Failed to get pivot\n");
@@ -74,9 +74,9 @@ int test_sprite_getters_setters(SDK_Sprite *sprite){
     }
 
     /* ---------- FLIP MODE ---------- */
-    if (SDK_Sprite_SetFlipMode(sprite, SDL_FLIP_HORIZONTAL) == 0) {
+    if (SDLite_Sprite_SetFlipMode(sprite, SDL_FLIP_HORIZONTAL) == 0) {
         SDL_FlipMode flip;
-        if (SDK_Sprite_GetFlipMode(sprite, &flip) == 0) {
+        if (SDLite_Sprite_GetFlipMode(sprite, &flip) == 0) {
             printf("Flip mode: %d\n", flip);
         } else {
             printf("Failed to get flip mode\n");
@@ -87,7 +87,7 @@ int test_sprite_getters_setters(SDK_Sprite *sprite){
 
     /* ---------- RENDER RECT ---------- */
     SDL_FRect rect;
-    if (SDK_Sprite_Get_RenderRect(sprite, &rect) == 0) {
+    if (SDLite_Sprite_Get_RenderRect(sprite, &rect) == 0) {
         printf("RenderRect: x=%f y=%f w=%f h=%f\n",
                rect.x, rect.y, rect.w, rect.h);
     } else {
@@ -96,9 +96,9 @@ int test_sprite_getters_setters(SDK_Sprite *sprite){
 
     /* ---------- POSITION ---------- */
     SDL_FPoint pos = { 100.0f, 200.0f };
-    if (SDK_Sprite_Set_Position(sprite, pos) == 0) {
+    if (SDLite_Sprite_Set_Position(sprite, pos) == 0) {
         SDL_FRect rect2;
-        if (SDK_Sprite_Get_RenderRect(sprite, &rect2) == 0) {
+        if (SDLite_Sprite_Get_RenderRect(sprite, &rect2) == 0) {
             printf("Position after set: (%f, %f)\n", rect2.x, rect2.y);
         }
     } else {
@@ -113,7 +113,7 @@ int test_sprite_getters_setters(SDK_Sprite *sprite){
 
 int main(){
 
-    if(SDK_Init(NULL, NULL, true, true)){
+    if(SDLite_Init(NULL, NULL, true, true)){
         return 1;
     }
 
@@ -125,33 +125,33 @@ int main(){
     SDL_WaitThread(thread, &result);
 
     int macro, minor, micro;
-    SDK_Version_GetNumbers(&macro, &minor, &micro);
+    SDLite_Version_GetNumbers(&macro, &minor, &micro);
     printf("SDK version: %d.%d.%d\n", macro, minor, micro);
 
 
-    SDK_Audio_Handler *audio_handler = SDK_Create_AudioHandler(4, 1.0f);
-    SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
-    SDK_Time *time = SDK_CreateTime(144);
-    SDK_Input *input = SDK_CreateInput();
+    SDLite_Audio_Handler *audio_handler = SDLite_Create_AudioHandler(4, 1.0f);
+    SDLite_Display *display = SDLite_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
+    SDLite_Time *time = SDLite_CreateTime(144);
+    SDLite_Input *input = SDLite_CreateInput();
     if(!input){
         SDL_Log("%s\n", SDL_GetError());
         return 1;
     }
-    SDK_Text *text = SDK_CreateText(display, NULL, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
-    SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
+    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
+    SDLite_Sprite_Manager *manager = SDLite_Create_SpriteManager(16, 16);
 
     
 
-    MIX_Audio *audio = MIX_LoadAudio(SDK_Audio_GetMixer(audio_handler), "SDK1/assets/sample_mp3.mp3", true);
+    MIX_Audio *audio = MIX_LoadAudio(SDLite_Audio_GetMixer(audio_handler), "SDK1/assets/sample_mp3.mp3", true);
     if(!audio){
         printf("audio failed to laod\n");
         return 1;
     }
-    SDK_Audio_SetTrackAudio(audio_handler, 0, audio); 
-    SDK_Audio_SetTrackProp(audio_handler, 0, MIX_PROP_PLAY_MAX_MILLISECONDS_NUMBER, 10000);
+    SDLite_Audio_SetTrackAudio(audio_handler, 0, audio); 
+    SDLite_Audio_SetTrackProp(audio_handler, 0, MIX_PROP_PLAY_MAX_MILLISECONDS_NUMBER, 10000);
 
     // goat player
-    SDK_Sprite *player = SDK_Create_AnimatedSprite(display, TEXTURE_PATH_COOL, (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
+    SDLite_Sprite *player = SDLite_Create_AnimatedSprite(display, TEXTURE_PATH_COOL, (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
     if(!player){
         SDL_Log("Error loading player: %s\n", SDL_GetError());
         return 1;
@@ -160,7 +160,7 @@ int main(){
     test_sprite_getters_setters(player);
 
     // boilerplate stuff for animations
-    SDK_Sprite_AllocAnimation(player, MAX_ANIMATIONS);
+    SDLite_Sprite_AllocAnimation(player, MAX_ANIMATIONS);
     SDL_FRect frames[] = {
         {18, 16, 13, 16},
         {33, 16, 14, 16},
@@ -168,25 +168,25 @@ int main(){
         {65, 16, 13, 16},
         {81, 16, 14, 16}
     };
-    uint16_t num_frames = SDK_GET_ANIMATION_FRAMES(frames);
-    SDK_Sprite_AddAnimation(player, frames, num_frames, num_frames, IDLE_ANIMATION);
-    SDK_Sprite_SetLoopAnimation(player, IDLE_ANIMATION, true);
-    SDK_Sprite_EnableAnimation(player, IDLE_ANIMATION, true);
+    uint16_t num_frames = SDLite_GET_ANIMATION_FRAMES(frames);
+    SDLite_Sprite_AddAnimation(player, frames, num_frames, num_frames, IDLE_ANIMATION);
+    SDLite_Sprite_SetLoopAnimation(player, IDLE_ANIMATION, true);
+    SDLite_Sprite_EnableAnimation(player, IDLE_ANIMATION, true);
     // player->flip_mode = SDL_FLIP_HORIZONTAL;
 
     
-    SDK_Sprite *square = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){10.0f, 0.0f}, (SDL_FRect){0.0f, 0.0f, 400.0f, 400.0f});
+    SDLite_Sprite *square = SDLite_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){10.0f, 0.0f}, (SDL_FRect){0.0f, 0.0f, 400.0f, 400.0f});
     if(!square){
         SDL_Log("Error loading square: %s\n", SDL_GetError());
         return 1;
     } 
 
-    SDK_Sprite_SetScale(player, 8.0f);
-    SDL_SetTextureScaleMode(SDK_Sprite_GetTexture(player), SDL_SCALEMODE_NEAREST);
+    SDLite_Sprite_SetScale(player, 8.0f);
+    SDL_SetTextureScaleMode(SDLite_Sprite_GetTexture(player), SDL_SCALEMODE_NEAREST);
 
     
 
-    SDK_Sprite *rectangle = SDK_Create_RectSprite((SDL_FRect){350, 0, 150, 150}, (SDL_Color){255, 0, 0, 0}, true);
+    SDLite_Sprite *rectangle = SDLite_Create_RectSprite((SDL_FRect){350, 0, 150, 150}, (SDL_Color){255, 0, 0, 0}, true);
 
     if(!rectangle)
         return 1;
@@ -201,28 +201,28 @@ int main(){
     SDL_FRect b = {0.0f, 9.0f, 10.0f, 10.0f};
     SDL_FPoint point = {1.0f, 10.0f};
 
-    if(SDK_Collision_RectPoint(&b, &point)){
+    if(SDLite_Collision_RectPoint(&b, &point)){
         printf("rectangle and point are colliding\n");
     }
 
-    if(SDK_Collision_Rect(&a, &b)){
+    if(SDLite_Collision_Rect(&a, &b)){
         printf("The rectangles are colliding\n");
     } else{
         printf("The rectangles aren't colliding\n");
     }
 
     // didn't feel like making all the switch statements
-    switch(SDK_Collision_RectDir(&a, &b)){
+    switch(SDLite_Collision_RectDir(&a, &b)){
 
-        case(SDK_COLLISION_UP):
+        case(SDLite_COLLISION_UP):
             printf("colliding on top\n");
             break;
         
-        case(SDK_COLLISION_DOWN):
+        case(SDLite_COLLISION_DOWN):
             printf("colliding on bottom\n");
             break;
 
-        case(SDK_COLLISION_NONE):
+        case(SDLite_COLLISION_NONE):
             printf("not colliding\n");
             break;
 
@@ -236,7 +236,7 @@ int main(){
     SDL_Event e;
 
 
-    if(SDK_Display_IsFullscreen(display)){
+    if(SDLite_Display_IsFullscreen(display)){
         printf("is fullscreen\n");
     } else{
         printf("not fullscreen\n");
@@ -253,72 +253,72 @@ int main(){
         
         }
 
-        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_ESCAPE)){
+        if(SDLite_Input_KeyJustPressed(input, SDL_SCANCODE_ESCAPE)){
             running = false;
         }
 
-        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_UP)){
-            SDK_Audio_PlayTrack(audio_handler, 0);
+        if(SDLite_Input_KeyJustPressed(input, SDL_SCANCODE_UP)){
+            SDLite_Audio_PlayTrack(audio_handler, 0);
         }
-        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_DOWN)){
-            SDK_Audio_StopTrack(audio_handler, 0, 24000);
-        }
-
-
-        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_1)){
-            SDK_Time_Set_FPSLimit(time, 10);
-        }
-        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_2)){
-            SDK_Time_Set_FPSLimit(time, 144.0f);
-        }
-        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_3)){
-            SDK_Time_Set_FPSLimit(time, 1500.0f);
-        }
-        if(SDK_Input_KeyJustPressed(input, SDL_SCANCODE_4)){
-            SDK_Time_Set_FPSLimit(time, -1.0f);
+        if(SDLite_Input_KeyJustPressed(input, SDL_SCANCODE_DOWN)){
+            SDLite_Audio_StopTrack(audio_handler, 0, 24000);
         }
 
 
-        if(SDK_Time_FPS_Update(time))
-            update_text(text, SDK_Time_GetFPS(time));
+        if(SDLite_Input_KeyJustPressed(input, SDL_SCANCODE_1)){
+            SDLite_Time_Set_FPSLimit(time, 10);
+        }
+        if(SDLite_Input_KeyJustPressed(input, SDL_SCANCODE_2)){
+            SDLite_Time_Set_FPSLimit(time, 144.0f);
+        }
+        if(SDLite_Input_KeyJustPressed(input, SDL_SCANCODE_3)){
+            SDLite_Time_Set_FPSLimit(time, 1500.0f);
+        }
+        if(SDLite_Input_KeyJustPressed(input, SDL_SCANCODE_4)){
+            SDLite_Time_Set_FPSLimit(time, -1.0f);
+        }
+
+
+        if(SDLite_Time_FPS_Update(time))
+            update_text(text, SDLite_Time_GetFPS(time));
          
 
-        SDK_DisplayClear(display);
+        SDLite_DisplayClear(display);
 
-        SDK_SpriteManager_QueueSprite(manager, player, 1); 
-        SDK_SpriteManager_QueueSprite(manager, square, 0); 
-        SDK_SpriteManager_QueueSprite(manager, rectangle, 0);
+        SDLite_SpriteManager_QueueSprite(manager, player, 1); 
+        SDLite_SpriteManager_QueueSprite(manager, square, 0); 
+        SDLite_SpriteManager_QueueSprite(manager, rectangle, 0);
        
-        SDK_Render_SpriteManager(display, manager);
-        SDK_Render_Text(text);
+        SDLite_Render_SpriteManager(display, manager);
+        SDLite_Render_Text(text);
 
-        SDK_DisplayPresent(display);
+        SDLite_DisplayPresent(display);
 
-        SDK_Sprite_UpdateAnimation(player, time);
-        SDK_TimeFunctions(time);
-        SDK_Input_UpdateAllPrev(input);
+        SDLite_Sprite_UpdateAnimation(player, time);
+        SDLite_TimeFunctions(time);
+        SDLite_Input_UpdateAllPrev(input);
     }
 
-    SDK_DestroyDisplay(display);
+    SDLite_DestroyDisplay(display);
     display = NULL;
-    SDK_DestroyInput(input);
+    SDLite_DestroyInput(input);
     input = NULL;
-    SDK_DestroyTime(time);
+    SDLite_DestroyTime(time);
     time = NULL;
-    SDK_DestroyText(text);
+    SDLite_DestroyText(text);
     text = NULL;
-    SDK_Destroy_SpriteManager(manager);
+    SDLite_Destroy_SpriteManager(manager);
     manager = NULL;
-    SDK_Destroy_AudioHandler(audio_handler);
+    SDLite_Destroy_AudioHandler(audio_handler);
     audio_handler = NULL;
-    SDK_DestroySprite(player);
+    SDLite_DestroySprite(player);
     player = NULL;
-    SDK_DestroySprite(square);
+    SDLite_DestroySprite(square);
     square = NULL;
-    SDK_DestroySprite(rectangle);
+    SDLite_DestroySprite(rectangle);
     rectangle = NULL;
 
-    SDK_Quit();
+    SDLite_Quit();
     
     return 0;
 }

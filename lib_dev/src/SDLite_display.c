@@ -5,15 +5,15 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "SDK_display.h"
-#include "SDK_display_internal.h"
+#include "SDLite_display.h"
+#include "SDLite_display_internal.h"
 
 
-SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag){
+SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag){
 
     if(!window_title) return NULL;
 
-    SDK_Display *display = t_malloc(sizeof(SDK_Display));
+    SDLite_Display *display = t_malloc(sizeof(SDLite_Display));
     display->window_flag = window_flag;
 
 
@@ -44,7 +44,7 @@ SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int w
 
 
 
-int SDK_DisplayClear(SDK_Display *display){
+int SDLite_DisplayClear(SDLite_Display *display){
 
     if(!display) return 1;
 
@@ -55,7 +55,7 @@ int SDK_DisplayClear(SDK_Display *display){
     return 0;
 }
 
-int SDK_DisplayPresent(SDK_Display *display){
+int SDLite_DisplayPresent(SDLite_Display *display){
 
     if(!display) return 1;
 
@@ -67,7 +67,7 @@ int SDK_DisplayPresent(SDK_Display *display){
 }
 
 
-int SDK_Display_IsFullscreen(SDK_Display *display){
+int SDLite_Display_IsFullscreen(SDLite_Display *display){
 
     if(!display) return -1;
 
@@ -79,7 +79,7 @@ int SDK_Display_IsFullscreen(SDK_Display *display){
 }
 
 
-void SDK_DestroyDisplay(SDK_Display *display){
+void SDLite_DestroyDisplay(SDLite_Display *display){
 
     if(!display) return;
 
@@ -98,7 +98,7 @@ void SDK_DestroyDisplay(SDK_Display *display){
 
 
 
-int SDK_DisplaySetWindowed(SDK_Display *display, int width, int height){
+int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height){
 
     if(!SDL_SetWindowFullscreen(display->window, 0)){
         return 1;
@@ -113,7 +113,7 @@ int SDK_DisplaySetWindowed(SDK_Display *display, int width, int height){
 
 
 
-int SDK_DisplaySetFullscreen(SDK_Display *display){
+int SDLite_DisplaySetFullscreen(SDLite_Display *display){
 
     if(!SDL_SetWindowFullscreen(display->window, 1)){
         return 1;
@@ -123,7 +123,7 @@ int SDK_DisplaySetFullscreen(SDK_Display *display){
 }
 
 
-int SDK_Display_GetSize(SDK_Display *display, int *w, int *h){
+int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h){
 
     if(!display || !w || !h) return 1;
 

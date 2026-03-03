@@ -5,8 +5,8 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#ifndef SDK_TIME_H
-#define SDK_TIME_H
+#ifndef SDLite_TIME_H
+#define SDLite_TIME_H
 
 
 #ifdef __cplusplus
@@ -18,14 +18,14 @@ extern "C"{
 
 /*
 
-    SDK_Time holds variable that are used for time calculations
+    SDLite_Time holds variable that are used for time calculations
 
 */
-typedef struct SDK_Time SDK_Time;
+typedef struct SDLite_Time SDLite_Time;
 
 
 /*
-    Creates and returns a SDK_Time struct
+    Creates and returns a SDLite_Time struct
 
     set the fps_limit to be less than 0.0f to uncap the fps
     fps_limit can be changed during runtime
@@ -33,67 +33,67 @@ typedef struct SDK_Time SDK_Time;
 
     Will fail if fps_limit == 0.0f or if malloc fails
 
-    returns SDK_Time* for success, returns NULL for failure
+    returns SDLite_Time* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDK_Time* SDK_CreateTime(double fps_limit);
+SDK1_API SDLite_Time* SDLite_CreateTime(double fps_limit);
 
 /*
-    Frees a SDK_Time
+    Frees a SDLite_Time
 
-    Will return early if SDK_Time is NULL
+    Will return early if SDLite_Time is NULL
 */
-SDK1_API void SDK_DestroyTime(SDK_Time *time);
+SDK1_API void SDLite_DestroyTime(SDLite_Time *time);
 
 /*
-    Gets the fps of the SDK_Time*
+    Gets the fps of the SDLite_Time*
 
-    Will fail if SDK_Time* is NULL
+    Will fail if SDLite_Time* is NULL
 
     returns the fps for success, returns -1.0f for failure
 */
-SDK1_API double SDK_Time_GetFPS(const SDK_Time *time);
+SDK1_API double SDLite_Time_GetFPS(const SDLite_Time *time);
 
 /*
-    Gets the delta time of the SDK_Time*
+    Gets the delta time of the SDLite_Time*
 
-    Will fail if SDK_Time* is NULL
+    Will fail if SDLite_Time* is NULL
 
     returns the delta time for success, returns -1.0f for failure
 */
-SDK1_API double SDK_Time_GetDT(const SDK_Time *time);
+SDK1_API double SDLite_Time_GetDT(const SDLite_Time *time);
 
 
 /*
-    Returns either true or false if the fps value inside SDK_Time* updated
+    Returns either true or false if the fps value inside SDLite_Time* updated
 
-    Will fail if SDK_Time* is NULL
+    Will fail if SDLite_Time* is NULL
 
     returns a bool of the fps updated for success, returns false for failure
 */
-SDK1_API bool SDK_Time_FPS_Update(const SDK_Time *time);
+SDK1_API bool SDLite_Time_FPS_Update(const SDLite_Time *time);
 
 
 /*
-    Gets the fps_limit of the SDK_Time*
+    Gets the fps_limit of the SDLite_Time*
 
-    Will fail if SDK_Time* is NULL
+    Will fail if SDLite_Time* is NULL
 
     returns the fps_limit for success, returns 0.0f for failure
 */
-SDK1_API double SDK_Time_Get_FPSLimit(const SDK_Time *time);
+SDK1_API double SDLite_Time_Get_FPSLimit(const SDLite_Time *time);
 
 /*
-    Sets the fps_limit of the SDK_Time*
+    Sets the fps_limit of the SDLite_Time*
 
     Set the fps_limit below 0.0f to uncap the fps
     if fps is above several 1000s, it will become unstable and break animation timing
     
-    Will fail if SDK_Time* is NULL or if new_fps_limit == 0.0f
+    Will fail if SDLite_Time* is NULL or if new_fps_limit == 0.0f
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Time_Set_FPSLimit(SDK_Time *time, double new_fps_limit);
+SDK1_API int SDLite_Time_Set_FPSLimit(SDLite_Time *time, double new_fps_limit);
 
 
 /*
@@ -106,45 +106,45 @@ SDK1_API int SDK_Time_Set_FPSLimit(SDK_Time *time, double new_fps_limit);
     **
     Functions Called:
     
-    SDK_CalculateDT(time);
-    SDK_LimitFPS(time);
-    SDK_CalculateFPS(time);  
+    SDLite_CalculateDT(time);
+    SDLite_LimitFPS(time);
+    SDLite_CalculateFPS(time);  
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_TimeFunctions(SDK_Time *time);
+SDK1_API int SDLite_TimeFunctions(SDLite_Time *time);
 
 
 /*
-    Updates 'dt' within SDK_Time with current delta time
+    Updates 'dt' within SDLite_Time with current delta time
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_CalculateDT(SDK_Time *time);
+SDK1_API int SDLite_CalculateDT(SDLite_Time *time);
 
 /*
-    Updates 'fps' within SDK_Time with current fps
+    Updates 'fps' within SDLite_Time with current fps
 
     This functions uses dt_buffer to average the delta time
     over a defined amount of frame for a smoother fps.
-    The amounts of frames it averages is SDK_FPS_POLL_RATE
+    The amounts of frames it averages is SDLite_FPS_POLL_RATE
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_CalculateFPS(SDK_Time *time);
+SDK1_API int SDLite_CalculateFPS(SDLite_Time *time);
 
 /*
     This function limits the fps of the application. 
 
-    It uses 'int fps_limit' within SDK_Time as the fps limit.
+    It uses 'int fps_limit' within SDLite_Time as the fps limit.
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_LimitFPS(SDK_Time *time);
+SDK1_API int SDLite_LimitFPS(SDLite_Time *time);
 
 #ifdef __cplusplus
 }

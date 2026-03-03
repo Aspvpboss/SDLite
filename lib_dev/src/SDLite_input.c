@@ -5,10 +5,10 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "SDK_input.h"
+#include "SDLite_input.h"
 
 
-struct SDK_Input{
+struct SDLite_Input{
 
     bool *previous_keyboard;
     const bool *current_keyboard;
@@ -21,9 +21,9 @@ struct SDK_Input{
 
 
 
-SDK_Input* SDK_CreateInput(){
+SDLite_Input* SDLite_CreateInput(){
     
-    SDK_Input *input = t_malloc(sizeof(SDK_Input));
+    SDLite_Input *input = t_malloc(sizeof(SDLite_Input));
     if(!input){
         return NULL;
     }
@@ -46,7 +46,7 @@ SDK_Input* SDK_CreateInput(){
 
 
 
-void SDK_DestroyInput(SDK_Input *input){
+void SDLite_DestroyInput(SDLite_Input *input){
 
     if(!input) return;
 
@@ -58,7 +58,7 @@ void SDK_DestroyInput(SDK_Input *input){
 
 
 
-int SDK_Input_Update_PrevKeyState(SDK_Input *input){
+int SDLite_Input_Update_PrevKeyState(SDLite_Input *input){
     
     if(!input) return 1;
 
@@ -73,7 +73,7 @@ int SDK_Input_Update_PrevKeyState(SDK_Input *input){
 
 
 
-int SDK_Input_KeyPressed(SDK_Input *input, SDL_Scancode scancode){
+int SDLite_Input_KeyPressed(SDLite_Input *input, SDL_Scancode scancode){
 
     if(!input) return -1;
 
@@ -83,7 +83,7 @@ int SDK_Input_KeyPressed(SDK_Input *input, SDL_Scancode scancode){
 
 
 
-int SDK_Input_KeyJustPressed(SDK_Input *input, SDL_Scancode scancode){
+int SDLite_Input_KeyJustPressed(SDLite_Input *input, SDL_Scancode scancode){
 
     if(!input) return -1;
 
@@ -93,7 +93,7 @@ int SDK_Input_KeyJustPressed(SDK_Input *input, SDL_Scancode scancode){
 
 
 
-int SDK_Input_KeyJustReleased(SDK_Input *input, SDL_Scancode scancode){
+int SDLite_Input_KeyJustReleased(SDLite_Input *input, SDL_Scancode scancode){
 
     if(!input) return -1;
 
@@ -103,7 +103,7 @@ int SDK_Input_KeyJustReleased(SDK_Input *input, SDL_Scancode scancode){
 
 
 
-int SDK_Input_Update_PrevMouseState(SDK_Input *input){
+int SDLite_Input_Update_PrevMouseState(SDLite_Input *input){
 
     if(!input) return 1;
     
@@ -115,7 +115,7 @@ int SDK_Input_Update_PrevMouseState(SDK_Input *input){
 
 
 
-int SDK_Input_MousePressed(SDK_Input *input, uint32_t SDL_MouseButtonMask){
+int SDLite_Input_MousePressed(SDLite_Input *input, uint32_t SDL_MouseButtonMask){
 
     if(!input) return -1;
     
@@ -127,7 +127,7 @@ int SDK_Input_MousePressed(SDK_Input *input, uint32_t SDL_MouseButtonMask){
 
 
 
-int SDK_Input_MouseJustPressed(SDK_Input *input, uint32_t SDL_MouseButtonMask){
+int SDLite_Input_MouseJustPressed(SDLite_Input *input, uint32_t SDL_MouseButtonMask){
     
     if(!input) return -1;
 
@@ -139,7 +139,7 @@ int SDK_Input_MouseJustPressed(SDK_Input *input, uint32_t SDL_MouseButtonMask){
 
 
 
-int SDK_Input_MouseJustReleased(SDK_Input *input, uint32_t SDL_MouseButtonMask){
+int SDLite_Input_MouseJustReleased(SDLite_Input *input, uint32_t SDL_MouseButtonMask){
 
     if(!input) return -1;
    
@@ -151,7 +151,7 @@ int SDK_Input_MouseJustReleased(SDK_Input *input, uint32_t SDL_MouseButtonMask){
 
 
 
-int SDK_Input_Mouse_UpdatePosition(SDK_Input *input){
+int SDLite_Input_Mouse_UpdatePosition(SDLite_Input *input){
 
     if(!input) return 1;
 
@@ -165,7 +165,7 @@ int SDK_Input_Mouse_UpdatePosition(SDK_Input *input){
 
 
 
-int SDK_Input_Mouse_GetPosition(SDK_Input *input, int *x, int *y){
+int SDLite_Input_Mouse_GetPosition(SDLite_Input *input, int *x, int *y){
 
     if(!input || !x || !y) return 1;
 
@@ -178,11 +178,11 @@ int SDK_Input_Mouse_GetPosition(SDK_Input *input, int *x, int *y){
 
 
 
-int SDK_Input_UpdateAllPrev(SDK_Input *input){
+int SDLite_Input_UpdateAllPrev(SDLite_Input *input){
     
-    if(SDK_Input_Update_PrevMouseState(input)) return 1;
-    if(SDK_Input_Update_PrevKeyState(input)) return 1;
-    if(SDK_Input_Mouse_UpdatePosition(input)) return 1;
+    if(SDLite_Input_Update_PrevMouseState(input)) return 1;
+    if(SDLite_Input_Update_PrevKeyState(input)) return 1;
+    if(SDLite_Input_Mouse_UpdatePosition(input)) return 1;
  
     return 0;   
 }

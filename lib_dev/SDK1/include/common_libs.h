@@ -5,8 +5,8 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#ifndef SDK_COMMON_LIBS_H
-#define SDK_COMMON_LIBS_H
+#ifndef SDLite_COMMON_LIBS_H
+#define SDLite_COMMON_LIBS_H
 
 #ifdef __cplusplus
 extern "C"{

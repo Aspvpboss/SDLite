@@ -22,8 +22,8 @@
 
 
 
-#ifndef MEMTRACK_SDK_H
-#define MEMTRACK_SDK_H 
+#ifndef MEMTRACK_SDLite_H
+#define MEMTRACK_SDLite_H 
 
 
 #ifdef __cplusplus 

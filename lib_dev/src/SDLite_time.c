@@ -5,13 +5,13 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "SDK_time.h"
+#include "SDLite_time.h"
 
 
 #define MAX_SAMPLES 200
 
 
-struct SDK_Time{
+struct SDLite_Time{
 
     double dt;
     bool fps_updated;
@@ -30,11 +30,11 @@ struct SDK_Time{
 
 
 
-SDK_Time* SDK_CreateTime(double fps_limit){
+SDLite_Time* SDLite_CreateTime(double fps_limit){
 
     if(fps_limit == 0) return NULL;
 
-    SDK_Time *time = t_malloc(sizeof(SDK_Time));
+    SDLite_Time *time = t_malloc(sizeof(SDLite_Time));
     if(!time) return NULL;
 
     time->collected_frames = 0;
@@ -54,7 +54,7 @@ SDK_Time* SDK_CreateTime(double fps_limit){
     return time;
 }
 
-void SDK_DestroyTime(SDK_Time *time){
+void SDLite_DestroyTime(SDLite_Time *time){
 
     if(!time) return;
     t_free(time);
@@ -62,14 +62,14 @@ void SDK_DestroyTime(SDK_Time *time){
 }
 
 
-double SDK_Time_GetFPS(const SDK_Time *time){
+double SDLite_Time_GetFPS(const SDLite_Time *time){
     
     if(!time) return -1.0f;
 
     return time->fps;
 }
 
-double SDK_Time_GetDT(const SDK_Time *time){
+double SDLite_Time_GetDT(const SDLite_Time *time){
     
     if(!time) return -1.0f;
 
@@ -77,7 +77,7 @@ double SDK_Time_GetDT(const SDK_Time *time){
 }
 
 
-bool SDK_Time_FPS_Update(const SDK_Time *time){
+bool SDLite_Time_FPS_Update(const SDLite_Time *time){
 
     if(!time) return false;
 
@@ -85,14 +85,14 @@ bool SDK_Time_FPS_Update(const SDK_Time *time){
 }
 
 
-double SDK_Time_Get_FPSLimit(const SDK_Time *time){
+double SDLite_Time_Get_FPSLimit(const SDLite_Time *time){
 
     if(!time) return 0.0f;
 
     return time->fps_limit;
 }
 
-int SDK_Time_Set_FPSLimit(SDK_Time *time, double new_fps_limit){
+int SDLite_Time_Set_FPSLimit(SDLite_Time *time, double new_fps_limit){
 
     if(!time || new_fps_limit == 0.0f) return 1;
 
@@ -103,7 +103,7 @@ int SDK_Time_Set_FPSLimit(SDK_Time *time, double new_fps_limit){
 
 
 
-int SDK_CalculateDT(SDK_Time *time){
+int SDLite_CalculateDT(SDLite_Time *time){
 
     if(!time) return 1;
 
@@ -124,7 +124,7 @@ int SDK_CalculateDT(SDK_Time *time){
 
 
 
-int SDK_CalculateFPS(SDK_Time *time){
+int SDLite_CalculateFPS(SDLite_Time *time){
 
     if(!time) return 1;
     bool *fps_updated = (bool *)&time->fps_updated;
@@ -157,7 +157,7 @@ int SDK_CalculateFPS(SDK_Time *time){
 }
 
 
-int SDK_LimitFPS(SDK_Time *time){
+int SDLite_LimitFPS(SDLite_Time *time){
 
     if(!time || time->fps_limit == 0.0f) return 1;
     if(time->fps_limit < 0.0f) return 0;
@@ -191,10 +191,10 @@ int SDK_LimitFPS(SDK_Time *time){
 }
 
 
-int SDK_TimeFunctions(SDK_Time *time){
-    if(SDK_CalculateDT(time)) return 1;
-    if(SDK_LimitFPS(time)) return 1;
-    if(SDK_CalculateFPS(time)) return 1;
+int SDLite_TimeFunctions(SDLite_Time *time){
+    if(SDLite_CalculateDT(time)) return 1;
+    if(SDLite_LimitFPS(time)) return 1;
+    if(SDLite_CalculateFPS(time)) return 1;
 
     return 0;
 }

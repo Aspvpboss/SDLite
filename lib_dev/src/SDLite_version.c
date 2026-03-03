@@ -7,11 +7,11 @@
 
 
 // some complex stuff here
-#include "SDK_version.h"
-void SDK_Version_GetNumbers(int *major, int *minor, int *micro){
+#include "SDLite_version.h"
+void SDLite_Version_GetNumbers(int *major, int *minor, int *micro){
     if(!major || !minor || !micro) return; 
 
-    *major = SDK_MAJOR_VERSION;
-    *minor = SDK_MINOR_VERSION;
-    *micro = SDK_MICRO_VERSION;
+    *major = SDLite_MAJOR_VERSION;
+    *minor = SDLite_MINOR_VERSION;
+    *micro = SDLite_MICRO_VERSION;
 }

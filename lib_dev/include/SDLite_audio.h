@@ -25,15 +25,7 @@ typedef struct{
 
 
 
-typedef struct{
-
-    float master_volume;
-    MIX_Mixer *mixer;
-    SDLite_Track *tracks;
-    uint16_t track_capacity;
-
-} SDLite_Audio_Handler;
-
+typedef struct SDLite_Audio_Handler SDLite_Audio_Handler;
 
 /*
     Creates an SDLite_Audio_Handler*
@@ -58,13 +50,24 @@ SDK1_API void SDLite_Destroy_AudioHandler(SDLite_Audio_Handler *audio_handler);
 /*
     Gets the specified SDLite_Track*, the SDLite_Audio_Handler still owns the SDLite_Track*  
 
-    Use the SDLite_Track* cautiously   
-
+    Use the SDLite_Track* cautiously.
+    Do not free SDLite_Track. It is owned by SDLite_Audio_Handler*   
+    
     returns SDLite_Track* for success, returns NULL for failure
 */
 SDK1_API SDLite_Track* SDLite_Audio_GetTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track);
 
 /*
+    Gets the MIX_Mixer*, the SDLite_Audio_Handler still owns the MIX_Mixer*. 
+    Do not free the MIX_Mixer*
+
+    Will fail if SDLite_Audio_Handler* is NULL
+
+    returns MIX_Mixer* for success, returns NULL for failure
+*/
+SDK1_API MIX_Mixer* SDLite_Audio_GetMixer(SDLite_Audio_Handler *audio_handler);
+
+    /*
     Plays the audio that has been loaded to the specified audio_track
 
     Function will fail if no audio has been loaded to the track
@@ -94,6 +97,15 @@ SDK1_API int SDLite_Audio_StopTrack(SDLite_Audio_Handler *audio_handler, uint16_
 */
 SDK1_API int SDLite_Audio_SetTrackAudio(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio);
 
+
+/*
+    Sets the track volume for a specified track_volume, volume range between 0.0f - 1.0f
+
+    returns 0 for success, returns 1 for failure 
+*/
+SDK1_API int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume);
+
+
 /*
     Sets a value to a specified property in the specified audio_track 
 
@@ -112,12 +124,13 @@ SDK1_API int SDLite_Audio_SetTrackProp(SDLite_Audio_Handler *audio_handler, uint
 SDK1_API int SDLite_Audio_SetMasterVolume(SDLite_Audio_Handler *audio_handler, float master_volume);
 
 /*
-    Sets the track volume for a specified track_volume, volume range between 0.0f - 1.0f
+    Gets the master volume and fills in the float* with it
 
-    returns 0 for success, returns 1 for failure 
+    Will fail if either SDLite_Audio_Handler* or float* is NULL
+
+    returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume);
-
+SDK1_API int SDLite_Audio_GetMasterVolume(SDLite_Audio_Handler *audio_handler, float *master_volume);
 
 
 

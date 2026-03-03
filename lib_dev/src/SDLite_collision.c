@@ -5,11 +5,11 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "SDK_collision.h"
+#include "SDLite_collision.h"
 
 
 
-int SDK_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point){
+int SDLite_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point){
     
     if(!rect || !point) return -1;
 
@@ -23,7 +23,7 @@ int SDK_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point){
 
 
 
-int SDK_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b){
+int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b){
 
     if(!a || !b) return -1;
 
@@ -38,15 +38,15 @@ int SDK_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b){
 
 
 
-enum SDK_CollisionType SDK_Collision_RectDir(const SDL_FRect *target, const SDL_FRect *source){
+enum SDLite_CollisionType SDLite_Collision_RectDir(const SDL_FRect *target, const SDL_FRect *source){
 
     if(!source || !target)
-        return SDK_COLLISION_ERROR;
+        return SDLite_COLLISION_ERROR;
 
-    if(source->x + source->w < target->x) return SDK_COLLISION_NONE;
-    if(source->x > target->x + target->w) return SDK_COLLISION_NONE;
-    if(source->y + source->h < target->y) return SDK_COLLISION_NONE;
-    if(source->y > target->y + target->h) return SDK_COLLISION_NONE;
+    if(source->x + source->w < target->x) return SDLite_COLLISION_NONE;
+    if(source->x > target->x + target->w) return SDLite_COLLISION_NONE;
+    if(source->y + source->h < target->y) return SDLite_COLLISION_NONE;
+    if(source->y > target->y + target->h) return SDLite_COLLISION_NONE;
 
     float left_overlap  = (source->x + source->w) - target->x;
     float right_overlap = (target->x + target->w) - source->x;
@@ -54,19 +54,19 @@ enum SDK_CollisionType SDK_Collision_RectDir(const SDL_FRect *target, const SDL_
     float down_overlap  = (target->y + target->h) - source->y;
 
     float min_overlap = left_overlap;
-    enum SDK_CollisionType side = SDK_COLLISION_LEFT;
+    enum SDLite_CollisionType side = SDLite_COLLISION_LEFT;
 
     if(right_overlap < min_overlap){
         min_overlap = right_overlap;
-        side = SDK_COLLISION_RIGHT;
+        side = SDLite_COLLISION_RIGHT;
     }
     if(up_overlap < min_overlap){
         min_overlap = up_overlap;
-        side = SDK_COLLISION_UP;
+        side = SDLite_COLLISION_UP;
     }
     if(down_overlap < min_overlap){
         min_overlap = down_overlap;
-        side = SDK_COLLISION_DOWN;
+        side = SDLite_COLLISION_DOWN;
     }
 
     return side;

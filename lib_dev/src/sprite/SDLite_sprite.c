@@ -5,32 +5,32 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "sprite/SDK_sprite.h"
-#include "SDK_sprite_internal.h"
-#include "SDK_display_internal.h"
+#include "sprite/SDLite_sprite.h"
+#include "SDLite_sprite_internal.h"
+#include "SDLite_display_internal.h"
 
 
 
-SDK_Sprite* SDK_Create_StaticSprite(const SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
+SDLite_Sprite* SDLite_Create_StaticSprite(const SDLite_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
 
     if(!display) return NULL;
 
 
-    SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
+    SDLite_Sprite *sprite = t_malloc(sizeof(SDLite_Sprite));
 
     if(!sprite)
         return NULL;
 
-    sprite->sprite_type = SDK_STATIC_SPRITE;
+    sprite->sprite_type = SDLite_STATIC_SPRITE;
 
-    sprite->data = t_malloc(sizeof(SDK_StaticSprite_Data));
+    sprite->data = t_malloc(sizeof(SDLite_StaticSprite_Data));
 
     if(!sprite->data){
         t_free(sprite);
         return NULL;
     }
 
-    SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
+    SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
 
     if(texture_path){
         data->texture = IMG_LoadTexture(display->renderer, texture_path);
@@ -61,19 +61,19 @@ SDK_Sprite* SDK_Create_StaticSprite(const SDK_Display *display, const char *text
 
 
 
-int SDK_Sprite_SetTexture(SDK_Sprite *sprite, SDL_Texture *texture){
+int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDL_Texture *texture){
 
     if(!sprite || !texture) return 1;
 
-    if(sprite->sprite_type == SDK_STATIC_SPRITE){
-        SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
+    if(sprite->sprite_type == SDLite_STATIC_SPRITE){
+        SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
         data->texture = texture;
         texture->refcount++;
         return 0; 
     }
 
-    if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
-        SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
+    if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
+        SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
         data->texture = texture;
         texture->refcount++; 
         return 0;
@@ -85,17 +85,17 @@ int SDK_Sprite_SetTexture(SDK_Sprite *sprite, SDL_Texture *texture){
 
 
 
-SDL_Texture* SDK_Sprite_GetTexture(const SDK_Sprite *sprite){
+SDL_Texture* SDLite_Sprite_GetTexture(const SDLite_Sprite *sprite){
 
     if(!sprite) return NULL;
 
-    if(sprite->sprite_type == SDK_STATIC_SPRITE){
-        SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
+    if(sprite->sprite_type == SDLite_STATIC_SPRITE){
+        SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
         return data->texture;
     }
 
-    if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
-        SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
+    if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
+        SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
         return data->texture;
     }
 
@@ -105,7 +105,7 @@ SDL_Texture* SDK_Sprite_GetTexture(const SDK_Sprite *sprite){
 
 
 
-int SDK_Render_Sprite(const SDK_Display *display, const SDK_Sprite *sprite){
+int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *sprite){
 
     if(!display || !sprite) return 1;
 
@@ -114,33 +114,33 @@ int SDK_Render_Sprite(const SDK_Display *display, const SDK_Sprite *sprite){
 
     switch(sprite->sprite_type){
 
-        case(SDK_ANIMATED_SPRITE):
+        case(SDLite_ANIMATED_SPRITE):
 
-            SDK_AnimatedSprite_Data *a_data = (SDK_AnimatedSprite_Data*)sprite->data;
+            SDLite_AnimatedSprite_Data *a_data = (SDLite_AnimatedSprite_Data*)sprite->data;
 
             if(a_data->current_animation >= a_data->amount_animation){
                 return 1;
             }
 
-            SDK_Animation *animation = &a_data->animation[a_data->current_animation];
+            SDLite_Animation *animation = &a_data->animation[a_data->current_animation];
 
             src_rect = &animation->frames[animation->current_frame];
             texture = a_data->texture;
             
             break;
 
-        case(SDK_STATIC_SPRITE):
+        case(SDLite_STATIC_SPRITE):
 
-            SDK_StaticSprite_Data *s_data = (SDK_StaticSprite_Data*)sprite->data;
+            SDLite_StaticSprite_Data *s_data = (SDLite_StaticSprite_Data*)sprite->data;
 
             src_rect = &s_data->src_rect;
             texture = s_data->texture;
         
             break;
 
-        case(SDK_RECT_SPRITE):
+        case(SDLite_RECT_SPRITE):
 
-            SDK_RectSprite_Data *r_data = (SDK_RectSprite_Data *)sprite->data;
+            SDLite_RectSprite_Data *r_data = (SDLite_RectSprite_Data *)sprite->data;
 
             src_rect = &sprite->render_rect;
 
@@ -179,7 +179,7 @@ int SDK_Render_Sprite(const SDK_Display *display, const SDK_Sprite *sprite){
     return 0;
 }
 
-int SDK_Sprite_GetScale(const SDK_Sprite *sprite, double *scale){
+int SDLite_Sprite_GetScale(const SDLite_Sprite *sprite, double *scale){
     
     if(!sprite || !scale) return 1;
 
@@ -189,15 +189,15 @@ int SDK_Sprite_GetScale(const SDK_Sprite *sprite, double *scale){
 }
 
 
-int SDK_Sprite_SetScale(SDK_Sprite *sprite, double new_scale){
+int SDLite_Sprite_SetScale(SDLite_Sprite *sprite, double new_scale){
 
     if(!sprite || new_scale <= 0.0f)
         return 1;
 
 
-    if(sprite->sprite_type == SDK_STATIC_SPRITE){
+    if(sprite->sprite_type == SDLite_STATIC_SPRITE){
 
-        SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
+        SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
 
         SDL_FRect *render_rect = &sprite->render_rect;
         sprite->scale = new_scale;
@@ -205,9 +205,9 @@ int SDK_Sprite_SetScale(SDK_Sprite *sprite, double new_scale){
         render_rect->w = data->base_width * new_scale;
         render_rect->h = data->base_height * new_scale;
     
-    } else if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
+    } else if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
 
-        SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
+        SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
 
         SDL_FRect *render_rect = &sprite->render_rect;
         sprite->scale = new_scale;
@@ -215,9 +215,9 @@ int SDK_Sprite_SetScale(SDK_Sprite *sprite, double new_scale){
         render_rect->w = data->base_width * new_scale;
         render_rect->h = data->base_height * new_scale;
 
-    } else if(sprite->sprite_type == SDK_RECT_SPRITE){
+    } else if(sprite->sprite_type == SDLite_RECT_SPRITE){
 
-        SDK_RectSprite_Data *data = (SDK_RectSprite_Data*)sprite->data;
+        SDLite_RectSprite_Data *data = (SDLite_RectSprite_Data*)sprite->data;
 
         SDL_FRect *render_rect = &sprite->render_rect;
         sprite->scale = new_scale;
@@ -233,7 +233,7 @@ int SDK_Sprite_SetScale(SDK_Sprite *sprite, double new_scale){
 
 
 
-int SDK_Sprite_GetAngle(const SDK_Sprite *sprite, double *angle){
+int SDLite_Sprite_GetAngle(const SDLite_Sprite *sprite, double *angle){
 
     if(!sprite || !angle) return 1;
 
@@ -245,7 +245,7 @@ int SDK_Sprite_GetAngle(const SDK_Sprite *sprite, double *angle){
 
 
 
-int SDK_Sprite_SetAngle(SDK_Sprite *sprite, double angle){
+int SDLite_Sprite_SetAngle(SDLite_Sprite *sprite, double angle){
 
     if(!sprite) return 1;
 
@@ -257,7 +257,7 @@ int SDK_Sprite_SetAngle(SDK_Sprite *sprite, double angle){
 
 
 
-int SDK_Sprite_SetPivotPoint(SDK_Sprite *sprite, SDL_FPoint pivot_point){
+int SDLite_Sprite_SetPivotPoint(SDLite_Sprite *sprite, SDL_FPoint pivot_point){
 
     if(!sprite) return 1;
 
@@ -269,7 +269,7 @@ int SDK_Sprite_SetPivotPoint(SDK_Sprite *sprite, SDL_FPoint pivot_point){
 
 
 
-int SDK_Sprite_GetPivotPoint(const SDK_Sprite *sprite, SDL_FPoint *pivot_point){
+int SDLite_Sprite_GetPivotPoint(const SDLite_Sprite *sprite, SDL_FPoint *pivot_point){
 
     if(!sprite || !pivot_point) return 1;
 
@@ -281,7 +281,7 @@ int SDK_Sprite_GetPivotPoint(const SDK_Sprite *sprite, SDL_FPoint *pivot_point){
 
 
 
-int SDK_Sprite_SetFlipMode(SDK_Sprite *sprite, SDL_FlipMode flip_mode){
+int SDLite_Sprite_SetFlipMode(SDLite_Sprite *sprite, SDL_FlipMode flip_mode){
 
     if(!sprite) return 1;
 
@@ -293,7 +293,7 @@ int SDK_Sprite_SetFlipMode(SDK_Sprite *sprite, SDL_FlipMode flip_mode){
 
 
 
-int SDK_Sprite_GetFlipMode(const SDK_Sprite *sprite, SDL_FlipMode *flip_mode){
+int SDLite_Sprite_GetFlipMode(const SDLite_Sprite *sprite, SDL_FlipMode *flip_mode){
 
     if(!sprite || !flip_mode) return 1;
 
@@ -305,7 +305,7 @@ int SDK_Sprite_GetFlipMode(const SDK_Sprite *sprite, SDL_FlipMode *flip_mode){
 
 
 
-int SDK_Sprite_Set_Position(SDK_Sprite *sprite, SDL_FPoint position){
+int SDLite_Sprite_Set_Position(SDLite_Sprite *sprite, SDL_FPoint position){
 
     if(!sprite) return 1;
 
@@ -318,7 +318,7 @@ int SDK_Sprite_Set_Position(SDK_Sprite *sprite, SDL_FPoint position){
 
 
 
-int SDK_Sprite_Get_RenderRect(const SDK_Sprite *sprite, SDL_FRect *render_rect){
+int SDLite_Sprite_Get_RenderRect(const SDLite_Sprite *sprite, SDL_FRect *render_rect){
 
     if(!sprite || !render_rect) return 1;
 
@@ -330,13 +330,13 @@ int SDK_Sprite_Get_RenderRect(const SDK_Sprite *sprite, SDL_FRect *render_rect){
 
 
 
-void SDK_DestroySprite(SDK_Sprite *sprite){
+void SDLite_DestroySprite(SDLite_Sprite *sprite){
 
     if(!sprite) return;
 
-    if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
+    if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
 
-        SDK_AnimatedSprite_Data *data = (SDK_AnimatedSprite_Data*)sprite->data;
+        SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
         for(uint16_t i = 0; i < data->amount_animation; i++){
             t_free(data->animation[i].frames);
         }
@@ -344,13 +344,13 @@ void SDK_DestroySprite(SDK_Sprite *sprite){
         SDL_DestroyTexture(data->texture);
         t_free(sprite->data);
 
-    } else if(sprite->sprite_type == SDK_STATIC_SPRITE){
+    } else if(sprite->sprite_type == SDLite_STATIC_SPRITE){
 
-        SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data;
+        SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
         SDL_DestroyTexture(data->texture);
         t_free(sprite->data);
 
-    } else if(sprite->sprite_type == SDK_RECT_SPRITE){
+    } else if(sprite->sprite_type == SDLite_RECT_SPRITE){
 
        t_free(sprite->data); 
 

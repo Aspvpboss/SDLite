@@ -5,8 +5,8 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#ifndef SDK_TIME_H
-#define SDK_TIME_H
+#ifndef SDLite_TIME_H
+#define SDLite_TIME_H
 
 
 #ifdef __cplusplus
@@ -18,7 +18,7 @@ extern "C"{
 
 /*
 
-    SDK_Time holds variable that are used for time calculations
+    SDLite_Time holds variable that are used for time calculations
 
     You use dt and fps for functions
     fps_updated becomes true whenever the new fps gets calculated
@@ -33,26 +33,26 @@ typedef struct{
     double fps_limit;
     void *const data;
 
-} SDK_Time;
+} SDLite_Time;
 
 
 
 /*
-    Creates and returns a SDK_Time struct
+    Creates and returns a SDLite_Time struct
 
     fps_limit can be changed during runtime
 
-    returns SDK_Time* for success, returns NULL for failure
+    returns SDLite_Time* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDK_Time* SDK_CreateTime(double fps_limit);
+SDK1_API SDLite_Time* SDLite_CreateTime(double fps_limit);
 
 /*
-    Frees a SDK_Time
+    Frees a SDLite_Time
 
-    Will return early if SDK_Time is NULL
+    Will return early if SDLite_Time is NULL
 */
-SDK1_API void SDK_DestroyTime(SDK_Time *time);
+SDK1_API void SDLite_DestroyTime(SDLite_Time *time);
 
 /*
     Calls the time.h functions in order of use
@@ -64,44 +64,44 @@ SDK1_API void SDK_DestroyTime(SDK_Time *time);
     **
     Functions Called:
     
-    SDK_CalculateDT(&time);
-    SDK_LimitFPS(&time);
-    SDK_CalculateFPS(&time);  
+    SDLite_CalculateDT(&time);
+    SDLite_LimitFPS(&time);
+    SDLite_CalculateFPS(&time);  
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_TimeFunctions(SDK_Time *time);
+SDK1_API int SDLite_TimeFunctions(SDLite_Time *time);
 
 /*
-    Updates 'dt' within SDK_Time with current delta time
+    Updates 'dt' within SDLite_Time with current delta time
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_CalculateDT(SDK_Time *time);
+SDK1_API int SDLite_CalculateDT(SDLite_Time *time);
 
 /*
-    Updates 'fps' within SDK_Time with current fps
+    Updates 'fps' within SDLite_Time with current fps
 
     This functions uses dt_buffer to average the delta time
     over a defined amount of frame for a smoother fps.
-    The amounts of frames it averages is SDK_FPS_POLL_RATE
+    The amounts of frames it averages is SDLite_FPS_POLL_RATE
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_CalculateFPS(SDK_Time *time);
+SDK1_API int SDLite_CalculateFPS(SDLite_Time *time);
 
 /*
     This function limits the fps of the application. 
 
-    It uses 'int fps_limit' within SDK_Time as the fps limit.
+    It uses 'int fps_limit' within SDLite_Time as the fps limit.
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_LimitFPS(SDK_Time *time);
+SDK1_API int SDLite_LimitFPS(SDLite_Time *time);
 
 #ifdef __cplusplus
 }

@@ -1,14 +1,14 @@
-#ifndef SDK_SPRITE_INTERNAL_H
-#define SDK_SPRITE_INTERNAL_H
+#ifndef SDLite_SPRITE_INTERNAL_H
+#define SDLite_SPRITE_INTERNAL_H
 
 #include "common_libs.h"
-#include "SDK_display.h"
-#include "SDK_time.h"
-#include "sprite/SDK_sprite_type.h"
+#include "SDLite_display.h"
+#include "SDLite_time.h"
+#include "sprite/SDLite_sprite_type.h"
 
-struct SDK_Sprite{
+struct SDLite_Sprite{
 
-    enum SDK_SpriteType sprite_type;
+    enum SDLite_SpriteType sprite_type;
     void *data;
 
     SDL_FRect render_rect;
@@ -29,7 +29,7 @@ typedef struct{
     
     SDL_FRect src_rect;
 
-} SDK_StaticSprite_Data;
+} SDLite_StaticSprite_Data;
 
 
 typedef struct{
@@ -39,7 +39,7 @@ typedef struct{
     SDL_Color color;
     bool is_filled;
 
-} SDK_RectSprite_Data;
+} SDLite_RectSprite_Data;
 
 
 typedef struct{
@@ -53,7 +53,7 @@ typedef struct{
     bool loop_animation;
     bool enable_animation;
 
-} SDK_Animation;
+} SDLite_Animation;
 
 typedef struct{
 
@@ -61,11 +61,11 @@ typedef struct{
     float base_height;
     SDL_Texture *texture;
 
-    SDK_Animation *animation;
+    SDLite_Animation *animation;
     uint16_t amount_animation;
     uint16_t current_animation;
 
-} SDK_AnimatedSprite_Data;
+} SDLite_AnimatedSprite_Data;
 
 
 

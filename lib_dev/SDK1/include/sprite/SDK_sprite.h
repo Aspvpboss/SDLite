@@ -5,8 +5,8 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#ifndef SDK_SPRITE_H
-#define SDK_SPRITE_H
+#ifndef SDLite_SPRITE_H
+#define SDLite_SPRITE_H
 
 #ifdef __cplusplus
 extern "C"{
@@ -14,8 +14,8 @@ extern "C"{
 
 
 #include "../common_libs.h"
-#include "../SDK_display.h"
-#include "../SDK_time.h"
+#include "../SDLite_display.h"
+#include "../SDLite_time.h"
 
 
 /*
@@ -28,11 +28,11 @@ extern "C"{
     Animated - renders an animated texture, it uses the image as a spritesheet
 
 */
-enum SDK_SpriteType{
+enum SDLite_SpriteType{
 
-    SDK_STATIC_SPRITE,
-    SDK_ANIMATED_SPRITE,
-    SDK_RECT_SPRITE
+    SDLite_STATIC_SPRITE,
+    SDLite_ANIMATED_SPRITE,
+    SDLite_RECT_SPRITE
 
 };
 
@@ -40,17 +40,17 @@ enum SDK_SpriteType{
     Only use this with stack arrays such as 'SDL_FRect frames[5];'
     This macro calculates the amounts of frames with the array
 */
-#define SDK_GET_ANIMATION_FRAMES(frames) sizeof(frames) / sizeof(SDL_FRect)
+#define SDLite_GET_ANIMATION_FRAMES(frames) sizeof(frames) / sizeof(SDL_FRect)
 
 
 
 /*
     contains data for static / animated sprites
-    enum SDK_SpriteType sprite_type determines whether it is animated or static
+    enum SDLite_SpriteType sprite_type determines whether it is animated or static
 */
 typedef struct{
 
-    const enum SDK_SpriteType sprite_type;
+    const enum SDLite_SpriteType sprite_type;
     void *const data;
 
     SDL_FRect render_rect;
@@ -60,53 +60,53 @@ typedef struct{
     SDL_FPoint pivot_point;
     
 
-} SDK_Sprite;
+} SDLite_Sprite;
 
 
 
 
 /*
-    Creates a static SDK_Sprite with the specified attributes
+    Creates a static SDLite_Sprite with the specified attributes
 
-    SDK_Sprite needs to be freed by SDK_DestroySprite()
+    SDLite_Sprite needs to be freed by SDLite_DestroySprite()
 
-    returns SDK_Sprite* for success, returns NULL for failure
+    returns SDLite_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
+SDK1_API SDLite_Sprite* SDLite_Create_StaticSprite(SDLite_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 
 
 /*
-    Creates an animated SDK_Sprite with the specified attributes
-    this doesn't add animations to the sprite yet, use SDK_Sprite_AddAnimation() to do so
+    Creates an animated SDLite_Sprite with the specified attributes
+    this doesn't add animations to the sprite yet, use SDLite_Sprite_AddAnimation() to do so
 
-    SDK_Sprite needs to be freed by SDK_DestroySprite()
+    SDLite_Sprite needs to be freed by SDLite_DestroySprite()
 
-    returns SDK_Sprite* for success, returns NULL for failure
+    returns SDLite_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
+SDK1_API SDLite_Sprite* SDLite_Create_AnimatedSprite(SDLite_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 
 
 /*
-    Creates a rectangle SDK_Sprite with the specified attributes
+    Creates a rectangle SDLite_Sprite with the specified attributes
 
-    SDK_Sprite needs to be freed by SDK_DestroySprite()
+    SDLite_Sprite needs to be freed by SDLite_DestroySprite()
 
-    returns SDK_Sprite* for success, returns NULL for failure
+    returns SDLite_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDK1_API SDK_Sprite* SDK_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled);
+SDK1_API SDLite_Sprite* SDLite_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled);
 
 
 /*
-    Frees a SDK_Sprite (whether animated or static)
+    Frees a SDLite_Sprite (whether animated or static)
 
-    Will return early if SDK_Sprite is NULL
+    Will return early if SDLite_Sprite is NULL
 */
-SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
+SDK1_API void SDLite_DestroySprite(SDLite_Sprite *sprite);
 
 /*
     Renders a sprite onto the display
@@ -114,26 +114,26 @@ SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite);
+SDK1_API int SDLite_Render_Sprite(SDLite_Display *display, SDLite_Sprite *sprite);
 
 
 /*
-    Returns the SDL_Texture* of the given SDK_Sprite*
+    Returns the SDL_Texture* of the given SDLite_Sprite*
 
     returns SDL_Texture* for success, returns NULL for failure
 */
-SDK1_API SDL_Texture* SDK_Sprite_GetTexture(SDK_Sprite *sprite);
+SDK1_API SDL_Texture* SDLite_Sprite_GetTexture(SDLite_Sprite *sprite);
 
 
 /*
-    Allocations storage for animations in the SDK_Sprite*
+    Allocations storage for animations in the SDLite_Sprite*
 
     Function will use realloc if called a multiple times 
     Recommended to just call this function once per sprite
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t animation_capacity);
+SDK1_API int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_capacity);
 
 
 /*
@@ -142,7 +142,7 @@ SDK1_API int SDK_Sprite_AllocAnimation(SDK_Sprite *animated_sprite, uint16_t ani
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect *frames, uint8_t amount_frames, double fps, uint16_t animation_index);
+SDK1_API int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames, uint8_t amount_frames, double fps, uint16_t animation_index);
 
 /*
     Updates frames of an animation, must be called once per frame for animations to work
@@ -150,17 +150,17 @@ SDK1_API int SDK_Sprite_AddAnimation(SDK_Sprite *animated_sprite, SDL_FRect *fra
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time);
+SDK1_API int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, SDLite_Time *time);
 
 /*
-    Selects an animation within the SDK_Sprite
+    Selects an animation within the SDLite_Sprite
 
     function will fail if 'animation_select' is greater than the amount of animations allocated in the sprite
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index);
+SDK1_API int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index);
 
 
 /*
@@ -171,11 +171,11 @@ SDK1_API int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint16_t an
 
     If you set the bool to false while the animation is playing, the animation will simply reset and stop
     
-    Animation will not play if it isn't enabled by SDK_Sprite_EnableAnimation(); 
+    Animation will not play if it isn't enabled by SDLite_Sprite_EnableAnimation(); 
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool play);
+SDK1_API int SDLite_Sprite_SetPlayAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool play);
 
 
 
@@ -184,11 +184,11 @@ SDK1_API int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, uint16_t a
     If you set the bool to true it will loop the animation
     If you set the bool to false it will stop looping the animatio
 
-    Animation will not play if it isn't enabled by SDK_Sprite_EnableAnimation();
+    Animation will not play if it isn't enabled by SDLite_Sprite_EnableAnimation();
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool loop);
+SDK1_API int SDLite_Sprite_SetLoopAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool loop);
 
 
 
@@ -199,17 +199,17 @@ SDK1_API int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, uint16_t a
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_EnableAnimation(SDK_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
+SDK1_API int SDLite_Sprite_EnableAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
 
 
 /*
-    Sets new color to rect SDK_Sprite*
+    Sets new color to rect SDLite_Sprite*
 
-    Functions only fails if SDK_Sprite* is NULL or if it isn't a SDK_RECT_SPRITE 
+    Functions only fails if SDLite_Sprite* is NULL or if it isn't a SDLite_RECT_SPRITE 
 
     returns 0 for success, returns 1 for failure
 */
-SDK1_API int SDK_Sprite_SetRectColor(SDK_Sprite *rect_sprite, SDL_Color color);
+SDK1_API int SDLite_Sprite_SetRectColor(SDLite_Sprite *rect_sprite, SDL_Color color);
 
 /*
     Scales the width and height of the render_rect relative to the original width and height when the sprite was created
@@ -217,7 +217,7 @@ SDK1_API int SDK_Sprite_SetRectColor(SDK_Sprite *rect_sprite, SDL_Color color);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale);
+SDK1_API int SDLite_Sprite_UpdateScale(SDLite_Sprite *sprite, double new_scale);
 
 
 #ifdef __cplusplus

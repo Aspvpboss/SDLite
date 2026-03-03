@@ -5,10 +5,10 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "SDK_Text.h"
-#include "SDK_display_internal.h"
+#include "SDLite_Text.h"
+#include "SDLite_display_internal.h"
 
-struct SDK_Text{
+struct SDLite_Text{
 
     TTF_Font *font;
     SDL_Color color;
@@ -21,10 +21,10 @@ struct SDK_Text{
 };
 
 
-SDK_Text* SDK_CreateText(
-    const SDK_Display *display, const char *display_text, const char *font_path, float font_size, int x, int y, SDL_Color color){
+SDLite_Text* SDLite_CreateText(
+    const SDLite_Display *display, const char *display_text, const char *font_path, float font_size, int x, int y, SDL_Color color){
     
-    SDK_Text *text = t_malloc(sizeof(SDK_Text));
+    SDLite_Text *text = t_malloc(sizeof(SDLite_Text));
 
 
     text->engine = display->text_engine;
@@ -86,7 +86,7 @@ SDK_Text* SDK_CreateText(
 }
 
 
-void SDK_DestroyText(SDK_Text *text){
+void SDLite_DestroyText(SDLite_Text *text){
 
     if(!text) return;
 
@@ -98,7 +98,7 @@ void SDK_DestroyText(SDK_Text *text){
 }
 
 
-int SDK_Text_SetFont(SDK_Text *text, const char *font_path, float font_size){
+int SDLite_Text_SetFont(SDLite_Text *text, const char *font_path, float font_size){
 
     if(!text) return 1;
     
@@ -125,7 +125,7 @@ int SDK_Text_SetFont(SDK_Text *text, const char *font_path, float font_size){
 }
 
 
-int SDK_Text_SetFontSize(SDK_Text *text, float font_size){
+int SDLite_Text_SetFontSize(SDLite_Text *text, float font_size){
 
     if(!text) return 1;
 
@@ -138,7 +138,7 @@ int SDK_Text_SetFontSize(SDK_Text *text, float font_size){
 }
 
 
-int SDK_Text_SetString(SDK_Text *text, const char *string){
+int SDLite_Text_SetString(SDLite_Text *text, const char *string){
 
     if(!text) return 1;
 
@@ -150,7 +150,7 @@ int SDK_Text_SetString(SDK_Text *text, const char *string){
 }
 
 
-int SDK_Text_SetPosition(SDK_Text *text, int x, int y){
+int SDLite_Text_SetPosition(SDLite_Text *text, int x, int y){
 
     if(!text) return 1;
 
@@ -165,7 +165,7 @@ int SDK_Text_SetPosition(SDK_Text *text, int x, int y){
 }
 
 
-int SDK_Text_Get_RenderRect(const SDK_Text *text, SDL_FRect *render_rect){
+int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *render_rect){
 
     if(!text || !render_rect) return 1;
 
@@ -184,7 +184,7 @@ int SDK_Text_Get_RenderRect(const SDK_Text *text, SDL_FRect *render_rect){
 }
 
 
-int SDK_Text_SetWrapWidth(SDK_Text *text, int wrap_width_pixels){
+int SDLite_Text_SetWrapWidth(SDLite_Text *text, int wrap_width_pixels){
 
     if(!text) return 1;
 
@@ -198,7 +198,7 @@ int SDK_Text_SetWrapWidth(SDK_Text *text, int wrap_width_pixels){
 }
 
 
-int SDK_Text_SetColor(SDK_Text *text, SDL_Color color){
+int SDLite_Text_SetColor(SDLite_Text *text, SDL_Color color){
 
     if(!text) return 1;
 
@@ -213,7 +213,7 @@ int SDK_Text_SetColor(SDK_Text *text, SDL_Color color){
 
 
 
-int SDK_Render_Text(SDK_Text *text){
+int SDLite_Render_Text(SDLite_Text *text){
 
     if(!text) return 1;
 
