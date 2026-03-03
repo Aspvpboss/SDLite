@@ -14,6 +14,9 @@ extern "C"{
 
 #include "common_libs.h"
 
+/*
+    These functions can be called from any thread
+*/
 
 enum SDLite_CollisionType{
 

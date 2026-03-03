@@ -63,9 +63,7 @@ SDLite_Audio_Handler* SDLite_Create_AudioHandler(uint16_t track_capacity, float 
         }
 
         SDL_SetNumberProperty(track->track_prop, MIX_PROP_PLAY_LOOPS_NUMBER, 0);
-        track->track_volume = 1.0f;
-        MIX_SetTrackGain(track->track, track->track_volume);
-
+        MIX_SetTrackGain(track->track, 1.0f);
 
     }
 
@@ -205,8 +203,6 @@ int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, uint16_t au
     SDLite_Track *track = &audio_handler->tracks[audio_track];
     
     if(!MIX_SetTrackGain(track->track, track_volume)) return 1;
-
-    track->track_volume = track_volume;
 
     return 0;
 }

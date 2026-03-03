@@ -29,7 +29,9 @@ extern "C"{
 
 */
 
-
+/*
+    These functions should only be called on the main thread
+*/
 typedef struct SDLite_Sprite SDLite_Sprite;
 
 

@@ -17,6 +17,11 @@ extern "C" {
 #include "common_libs.h"
 
 /*
+    These functions can be called from any thread, but you should only call them once anyways
+*/
+
+
+/*
     initializes all SDL systems, and MemTrack for SDK
 
     void (*func)(void*) is a optional function you can pass to run if malloc fails

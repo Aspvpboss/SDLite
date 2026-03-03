@@ -19,12 +19,13 @@ typedef struct{
 
     MIX_Track *track;
     SDL_PropertiesID track_prop;
-    float track_volume;
 
 } SDLite_Track;
 
 
-
+/*
+    These functions can be called from any thread
+*/
 typedef struct SDLite_Audio_Handler SDLite_Audio_Handler;
 
 /*

@@ -16,7 +16,7 @@ extern "C"{
 #include "common_libs.h"
 
 /*
-    read from SDL_FPoint for mouse_pos
+    These functions should only be called on the main thread
 */
 typedef struct SDLite_Input SDLite_Input;
 

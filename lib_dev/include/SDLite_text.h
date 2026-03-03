@@ -17,7 +17,7 @@ extern "C" {
 #include "SDLite_display.h"
 
 /*
-    These functions should only be called on the thread the SDLite_Text was created in
+    These functions should only be called on the thread that created the SDLite_Text
 */
 typedef struct SDLite_Text SDLite_Text;
 

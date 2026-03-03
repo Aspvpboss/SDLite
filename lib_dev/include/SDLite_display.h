@@ -14,6 +14,9 @@ extern "C" {
 
 #include "common_libs.h"
 
+/*
+    These functions should only be called on the main thread
+*/
 typedef struct SDLite_Display SDLite_Display;
 
 /*
