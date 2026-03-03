@@ -8,6 +8,14 @@
 #include "sprite/SDLite_sprite_manager.h"
 
 
+struct SDLite_Sprite_Manager{
+
+    void *data;
+
+};
+
+
+
 typedef struct{
 
     SDLite_Sprite **sprites;
@@ -34,8 +42,7 @@ SDLite_Sprite_Manager* SDLite_Create_SpriteManager(uint64_t max_z_depth, uint64_
     if(!manager)
         return NULL;
 
-    void **t_data = (void**)&manager->data;
-    *t_data = t_malloc(sizeof(Sprite_Manager_Data));
+    manager->data = t_malloc(sizeof(Sprite_Manager_Data));
     if(!manager->data){
         t_free(manager);
         return NULL;
