@@ -49,7 +49,7 @@ Choose the DLL that fits your use case and link against the corresponding import
 ## Documentation
 
 All public functions are documented in their header files.  
-Additionally, the included **MemTrack** library header contains documentation for memory tracking utilities.
+Additionally, the included **MemTrack** library header contains documentation for memory tracking utilitiess.
 
 ---
 
