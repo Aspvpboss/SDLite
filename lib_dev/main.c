@@ -214,15 +214,15 @@ int main(){
     // didn't feel like making all the switch statements
     switch(SDLite_Collision_RectDir(&a, &b)){
 
-        case(SDLite_COLLISION_UP):
+        case(SDLITE_COLLISION_UP):
             printf("colliding on top\n");
             break;
         
-        case(SDLite_COLLISION_DOWN):
+        case(SDLITE_COLLISION_DOWN):
             printf("colliding on bottom\n");
             break;
 
-        case(SDLite_COLLISION_NONE):
+        case(SDLITE_COLLISION_NONE):
             printf("not colliding\n");
             break;
 
