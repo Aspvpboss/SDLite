@@ -41,12 +41,12 @@ int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b){
 enum SDLite_CollisionType SDLite_Collision_RectDir(const SDL_FRect *target, const SDL_FRect *source){
 
     if(!source || !target)
-        return SDLite_COLLISION_ERROR;
+        return SDLITE_COLLISION_ERROR;
 
-    if(source->x + source->w < target->x) return SDLite_COLLISION_NONE;
-    if(source->x > target->x + target->w) return SDLite_COLLISION_NONE;
-    if(source->y + source->h < target->y) return SDLite_COLLISION_NONE;
-    if(source->y > target->y + target->h) return SDLite_COLLISION_NONE;
+    if(source->x + source->w < target->x) return SDLITE_COLLISION_NONE;
+    if(source->x > target->x + target->w) return SDLITE_COLLISION_NONE;
+    if(source->y + source->h < target->y) return SDLITE_COLLISION_NONE;
+    if(source->y > target->y + target->h) return SDLITE_COLLISION_NONE;
 
     float left_overlap  = (source->x + source->w) - target->x;
     float right_overlap = (target->x + target->w) - source->x;
@@ -54,19 +54,19 @@ enum SDLite_CollisionType SDLite_Collision_RectDir(const SDL_FRect *target, cons
     float down_overlap  = (target->y + target->h) - source->y;
 
     float min_overlap = left_overlap;
-    enum SDLite_CollisionType side = SDLite_COLLISION_LEFT;
+    enum SDLite_CollisionType side = SDLITE_COLLISION_LEFT;
 
     if(right_overlap < min_overlap){
         min_overlap = right_overlap;
-        side = SDLite_COLLISION_RIGHT;
+        side = SDLITE_COLLISION_RIGHT;
     }
     if(up_overlap < min_overlap){
         min_overlap = up_overlap;
-        side = SDLite_COLLISION_UP;
+        side = SDLITE_COLLISION_UP;
     }
     if(down_overlap < min_overlap){
         min_overlap = down_overlap;
-        side = SDLite_COLLISION_DOWN;
+        side = SDLITE_COLLISION_DOWN;
     }
 
     return side;

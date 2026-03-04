@@ -11,7 +11,7 @@
 void SDLite_Version_GetNumbers(int *major, int *minor, int *micro){
     if(!major || !minor || !micro) return; 
 
-    *major = SDLite_MAJOR_VERSION;
-    *minor = SDLite_MINOR_VERSION;
-    *micro = SDLite_MICRO_VERSION;
+    *major = SDLITE_MAJOR_VERSION;
+    *minor = SDLITE_MINOR_VERSION;
+    *micro = SDLITE_MICRO_VERSION;
 }
