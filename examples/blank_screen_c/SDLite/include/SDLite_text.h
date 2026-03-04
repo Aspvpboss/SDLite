@@ -26,8 +26,8 @@ typedef struct SDLite_Text SDLite_Text;
     Creates a SDLite_Text*, this must be freed using SDLite_DestroyText()
 
     You can pass NULL into 'const char *font_path' and 'const char *display_text'.
-    If you make font_path NULL, you must update the font using SDLite_Text_SetFont() 
-    and update the text using SDLite_Text_SetString();
+    If the font_path is NULL, it will try to open "SDLite/assets/default.ttf".
+    If the display_text is NULL, it will just set the string to be "" 
 
     returns SDLite_Text* for success, NULL for failure
     Use SDL_GetError() for more error details
