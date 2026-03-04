@@ -23,9 +23,11 @@ struct SDLite_Text{
 
 SDLite_Text* SDLite_CreateText(
     const SDLite_Display *display, const char *display_text, const char *font_path, float font_size, int x, int y, SDL_Color color){
-    
-    SDLite_Text *text = t_malloc(sizeof(SDLite_Text));
+   
+    if(!display) return NULL;
 
+    SDLite_Text *text = t_malloc(sizeof(SDLite_Text));
+    if(!text) return NULL;
 
     text->engine = display->text_engine;
     text->color = color;
@@ -37,13 +39,12 @@ SDLite_Text* SDLite_CreateText(
 
     if(font_path == NULL){
 
-        text->font = TTF_OpenFont("./assets/default.ttf", font_size);
+        text->font = TTF_OpenFont("SDLite/assets/default.ttf", font_size);
         if(text->font == NULL){
             t_free(text);
             return NULL;
         }
             
-
     } else{
 
         text->font = TTF_OpenFont(font_path, font_size);
@@ -52,7 +53,6 @@ SDLite_Text* SDLite_CreateText(
             return NULL;
         }
             
-
     }
 
 
@@ -62,18 +62,30 @@ SDLite_Text* SDLite_CreateText(
 
     text->text = TTF_CreateText(text->engine, text->font, display_text, text->wrap_width);
     
-    if(text->text == NULL){
+    if(!text->text){
+        TTF_CloseFont(text->font);
         t_free(text);
         return NULL;
     }
     
-    TTF_SetTextColor(text->text, color.r, color.g, color.b, color.a);
+    if(!TTF_SetTextColor(text->text, color.r, color.g, color.b, color.a)){
+        TTF_CloseFont(text->font);
+        TTF_DestroyText(text->text);
+        t_free(text);
+        return NULL;
+    }
 
-    TTF_SetTextWrapWidth(text->text, 0);
+    if(!TTF_SetTextWrapWidth(text->text, 0)){
+        TTF_CloseFont(text->font);
+        TTF_DestroyText(text->text);
+        t_free(text);
+        return NULL;
+    }
 
     int w, h;
 
     if(!TTF_GetTextSize(text->text, &w,  &h)){
+        TTF_CloseFont(text->font);
         TTF_DestroyText(text->text);
         t_free(text);
         return NULL;
