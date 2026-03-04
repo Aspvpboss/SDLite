@@ -11,13 +11,13 @@ extern "C" void SDL_AppQuit(void *appstate, SDL_AppResult result){
     if(!state)
         return;  
 
-    SDK_DestroyDisplay(state->display);
-    SDK_DestroyInput(state->input);
-    SDK_DestroyTime(state->time);
-    SDK_DestroyText(state->fps_text);
+    SDLite_DestroyDisplay(state->display);
+    SDLite_DestroyInput(state->input);
+    SDLite_DestroyTime(state->time);
+    SDLite_DestroyText(state->fps_text);
 
     t_free(state);
 
-    SDK_Quit();
+    SDLite_Quit();
 
 }

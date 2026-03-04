@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDK.h"
+#include "SDLite.h"
 #include <math.h>
 
 
@@ -9,9 +9,9 @@
 
 typedef struct{
 
-    SDK_Display *display;
-    SDK_Time *time;
-    SDK_Input *input;
-    SDK_Text *fps_text;
+    SDLite_Display *display;
+    SDLite_Time *time;
+    SDLite_Input *input;
+    SDLite_Text *fps_text;
 
 } Appstate;
