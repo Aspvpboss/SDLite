@@ -17,6 +17,11 @@ extern "C" {
 #include "common_libs.h"
 
 /*
+    These functions can be called from any thread, but you should only call them once anyways
+*/
+
+
+/*
     initializes all SDL systems, and MemTrack for SDK
 
     void (*func)(void*) is a optional function you can pass to run if malloc fails
@@ -36,7 +41,7 @@ extern "C" {
     call SDL_GetError() for more info    
 */
 SDLite_DLL int SDLite_Init(
-    void (*func)(void*), void *func_data, bool memory_failure_abort, bool print_memtrack_info, bool auto_null_pointers);
+    void (*func)(void*), void *func_data, bool memory_failure_abort, bool auto_null_pointers);
 
 /*
     deinitializes all SDL systems, and MemTrack for SDK

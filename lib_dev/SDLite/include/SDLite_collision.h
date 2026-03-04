@@ -14,15 +14,18 @@ extern "C"{
 
 #include "common_libs.h"
 
+/*
+    These functions can be called from any thread
+*/
 
 enum SDLite_CollisionType{
 
-    SDLite_COLLISION_NONE,
-    SDLite_COLLISION_LEFT,
-    SDLite_COLLISION_RIGHT,
-    SDLite_COLLISION_UP,
-    SDLite_COLLISION_DOWN,
-    SDLite_COLLISION_ERROR
+    SDLITE_COLLISION_NONE,
+    SDLITE_COLLISION_LEFT,
+    SDLITE_COLLISION_RIGHT,
+    SDLITE_COLLISION_UP,
+    SDLITE_COLLISION_DOWN,
+    SDLITE_COLLISION_ERROR
 
 };
 

@@ -19,21 +19,14 @@ typedef struct{
 
     MIX_Track *track;
     SDL_PropertiesID track_prop;
-    float track_volume;
 
 } SDLite_Track;
 
 
-
-typedef struct{
-
-    float master_volume;
-    MIX_Mixer *mixer;
-    SDLite_Track *tracks;
-    uint16_t track_capacity;
-
-} SDLite_Audio_Handler;
-
+/*
+    These functions can be called from any thread
+*/
+typedef struct SDLite_Audio_Handler SDLite_Audio_Handler;
 
 /*
     Creates an SDLite_Audio_Handler*
@@ -58,13 +51,24 @@ SDLite_DLL void SDLite_Destroy_AudioHandler(SDLite_Audio_Handler *audio_handler)
 /*
     Gets the specified SDLite_Track*, the SDLite_Audio_Handler still owns the SDLite_Track*  
 
-    Use the SDLite_Track* cautiously   
-
+    Use the SDLite_Track* cautiously.
+    Do not free SDLite_Track. It is owned by SDLite_Audio_Handler*   
+    
     returns SDLite_Track* for success, returns NULL for failure
 */
 SDLite_DLL SDLite_Track* SDLite_Audio_GetTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track);
 
 /*
+    Gets the MIX_Mixer*, the SDLite_Audio_Handler still owns the MIX_Mixer*. 
+    Do not free the MIX_Mixer*
+
+    Will fail if SDLite_Audio_Handler* is NULL
+
+    returns MIX_Mixer* for success, returns NULL for failure
+*/
+SDLite_DLL MIX_Mixer* SDLite_Audio_GetMixer(SDLite_Audio_Handler *audio_handler);
+
+    /*
     Plays the audio that has been loaded to the specified audio_track
 
     Function will fail if no audio has been loaded to the track
@@ -94,6 +98,15 @@ SDLite_DLL int SDLite_Audio_StopTrack(SDLite_Audio_Handler *audio_handler, uint1
 */
 SDLite_DLL int SDLite_Audio_SetTrackAudio(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio);
 
+
+/*
+    Sets the track volume for a specified track_volume, volume range between 0.0f - 1.0f
+
+    returns 0 for success, returns 1 for failure 
+*/
+SDLite_DLL int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume);
+
+
 /*
     Sets a value to a specified property in the specified audio_track 
 
@@ -112,12 +125,13 @@ SDLite_DLL int SDLite_Audio_SetTrackProp(SDLite_Audio_Handler *audio_handler, ui
 SDLite_DLL int SDLite_Audio_SetMasterVolume(SDLite_Audio_Handler *audio_handler, float master_volume);
 
 /*
-    Sets the track volume for a specified track_volume, volume range between 0.0f - 1.0f
+    Gets the master volume and fills in the float* with it
 
-    returns 0 for success, returns 1 for failure 
+    Will fail if either SDLite_Audio_Handler* or float* is NULL
+
+    returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume);
-
+SDLite_DLL int SDLite_Audio_GetMasterVolume(SDLite_Audio_Handler *audio_handler, float *master_volume);
 
 
 

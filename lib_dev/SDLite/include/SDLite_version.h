@@ -14,12 +14,14 @@ extern "C"{
 
 #include "common_libs.h"
 
-#define SDLite_MAJOR_VERSION 1
-#define SDLite_MINOR_VERSION 1
-#define SDLite_MICRO_VERSION 1
+#define SDLITE_MAJOR_VERSION 1
+#define SDLITE_MINOR_VERSION 2
+#define SDLITE_MICRO_VERSION 0
 
 /* 
     takes in int* and writes the version numbers to those pointers
+
+    Can be called from any thread
 
     returns early if any pointer is NULL
 */

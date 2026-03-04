@@ -19,28 +19,22 @@ extern "C"{
 /*
 
     SDLite_Time holds variable that are used for time calculations
-
-    You use dt and fps for functions
-    fps_updated becomes true whenever the new fps gets calculated
-    becomes false after the update
+    
+    There should only be one SDLite_Time per thread. 
+    You should only use the SDLite_Time in the thread it was created in
 
 */
-typedef struct{
-
-    const double dt;
-    const bool fps_updated;
-    const double fps;
-    double fps_limit;
-    void *const data;
-
-} SDLite_Time;
-
+typedef struct SDLite_Time SDLite_Time;
 
 
 /*
     Creates and returns a SDLite_Time struct
 
+    set the fps_limit to be less than 0.0f to uncap the fps
     fps_limit can be changed during runtime
+    if fps is above several 1000s, it will become unstable and break animation timing
+
+    Will fail if fps_limit == 0.0f or if malloc fails
 
     returns SDLite_Time* for success, returns NULL for failure
     call SDL_GetError() for more info
@@ -55,6 +49,57 @@ SDLite_DLL SDLite_Time* SDLite_CreateTime(double fps_limit);
 SDLite_DLL void SDLite_DestroyTime(SDLite_Time *time);
 
 /*
+    Gets the fps of the SDLite_Time*
+
+    Will fail if SDLite_Time* is NULL
+
+    returns the fps for success, returns -1.0f for failure
+*/
+SDLite_DLL double SDLite_Time_GetFPS(const SDLite_Time *time);
+
+/*
+    Gets the delta time of the SDLite_Time*
+
+    Will fail if SDLite_Time* is NULL
+
+    returns the delta time for success, returns -1.0f for failure
+*/
+SDLite_DLL double SDLite_Time_GetDT(const SDLite_Time *time);
+
+
+/*
+    Returns either true or false if the fps value inside SDLite_Time* updated
+
+    Will fail if SDLite_Time* is NULL
+
+    returns a bool of the fps updated for success, returns false for failure
+*/
+SDLite_DLL bool SDLite_Time_Is_FPSUpdated(const SDLite_Time *time);
+
+
+/*
+    Gets the fps_limit of the SDLite_Time*
+
+    Will fail if SDLite_Time* is NULL
+
+    returns the fps_limit for success, returns 0.0f for failure
+*/
+SDLite_DLL double SDLite_Time_Get_FPSLimit(const SDLite_Time *time);
+
+/*
+    Sets the fps_limit of the SDLite_Time*
+
+    Set the fps_limit below 0.0f to uncap the fps
+    if fps is above several 1000s, it will become unstable and break animation timing
+    
+    Will fail if SDLite_Time* is NULL or if new_fps_limit == 0.0f
+
+    returns 0 for success, returns 1 for failure
+*/
+SDLite_DLL int SDLite_Time_Set_FPSLimit(SDLite_Time *time, double new_fps_limit);
+
+
+/*
     Calls the time.h functions in order of use
 
     This is for ease of programmers.
@@ -64,14 +109,15 @@ SDLite_DLL void SDLite_DestroyTime(SDLite_Time *time);
     **
     Functions Called:
     
-    SDLite_CalculateDT(&time);
-    SDLite_LimitFPS(&time);
-    SDLite_CalculateFPS(&time);  
+    SDLite_CalculateDT(time);
+    SDLite_LimitFPS(time);
+    SDLite_CalculateFPS(time);  
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
 SDLite_DLL int SDLite_TimeFunctions(SDLite_Time *time);
+
 
 /*
     Updates 'dt' within SDLite_Time with current delta time

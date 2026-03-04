@@ -20,12 +20,10 @@ extern "C" {
 
 
 
-typedef struct{
-
-    void *const data;
-
-} SDLite_Sprite_Manager;
-
+/*
+    These functions should only be called on the main thread
+*/
+typedef struct SDLite_Sprite_Manager SDLite_Sprite_Manager;
 
 /*
     Creates a SDLite_Sprite_Manager with the specified attributes
