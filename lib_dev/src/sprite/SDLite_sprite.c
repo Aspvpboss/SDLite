@@ -93,11 +93,13 @@ SDL_Texture* SDLite_Sprite_GetSDLTexture(const SDLite_Sprite *sprite){
 
     if(sprite->sprite_type == SDLite_STATIC_SPRITE){
         SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
+        if(!data->texture) return NULL;
         return data->texture->texture;
     }
 
     if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
         SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
+        if(!data->texture) return NULL;
         return data->texture->texture;
     }
 
@@ -112,7 +114,7 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
     if(!display || !sprite) return 1;
 
     const SDL_FRect *src_rect = NULL;
-    SDL_Texture *texture = NULL;
+    SDLite_Texture *texture = NULL;
     
     switch(sprite->sprite_type){
 
@@ -165,15 +167,17 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
         default: return 1;
     }
 
+    SDL_Texture *sdl_texture = texture->texture;
+    if(!sdl_texture) return 1;
 
     if(sprite->angle == 0.0f && sprite->flip_mode == SDL_FLIP_NONE){
 
-        if(!SDL_RenderTexture(display->renderer, texture, src_rect, &sprite->render_rect))
+        if(!SDL_RenderTexture(display->renderer, sdl_texture, src_rect, &sprite->render_rect))
             return 1;
 
     } else{
 
-        if(!SDL_RenderTextureRotated(display->renderer, texture, src_rect, &sprite->render_rect, sprite->angle, &sprite->pivot_point, sprite->flip_mode))
+        if(!SDL_RenderTextureRotated(display->renderer, sdl_texture, src_rect, &sprite->render_rect, sprite->angle, &sprite->pivot_point, sprite->flip_mode))
             return 1;
 
     }

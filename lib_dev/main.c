@@ -4,8 +4,7 @@
 #include "SDLite.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
-//#define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
-#define TEXTURE_PATH_COOL NULL
+#define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
 
 
 typedef enum{
@@ -154,12 +153,24 @@ int main(){
     SDLite_Audio_SetTrackProp(audio_handler, 0, MIX_PROP_PLAY_MAX_MILLISECONDS_NUMBER, 10000);
 
     // goat player
-    SDLite_Sprite *player = SDLite_Create_AnimatedSprite(display, TEXTURE_PATH_COOL, (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
+    SDLite_Sprite *player = SDLite_Create_AnimatedSprite(display, NULL, (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
     if(!player){
         SDL_Log("Error loading player: %s\n", SDL_GetError());
         return 1;
     }
+   
+    SDLite_Texture *player_tex = SDLite_CreateTexture(display, TEXTURE_PATH_COOL);
+    if(!player_tex){
+        SDL_Log("Error loading player texture: %s\n", SDL_GetError());
+        return 1;
+    }
 
+    SDLite_Sprite_SetTexture(player, player_tex);
+
+    
+    SDLite_Sprite_SetScale(player, 8.0f);
+    SDL_SetTextureScaleMode(SDLite_Sprite_GetSDLTexture(player), SDL_SCALEMODE_NEAREST);
+    
     test_sprite_getters_setters(player);
 
     // boilerplate stuff for animations
@@ -184,8 +195,6 @@ int main(){
         return 1;
     } 
 
-    SDLite_Sprite_SetScale(player, 8.0f);
-    SDL_SetTextureScaleMode(SDLite_Sprite_GetTexture(player), SDL_SCALEMODE_NEAREST);
 
     
 
@@ -316,8 +325,12 @@ int main(){
     manager = NULL;
     SDLite_Destroy_AudioHandler(audio_handler);
     audio_handler = NULL;
+
+    SDL_Log("refs before %d\n", SDLite_Texture_GetRefs(player_tex));
     SDLite_DestroySprite(player);
     player = NULL;
+    SDL_Log("refs after %d\n", SDLite_Texture_GetRefs(player_tex));
+    SDLite_DestroyTexture(player_tex); 
     SDLite_DestroySprite(square);
     square = NULL;
     SDLite_DestroySprite(rectangle);

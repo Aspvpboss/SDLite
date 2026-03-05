@@ -29,6 +29,20 @@ SDLite_DLL SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, c
 */
 SDLite_DLL void SDLite_DestroyTexture(SDLite_Texture *texture);
 
+
+/*
+    Returns number of references to the SDLite_Texture
+
+    This function only really exists for debugging purposes. 
+    You could use this to check if a texture hasn't been freed by the end of the program
+
+    Will fail if const SDLite_Texture* is NULL
+
+    returns numbers of references on success, returns -1 on failure
+*/
+SDLite_DLL int SDLite_Texture_GetRefs(const SDLite_Texture *texture);
+
+
 #ifdef __cplusplus
 }
 #endif
