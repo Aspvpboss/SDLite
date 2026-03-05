@@ -25,7 +25,7 @@ SDLite_DLL SDLite_Texture* SDLite_CreateTexture(SDLite_Display *display, const c
 /*
     Reference counting is handled internally by SDLite
 
-    Only call this functions when the texture is no longer needed
+    Only call this function when the texture is no longer needed
 */
 SDLite_DLL void SDLite_DestroyTexture(SDLite_Texture *texture);
 
