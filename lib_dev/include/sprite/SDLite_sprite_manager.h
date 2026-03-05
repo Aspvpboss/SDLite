@@ -62,6 +62,10 @@ SDLite_DLL int SDLite_SpriteManager_QueueSprite(SDLite_Sprite_Manager *manager, 
 /*
     Renders all the sprites within each z_layer contained in SDLite_Sprite_Manager
 
+    Will fail if SDLite_Display* or SDLite_Sprite_Manager* is NULL, 
+    or it will fail if any of the sprites' textures are NULL, 
+    but the function will continue to render all of the sprites before returns a failure
+
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
