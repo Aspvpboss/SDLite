@@ -33,7 +33,7 @@ SDLite_Sprite* SDLite_Create_StaticSprite(const SDLite_Display *display, const c
     SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
 
     if(texture_path){
-        data->texture = IMG_LoadTexture(display->renderer, texture_path);
+        data->texture = SDLite_CreateTexture(display, texture_path); 
         if(!data->texture){
             t_free(data);
             t_free(sprite);
@@ -61,21 +61,21 @@ SDLite_Sprite* SDLite_Create_StaticSprite(const SDLite_Display *display, const c
 
 
 
-int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDL_Texture *texture){
+int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *texture){
 
     if(!sprite || !texture) return 1;
 
     if(sprite->sprite_type == SDLite_STATIC_SPRITE){
         SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
         data->texture = texture;
-        texture->refcount++;
+        texture->refs++;
         return 0; 
     }
 
     if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
         SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
         data->texture = texture;
-        texture->refcount++; 
+        texture->refs++; 
         return 0;
     }
 
@@ -85,18 +85,18 @@ int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDL_Texture *texture){
 
 
 
-SDL_Texture* SDLite_Sprite_GetTexture(const SDLite_Sprite *sprite){
+SDL_Texture* SDLite_Sprite_GetSDLTexture(const SDLite_Sprite *sprite){
 
     if(!sprite) return NULL;
 
     if(sprite->sprite_type == SDLite_STATIC_SPRITE){
         SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
-        return data->texture;
+        return data->texture->texture;
     }
 
     if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
         SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
-        return data->texture;
+        return data->texture->texture;
     }
 
     return NULL;

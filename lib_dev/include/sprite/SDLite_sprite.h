@@ -16,6 +16,7 @@ extern "C"{
 #include "../common_libs.h"
 #include "SDLite_display.h"
 #include "SDLite_time.h"
+#include "SDLite_texture.h"
 
 
 /*
@@ -74,7 +75,7 @@ SDLite_DLL int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_
     
     returns SDL_Texture* for success, returns NULL for failure
 */
-SDLite_DLL SDL_Texture* SDLite_Sprite_GetTexture(const SDLite_Sprite *sprite);
+SDLite_DLL SDL_Texture* SDLite_Sprite_GetSDLTexture(const SDLite_Sprite *sprite);
 
 /*
     Sets the SDL_Texture* of the given SDLite_Sprite*
@@ -84,7 +85,7 @@ SDLite_DLL SDL_Texture* SDLite_Sprite_GetTexture(const SDLite_Sprite *sprite);
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDL_Texture *texture);
+SDLite_DLL int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *texture);
 
 
 /*

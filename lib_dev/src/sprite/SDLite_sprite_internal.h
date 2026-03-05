@@ -6,6 +6,7 @@
 #include "SDLite_time.h"
 #include "sprite/SDLite_sprite_type.h"
 #include "SDLite_texture.h"
+#include "SDLite_texture_internal.h"
 
 struct SDLite_Sprite{
 

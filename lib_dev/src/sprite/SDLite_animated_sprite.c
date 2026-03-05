@@ -24,7 +24,7 @@ SDLite_Sprite* SDLite_Create_AnimatedSprite(const SDLite_Display *display, const
     SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
 
     if(texture_path){
-        data->texture = IMG_LoadTexture(display->renderer, texture_path);
+        data->texture = SDLite_CreateTexture(display, texture_path);
         if(!data->texture){
             t_free(data);
             t_free(sprite);
