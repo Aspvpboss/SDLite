@@ -4,9 +4,18 @@
 #include "common_libs.h"
 #include "SDLite_display.h"
 #include "SDLite_time.h"
-#include "sprite/SDLite_sprite_type.h"
 #include "SDLite_texture.h"
 #include "SDLite_texture_internal.h"
+
+
+enum SDLite_SpriteType{
+
+    SDLite_STATIC_SPRITE,
+    SDLite_ANIMATED_SPRITE,
+    SDLite_RECT_SPRITE
+
+};
+
 
 struct SDLite_Sprite{
 

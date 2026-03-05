@@ -25,9 +25,9 @@ SDLite_DLL SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, c
 /*
     Reference counting is handled internally by SDLite
 
-    Only call this function when the texture is no longer needed
+    The pointer of the texture will be set to NULL if the texture is actually freed
 */
-SDLite_DLL void SDLite_DestroyTexture(SDLite_Texture *texture);
+SDLite_DLL void SDLite_DestroyTexture(SDLite_Texture **texture);
 
 
 /*
@@ -38,9 +38,9 @@ SDLite_DLL void SDLite_DestroyTexture(SDLite_Texture *texture);
 
     Will fail if const SDLite_Texture* is NULL
 
-    returns numbers of references on success, returns -1 on failure
+    returns numbers of references on success, returns 0 on failure
 */
-SDLite_DLL int SDLite_Texture_GetRefs(const SDLite_Texture *texture);
+SDLite_DLL uint64_t SDLite_Texture_GetRefs(const SDLite_Texture *texture);
 
 
 #ifdef __cplusplus

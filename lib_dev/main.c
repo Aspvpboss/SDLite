@@ -326,11 +326,12 @@ int main(){
     SDLite_Destroy_AudioHandler(audio_handler);
     audio_handler = NULL;
 
-    SDL_Log("refs before %d\n", SDLite_Texture_GetRefs(player_tex));
+    SDL_Log("refs before %lld\n", SDLite_Texture_GetRefs(player_tex));
     SDLite_DestroySprite(player);
     player = NULL;
-    SDL_Log("refs after %d\n", SDLite_Texture_GetRefs(player_tex));
-    SDLite_DestroyTexture(player_tex); 
+    SDL_Log("refs after %lld\n", SDLite_Texture_GetRefs(player_tex));
+    SDLite_DestroyTexture(&player_tex);
+    
     SDLite_DestroySprite(square);
     square = NULL;
     SDLite_DestroySprite(rectangle);

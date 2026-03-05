@@ -21,22 +21,23 @@ SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, const char *
     return sdlite_texture;
 }
 
-int SDLite_Texture_GetRefs(const SDLite_Texture *texture){
+uint64_t SDLite_Texture_GetRefs(const SDLite_Texture *texture){
 
-    if(!texture) return -1;
+    if(!texture) return 0;
     
     return texture->refs;
 }
 
 
-void SDLite_DestroyTexture(SDLite_Texture *texture){
+void SDLite_DestroyTexture(SDLite_Texture **texture){
 
-    if(!texture) return;
+    if(!texture || !(*texture)) return;
 
-    texture->refs--;
-    if(texture->refs > 0) return;
-
-    SDL_DestroyTexture(texture->texture);
-    t_free(texture);
+    (*texture)->refs--;
+    if((*texture)->refs == 0){
+        SDL_DestroyTexture((*texture)->texture);
+        t_free((*texture));
+        *texture = NULL;
+    }
 
 }

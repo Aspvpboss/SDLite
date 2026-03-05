@@ -67,7 +67,7 @@ int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *texture){
 
     if(sprite->sprite_type == SDLite_STATIC_SPRITE){
         SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
-        if(data->texture) SDLite_DestroyTexture(data->texture);
+        if(data->texture) SDLite_DestroyTexture(&data->texture);
         data->texture = texture;
         texture->refs++;
         return 0; 
@@ -75,7 +75,7 @@ int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *texture){
 
     if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
         SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
-        if(data->texture) SDLite_DestroyTexture(data->texture);
+        if(data->texture) SDLite_DestroyTexture(&data->texture);
         data->texture = texture;
         texture->refs++; 
         return 0;
@@ -347,13 +347,13 @@ void SDLite_DestroySprite(SDLite_Sprite *sprite){
             t_free(data->animation[i].frames);
         }
         t_free(data->animation);
-        SDLite_DestroyTexture(data->texture);
+        SDLite_DestroyTexture(&data->texture);
         t_free(sprite->data);
 
     } else if(sprite->sprite_type == SDLite_STATIC_SPRITE){
 
         SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
-        SDLite_DestroyTexture(data->texture);
+        SDLite_DestroyTexture(&data->texture);
         t_free(sprite->data);
 
     } else if(sprite->sprite_type == SDLite_RECT_SPRITE){
