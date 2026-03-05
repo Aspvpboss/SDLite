@@ -167,11 +167,11 @@ int main(){
 
     SDLite_Sprite_SetTexture(player, player_tex);
 
+    test_sprite_getters_setters(player);
     
     SDLite_Sprite_SetScale(player, 8.0f);
     SDL_SetTextureScaleMode(SDLite_Sprite_GetSDLTexture(player), SDL_SCALEMODE_NEAREST);
-    
-    test_sprite_getters_setters(player);
+  
 
     // boilerplate stuff for animations
     SDLite_Sprite_AllocAnimation(player, MAX_ANIMATIONS);
