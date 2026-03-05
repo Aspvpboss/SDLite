@@ -3,7 +3,7 @@
 #include "SDLite_display_internal.h"
 
 
-SDLite_Texture* SDLite_CreateTexture(SDLite_Display *display, const char *file){
+SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, const char *file){
 
     if(!display || !file) return NULL;
 

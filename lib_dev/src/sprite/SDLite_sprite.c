@@ -343,13 +343,13 @@ void SDLite_DestroySprite(SDLite_Sprite *sprite){
             t_free(data->animation[i].frames);
         }
         t_free(data->animation);
-        SDL_DestroyTexture(data->texture);
+        SDLite_DestroyTexture(data->texture);
         t_free(sprite->data);
 
     } else if(sprite->sprite_type == SDLite_STATIC_SPRITE){
 
         SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
-        SDL_DestroyTexture(data->texture);
+        SDLite_DestroyTexture(data->texture);
         t_free(sprite->data);
 
     } else if(sprite->sprite_type == SDLite_RECT_SPRITE){

@@ -20,7 +20,7 @@ typedef struct SDLite_Texture SDLite_Texture;
     returns SDLite_Texture* on success, returns NULL on failure
     call SDL_GetError() for more info
 */
-SDLite_DLL SDLite_Texture* SDLite_CreateTexture(SDLite_Display *display, const char *file);
+SDLite_DLL SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, const char *file);
 
 /*
     Reference counting is handled internally by SDLite

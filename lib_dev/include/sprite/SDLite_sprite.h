@@ -78,10 +78,13 @@ SDLite_DLL int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_
 SDLite_DLL SDL_Texture* SDLite_Sprite_GetSDLTexture(const SDLite_Sprite *sprite);
 
 /*
-    Sets the SDL_Texture* of the given SDLite_Sprite*
-    The SDL_Texture* is used when rendering the SDLite_Sprite*
+    Sets the SDLite_Texture* of the given SDLite_Sprite*. The SDLite_Texture* is used when rendering the SDLite_Sprite*
+    The SDLite_Sprite* does not take ownership of the texture, 
+    but it will decrement the SDLite_Texture* reference when destroyed
 
-    Will fail if SDLite_Sprite* or SDL_Texture* are NULL, or if the SDLite_Sprite* is a SDLite_RECT_SPRITE 
+    If the SDLite_Sprite* already has a texture, it will free its reference and then set the new texture
+
+    Will fail if SDLite_Sprite* or SDLite_Texture* are NULL, or if the SDLite_Sprite* is a SDLite_RECT_SPRITE 
 
     returns 0 for success, returns 1 for failure
 */
