@@ -110,6 +110,7 @@ int SDLite_Render_SpriteManager(SDLite_Display *display, SDLite_Sprite_Manager *
         return 1;
     
     Sprite_Manager_Data *data = (Sprite_Manager_Data*)manager->data;
+    bool result = false;
 
     for(uint64_t i = 0; i < data->max_z_depth; i++){
 
@@ -121,14 +122,16 @@ int SDLite_Render_SpriteManager(SDLite_Display *display, SDLite_Sprite_Manager *
         SDLite_Sprite **sprites = layer->sprites;
 
         for(int a = 0; a < layer->amount_sprites; a++){
-            SDLite_Render_Sprite(display, sprites[a]);
+
+            result |= (bool)SDLite_Render_Sprite(display, sprites[a]);
+        
         }
 
         layer->amount_sprites = 0;
 
     }
 
-    return 0;
+    return result;
 }
 
 

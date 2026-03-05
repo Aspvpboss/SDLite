@@ -4,7 +4,8 @@
 #include "SDLite.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
-#define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
+//#define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
+#define TEXTURE_PATH_COOL NULL
 
 
 typedef enum{
@@ -130,7 +131,7 @@ int main(){
 
 
     SDLite_Audio_Handler *audio_handler = SDLite_Create_AudioHandler(4, 1.0f);
-    SDLite_Display *display = SDLite_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
+    SDLite_Display *display = SDLite_CreateDisplay("SDLite window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDLite_Time *time = SDLite_CreateTime(144);
     SDLite_Input *input = SDLite_CreateInput();
     if(!input){
@@ -291,7 +292,9 @@ int main(){
         SDLite_SpriteManager_QueueSprite(manager, square, 0); 
         SDLite_SpriteManager_QueueSprite(manager, rectangle, 0);
        
-        SDLite_Render_SpriteManager(display, manager);
+        if(SDLite_Render_SpriteManager(display, manager)){
+            // functions does fail since player texture is NULL
+        }
         SDLite_Render_Text(text);
 
         SDLite_DisplayPresent(display);
@@ -319,6 +322,8 @@ int main(){
     square = NULL;
     SDLite_DestroySprite(rectangle);
     rectangle = NULL;
+
+    SDL_Log("%s", SDL_GetError());
 
     SDLite_Quit();
     

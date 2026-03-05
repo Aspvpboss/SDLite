@@ -111,7 +111,7 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
 
     const SDL_FRect *src_rect = NULL;
     SDL_Texture *texture = NULL;
-
+    
     switch(sprite->sprite_type){
 
         case(SDLite_ANIMATED_SPRITE):
@@ -126,6 +126,7 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
 
             src_rect = &animation->frames[animation->current_frame];
             texture = a_data->texture;
+            if(!texture) return 1;
             
             break;
 
@@ -135,7 +136,8 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
 
             src_rect = &s_data->src_rect;
             texture = s_data->texture;
-        
+            if(!texture) return 1;
+            
             break;
 
         case(SDLite_RECT_SPRITE):
@@ -144,19 +146,17 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
 
             src_rect = &sprite->render_rect;
 
-            SDL_SetRenderDrawColor(display->renderer, r_data->color.r, r_data->color.g, r_data->color.b, r_data->color.a);
+            if(!SDL_SetRenderDrawColor(display->renderer, r_data->color.r, r_data->color.g, r_data->color.b, r_data->color.a))
+                return 1;
             
-            bool result;
 
             if(r_data->is_filled){
-                result = SDL_RenderFillRect(display->renderer, src_rect);
+                if(!SDL_RenderFillRect(display->renderer, src_rect)) return 1;
             } else{
-                result = SDL_RenderRect(display->renderer, src_rect);
+                if(!SDL_RenderRect(display->renderer, src_rect)) return 1;
             }
 
-            SDL_SetRenderDrawColor(display->renderer, 0, 0, 0, 0);
-
-            if(!result) return 1;
+            if(!SDL_SetRenderDrawColor(display->renderer, 0, 0, 0, 0)) return 1;
 
             return 0;
 
