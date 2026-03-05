@@ -121,7 +121,7 @@ int SDLite_Render_SpriteManager(SDLite_Display *display, SDLite_Sprite_Manager *
 
         SDLite_Sprite **sprites = layer->sprites;
 
-        for(int a = 0; a < layer->amount_sprites; a++){
+        for(uint64_t a = 0; a < layer->amount_sprites; a++){
 
             result |= (bool)SDLite_Render_Sprite(display, sprites[a]);
         
