@@ -21,6 +21,7 @@ extern "C"{
 #include "SDLite_collision.h"
 #include "SDLite_audio.h"
 #include "SDLite_version.h"
+#include "SDLite_texture.h"
 
 #include "sprite/SDLite_sprite.h"
 #include "sprite/SDLite_sprite_manager.h"

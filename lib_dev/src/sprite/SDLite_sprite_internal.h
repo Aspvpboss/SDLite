@@ -5,6 +5,7 @@
 #include "SDLite_display.h"
 #include "SDLite_time.h"
 #include "sprite/SDLite_sprite_type.h"
+#include "SDLite_texture.h"
 
 struct SDLite_Sprite{
 
@@ -25,7 +26,7 @@ typedef struct{
 
     float base_width;
     float base_height;
-    SDL_Texture *texture;
+    SDLite_Texture *texture;
     
     SDL_FRect src_rect;
 
@@ -59,7 +60,7 @@ typedef struct{
 
     float base_width;
     float base_height;
-    SDL_Texture *texture;
+    SDLite_Texture *texture;
 
     SDLite_Animation *animation;
     uint16_t amount_animation;

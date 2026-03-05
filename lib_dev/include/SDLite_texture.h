@@ -23,10 +23,9 @@ typedef struct SDLite_Texture SDLite_Texture;
 SDLite_DLL SDLite_Texture* SDLite_CreateTexture(SDLite_Display *display, const char *file);
 
 /*
-    Decrements refs in SDLite_Texture each function call
-    Destroys SDLite_Texture* once refs reachs 0
+    Reference counting is handled internally by SDLite
 
-    returns early if SDLite_Texture is NULL or if the refs is above 0
+    Only call this functions when the texture is no longer needed
 */
 SDLite_DLL void SDLite_DestroyTexture(SDLite_Texture *texture);
 
