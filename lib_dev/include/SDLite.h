@@ -5,13 +5,21 @@
  * See the LICENSE file in the project root for license information.
 */
 
-// have to make sure there aren't going to be conflicts
 #ifndef SDLite_SDLite_H
 #define SDLite_SDLite_H
 
 #ifdef __cplusplus
 extern "C"{
 #endif
+
+
+/*
+    This is an umbrella header
+
+    includes this imports the entire SDLite framework
+
+    You can individually import parts of the frameworks
+*/
 
 
 #include "SDLite_display.h"
