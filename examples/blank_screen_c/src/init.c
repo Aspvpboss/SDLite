@@ -7,31 +7,36 @@
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
-    SDK_Init(NULL, NULL, true, true, false);
+    if(SDLite_Init(NULL, NULL, true, false)){
+        SDL_Log("Error: %s\n", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
 
     (*appstate) = t_malloc(sizeof(Appstate));
     Appstate *state = (Appstate*)(*appstate);
 
-    state->display = SDK_CreateDisplay("SDK game", 1000, 800, SDL_WINDOW_MAXIMIZED);
+    state->display = SDLite_CreateDisplay("SDK game", 1000, 800, SDL_WINDOW_MAXIMIZED);
     if(!state->display){
         SDL_Log("Error: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;
     }
 
-    state->time = SDK_CreateTime(144);
+    state->time = SDLite_CreateTime(144);
     if(!state->time){
         SDL_Log("Error: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;
     }
 
-    state->input = SDK_CreateInput();
+    state->input = SDLite_CreateInput();
     if(!state->input){
         SDL_Log("Error: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;
     }
 
-    state->fps_text = SDK_CreateText(state->display, NULL, 30, 0, 0, (SDL_Color){255, 255, 255, 255});
-    if(!state->fps_text){
+    state->fps_text = SDLite_CreateText(
+        state->display, NULL, "assets/default.ttf", 30, 0, 0, (SDL_Color){255, 255, 255, 255});
+    
+        if(!state->fps_text){
         SDL_Log("Error: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;        
     }
