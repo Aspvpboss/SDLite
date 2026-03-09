@@ -132,3 +132,33 @@ int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h){
     return 0;
 }
 
+
+SDL_Renderer* SDLite_Display_GetSDLRenderer(SDLite_Display *display){
+
+    if(!display) return NULL;
+
+    return display->renderer;
+}
+
+SDL_Window* SDLite_Display_GetSDLWindow(SDLite_Display *display){
+
+    if(!display) return NULL;
+
+    return display->window;
+}
+
+TTF_TextEngine* SDLite_Display_GetTTFTextEngine(SDLite_Display *display){
+
+    if(!display) return NULL;
+
+    return display->text_engine;
+}
+
+
+SDL_WindowFlags SDLite_Display_GetWindowFlags(SDLite_Display *display){
+
+    if(!display) return 0;
+
+    return display->window_flag;
+}
+

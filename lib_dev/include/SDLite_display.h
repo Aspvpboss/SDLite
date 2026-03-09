@@ -38,7 +38,8 @@ SDLite_DLL SDLite_Display* SDLite_CreateDisplay(const char* window_title, int wi
 SDLite_DLL void SDLite_DestroyDisplay(SDLite_Display *display);
 
 /*
-    Clears all rendered objects (SDLite_Sprite, SDLite_Text) from the screen
+    Clears all rendered objects (SDLite_Sprite, SDLite_Text) from the SDLite_Display,
+    or all that was rendered using the SDL_Renderer* stored within
 
     returns 0 for success, returns 1 for failure
 */
@@ -46,7 +47,8 @@ SDLite_DLL int SDLite_DisplayClear(SDLite_Display *display);
 
 
 /*
-    Present all rendered objects (SDLite_Sprite, SDLite_Text) to the screen 
+    Present all rendered objects (SDLite_Sprite, SDLite_Text) to the SDLite_Display,
+    or all that is rendered using the SDL_Renderer* stored within
 
     returns 0 for success, returns 1 for failure
 */
@@ -90,6 +92,50 @@ SDLite_DLL int SDLite_DisplaySetFullscreen(SDLite_Display *display);
     call SDL_GetError() for more info
 */
 SDLite_DLL int SDLite_Display_IsFullscreen(SDLite_Display *display);
+
+
+/*
+    Gets the SDL_Renderer* stored within SDLite_Display. 
+    Use it at your own discretion, but do not destroy the SDL_Renderer*
+
+    Will fail if SDLite_Display* is NULL
+
+    returns SDL_Renderer* on success, returns NULL on failure
+*/
+SDLite_DLL SDL_Renderer* SDLite_Display_GetSDLRenderer(SDLite_Display *display);
+
+
+/*
+    Gets the SDL_Window* stored within SDLite_Display. 
+    Use it at your own discretion, but do not destroy the SDL_Window*
+
+    Will fail if SDLite_Display* is NULL
+
+    returns SDL_Window* on success, returns NULL on failure
+*/
+SDLite_DLL SDL_Window* SDLite_Display_GetSDLWindow(SDLite_Display *display);
+
+
+/*
+    Gets the TTF_TextEngine* stored within SDLite_Display. 
+    Use it at your own discretion, but do not destroy the TTF_TextEngine*
+
+    Will fail if SDLite_Display* is NULL
+
+    returns TTF_TextEngine* on success, returns NULL on failure
+*/
+SDLite_DLL TTF_TextEngine* SDLite_Display_GetTTFTextEngine(SDLite_Display *display);
+
+
+/*
+    Gets the SDL_WindowFlags stored within SDLite_Display. 
+    Use it at your own discretion
+    
+    Will fail if SDLite_Display* is NULL
+
+    returns SDL_WindowFlags on success, returns 0 on failure
+*/
+SDLite_DLL SDL_WindowFlags SDLite_Display_GetWindowFlags(SDLite_Display *display);
 
 
 #ifdef __cplusplus
