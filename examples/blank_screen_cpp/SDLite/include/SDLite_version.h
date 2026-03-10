@@ -16,7 +16,7 @@ extern "C"{
 
 #define SDLITE_MAJOR_VERSION 1
 #define SDLITE_MINOR_VERSION 2
-#define SDLITE_MICRO_VERSION 0
+#define SDLITE_MICRO_VERSION 1
 
 /* 
     takes in int* and writes the version numbers to those pointers
