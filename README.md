@@ -8,12 +8,8 @@ This framework is intended to be a **generic SDL helper library**, slightly tail
 
 ## Patch Notes
 
-- changed SDK prefix to SDLite, (SDK was a bad name)
-- replaced const variables in SDLite structs to be opaque (mostly)
-- created many new getters and setters for all modules of SDLite
-- SDLite_Sprites can now share the same texture, read the new docs to learn how
-- Updated to Memtrack v1.1, made functions names cleaner and added support for multithreading
-- Documented multithreading support for each module of SDLite
+- Added more getters and setters for SDLite_Display, SDLite_Text, and SDLite_Texture
+- Updated SDL3_mixer to v3.2 official release  
 ---
 
 ## Dependencies
@@ -22,7 +18,7 @@ The included folder **`SDL_libs_all`** contains all required SDL libraries used 
 
 - SDL3 v3.5  
 - SDL3_image v3.2  
-- SDL3_mixer v3.1  
+- SDL3_mixer v3.2  
 - SDL3_ttf v3.3  
 
 You must link against these libraries to build projects using SDLite.
