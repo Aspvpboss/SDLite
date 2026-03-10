@@ -38,7 +38,8 @@ SDLite_DLL SDLite_Display* SDLite_CreateDisplay(const char* window_title, int wi
 SDLite_DLL void SDLite_DestroyDisplay(SDLite_Display *display);
 
 /*
-    Clears all rendered objects (SDLite_Sprite, SDLite_Text) from the screen
+    Clears all rendered objects (SDLite_Sprite, SDLite_Text) from the SDLite_Display,
+    or all that was rendered using the SDL_Renderer* stored within
 
     returns 0 for success, returns 1 for failure
 */
@@ -46,7 +47,8 @@ SDLite_DLL int SDLite_DisplayClear(SDLite_Display *display);
 
 
 /*
-    Present all rendered objects (SDLite_Sprite, SDLite_Text) to the screen 
+    Present all rendered objects (SDLite_Sprite, SDLite_Text) to the SDLite_Display,
+    or all that is rendered using the SDL_Renderer* stored within
 
     returns 0 for success, returns 1 for failure
 */
@@ -61,6 +63,17 @@ SDLite_DLL int SDLite_DisplayPresent(SDLite_Display *display);
 */
 SDLite_DLL int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height);
 
+
+/*
+    This sets a SDLite_Display to be fullscreen, the width and height will be
+    update to the size of the fullscreen window
+
+    returns 0 for success, returns 1 for failure
+    call SDL_GetError() for more info
+*/
+SDLite_DLL int SDLite_DisplaySetFullscreen(SDLite_Display *display);
+
+
 /*
     Fills int* with width and height of window
 
@@ -73,23 +86,48 @@ SDLite_DLL int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h);
 
 
 /*
-    This sets a SDLite_Display to be fullscreen, the width and height will be
-    update to the size of the fullscreen window
-
-    returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
-*/
-SDLite_DLL int SDLite_DisplaySetFullscreen(SDLite_Display *display);
-
-/*
-    Checks if the window is fullscreen or not
+    Gets the SDL_Renderer* stored within SDLite_Display. 
+    Use it at your own discretion, but do not destroy the SDL_Renderer*
 
     Will fail if SDLite_Display* is NULL
 
-    returns 0 or 1 if SDLite_Display* is fullscreen, returns -1 for failure
-    call SDL_GetError() for more info
+    returns SDL_Renderer* on success, returns NULL on failure
 */
-SDLite_DLL int SDLite_Display_IsFullscreen(SDLite_Display *display);
+SDLite_DLL SDL_Renderer* SDLite_Display_GetSDLRenderer(const SDLite_Display *display);
+
+
+/*
+    Gets the SDL_Window* stored within SDLite_Display. 
+    Use it at your own discretion, but do not destroy the SDL_Window*
+
+    Will fail if SDLite_Display* is NULL
+
+    returns SDL_Window* on success, returns NULL on failure
+*/
+SDLite_DLL SDL_Window* SDLite_Display_GetSDLWindow(const SDLite_Display *display);
+
+
+/*
+    Gets the TTF_TextEngine* stored within SDLite_Display. 
+    Use it at your own discretion, but do not destroy the TTF_TextEngine*
+
+    Will fail if SDLite_Display* is NULL
+
+    returns TTF_TextEngine* on success, returns NULL on failure
+*/
+SDLite_DLL TTF_TextEngine* SDLite_Display_GetTTFTextEngine(const SDLite_Display *display);
+
+
+/*
+    Gets the SDL_WindowFlags stored within SDLite_Display. 
+    Use it at your own discretion
+    
+    Will fail if SDLite_Display* is NULL
+
+    returns SDL_WindowFlags on success, returns 0 on failure
+*/
+SDLite_DLL SDL_WindowFlags SDLite_Display_GetWindowFlags(const SDLite_Display *display);
+
 
 
 #ifdef __cplusplus

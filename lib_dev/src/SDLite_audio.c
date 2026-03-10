@@ -36,7 +36,7 @@ SDLite_Audio_Handler* SDLite_Create_AudioHandler(uint16_t track_capacity, float 
     }
 
     audio_handler->track_capacity = track_capacity;
-    MIX_SetMasterGain(audio_handler->mixer, master_volume);
+    MIX_SetMixerGain(audio_handler->mixer, master_volume);
 
     // this makes properly freeing each SDLite_Track if failure later easier
     for(uint16_t i = 0; i < track_capacity; i++){
@@ -177,7 +177,7 @@ int SDLite_Audio_SetMasterVolume(SDLite_Audio_Handler *audio_handler, float mast
 
     if(!audio_handler) return 1;
 
-    MIX_SetMasterGain(audio_handler->mixer, master_volume);
+    MIX_SetMixerGain(audio_handler->mixer, master_volume);
 
     return 0;
 }
@@ -187,7 +187,7 @@ int SDLite_Audio_GetMasterVolume(SDLite_Audio_Handler *audio_handler, float *mas
 
     if(!audio_handler || !master_volume) return 1;
 
-    *master_volume = MIX_GetMasterGain(audio_handler->mixer);
+    *master_volume = MIX_GetMixerGain(audio_handler->mixer);
 
     return 0;
 }

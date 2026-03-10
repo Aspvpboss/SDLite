@@ -25,7 +25,7 @@ set_package_properties(SDL3_mixer PROPERTIES
     DESCRIPTION "SDL_mixer is a sample multi-channel audio mixer library"
 )
 
-set(SDL3_mixer_FOUND                ON)
+set(SDL3_mixer_FOUND               ON)
 
 set(SDLMIXER_VENDORED              OFF)
 
@@ -33,22 +33,21 @@ set(SDLMIXER_FLAC                  TRUE)
 set(SDLMIXER_FLAC_LIBFLAC          FALSE)
 set(SDLMIXER_FLAC_DRFLAC           TRUE)
 
-set(SDLMIXER_GME                   FALSE)
+set(SDLMIXER_GME                   TRUE)
 
-set(SDLMIXER_MOD                   FALSE)
-set(SDLMIXER_MOD_XMP               FALSE)
-set(SDLMIXER_MOD_XMP_LITE          FALSE)
+set(SDLMIXER_MOD                   TRUE)
+set(SDLMIXER_MOD_XMP               TRUE)
+set(SDLMIXER_MOD_XMP_LITE          TRUE)
 
 set(SDLMIXER_MP3                   TRUE)
 set(SDLMIXER_MP3_DRMP3             TRUE)
 set(SDLMIXER_MP3_MPG123            FALSE)
 
-set(SDLMIXER_MIDI                  )
+set(SDLMIXER_MIDI                  TRUE)
 set(SDLMIXER_MIDI_FLUIDSYNTH       FALSE)
-set(SDLMIXER_MIDI_NATIVE           )
 set(SDLMIXER_MIDI_TIMIDITY         TRUE)
 
-set(SDLMIXER_OPUS                  FALSE)
+set(SDLMIXER_OPUS                  TRUE)
 
 set(SDLMIXER_VORBIS                TRUE)
 set(SDLMIXER_VORBIS_STB            TRUE)
@@ -57,7 +56,7 @@ set(SDLMIXER_VORBIS_VORBISFILE     FALSE)
 
 set(SDLMIXER_WAVE                  TRUE)
 
-set(SDLMIXER_WAVPACK               FALSE)
+set(SDLMIXER_WAVPACK               TRUE)
 
 set(SDLMIXER_SDL3_REQUIRED_VERSION 3.4.0)
 
