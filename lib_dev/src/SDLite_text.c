@@ -110,6 +110,14 @@ void SDLite_DestroyText(SDLite_Text *text){
 }
 
 
+TTF_Text* SDLite_Text_GetTTFText(const SDLite_Text *text){
+
+    if(!text) return NULL;
+
+    return text->text;
+}
+
+
 int SDLite_Text_SetFont(SDLite_Text *text, const char *font_path, float font_size){
 
     if(!text) return 1;

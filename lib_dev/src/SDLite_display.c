@@ -14,8 +14,6 @@ SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width,
     if(!window_title) return NULL;
 
     SDLite_Display *display = t_malloc(sizeof(SDLite_Display));
-    display->window_flag = window_flag;
-
 
     display->window = SDL_CreateWindow(window_title, window_width, window_height, window_flag);
     if(!display->window){
@@ -62,18 +60,6 @@ int SDLite_DisplayPresent(SDLite_Display *display){
     if(!SDL_RenderPresent(display->renderer)){
         return 1;
     }
-
-    return 0;
-}
-
-
-int SDLite_Display_IsFullscreen(SDLite_Display *display){
-
-    if(!display) return -1;
-
-    display->window_flag = SDL_GetWindowFlags(display->window); 
-
-    if(display->window_flag & SDL_WINDOW_FULLSCREEN) return 1;
 
     return 0;
 }
@@ -133,21 +119,23 @@ int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h){
 }
 
 
-SDL_Renderer* SDLite_Display_GetSDLRenderer(SDLite_Display *display){
+SDL_Renderer* SDLite_Display_GetSDLRenderer(const SDLite_Display *display){
 
     if(!display) return NULL;
 
     return display->renderer;
 }
 
-SDL_Window* SDLite_Display_GetSDLWindow(SDLite_Display *display){
+
+SDL_Window* SDLite_Display_GetSDLWindow(const SDLite_Display *display){
 
     if(!display) return NULL;
 
     return display->window;
 }
 
-TTF_TextEngine* SDLite_Display_GetTTFTextEngine(SDLite_Display *display){
+
+TTF_TextEngine* SDLite_Display_GetTTFTextEngine(const SDLite_Display *display){
 
     if(!display) return NULL;
 
@@ -155,10 +143,10 @@ TTF_TextEngine* SDLite_Display_GetTTFTextEngine(SDLite_Display *display){
 }
 
 
-SDL_WindowFlags SDLite_Display_GetWindowFlags(SDLite_Display *display){
+SDL_WindowFlags SDLite_Display_GetWindowFlags(const SDLite_Display *display){
 
     if(!display) return 0;
 
-    return display->window_flag;
+    return SDL_GetWindowFlags(display->window);
 }
 
