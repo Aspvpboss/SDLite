@@ -1,4 +1,4 @@
-# SDLite Version 1.2.0
+# SDLite Version 1.2.1
 
 SDLite is a lightweight C / C++ framework built on top of **SDL3**, designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
 
