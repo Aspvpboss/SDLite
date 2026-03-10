@@ -40,8 +40,6 @@ SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width,
 }
 
 
-
-
 int SDLite_DisplayClear(SDLite_Display *display){
 
     if(!display) return 1;
@@ -52,6 +50,7 @@ int SDLite_DisplayClear(SDLite_Display *display){
 
     return 0;
 }
+
 
 int SDLite_DisplayPresent(SDLite_Display *display){
 
@@ -83,7 +82,6 @@ void SDLite_DestroyDisplay(SDLite_Display *display){
 }
 
 
-
 int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height){
 
     if(!SDL_SetWindowFullscreen(display->window, 0)){
@@ -96,7 +94,6 @@ int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height){
 
     return 0;
 }
-
 
 
 int SDLite_DisplaySetFullscreen(SDLite_Display *display){
