@@ -42,6 +42,18 @@ SDLite_DLL void SDLite_DestroyTexture(SDLite_Texture **texture);
 */
 SDLite_DLL uint64_t SDLite_Texture_GetRefs(const SDLite_Texture *texture);
 
+/*
+    Returns the internal SDL_Texture* used by SDLite_Texture
+
+    This is useful if you want to use the texture with SDL functions
+
+    Will fail if const SDLite_Texture* is NULL
+
+    returns SDL_Texture* on success, returns NULL on failure
+*/
+SDLite_DLL SDL_Texture* SDLite_Texture_GetSDLTexture(const SDLite_Texture *texture);    
+
+
 
 #ifdef __cplusplus
 }

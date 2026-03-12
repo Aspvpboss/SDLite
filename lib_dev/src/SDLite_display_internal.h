@@ -6,7 +6,6 @@
 struct SDLite_Display{
 
     SDL_Window *window;
-    SDL_WindowFlags window_flag;
     SDL_Renderer *renderer;
     TTF_TextEngine *text_engine;
 

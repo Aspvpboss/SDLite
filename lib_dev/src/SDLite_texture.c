@@ -21,6 +21,15 @@ SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, const char *
     return sdlite_texture;
 }
 
+
+SDL_Texture* SDLite_Texture_GetSDLTexture(const SDLite_Texture *texture){
+
+    if(!texture) return NULL;
+
+    return texture->texture;
+}
+
+
 uint64_t SDLite_Texture_GetRefs(const SDLite_Texture *texture){
 
     if(!texture) return 0;

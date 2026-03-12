@@ -248,7 +248,7 @@ int main(){
     SDL_Event e;
 
 
-    if(SDLite_Display_IsFullscreen(display)){
+    if(SDLite_Display_GetWindowFlags(display) & SDL_WINDOW_FULLSCREEN){
         printf("is fullscreen\n");
     } else{
         printf("not fullscreen\n");

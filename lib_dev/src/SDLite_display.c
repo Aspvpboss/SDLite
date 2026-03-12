@@ -14,8 +14,6 @@ SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width,
     if(!window_title) return NULL;
 
     SDLite_Display *display = t_malloc(sizeof(SDLite_Display));
-    display->window_flag = window_flag;
-
 
     display->window = SDL_CreateWindow(window_title, window_width, window_height, window_flag);
     if(!display->window){
@@ -42,8 +40,6 @@ SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width,
 }
 
 
-
-
 int SDLite_DisplayClear(SDLite_Display *display){
 
     if(!display) return 1;
@@ -55,6 +51,7 @@ int SDLite_DisplayClear(SDLite_Display *display){
     return 0;
 }
 
+
 int SDLite_DisplayPresent(SDLite_Display *display){
 
     if(!display) return 1;
@@ -62,18 +59,6 @@ int SDLite_DisplayPresent(SDLite_Display *display){
     if(!SDL_RenderPresent(display->renderer)){
         return 1;
     }
-
-    return 0;
-}
-
-
-int SDLite_Display_IsFullscreen(SDLite_Display *display){
-
-    if(!display) return -1;
-
-    display->window_flag = SDL_GetWindowFlags(display->window); 
-
-    if(display->window_flag & SDL_WINDOW_FULLSCREEN) return 1;
 
     return 0;
 }
@@ -97,7 +82,6 @@ void SDLite_DestroyDisplay(SDLite_Display *display){
 }
 
 
-
 int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height){
 
     if(!SDL_SetWindowFullscreen(display->window, 0)){
@@ -110,7 +94,6 @@ int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height){
 
     return 0;
 }
-
 
 
 int SDLite_DisplaySetFullscreen(SDLite_Display *display){
@@ -130,5 +113,37 @@ int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h){
     if(!SDL_GetWindowSize(display->window, w, h)) return 1;
 
     return 0;
+}
+
+
+SDL_Renderer* SDLite_Display_GetSDLRenderer(const SDLite_Display *display){
+
+    if(!display) return NULL;
+
+    return display->renderer;
+}
+
+
+SDL_Window* SDLite_Display_GetSDLWindow(const SDLite_Display *display){
+
+    if(!display) return NULL;
+
+    return display->window;
+}
+
+
+TTF_TextEngine* SDLite_Display_GetTTFTextEngine(const SDLite_Display *display){
+
+    if(!display) return NULL;
+
+    return display->text_engine;
+}
+
+
+SDL_WindowFlags SDLite_Display_GetWindowFlags(const SDLite_Display *display){
+
+    if(!display) return 0;
+
+    return SDL_GetWindowFlags(display->window);
 }
 

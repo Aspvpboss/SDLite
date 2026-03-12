@@ -89,16 +89,6 @@ SDLite_DLL int SDLite_Text_SetString(SDLite_Text *text, const char *string);
 */
 SDLite_DLL int SDLite_Text_SetPosition(SDLite_Text *text, int x, int y);
 
-/*
-    Fills values of SDL_FRect of the current x, y, w, and h of the SDLite_Text*
-
-    Will fail if SDLite_Text* is NULL or if SDL_FRect* is NULL
-
-    returns 0 for success, returns 1 for failure
-    Use SDL_GetError() for more error details
-*/
-SDLite_DLL int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *render_rect);
-
 
 /*
     Sets wrap width of a SDLite_Text in pixels
@@ -121,6 +111,28 @@ SDLite_DLL int SDLite_Text_SetWrapWidth(SDLite_Text *text, int wrap_width_pixels
     Use SDL_GetError() for more error details
 */
 SDLite_DLL int SDLite_Text_SetColor(SDLite_Text *text, SDL_Color color);
+
+
+/*
+    Fills values of SDL_FRect of the current x, y, w, and h of the SDLite_Text*
+
+    Will fail if SDLite_Text* is NULL or if SDL_FRect* is NULL
+
+    returns 0 for success, returns 1 for failure
+    Use SDL_GetError() for more error details
+*/
+SDLite_DLL int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *render_rect);
+
+
+/*
+    Gets the TTF_Text* stored within SDLite_Text. 
+    Use it at your own discretion, but do not destroy the TTF_Text*
+
+    Will fail if SDLite_Text* is NULL
+
+    returns TTF_Text* on success, returns NULL on failure
+*/
+TTF_Text* SDLite_Text_GetTTFText(const SDLite_Text *text);
 
 
 /*
