@@ -84,6 +84,13 @@ SDLite_Text* SDLite_CreateText(
         return NULL;
     }
 
+    if(!TTF_SetTextPosition(text->text, x, y)){
+        TTF_CloseFont(text->font);
+        TTF_DestroyText(text->text);
+        t_free(text);
+        return NULL;
+    }
+
     return text;
 }
 

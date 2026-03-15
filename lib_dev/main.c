@@ -128,17 +128,17 @@ int main(){
     SDLite_Version_GetNumbers(&macro, &minor, &micro);
     printf("SDK version: %d.%d.%d\n", macro, minor, micro);
 
+    const int window_width = 800;
+    const int window_height = 800;
 
     SDLite_Audio_Handler *audio_handler = SDLite_Create_AudioHandler(4, 1.0f);
-    SDLite_Display *display = SDLite_CreateDisplay("SDLite window", 800, 800, SDL_WINDOW_MAXIMIZED);
-    SDLite_Time *time = SDLite_CreateTime(144);
+    SDLite_Display *display = SDLite_CreateDisplay("SDLite window", window_width, window_height, SDL_WINDOW_MAXIMIZED);
+    SDLite_Time *time = SDLite_CreateTime(-1);
     SDLite_Input *input = SDLite_CreateInput();
     if(!input){
         SDL_Log("%s\n", SDL_GetError());
         return 1;
     }
-    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
-    if(!text) return 1;
     
     SDLite_Sprite_Manager *manager = SDLite_Create_SpriteManager(16, 16);
 
@@ -196,6 +196,12 @@ int main(){
     } 
 
 
+    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 20, window_width / 4, 5, (SDL_Color){255, 255, 255, 255});
+    if(!text) return 1;
+
+    TTF_SetFontWrapAlignment(SDLite_Text_GetTTFFont(text), TTF_HORIZONTAL_ALIGN_CENTER);
+
+    
     
 
     SDLite_Sprite *rectangle = SDLite_Create_RectSprite((SDL_FRect){350, 0, 150, 150}, (SDL_Color){255, 0, 0, 0}, true);
@@ -203,9 +209,6 @@ int main(){
     if(!rectangle)
         return 1;
 
-    if(!text){
-        return 1;
-    }
 
 
     // testing with these rects
@@ -304,8 +307,10 @@ int main(){
         if(SDLite_Render_SpriteManager(display, manager)){
             // functions does fail since player texture is NULL
         }
-        SDLite_Render_Text(text);
-
+        if(SDLite_Render_Text(text)){
+            printf("failed to render text\n");
+            return 1;
+        }
         SDLite_DisplayPresent(display);
 
         SDLite_Sprite_UpdateAnimation(player, time);
