@@ -233,7 +233,7 @@ extern "C"{
 #define TRACK_REALLOC(mem, newsize) SDL_realloc(mem, newsize)
 #define TRACK_FREE(ptr) SDL_free(ptr)
 #define TRACK_STRLEN(str) SDL_strlen(str)
-#define TRACK_STRCPY(dst, src) SDL_strlcpy(dst, src, SDL_strlen(dst))
+#define TRACK_STRLCPY(dst, src, size) SDL_strlcpy(dst, src, size)
 #define TRACK_STRDUP(str) SDL_strdup(str)
 #define TRACK_EXIT exit(EXIT_FAILURE)
 
@@ -396,6 +396,7 @@ void MemTrack_Quit(){
 
     info.head = NULL;
     info.tail = NULL;
+    info.init = false;
 }
 
 
@@ -447,7 +448,7 @@ void print_tracking_info(){
 
     TRACK_PRINTF("\nAllocation Information\n");
     while(current){
-        TRACK_PRINTF("size %lld - Line %d - File %s\n", current->size, current->file_line, current->file_name);
+        TRACK_PRINTF("size %zu - Line %d - File %s\n", current->size, current->file_line, current->file_name);
         current = current->next;
     }
     TRACK_PRINTF("\n"); 
@@ -469,6 +470,11 @@ int append_allocation(void *ptr, const char *file, int line, size_t size){
     node->size = size;
     node->ptr = ptr;
     node->file_name = TRACK_STRDUP(file);
+    if(!node->file_name){
+        TRACK_FREE(node);
+        TRACK_MUTEX_UNLOCK(info.mutex);
+        return 1;
+    }
     node->file_line = line;
 
     if(info.tail){
@@ -552,7 +558,7 @@ int delete_allocation(void *check_ptr){
 
 void check_malloc_error(void *mem){
 
-    if(mem || info.init)
+    if(mem || !info.init)
         return;
 
     if(info.fail_handler)
@@ -568,7 +574,7 @@ void check_malloc_error(void *mem){
 
 void debug_check_malloc_error(void *mem, const char *file, int line){
 
-    if(mem || info.init)
+    if(mem || !info.init)
         return;
 
     if(info.fail_handler)
@@ -699,7 +705,7 @@ char* debug_strdup(const char* src, const char *file, int line){
     if(!dup)
         return NULL;
 
-    TRACK_STRCPY(dup, src);
+    TRACK_STRLCPY(dup, src, src_len + 1);
     dup[src_len] = '\0';
 
     return dup;
