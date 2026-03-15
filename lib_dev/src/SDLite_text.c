@@ -11,31 +11,24 @@
 struct SDLite_Text{
 
     TTF_Font *font;
-    SDL_Color color;
     TTF_Text *text;
     TTF_TextEngine *engine;
-    int wrap_width;
-    float font_size;
-    SDL_FRect render_rect;
+    SDL_Color color;
 
 };
 
 
 SDLite_Text* SDLite_CreateText(
     const SDLite_Display *display, const char *display_text, const char *font_path, float font_size, int x, int y, SDL_Color color){
-   
+
     if(!display) return NULL;
 
     SDLite_Text *text = t_malloc(sizeof(SDLite_Text));
     if(!text) return NULL;
 
+
     text->engine = display->text_engine;
     text->color = color;
-    SDL_FRect *render_rect = (SDL_FRect *)&text->render_rect;
-    render_rect->x = x;
-    render_rect->y = y;
-    text->font_size = font_size;
-    text->wrap_width = 0;
 
     if(font_path == NULL){
 
@@ -60,7 +53,7 @@ SDLite_Text* SDLite_CreateText(
         display_text = "";
     }
 
-    text->text = TTF_CreateText(text->engine, text->font, display_text, text->wrap_width);
+    text->text = TTF_CreateText(text->engine, text->font, display_text, 0);
     
     if(!text->text){
         TTF_CloseFont(text->font);
@@ -91,9 +84,6 @@ SDLite_Text* SDLite_CreateText(
         return NULL;
     }
 
-    render_rect->w = w;
-    render_rect->h = h;
-
     return text;
 }
 
@@ -117,6 +107,13 @@ TTF_Text* SDLite_Text_GetTTFText(const SDLite_Text *text){
     return text->text;
 }
 
+TTF_Font* SDLite_Text_GetTTFFont(const SDLite_Text *text){
+
+    if(!text) return NULL;
+
+    return text->font;
+}
+
 
 int SDLite_Text_SetFont(SDLite_Text *text, const char *font_path, float font_size){
 
@@ -135,7 +132,6 @@ int SDLite_Text_SetFont(SDLite_Text *text, const char *font_path, float font_siz
     TTF_CloseFont(text->font);
 
     text->font = new_font;
-    text->font_size = font_size;
     
     if(!TTF_SetTextFont(text->text, text->font)){
         return 1;
@@ -151,8 +147,6 @@ int SDLite_Text_SetFontSize(SDLite_Text *text, float font_size){
 
     if(!TTF_SetFontSize(text->font, font_size))
         return 1;
-
-    text->font_size = font_size;
 
     return 0;
 }
@@ -178,9 +172,6 @@ int SDLite_Text_SetPosition(SDLite_Text *text, int x, int y){
         return 1;
     }
 
-    text->render_rect.x = x;
-    text->render_rect.y = y;
-
     return 0;
 }
 
@@ -189,16 +180,20 @@ int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *render_rect){
 
     if(!text || !render_rect) return 1;
 
-    int w, h;
+    int x, y, w, h;
 
     if(!TTF_GetTextSize(text->text, &w, &h)){
         return 1;
     }
 
+    if(!TTF_GetTextPosition(text->text, &x, &y)){
+        return 1;
+    }
+
     render_rect->w = w;
     render_rect->h = h;
-    render_rect->x = text->render_rect.x;
-    render_rect->y = text->render_rect.y;    
+    render_rect->x = x;
+    render_rect->y = y;    
 
     return 0;
 }
@@ -211,8 +206,6 @@ int SDLite_Text_SetWrapWidth(SDLite_Text *text, int wrap_width_pixels){
     if(!TTF_SetTextWrapWidth(text->text, wrap_width_pixels)){
         return 1;
     }
-
-    text->wrap_width = wrap_width_pixels;
 
     return 0;
 }
@@ -236,10 +229,14 @@ int SDLite_Text_SetColor(SDLite_Text *text, SDL_Color color){
 int SDLite_Render_Text(SDLite_Text *text){
 
     if(!text) return 1;
+ 
+    int x, y;
 
-    SDL_FRect *render_rect = (SDL_FRect *)&text->render_rect;
+    if(!TTF_GetTextPosition(text->text, &x, &y)){
+        return 1;
+    }
 
-    if(!TTF_DrawRendererText(text->text, render_rect->x, render_rect->y))
+    if(!TTF_DrawRendererText(text->text, x, y))
         return 1;
 
     return 0;
