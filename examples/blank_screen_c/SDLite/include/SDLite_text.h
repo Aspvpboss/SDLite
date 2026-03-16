@@ -132,7 +132,18 @@ SDLite_DLL int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *re
 
     returns TTF_Text* on success, returns NULL on failure
 */
-TTF_Text* SDLite_Text_GetTTFText(const SDLite_Text *text);
+SDLite_DLL TTF_Text* SDLite_Text_GetTTFText(const SDLite_Text *text);
+
+
+/*
+    Gets the TTF_Font* stored within SDLite_Text. 
+    Use it at your own discretion, but do not close the TTF_Font*
+
+    Will fail if SDLite_Text* is NULL
+
+    returns TTF_Font* on success, returns NULL on failure
+*/
+SDLite_DLL TTF_Font* SDLite_Text_GetTTFFont(const SDLite_Text *text);
 
 
 /*
