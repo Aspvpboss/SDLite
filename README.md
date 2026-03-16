@@ -4,6 +4,7 @@ SDLite is a lightweight C / C++ framework built on top of **SDL3**, designed to 
 
 This framework is intended to be a **generic SDL helper library**, slightly tailored toward 2D game development.
 
+
 ---
 
 ## Patch Notes
