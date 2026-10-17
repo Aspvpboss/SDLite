@@ -168,6 +168,7 @@ int main(){
     SDLite_Sprite_SetTexture(player, player_tex);
 
     test_sprite_getters_setters(player);
+   
     
     SDLite_Sprite_SetScale(player, 8.0f);
     SDL_SetTextureScaleMode(SDLite_Sprite_GetSDLTexture(player), SDL_SCALEMODE_NEAREST);
@@ -197,12 +198,12 @@ int main(){
 
 
     SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 20, window_width / 4, 5, (SDL_Color){255, 255, 255, 255});
-    if(!text) return 1;
+    if(!text){
+        printf("text object failed to be created\n");
+        return 1;
+    }
 
     TTF_SetFontWrapAlignment(SDLite_Text_GetTTFFont(text), TTF_HORIZONTAL_ALIGN_CENTER);
-
-    
-    
 
     SDLite_Sprite *rectangle = SDLite_Create_RectSprite((SDL_FRect){350, 0, 150, 150}, (SDL_Color){255, 0, 0, 0}, true);
 
@@ -345,6 +346,7 @@ int main(){
     SDL_Log("%s", SDL_GetError());
 
     SDLite_Quit();
-    
+
+
     return 0;
 }

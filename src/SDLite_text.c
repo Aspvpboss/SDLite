@@ -32,7 +32,7 @@ SDLite_Text* SDLite_CreateText(
 
     if(font_path == NULL){
 
-        text->font = TTF_OpenFont("SDLite/assets/default.ttf", font_size);
+        text->font = TTF_OpenFont("assets/default.ttf", font_size);
         if(text->font == NULL){
             t_free(text);
             return NULL;
