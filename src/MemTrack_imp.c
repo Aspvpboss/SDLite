@@ -6,4 +6,4 @@
 */
 
 #define MEMTRACK_IMPLEMENTATION
-#include "SDLite/MemTrack.h"
+#include "SDLite/memtrack.h"
