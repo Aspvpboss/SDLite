@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libraries by default" FORCE)
 set(SDL_SHARED OFF CACHE BOOL "Disable SDL shared library build" FORCE)
@@ -78,6 +79,39 @@ target_include_directories(debugSDLite PUBLIC
 target_compile_definitions(debugSDLite PRIVATE TRACK_ALLOCATIONS)
 
 target_link_libraries(debugSDLite PUBLIC
+    SDL3::SDL3-static
+    SDL3_image::SDL3_image-static
+    SDL3_mixer::SDL3_mixer-static
+    SDL3_ttf::SDL3_ttf-static
+)
+
+
+
+add_library(SDLite SHARED 
+    src/MemTrack_imp.c 
+    src/SDLite_audio.c 
+    src/SDLite_collision.c 
+    src/SDLite_display.c 
+    src/SDLite_init.c 
+    src/SDLite_input.c
+    src/SDLite_text.c 
+    src/SDLite_texture.c 
+    src/SDLite_time.c 
+    src/SDLite_version.c
+    src/sprite/SDLite_animated_sprite.c
+    src/sprite/SDLite_rect_sprite.c
+    src/sprite/SDLite_sprite_manager.c
+    src/sprite/SDLite_sprite.c
+)
+
+target_include_directories(SDLite PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+)
+
+target_compile_definitions(SDLite PRIVATE STDLIB_ALLOCATIONS)
+
+target_link_libraries(SDLite PUBLIC
     SDL3::SDL3-static
     SDL3_image::SDL3_image-static
     SDL3_mixer::SDL3_mixer-static
