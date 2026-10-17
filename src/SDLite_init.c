@@ -50,8 +50,8 @@ void SDLite_Quit(){
     SDL_QuitSubSystem(SDL_INIT_AUDIO);
     SDL_Quit();
 
-    if(check_memory_leak())
-        print_tracking_info();
+    if(MemTrack_Is_Memory_Leak())
+        MemTrack_Tracking_Info();
 
     MemTrack_Quit();
 
