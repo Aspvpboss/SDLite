@@ -5,10 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libraries by default" FORCE)
 set(SDL_SHARED OFF CACHE BOOL "Disable SDL shared library build" FORCE)
 set(SDL_STATIC ON  CACHE BOOL "Enable SDL static library build" FORCE)
-set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libraries by default" FORCE)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -70,11 +71,12 @@ add_library(debugSDLite SHARED
 
 
 target_include_directories(debugSDLite PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/SDLite>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
 )
 
 target_compile_definitions(debugSDLite PRIVATE TRACK_ALLOCATIONS)
+
 target_link_libraries(debugSDLite PUBLIC
     SDL3::SDL3-static
     SDL3_image::SDL3_image-static
