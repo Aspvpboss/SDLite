@@ -83,3 +83,6 @@ target_link_libraries(debugSDLite PUBLIC
     SDL3_mixer::SDL3_mixer-static
     SDL3_ttf::SDL3_ttf-static
 )
+
+add_subdirectory(tests)
+

@@ -15,8 +15,8 @@ extern "C"{
 #include "SDLite/common_libs.h"
 
 #define SDLITE_MAJOR_VERSION 1
-#define SDLITE_MINOR_VERSION 2
-#define SDLITE_MICRO_VERSION 3
+#define SDLITE_MINOR_VERSION 3
+#define SDLITE_MICRO_VERSION 0
 
 /* 
     takes in int* and writes the version numbers to those pointers
@@ -25,7 +25,7 @@ extern "C"{
 
     returns early if any pointer is NULL
 */
-SDLite_DLL void SDLite_Version_GetNumbers(int *major, int *minor, int *micro);
+SDLite_DLL void SDLite_Get_Version(int *major, int *minor, int *micro);
 
 #ifdef __cplusplus
 }

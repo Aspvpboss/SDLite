@@ -125,7 +125,7 @@ int main(){
     SDL_WaitThread(thread, &result);
 
     int macro, minor, micro;
-    SDLite_Version_GetNumbers(&macro, &minor, &micro);
+    SDLite_Get_Version(&macro, &minor, &micro);
     printf("SDK version: %d.%d.%d\n", macro, minor, micro);
 
 

@@ -125,8 +125,8 @@ int main(){
     SDL_WaitThread(thread, &result);
 
     int macro, minor, micro;
-    SDLite_Version_GetNumbers(&macro, &minor, &micro);
-    printf("SDK version: %d.%d.%d\n", macro, minor, micro);
+    SDLite_Get_Version(&macro, &minor, &micro);
+    printf("SDLite version: %d.%d.%d\n", macro, minor, micro);
 
     const int window_width = 800;
     const int window_height = 800;
@@ -144,9 +144,9 @@ int main(){
 
     
 
-    MIX_Audio *audio = MIX_LoadAudio(SDLite_Audio_GetMixer(audio_handler), "SDLite/assets/sample_mp3.mp3", true);
+    MIX_Audio *audio = MIX_LoadAudio(SDLite_Audio_GetMixer(audio_handler), "assets/sample_mp3.mp3", true);
     if(!audio){
-        printf("audio failed to laod\n");
+        printf("audio failed to load\n");
         return 1;
     }
     SDLite_Audio_SetTrackAudio(audio_handler, 0, audio); 
