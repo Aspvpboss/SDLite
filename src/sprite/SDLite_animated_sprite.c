@@ -138,6 +138,7 @@ int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, const SDLite_T
 
     SDLite_Animation *animation = &m_data->animation[m_data->current_animation];
 
+    if(animation->amount_frames == 0 || animation->frame_duration == 0.0f) return 1;
 
     if((!animation->loop_animation && !animation->play_animation) || !animation->enable_animation){
 

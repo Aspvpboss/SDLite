@@ -127,6 +127,7 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
             }
 
             SDLite_Animation *animation = &a_data->animation[a_data->current_animation];
+            if(animation->amount_frames == 0) return 1;
 
             src_rect = &animation->frames[animation->current_frame];
             texture = a_data->texture;

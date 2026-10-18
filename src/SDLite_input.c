@@ -75,7 +75,7 @@ int SDLite_Input_Update_PrevKeyState(SDLite_Input *input){
 
 int SDLite_Input_KeyPressed(const SDLite_Input *input, SDL_Scancode scancode){
 
-    if(!input) return -1;
+    if(!input || scancode < 0 || scancode >= input->num_keys) return -1;
 
     return input->current_keyboard[scancode];
 }
@@ -85,7 +85,7 @@ int SDLite_Input_KeyPressed(const SDLite_Input *input, SDL_Scancode scancode){
 
 int SDLite_Input_KeyJustPressed(const SDLite_Input *input, SDL_Scancode scancode){
 
-    if(!input) return -1;
+    if(!input || scancode < 0 || scancode >= input->num_keys) return -1;
 
     return input->current_keyboard[scancode] && !input->previous_keyboard[scancode];
 }
@@ -95,7 +95,7 @@ int SDLite_Input_KeyJustPressed(const SDLite_Input *input, SDL_Scancode scancode
 
 int SDLite_Input_KeyJustReleased(const SDLite_Input *input, SDL_Scancode scancode){
 
-    if(!input) return -1;
+    if(!input || scancode < 0 || scancode >= input->num_keys) return -1;
 
     return !input->current_keyboard[scancode] && input->previous_keyboard[scancode];
 }

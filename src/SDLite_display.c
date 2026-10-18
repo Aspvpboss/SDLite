@@ -31,8 +31,8 @@ SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width,
 
     display->text_engine = TTF_CreateRendererTextEngine(display->renderer);
     if(!display->text_engine){
-        SDL_DestroyWindow(display->window);
         SDL_DestroyRenderer(display->renderer);
+        SDL_DestroyWindow(display->window);
         t_free(display);
         return NULL;
     }
@@ -71,12 +71,13 @@ void SDLite_DestroyDisplay(SDLite_Display *display){
     
     TTF_DestroyRendererTextEngine(display->text_engine);
     display->text_engine = NULL;
+    
+    SDL_DestroyRenderer(display->renderer);
+    display->renderer = NULL;
 
     SDL_DestroyWindow(display->window);
     display->window = NULL;
 
-    SDL_DestroyRenderer(display->renderer);
-    display->renderer = NULL;
 
     t_free(display);
 }
