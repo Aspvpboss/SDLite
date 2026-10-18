@@ -20,19 +20,66 @@ extern "C" {
     These functions should only be called on the thread that created the SDLite_Text
 */
 typedef struct SDLite_Text SDLite_Text;
+
+/*
+    Light abstraction over TTF_Font*
+    Uses ref counting to shared over multiple SDLite_Text
+*/
 typedef struct SDLite_Text_Font SDLite_Text_Font;
 
+/*
+    Creates a SDLite_Text_Font*, this must be freed using SDLite_Destory_Text_Font
 
+    returns SDLite_Text_Font* on success, and returns NULL on failure
+    Use SDL_GetError() for more error details
+*/
 SDLite_API SDLite_Text_Font* SDLite_Create_Text_Font(const char *font_path, float font_size);
 
-SDLite_API TTF_Font* SDLite_Text_Font_GetFont(const SDLite_Text_Font *font);
+/*
+    Frees a SDLite_Text_Font*
+    Reference counting is handled internally
+    The pointer will be set to NULL when font is actually freed
 
-SDLite_API uint64_t SDLite_Text_Font_GetRefs(const SDLite_Text_Font *font);
-
+    returns early if NULL
+*/
 SDLite_API void SDLite_Destroy_Text_Font(SDLite_Text_Font **font);
 
+/*
+    Gets the reference to the internal TTF_Font*
+    Do not destroy this reference
+
+    returns TTF_Font* on success, NULL for failure
+*/
+SDLite_API TTF_Font* SDLite_Text_Font_GetFont(const SDLite_Text_Font *font);
+
+/*
+    Returns number of references to the SDLite_Text_Font*
+
+    This function only really exists for debugging purposes. 
+    You could use this to check if a texture hasn't been freed by the end of the program
+
+    Will fail if const SDLite_Text_Font* is NULL
+
+    returns numbers of references on success, returns 0 on failure
+*/
+SDLite_API uint64_t SDLite_Text_Font_GetRefs(const SDLite_Text_Font *font);
+
+/*
+    Sets a font's font_size
+
+    Will fail if SDLite_Text_Font* is NULL, if font_size <= 0.0f, or if SDL_ttf fails
+
+    returns 0 for success, returns 1 for failure
+*/
 SDLite_API int SDLite_Text_Font_SetFontSize(SDLite_Text_Font *font, float font_size);
 
+/*
+    Gets a font's font_size
+
+    Will fail if SDLite_Text_Font* or font_size is NULL, or if SDL_ttf fails
+
+    returns 0 for success, returns 1 for failure
+*/
 SDLite_API int SDLite_Text_Font_GetFontSize(const SDLite_Text_Font *font, float *font_size);
 
 
@@ -40,7 +87,6 @@ SDLite_API int SDLite_Text_Font_GetFontSize(const SDLite_Text_Font *font, float 
     Creates a SDLite_Text*, this must be freed using SDLite_DestroyText()
 
     You can pass NULL into 'const char *font_path' and 'const char *display_text'.
-    If the font_path is NULL, it will try to open "SDLite/assets/default.ttf".
     If the display_text is NULL, it will just set the string to be "" 
 
     returns SDLite_Text* for success, NULL for failure
@@ -51,8 +97,8 @@ SDLite_API SDLite_Text* SDLite_CreateText(
 
 
 /*
-    Call This before destroying the SDLite_Display* used to create the SDLite_Text*
     Frees a SDLite_Text*
+    Call This before destroying the SDLite_Display* used to create the SDLite_Text*
 
     Will return early if SDLite_Text is NULL
 */
@@ -60,11 +106,11 @@ SDLite_API void SDLite_DestroyText(SDLite_Text *text);
 
 
 /*
-    Sets the font and font_size of the SDLite_Text*
+    Sets the SDLite_Text* font with a SDLite_Text_Font* reference
 
-    Will fail if SDLite_Text* is NULL or if the font fails to open
+    Will fail if SDLite_Text* or SDLite_Text_Font* is NULL
 
-    If the SDLite_Text* already has a font it will properly free it before opening the current font
+    If the SDLite_Text* already has a font it will properly destroy it before setting the new one
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details

@@ -183,8 +183,6 @@ int SDLite_LimitFPS(SDLite_Time *time){
 
     time->previous_counter = current_counter;
 
-    time->dt = time->dt;
-
     return 0;
 }
 

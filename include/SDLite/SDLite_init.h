@@ -34,7 +34,7 @@ SDLite_API int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, b
 /*
     deinitializes all SDL systems, and MemTrack for SDLite
     
-    If you are using debugSDLite, it debug allocation info for allocations you haven't freed
+    If you are using debugSDLite, it dumps into stderr debug allocation info for allocations you haven't freed
 */
 SDLite_API void SDLite_Quit(void);
 

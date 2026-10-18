@@ -101,7 +101,7 @@ SDLite_API int SDLite_Audio_SetTrackAudio(SDLite_Audio_Handler *audio_handler, u
 
 /*
     Sets the track volume for a specified track_volume
-    Will fail if master_volume is negative
+    Will fail if track_volume is negative
 
     returns 0 for success, returns 1 for failure 
 */

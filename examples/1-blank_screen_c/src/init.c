@@ -33,10 +33,16 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
         return SDL_APP_FAILURE;
     }
 
+    state->font = SDLite_Create_Text_Font("assets/default.ttf", 30.0f);
+    if(!state->font){
+        SDL_Log("Error: %s\n", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
+
     state->fps_text = SDLite_CreateText(
-        state->display, NULL, "assets/default.ttf", 30, 0, 0, (SDL_Color){255, 255, 255, 255});
+        state->display, NULL, state->font, 0, 0, (SDL_Color){255, 255, 255, 255});
     
-        if(!state->fps_text){
+    if(!state->fps_text){
         SDL_Log("Error: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;        
     }
