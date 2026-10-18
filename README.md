@@ -58,10 +58,10 @@ Knowing how SDL works internally will make the SDLite much easier to understand 
 
 ## Examples
 
-Only one example project as of right is included:
-
-- **Template Example**  
-  Opens a window and displays the current FPS.
+- **Template Example** (in C/C++) 
+  - Opens a window and displays the current FPS.
+- **Pong** (in C) - https://github.com/Aspvpboss/Pong-SDLite
+  - Basic game of pong, includes main menu, main loop, and win screen
 
 ---
 
