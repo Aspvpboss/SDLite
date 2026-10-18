@@ -187,7 +187,6 @@ int main(){
     SDLite_Sprite_AddAnimation(player, frames, num_frames, num_frames, IDLE_ANIMATION);
     SDLite_Sprite_SetLoopAnimation(player, IDLE_ANIMATION, true);
     SDLite_Sprite_EnableAnimation(player, IDLE_ANIMATION, true);
-    // player->flip_mode = SDL_FLIP_HORIZONTAL;
 
     
     SDLite_Sprite *square = SDLite_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){10.0f, 0.0f}, (SDL_FRect){0.0f, 0.0f, 400.0f, 400.0f});
@@ -197,13 +196,13 @@ int main(){
     } 
 
 
-    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 20, window_width / 4, 5, (SDL_Color){255, 255, 255, 255});
+    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 80, 400, 5, (SDL_Color){255, 255, 255, 255});
     if(!text){
         printf("text object failed to be created\n");
         return 1;
     }
 
-    TTF_SetFontWrapAlignment(SDLite_Text_GetTTFFont(text), TTF_HORIZONTAL_ALIGN_CENTER);
+    // TTF_SetFontWrapAlignment(SDLite_Text_GetTTFFont(text), TTF_HORIZONTAL_ALIGN_CENTER);
 
     SDLite_Sprite *rectangle = SDLite_Create_RectSprite((SDL_FRect){350, 0, 150, 150}, (SDL_Color){255, 0, 0, 0}, true);
 

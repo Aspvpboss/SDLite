@@ -1,4 +1,4 @@
-# SDLite Version 1.2.3
+# SDLite Version 1.3.0
 
 
 SDLite is a lightweight C / C++ framework built on top of **SDL3**, designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
@@ -58,10 +58,10 @@ Knowing how SDL works internally will make the SDLite much easier to understand 
 
 ## Examples
 
-Only one example project as of right is included:
-
-- **Template Example**  
-  Opens a window and displays the current FPS.
+- **Template Example** (in C/C++) 
+  - Opens a window and displays the current FPS.
+- **Pong** (in C) - https://github.com/Aspvpboss/Pong-SDLite
+  - Basic game of pong, includes main menu, main loop, and win screen
 
 ---
 
