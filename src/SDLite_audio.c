@@ -20,6 +20,7 @@ struct SDLite_Audio_Handler{
 SDLite_Audio_Handler* SDLite_Create_AudioHandler(uint16_t track_capacity, float master_volume){
 
     if(track_capacity == 0) return NULL;
+    if(master_volume < 0.0f) return NULL;
 
     SDLite_Audio_Handler *audio_handler = t_calloc(1, sizeof(SDLite_Audio_Handler));
     if(!audio_handler) return NULL; 
@@ -128,7 +129,7 @@ int SDLite_Audio_StopTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_t
 
 
 
-SDLite_Track* SDLite_Audio_GetTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track){
+SDLite_Track* SDLite_Audio_GetTrack(const SDLite_Audio_Handler *audio_handler, uint16_t audio_track){
 
     if(!audio_handler) return NULL;
 
@@ -137,7 +138,7 @@ SDLite_Track* SDLite_Audio_GetTrack(SDLite_Audio_Handler *audio_handler, uint16_
     return &audio_handler->tracks[audio_track];
 }
 
-MIX_Mixer* SDLite_Audio_GetMixer(SDLite_Audio_Handler *audio_handler){
+MIX_Mixer* SDLite_Audio_GetMixer(const SDLite_Audio_Handler *audio_handler){
 
     if(!audio_handler) return NULL;
 
@@ -189,7 +190,7 @@ int SDLite_Audio_SetMasterVolume(SDLite_Audio_Handler *audio_handler, float mast
 }
 
 
-int SDLite_Audio_GetMasterVolume(SDLite_Audio_Handler *audio_handler, float *master_volume){
+int SDLite_Audio_GetMasterVolume(const SDLite_Audio_Handler *audio_handler, float *master_volume){
 
     if(!audio_handler || !master_volume) return 1;
 

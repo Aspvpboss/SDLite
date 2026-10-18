@@ -18,7 +18,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-SDLite_API int SDLite_Input_MouseJustReleased(SDLite_Input *input, uint32_t SDL_MouseButtonMask);
+SDLite_API int SDLite_Input_MouseJustReleased(const SDLite_Input *input, uint32_t SDL_MouseButtonMask);
 #ifdef __cplusplus
 }
 #endif

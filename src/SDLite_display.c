@@ -110,7 +110,7 @@ int SDLite_DisplaySetFullscreen(SDLite_Display *display){
 }
 
 
-int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h){
+int SDLite_Display_GetSize(const SDLite_Display *display, int *w, int *h){
 
     if(!display || !w || !h) return 1;
 

@@ -104,7 +104,7 @@ int SDLite_SpriteManager_QueueSprite(SDLite_Sprite_Manager *manager, SDLite_Spri
 
 
 
-int SDLite_Render_SpriteManager(SDLite_Display *display, SDLite_Sprite_Manager *manager){
+int SDLite_Render_SpriteManager(const SDLite_Display *display, SDLite_Sprite_Manager *manager){
 
     if(!display || !manager)
         return 1;

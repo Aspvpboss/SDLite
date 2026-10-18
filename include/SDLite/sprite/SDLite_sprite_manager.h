@@ -69,7 +69,7 @@ SDLite_API int SDLite_SpriteManager_QueueSprite(SDLite_Sprite_Manager *manager, 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_API int SDLite_Render_SpriteManager(SDLite_Display *display, SDLite_Sprite_Manager *manager);
+SDLite_API int SDLite_Render_SpriteManager(const SDLite_Display *display, SDLite_Sprite_Manager *manager);
 
 
 #ifdef __cplusplus

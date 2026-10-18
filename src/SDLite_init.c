@@ -42,7 +42,7 @@ int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_i
 }
 
 
-void SDLite_Quit(){
+void SDLite_Quit(void){
 
     TTF_Quit();
     MIX_Quit();

@@ -84,7 +84,7 @@ int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint32_t animat
 
 
 
-int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames, uint16_t amount_frames, double fps, uint16_t animation_index){
+int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, const SDL_FRect *frames, uint16_t amount_frames, double fps, uint16_t animation_index){
 
     if(!animated_sprite || !frames || animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE)
         return 1;
@@ -122,7 +122,7 @@ int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames
 
 
 
-int SDLite_Sprite_UpdateAnimation(const SDLite_Sprite *animated_sprite, SDLite_Time *time){
+int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, const SDLite_Time *time){
 
     if(!animated_sprite || !time)
         return 1;
@@ -186,7 +186,7 @@ int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uint16_t anima
 
 
 
-int SDLite_Sprite_SetPlayAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool play){
+int SDLite_Sprite_SetPlayAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool play){
 
     if(!animated_sprite || animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE) return 1;
 
@@ -201,7 +201,7 @@ int SDLite_Sprite_SetPlayAnimation(const SDLite_Sprite *animated_sprite, uint16_
 
 
 
-int SDLite_Sprite_SetLoopAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool loop){
+int SDLite_Sprite_SetLoopAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool loop){
 
     if(!animated_sprite || animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE) return 1;
 
@@ -216,7 +216,7 @@ int SDLite_Sprite_SetLoopAnimation(const SDLite_Sprite *animated_sprite, uint16_
 
 
 
-int SDLite_Sprite_EnableAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool enabled){
+int SDLite_Sprite_EnableAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool enabled){
     
     if(!animated_sprite || animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE) return 1;
 

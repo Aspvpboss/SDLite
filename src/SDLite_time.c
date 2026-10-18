@@ -127,11 +127,9 @@ int SDLite_CalculateDT(SDLite_Time *time){
 int SDLite_CalculateFPS(SDLite_Time *time){
 
     if(!time) return 1;
-    bool *fps_updated = (bool *)&time->fps_updated;
-    double *fps = (double *)&time->fps;
 
     if(time->fps_updated == true){
-        *fps_updated = false;
+        time->fps_updated = false;
     }
 
     double *dt_buffer = time->dt_buffer;
@@ -144,11 +142,11 @@ int SDLite_CalculateFPS(SDLite_Time *time){
     if(time->collected_frames < MAX_SAMPLES) time->collected_frames++;
 
     time->frame = (time->frame + 1) % MAX_SAMPLES;
-    *fps = 1 / (time->total / time->collected_frames);
+    time->fps = 1 / (time->total / time->collected_frames);
 
     
     if(time->fps_update_count > 1.0f){
-        *fps_updated = true;
+        time->fps_updated = true;
         time->fps_update_count = 0.0f;
     }
        

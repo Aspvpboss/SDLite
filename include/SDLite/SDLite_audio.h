@@ -56,7 +56,7 @@ SDLite_API void SDLite_Destroy_AudioHandler(SDLite_Audio_Handler *audio_handler)
     
     returns SDLite_Track* for success, returns NULL for failure
 */
-SDLite_API SDLite_Track* SDLite_Audio_GetTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track);
+SDLite_API SDLite_Track* SDLite_Audio_GetTrack(const SDLite_Audio_Handler *audio_handler, uint16_t audio_track);
 
 /*
     Gets the MIX_Mixer*, the SDLite_Audio_Handler still owns the MIX_Mixer*. 
@@ -66,7 +66,7 @@ SDLite_API SDLite_Track* SDLite_Audio_GetTrack(SDLite_Audio_Handler *audio_handl
 
     returns MIX_Mixer* for success, returns NULL for failure
 */
-SDLite_API MIX_Mixer* SDLite_Audio_GetMixer(SDLite_Audio_Handler *audio_handler);
+SDLite_API MIX_Mixer* SDLite_Audio_GetMixer(const SDLite_Audio_Handler *audio_handler);
 
 /*
     Plays the audio that has been loaded to the specified audio_track
@@ -133,7 +133,7 @@ SDLite_API int SDLite_Audio_SetMasterVolume(SDLite_Audio_Handler *audio_handler,
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_API int SDLite_Audio_GetMasterVolume(SDLite_Audio_Handler *audio_handler, float *master_volume);
+SDLite_API int SDLite_Audio_GetMasterVolume(const SDLite_Audio_Handler *audio_handler, float *master_volume);
 
 
 
