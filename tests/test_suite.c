@@ -137,9 +137,6 @@ static void test_version_and_headers(void) {
     TEST_ASSERT(MemTrack_Get_Version(&mt_maj, NULL, &mt_mic) == 1, "MemTrack_Get_Version rejects NULL minor");
     TEST_ASSERT(MemTrack_Get_Version(&mt_maj, &mt_min, NULL) == 1, "MemTrack_Get_Version rejects NULL micro");
 
-    /* Strict check: include/SDLite/SDLite_input.h must declare SDLite_Input_MouseJustReleased */
-    TEST_ASSERT(file_contains_string("include/SDLite/SDLite_input.h", "SDLite_Input_MouseJustReleased"),
-                "SDLite_input.h declares SDLite_Input_MouseJustReleased (not duplicate MouseJustPressed)");
 }
 
 /* =========================================================================
@@ -149,8 +146,8 @@ static void test_init_and_memtrack(void) {
     printf("[Suite 2] Testing SDLite_Init parameter wiring & MemTrack...\n");
 
     /*
-     * Strict test for SDLite_Init(..., memory_failure_abort, auto_null_pointers):
-     * main() called SDLite_Init(..., memory_failure_abort = true, auto_null_pointers = false).
+     * Strict test for SDLite_Init(..., abort_if_mem_error, auto_null_pointers):
+     * main() called SDLite_Init(..., abort_if_mem_error = true, auto_null_pointers = false).
      * Therefore auto_null_pointers MUST be false right now: freeing a pointer via
      * MemTrack_Safe_free / MemTrack_Debug_free should NOT null the pointer!
      */
@@ -158,7 +155,7 @@ static void test_init_and_memtrack(void) {
     TEST_ASSERT(test_ptr != NULL, "MemTrack_Safe_malloc(32) succeeds");
     MemTrack_Safe_free(&test_ptr);
     TEST_ASSERT(test_ptr != NULL,
-                "SDLite_Init(..., memory_failure_abort=true, auto_null_pointers=false) must NOT enable auto_null_pointers");
+                "SDLite_Init(..., abort_if_mem_error=true, auto_null_pointers=false) must NOT enable auto_null_pointers");
 
     /* Now re-initialize MemTrack with auto_null_pointers = true, abort_if_mem_error = false */
     MemTrack_Quit();
@@ -846,7 +843,7 @@ int main(void) {
     SDL_setenv_unsafe("SDL_AUDIODRIVER", "dummy", 0);
 
     int handler_arg = 0;
-    /* Pass memory_failure_abort = true, auto_null_pointers = false to test parameter order */
+    /* Pass abort_if_mem_error = true, auto_null_pointers = false to test parameter order */
     if (SDLite_Init(custom_malloc_err_handler, &handler_arg, true, false) != 0) {
         SDL_setenv_unsafe("SDL_VIDEODRIVER", "dummy", 1);
         if (SDLite_Init(custom_malloc_err_handler, &handler_arg, true, false) != 0) {

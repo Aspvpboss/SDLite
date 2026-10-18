@@ -87,15 +87,6 @@ SDLite_DLL int SDLite_Input_Update_PrevKeyState(SDLite_Input *input);
 SDLite_DLL int SDLite_Input_MousePressed(SDLite_Input *input, uint32_t SDL_MouseButtonMask);
 
 /*
-    returns 1 if the specified mouse button was just pressed
-
-    Function only fails if SDLite_Input* is NULL
-
-    returns 0 for no mouse button pressed, returns 1 for mouse button pressed, returns -1 for failure
-*/
-SDLite_DLL int SDLite_Input_MouseJustPressed(SDLite_Input *input, uint32_t SDL_MouseButtonMask);
-
-/*
     returns 1 if the specified mouse button was just released
 
     Function only fails if SDLite_Input* is NULL

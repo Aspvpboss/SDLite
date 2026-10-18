@@ -162,6 +162,7 @@ int SDLite_Text_SetFontSize(SDLite_Text *text, float font_size){
 int SDLite_Text_SetString(SDLite_Text *text, const char *string){
 
     if(!text) return 1;
+    if(!string) return 1;
 
     if(!TTF_SetTextString(text->text, string, 0)){
         return 1;

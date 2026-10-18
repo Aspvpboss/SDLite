@@ -24,9 +24,9 @@ struct SDLite_Sprite{
 
     SDL_FRect render_rect;
     SDL_FlipMode flip_mode;
+    SDL_FPoint pivot_point;
     double scale;
     double angle;
-    SDL_FPoint pivot_point;
 
 };
 
@@ -34,11 +34,11 @@ struct SDLite_Sprite{
 
 typedef struct{
 
+    SDL_FRect src_rect;
+    SDLite_Texture *texture;
     float base_width;
     float base_height;
-    SDLite_Texture *texture;
     
-    SDL_FRect src_rect;
 
 } SDLite_StaticSprite_Data;
 
@@ -56,10 +56,10 @@ typedef struct{
 typedef struct{
 
     SDL_FRect *frames;
-    uint8_t amount_frames;
-    uint8_t current_frame;
     double frame_duration;
     double time_elapsed;
+    uint16_t amount_frames;
+    uint16_t current_frame;
     bool play_animation;
     bool loop_animation;
     bool enable_animation;
@@ -68,11 +68,10 @@ typedef struct{
 
 typedef struct{
 
+    SDLite_Texture *texture;
+    SDLite_Animation *animation;
     float base_width;
     float base_height;
-    SDLite_Texture *texture;
-
-    SDLite_Animation *animation;
     uint16_t amount_animation;
     uint16_t current_animation;
 

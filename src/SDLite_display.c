@@ -84,6 +84,8 @@ void SDLite_DestroyDisplay(SDLite_Display *display){
 
 int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height){
 
+    if(!display) return 1;
+
     if(!SDL_SetWindowFullscreen(display->window, 0)){
         return 1;
     }
@@ -98,6 +100,8 @@ int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height){
 
 int SDLite_DisplaySetFullscreen(SDLite_Display *display){
 
+    if(!display) return 1;
+    
     if(!SDL_SetWindowFullscreen(display->window, 1)){
         return 1;
     }

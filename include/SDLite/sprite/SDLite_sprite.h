@@ -234,7 +234,7 @@ SDLite_DLL SDLite_Sprite* SDLite_Create_AnimatedSprite(
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_capacity);
+SDLite_DLL int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint32_t animation_capacity);
 
 
 /*
@@ -243,7 +243,7 @@ SDLite_DLL int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames, uint8_t amount_frames, double fps, uint16_t animation_index);
+SDLite_DLL int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames, uint16_t amount_frames, double fps, uint16_t animation_index);
 
 /*
     Updates frames of an animation, must be called once per frame for animations to work

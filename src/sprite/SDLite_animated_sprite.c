@@ -53,12 +53,11 @@ SDLite_Sprite* SDLite_Create_AnimatedSprite(const SDLite_Display *display, const
 
 
 
-int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_capacity){
+int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint32_t animation_capacity){
 
-    if(!animated_sprite|| animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE || animation_capacity > UINT16_MAX) return 1;
+    if(!animated_sprite|| animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE || animation_capacity == 0) return 1;
 
     SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
-
 
     if(data->amount_animation == 0){
 
@@ -81,10 +80,13 @@ int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint16_t animat
 
 
 
-int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames, uint8_t amount_frames, double fps, uint16_t animation_index){
+int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames, uint16_t amount_frames, double fps, uint16_t animation_index){
 
-    if(!animated_sprite || animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE)
+    if(!animated_sprite || !frames || animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE)
         return 1;
+
+    if(amount_frames == 0) return 1;
+    if(fps <= 0.0f) return 1;
 
     SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
 
@@ -92,6 +94,9 @@ int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames
 
     SDLite_Animation *animation = &data->animation[animation_index];
 
+    if(animation->frames){
+        t_free(animation->frames);
+    }
     animation->frames = t_malloc(sizeof(SDL_FRect) * amount_frames);
     if(!animation->frames) return 1;
     SDL_memcpy(animation->frames, frames, sizeof(SDL_FRect) * amount_frames); 

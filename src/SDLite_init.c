@@ -8,7 +8,7 @@
 #include "SDLite/SDLite_init.h"
 
 
-int SDLite_Init(void (*func)(void*), void *func_data, bool memory_failure_abort, bool auto_null_pointers){
+int SDLite_Init(void (*func)(void*), void *func_data, bool abort_if_mem_error, bool auto_null_pointers){
 
     if(!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)){
         return 1;
@@ -29,7 +29,7 @@ int SDLite_Init(void (*func)(void*), void *func_data, bool memory_failure_abort,
         return 1;
     }
 
-    if(MemTrack_Init(func, func_data, memory_failure_abort, auto_null_pointers)){
+    if(MemTrack_Init(func, func_data, auto_null_pointers, abort_if_mem_error)){
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
         SDL_QuitSubSystem(SDL_INIT_AUDIO);
         SDL_Quit();
