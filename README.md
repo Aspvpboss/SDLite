@@ -14,6 +14,7 @@ This framework is intended to be a **generic SDL helper library**, slightly tail
   * created extensive unit tests
   * reorganized file structure
   * various bug fixes
+* Added SDLite_Text_Font, a shared ref for fonts
 * Added MemTrack v1.4.0
 * Added Pong example
 
