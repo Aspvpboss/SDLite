@@ -343,7 +343,7 @@ void SDLite_DestroySprite(SDLite_Sprite *sprite){
     if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
 
         SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
-        for(uint16_t i = 0; i < data->amount_animation; i++){
+        for(uint32_t i = 0; i < data->amount_animation; i++){
             t_free(data->animation[i].frames);
         }
         t_free(data->animation);

@@ -104,15 +104,15 @@ SDLite_API int SDLite_Input_MouseJustPressed(SDLite_Input *input, uint32_t SDL_M
 */
 SDLite_API int SDLite_Input_MouseJustReleased(SDLite_Input *input, uint32_t SDL_MouseButtonMask);
 
-/*
-    Updates mouse x and y position to the current mouse position within SDLite_Input
 
-    Function only fails if SDLite_Input* is NULL
+/*
+    Polls mouse for (x,y) position and button states
+
+    Function only fails if SDLite_Input* is NULL or if the SDL backend fails
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_API int SDLite_Input_Mouse_UpdatePosition(SDLite_Input *input);
-
+SDLite_API int SDLite_Input_Poll_Mouse(SDLite_Input *input);
 /*
     Fills in values of the mouse x and y position into the int*
 

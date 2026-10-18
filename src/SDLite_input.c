@@ -151,17 +151,16 @@ int SDLite_Input_MouseJustReleased(SDLite_Input *input, uint32_t SDL_MouseButton
 
 
 
-int SDLite_Input_Mouse_UpdatePosition(SDLite_Input *input){
+int SDLite_Input_Poll_Mouse(SDLite_Input *input){
 
     if(!input) return 1;
 
     SDL_FPoint *mouse_pos = (SDL_FPoint *)&input->mouse_pos;
 
-    SDL_GetMouseState((float *)&mouse_pos->x, (float *)&mouse_pos->y);
+    input->current_mouse = SDL_GetMouseState((float *)&mouse_pos->x, (float *)&mouse_pos->y);
 
     return 0;
 }
-
 
 
 
@@ -182,7 +181,7 @@ int SDLite_Input_UpdateAllPrev(SDLite_Input *input){
     
     if(SDLite_Input_Update_PrevMouseState(input)) return 1;
     if(SDLite_Input_Update_PrevKeyState(input)) return 1;
-    if(SDLite_Input_Mouse_UpdatePosition(input)) return 1;
+    if(SDLite_Input_Poll_Mouse(input)) return 1;
  
     return 0;   
 }
