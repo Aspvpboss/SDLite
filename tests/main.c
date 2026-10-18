@@ -197,13 +197,13 @@ int main(){
     } 
 
 
-    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 20, 100, 5, (SDL_Color){255, 255, 255, 255});
+    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 80, 400, 5, (SDL_Color){255, 255, 255, 255});
     if(!text){
         printf("text object failed to be created\n");
         return 1;
     }
 
-    TTF_SetFontWrapAlignment(SDLite_Text_GetTTFFont(text), TTF_HORIZONTAL_ALIGN_CENTER);
+    // TTF_SetFontWrapAlignment(SDLite_Text_GetTTFFont(text), TTF_HORIZONTAL_ALIGN_CENTER);
 
     SDLite_Sprite *rectangle = SDLite_Create_RectSprite((SDL_FRect){350, 0, 150, 150}, (SDL_Color){255, 0, 0, 0}, true);
 
