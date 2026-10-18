@@ -187,7 +187,8 @@ SDLite_API int SDLite_Sprite_Get_RenderRect(const SDLite_Sprite *sprite, SDL_FRe
 
 /*
     Sets the position of the SDLite_Sprite*
-    This changes the x & y parameters of the render_rect used for rendering
+    This changes the x & y parameters of the render_rect used for rendering,
+    it also sets the pivot point to be the position
 
     Will fail if SDLite_Sprite* is NULL
 
@@ -243,7 +244,7 @@ SDLite_API int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_API int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames, uint16_t amount_frames, double fps, uint16_t animation_index);
+SDLite_API int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, const SDL_FRect *frames, uint16_t amount_frames, double fps, uint16_t animation_index);
 
 /*
     Updates frames of an animation, must be called once per frame for animations to work
@@ -251,7 +252,7 @@ SDLite_API int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FR
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_API int SDLite_Sprite_UpdateAnimation(const SDLite_Sprite *animated_sprite, SDLite_Time *time);
+SDLite_API int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, const SDLite_Time *time);
 
 /*
     Selects an animation within the SDLite_Sprite
@@ -276,7 +277,7 @@ SDLite_API int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uin
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_API int SDLite_Sprite_SetPlayAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool play);
+SDLite_API int SDLite_Sprite_SetPlayAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool play);
 
 
 
@@ -289,7 +290,7 @@ SDLite_API int SDLite_Sprite_SetPlayAnimation(const SDLite_Sprite *animated_spri
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_API int SDLite_Sprite_SetLoopAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool loop);
+SDLite_API int SDLite_Sprite_SetLoopAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool loop);
 
 
 
@@ -300,7 +301,7 @@ SDLite_API int SDLite_Sprite_SetLoopAnimation(const SDLite_Sprite *animated_spri
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_API int SDLite_Sprite_EnableAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
+SDLite_API int SDLite_Sprite_EnableAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
 
 
 
@@ -310,7 +311,6 @@ SDLite_API int SDLite_Sprite_EnableAnimation(const SDLite_Sprite *animated_sprit
 
 /*
     Creates a rectangle SDLite_Sprite with the specified attributes
-    If texture_path is NULL then you must set a texture using SDLite_Sprite_SetTexture() or else nothing will render
     SDLite_Sprite needs to be freed by SDLite_DestroySprite()
 
     returns SDLite_Sprite* for success, returns NULL for failure

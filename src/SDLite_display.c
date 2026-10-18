@@ -13,7 +13,8 @@ SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width,
 
     if(!window_title) return NULL;
 
-    SDLite_Display *display = t_malloc(sizeof(SDLite_Display));
+    SDLite_Display *display = t_calloc(1, sizeof(SDLite_Display));
+    if(!display) return NULL;
 
     display->window = SDL_CreateWindow(window_title, window_width, window_height, window_flag);
     if(!display->window){
@@ -30,8 +31,8 @@ SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width,
 
     display->text_engine = TTF_CreateRendererTextEngine(display->renderer);
     if(!display->text_engine){
-        SDL_DestroyWindow(display->window);
         SDL_DestroyRenderer(display->renderer);
+        SDL_DestroyWindow(display->window);
         t_free(display);
         return NULL;
     }
@@ -70,12 +71,13 @@ void SDLite_DestroyDisplay(SDLite_Display *display){
     
     TTF_DestroyRendererTextEngine(display->text_engine);
     display->text_engine = NULL;
+    
+    SDL_DestroyRenderer(display->renderer);
+    display->renderer = NULL;
 
     SDL_DestroyWindow(display->window);
     display->window = NULL;
 
-    SDL_DestroyRenderer(display->renderer);
-    display->renderer = NULL;
 
     t_free(display);
 }
@@ -109,7 +111,7 @@ int SDLite_DisplaySetFullscreen(SDLite_Display *display){
 }
 
 
-int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h){
+int SDLite_Display_GetSize(const SDLite_Display *display, int *w, int *h){
 
     if(!display || !w || !h) return 1;
 

@@ -22,33 +22,21 @@ extern "C" {
 
 
 /*
-    initializes all SDL systems, and MemTrack for SDK
+    Initializes all SDL systems, and MemTrack for SDLite
 
-    void (*func)(void*) is a optional function you can pass to run if malloc fails
-    void *func_data is the void pointer that gets passed into void(*func)(void*)
-
-    **
-    **
-    
-    if bool abort_if_mem_error is set to true, then if malloc fails the program will abort
-
-    if bool print_memtrack_info is set to true, then MemTrack will print debug info
-
-    if bool auto_null_pointers is set to true, then pointers you free will automatically be set to null
-    
+    Arguments are for MemTrack configuration
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info    
 */
-SDLite_API int SDLite_Init(
-    void (*func)(void*), void *func_data, bool abort_if_mem_error, bool auto_null_pointers);
-
-/*
-    deinitializes all SDL systems, and MemTrack for SDK
+SDLite_API int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_if_mem_error, bool auto_null_pointers);
     
-    If you are using SDK1_debug, it will print tracking info for any memory you haven't freed
+/*
+    deinitializes all SDL systems, and MemTrack for SDLite
+    
+    If you are using debugSDLite, it dumps into stderr debug allocation info for allocations you haven't freed
 */
-SDLite_API void SDLite_Quit();
+SDLite_API void SDLite_Quit(void);
 
 #ifdef __cplusplus
 }

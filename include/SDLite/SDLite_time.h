@@ -32,7 +32,7 @@ typedef struct SDLite_Time SDLite_Time;
 
     set the fps_limit to be less than 0.0f to uncap the fps
     fps_limit can be changed during runtime
-    if fps is above several 1000s, it will become unstable and break animation timing
+    if fps is above several 1000s, it might become unstable and break animation timing
 
     Will fail if fps_limit == 0.0f or if malloc fails
 
@@ -132,7 +132,6 @@ SDLite_API int SDLite_CalculateDT(SDLite_Time *time);
 
     This functions uses dt_buffer to average the delta time
     over a defined amount of frame for a smoother fps.
-    The amounts of frames it averages is SDLite_FPS_POLL_RATE
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info

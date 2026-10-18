@@ -82,7 +82,7 @@ SDLite_API int SDLite_DisplaySetFullscreen(SDLite_Display *display);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_API int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h);
+SDLite_API int SDLite_Display_GetSize(const SDLite_Display *display, int *w, int *h);
 
 
 /*

@@ -96,15 +96,17 @@ set(SDLITE_SOURCES
 # ================= debugSDLite (unoptimized + memory tracking) =================
 add_library(debugSDLite SHARED ${SDLITE_SOURCES})
 
-target_include_directories(debugSDLite PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-    $<BUILD_INTERFACE:${sdl3_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${sdl3_BINARY_DIR}/include-revision>
-    $<BUILD_INTERFACE:${sdl3_image_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${sdl3_mixer_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${sdl3_ttf_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+target_include_directories(debugSDLite
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${sdl3_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${sdl3_BINARY_DIR}/include-revision>
+        $<BUILD_INTERFACE:${sdl3_image_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${sdl3_mixer_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${sdl3_ttf_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 target_compile_definitions(debugSDLite
@@ -117,9 +119,9 @@ target_compile_definitions(debugSDLite
 )
 
 if(MSVC)
-    target_compile_options(debugSDLite PRIVATE /Od /Zi)
+    target_compile_options(debugSDLite PRIVATE /Od /Zi /W4)
 else()
-    target_compile_options(debugSDLite PRIVATE -O0 -g)
+    target_compile_options(debugSDLite PRIVATE -O0 -g -Wall -Wpedantic)
 endif()
 
 target_link_libraries(debugSDLite
@@ -130,15 +132,17 @@ target_link_libraries(debugSDLite
 # ================= SDLite (optimized release build) =================
 add_library(SDLite SHARED ${SDLITE_SOURCES})
 
-target_include_directories(SDLite PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-    $<BUILD_INTERFACE:${sdl3_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${sdl3_BINARY_DIR}/include-revision>
-    $<BUILD_INTERFACE:${sdl3_image_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${sdl3_mixer_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${sdl3_ttf_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+target_include_directories(SDLite
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${sdl3_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${sdl3_BINARY_DIR}/include-revision>
+        $<BUILD_INTERFACE:${sdl3_image_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${sdl3_mixer_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${sdl3_ttf_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 target_compile_definitions(SDLite
@@ -152,9 +156,9 @@ target_compile_definitions(SDLite
 )
 
 if(MSVC)
-    target_compile_options(SDLite PRIVATE /O2)
+    target_compile_options(SDLite PRIVATE /O2 /W4)
 else()
-    target_compile_options(SDLite PRIVATE -O3)
+    target_compile_options(SDLite PRIVATE -O3 -Wall -Wpedantic)
 endif()
 
 target_link_libraries(SDLite

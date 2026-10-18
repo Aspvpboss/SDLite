@@ -21,15 +21,15 @@ struct SDLite_Input{
 
 
 
-SDLite_Input* SDLite_CreateInput(){
+SDLite_Input* SDLite_CreateInput(void){
     
-    SDLite_Input *input = t_malloc(sizeof(SDLite_Input));
+    SDLite_Input *input = t_calloc(1, sizeof(SDLite_Input));
     if(!input){
         return NULL;
     }
 
     input->current_keyboard = SDL_GetKeyboardState(&input->num_keys);
-    input->previous_keyboard = t_malloc(sizeof(bool) * input->num_keys);
+    input->previous_keyboard = t_calloc(input->num_keys, sizeof(bool));
     if(input->previous_keyboard == NULL){
         t_free(input);
         return NULL;
@@ -73,9 +73,9 @@ int SDLite_Input_Update_PrevKeyState(SDLite_Input *input){
 
 
 
-int SDLite_Input_KeyPressed(SDLite_Input *input, SDL_Scancode scancode){
+int SDLite_Input_KeyPressed(const SDLite_Input *input, SDL_Scancode scancode){
 
-    if(!input) return -1;
+    if(!input || scancode < 0 || scancode >= input->num_keys) return -1;
 
     return input->current_keyboard[scancode];
 }
@@ -83,9 +83,9 @@ int SDLite_Input_KeyPressed(SDLite_Input *input, SDL_Scancode scancode){
 
 
 
-int SDLite_Input_KeyJustPressed(SDLite_Input *input, SDL_Scancode scancode){
+int SDLite_Input_KeyJustPressed(const SDLite_Input *input, SDL_Scancode scancode){
 
-    if(!input) return -1;
+    if(!input || scancode < 0 || scancode >= input->num_keys) return -1;
 
     return input->current_keyboard[scancode] && !input->previous_keyboard[scancode];
 }
@@ -93,9 +93,9 @@ int SDLite_Input_KeyJustPressed(SDLite_Input *input, SDL_Scancode scancode){
 
 
 
-int SDLite_Input_KeyJustReleased(SDLite_Input *input, SDL_Scancode scancode){
+int SDLite_Input_KeyJustReleased(const SDLite_Input *input, SDL_Scancode scancode){
 
-    if(!input) return -1;
+    if(!input || scancode < 0 || scancode >= input->num_keys) return -1;
 
     return !input->current_keyboard[scancode] && input->previous_keyboard[scancode];
 }
@@ -115,11 +115,9 @@ int SDLite_Input_Update_PrevMouseState(SDLite_Input *input){
 
 
 
-int SDLite_Input_MousePressed(SDLite_Input *input, uint32_t SDL_MouseButtonMask){
+int SDLite_Input_MousePressed(const SDLite_Input *input, uint32_t SDL_MouseButtonMask){
 
     if(!input) return -1;
-    
-    input->current_mouse = SDL_GetMouseState(NULL, NULL);
 
     return (input->current_mouse & SDL_MouseButtonMask) != 0;
 }
@@ -127,11 +125,9 @@ int SDLite_Input_MousePressed(SDLite_Input *input, uint32_t SDL_MouseButtonMask)
 
 
 
-int SDLite_Input_MouseJustPressed(SDLite_Input *input, uint32_t SDL_MouseButtonMask){
+int SDLite_Input_MouseJustPressed(const SDLite_Input *input, uint32_t SDL_MouseButtonMask){
     
     if(!input) return -1;
-
-    input->current_mouse = SDL_GetMouseState(NULL, NULL);
 
     return ((input->current_mouse & SDL_MouseButtonMask) && !(input->previous_mouse & SDL_MouseButtonMask)) != 0;
 }
@@ -139,33 +135,28 @@ int SDLite_Input_MouseJustPressed(SDLite_Input *input, uint32_t SDL_MouseButtonM
 
 
 
-int SDLite_Input_MouseJustReleased(SDLite_Input *input, uint32_t SDL_MouseButtonMask){
+int SDLite_Input_MouseJustReleased(const SDLite_Input *input, uint32_t SDL_MouseButtonMask){
 
     if(!input) return -1;
    
-    input->current_mouse = SDL_GetMouseState(NULL, NULL);
-
     return (!(input->current_mouse & SDL_MouseButtonMask) && (input->previous_mouse & SDL_MouseButtonMask)) != 0;
 }
 
 
 
 
-int SDLite_Input_Mouse_UpdatePosition(SDLite_Input *input){
+int SDLite_Input_Poll_Mouse(SDLite_Input *input){
 
     if(!input) return 1;
 
-    SDL_FPoint *mouse_pos = (SDL_FPoint *)&input->mouse_pos;
-
-    SDL_GetMouseState((float *)&mouse_pos->x, (float *)&mouse_pos->y);
+    input->current_mouse = SDL_GetMouseState(&input->mouse_pos.x, &input->mouse_pos.y);
 
     return 0;
 }
 
 
 
-
-int SDLite_Input_Mouse_GetPosition(SDLite_Input *input, int *x, int *y){
+int SDLite_Input_Mouse_GetPosition(const SDLite_Input *input, int *x, int *y){
 
     if(!input || !x || !y) return 1;
 
@@ -182,7 +173,7 @@ int SDLite_Input_UpdateAllPrev(SDLite_Input *input){
     
     if(SDLite_Input_Update_PrevMouseState(input)) return 1;
     if(SDLite_Input_Update_PrevKeyState(input)) return 1;
-    if(SDLite_Input_Mouse_UpdatePosition(input)) return 1;
+    if(SDLite_Input_Poll_Mouse(input)) return 1;
  
     return 0;   
 }

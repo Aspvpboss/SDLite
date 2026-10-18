@@ -196,7 +196,13 @@ int main(){
     } 
 
 
-    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 80, 400, 5, (SDL_Color){255, 255, 255, 255});
+    SDLite_Text_Font *font = SDLite_Create_Text_Font("assets/default.ttf", 80.0f);
+    if(!font){
+        printf("font object failed to be created\n");
+        return 1;
+    }
+
+    SDLite_Text *text = SDLite_CreateText(display, NULL, font, 400, 5, (SDL_Color){255, 255, 255, 255});
     if(!text){
         printf("text object failed to be created\n");
         return 1;
@@ -318,14 +324,15 @@ int main(){
         SDLite_Input_UpdateAllPrev(input);
     }
 
+    SDLite_DestroyText(text);
+    text = NULL;
+    SDLite_Destroy_Text_Font(&font);
     SDLite_DestroyDisplay(display);
     display = NULL;
     SDLite_DestroyInput(input);
     input = NULL;
     SDLite_DestroyTime(time);
     time = NULL;
-    SDLite_DestroyText(text);
-    text = NULL;
     SDLite_Destroy_SpriteManager(manager);
     manager = NULL;
     SDLite_Destroy_AudioHandler(audio_handler);

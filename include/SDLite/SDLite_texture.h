@@ -7,7 +7,10 @@ extern "C"{
 
 #include "SDLite/common_libs.h"
 #include "SDLite/SDLite_display.h"
-
+/*
+    SDLite_Texture is a light abstraction layer over SDL_Texture
+    It uses ref counts so you can reuse the same texture multiple times
+*/
 typedef struct SDLite_Texture SDLite_Texture;
 
 /*

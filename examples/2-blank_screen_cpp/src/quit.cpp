@@ -11,10 +11,11 @@ extern "C" void SDL_AppQuit(void *appstate, SDL_AppResult result){
     if(!state)
         return;  
 
+    SDLite_DestroyText(state->fps_text);
+    SDLite_Destroy_Text_Font(&state->font);
     SDLite_DestroyDisplay(state->display);
     SDLite_DestroyInput(state->input);
     SDLite_DestroyTime(state->time);
-    SDLite_DestroyText(state->fps_text);
 
     t_free(state);
 

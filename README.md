@@ -1,12 +1,11 @@
 # SDLite Version 1.3.0
 
 
-SDLite is a lightweight C / C++ framework built on top of **SDL3**, designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
+SDLite is a lightweight cross-platform C / C++ framework built on top of **SDL3** and the **SDL3 satelite libraries** (listed below), designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
 
 This framework is intended to be a **generic SDL helper library**, slightly tailored toward 2D game development.
 
 
----
 
 ## Patch Notes
 
@@ -15,8 +14,13 @@ This framework is intended to be a **generic SDL helper library**, slightly tail
   * created extensive unit tests
   * reorganized file structure
   * various bug fixes
+* Added SDLite_Text_Font, a shared ref for fonts
 * Added MemTrack v1.4.0
 * Added Pong example
+
+---
+
+## Screenshots
 
 ---
 
@@ -39,8 +43,6 @@ See https://github.com/Aspvpboss/MemTrack for addtional docs over MemTrack
 
 
 ## SDLite Builds
-
-Two prebuilt DLL versions of the framework are included:
 
 - **SDLite**  
   Standard release build.  
@@ -65,6 +67,22 @@ Knowing how SDL works internally will make the SDLite much easier to understand 
 
 ---
 
+## Building and Testing with Cmake
+
+### Build
+This builds both the debug and release version of SDLite, and packages them in the build directory
+```
+cmake -B build -S .
+cmake --build build
+```
+
+### Run Tests
+Run these after building the library
+```
+./build/tests/test_SDLite
+./build/tests/test_debugSDLite
+```
+
 ### Install System-Wide (or User-Wide)
 To install system-wide on Linux (e.g. Fedora):
 ```bash
@@ -72,18 +90,16 @@ sudo cmake --install build
 sudo ldconfig  # update dynamic linker cache for libmemtrack.so
 ```
 
-
-
-Or install to user environment without root (`~/.local`):
+To install on windows
 ```bash
-cmake -B build -S . -DCMAKE_INSTALL_PREFIX=$HOME/.local
-cmake --build build
 cmake --install build
 ```
-for other operating systems, just put the shared lib, header files, and cmake files where they need to go
+
+##
+
 
 
 ## License
 
 This project is licensed under the MIT License.  
-See the LICENSE file for details.
+See LICENSE.txt and LICENSE_SDL.txt for more details.

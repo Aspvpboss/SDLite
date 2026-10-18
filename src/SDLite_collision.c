@@ -27,10 +27,10 @@ int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b){
 
     if(!a || !b) return -1;
 
-    if(a->x + a->w <= b->x) return 0; 
-    if(a->x >= b->x + b->w) return 0; 
-    if(a->y + a->h <= b->y) return 0; 
-    if(a->y >= b->y + b->h) return 0; 
+    if(a->x + a->w < b->x) return 0; 
+    if(a->x > b->x + b->w) return 0; 
+    if(a->y + a->h < b->y) return 0; 
+    if(a->y > b->y + b->h) return 0; 
 
     return 1;
 }

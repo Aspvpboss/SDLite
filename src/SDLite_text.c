@@ -10,80 +10,121 @@
 
 struct SDLite_Text{
 
-    TTF_Font *font;
+    SDLite_Text_Font *ref_font;
     TTF_Text *text;
     TTF_TextEngine *engine;
     SDL_Color color;
     int x, y;
 };
 
+struct SDLite_Text_Font {
+    TTF_Font *font;
+    uint64_t refs;
+};
+
+
+SDLite_Text_Font* SDLite_Create_Text_Font(const char *font_path, float font_size) {
+    if(!font_path || font_size <= 0.0f) return NULL;
+    SDLite_Text_Font *font = t_calloc(1, sizeof(SDLite_Text_Font));
+    if(!font) return NULL;
+
+    font->font = TTF_OpenFont(font_path, font_size);
+    if(!font->font){
+        t_free(font);
+        return NULL;
+    }
+    font->refs = 1;
+
+    return font;
+}
+
+
+TTF_Font* SDLite_Text_Font_GetFont(const SDLite_Text_Font *font) {
+    if(!font) return NULL;
+    return font->font;
+}
+
+uint64_t SDLite_Text_Font_GetRefs(const SDLite_Text_Font *font) {
+    if(!font) return 0;
+
+    return font->refs;
+}
+
+
+int SDLite_Text_Font_GetFontSize(const SDLite_Text_Font *font, float *font_size) {
+    if(!font || !font_size) return 1;
+
+    float result = TTF_GetFontSize(font->font);
+    if(result == 0.0f) return 1;
+
+    *font_size = result;
+
+    return 0;
+}
+
+
+int SDLite_Text_Font_SetFontSize(SDLite_Text_Font *font, float font_size) {
+
+    if(!font || font_size <= 0.0f) return 1;
+    
+    if(!TTF_SetFontSize(font->font, font_size)) return 1;
+
+    return 0;
+}
+
+
+
+void SDLite_Destroy_Text_Font(SDLite_Text_Font **font) {
+    if(!font || !(*font)) return;
+
+    (*font)->refs -= 1; 
+
+    if((*font)->refs == 0){
+        TTF_CloseFont((*font)->font);
+        t_free((*font));
+        *font = NULL;
+    }
+}
+
 
 SDLite_Text* SDLite_CreateText(
-    const SDLite_Display *display, const char *display_text, const char *font_path, float font_size, int x, int y, SDL_Color color){
+    const SDLite_Display *display, const char *display_text, SDLite_Text_Font *ref_font, int x, int y, SDL_Color color){
 
-    if(!display) return NULL;
+    if(!display || !ref_font) return NULL;
 
-    SDLite_Text *text = t_malloc(sizeof(SDLite_Text));
+    SDLite_Text *text = t_calloc(1, sizeof(SDLite_Text));
     if(!text) return NULL;
 
     text->x = x;
     text->y = y;
     text->engine = display->text_engine;
     text->color = color;
-
-    if(font_path == NULL){
-
-        text->font = TTF_OpenFont("assets/default.ttf", font_size);
-        if(text->font == NULL){
-            t_free(text);
-            return NULL;
-        }
-            
-    } else{
-
-        text->font = TTF_OpenFont(font_path, font_size);
-        if(text->font == NULL){
-            t_free(text);
-            return NULL;
-        }
-            
-    }
-
+    text->ref_font = ref_font;
 
     if(!display_text){
         display_text = "";
     }
 
-    text->text = TTF_CreateText(text->engine, text->font, display_text, 0);
+    text->text = TTF_CreateText(text->engine, text->ref_font->font, display_text, 0);
     
     if(!text->text){
-        TTF_CloseFont(text->font);
         t_free(text);
         return NULL;
     }
     
     if(!TTF_SetTextColor(text->text, color.r, color.g, color.b, color.a)){
-        TTF_CloseFont(text->font);
         TTF_DestroyText(text->text);
         t_free(text);
         return NULL;
     }
 
     if(!TTF_SetTextWrapWidth(text->text, 0)){
-        TTF_CloseFont(text->font);
         TTF_DestroyText(text->text);
         t_free(text);
         return NULL;
     }
 
-    int w, h;
-
-    if(!TTF_GetTextSize(text->text, &w,  &h)){
-        TTF_CloseFont(text->font);
-        TTF_DestroyText(text->text);
-        t_free(text);
-        return NULL;
-    }
+    ref_font->refs += 1;
 
     return text;
 }
@@ -94,7 +135,7 @@ void SDLite_DestroyText(SDLite_Text *text){
     if(!text) return;
 
     TTF_DestroyText(text->text);
-    TTF_CloseFont(text->font);
+    SDLite_Destroy_Text_Font(&text->ref_font);
     text->engine = NULL;
     t_free(text);
 
@@ -112,45 +153,26 @@ TTF_Font* SDLite_Text_GetTTFFont(const SDLite_Text *text){
 
     if(!text) return NULL;
 
-    return text->font;
+    return SDLite_Text_Font_GetFont(text->ref_font);
 }
 
 
-int SDLite_Text_SetFont(SDLite_Text *text, const char *font_path, float font_size){
+int SDLite_Text_SetFont(SDLite_Text *text, SDLite_Text_Font *new_font){
 
-    if(!text) return 1;
+    if(!text || !new_font) return 1;
     
-    if(font_path == NULL){
+    if(!TTF_SetTextFont(text->text, new_font->font)){
         return 1;
     }
 
-    TTF_Font *new_font = TTF_OpenFont(font_path, font_size);
-
-    if(new_font == NULL){
-        return 1;
-    }
-
-    TTF_CloseFont(text->font);
-
-    text->font = new_font;
-    
-    if(!TTF_SetTextFont(text->text, text->font)){
-        return 1;
-    }
+    new_font->refs += 1;
+    SDLite_Destroy_Text_Font(&text->ref_font);
+    text->ref_font = new_font;    
 
     return 0;
 }
 
 
-int SDLite_Text_SetFontSize(SDLite_Text *text, float font_size){
-
-    if(!text) return 1;
-
-    if(!TTF_SetFontSize(text->font, font_size))
-        return 1;
-
-    return 0;
-}
 
 
 int SDLite_Text_SetString(SDLite_Text *text, const char *string){
@@ -226,6 +248,7 @@ int SDLite_Text_SetColor(SDLite_Text *text, SDL_Color color){
 int SDLite_Render_Text(SDLite_Text *text){
 
     if(!text) return 1;
+    if(!text->ref_font || !text->ref_font->font) return 1;
 
     if(!TTF_DrawRendererText(text->text, text->x, text->y))
         return 1;

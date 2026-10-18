@@ -16,14 +16,14 @@ SDLite_Sprite* SDLite_Create_StaticSprite(const SDLite_Display *display, const c
     if(!display) return NULL;
 
 
-    SDLite_Sprite *sprite = t_malloc(sizeof(SDLite_Sprite));
+    SDLite_Sprite *sprite = t_calloc(1, sizeof(SDLite_Sprite));
 
     if(!sprite)
         return NULL;
 
     sprite->sprite_type = SDLite_STATIC_SPRITE;
 
-    sprite->data = t_malloc(sizeof(SDLite_StaticSprite_Data));
+    sprite->data = t_calloc(1, sizeof(SDLite_StaticSprite_Data));
 
     if(!sprite->data){
         t_free(sprite);
@@ -118,7 +118,7 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
     
     switch(sprite->sprite_type){
 
-        case(SDLite_ANIMATED_SPRITE):
+        case(SDLite_ANIMATED_SPRITE): {
 
             SDLite_AnimatedSprite_Data *a_data = (SDLite_AnimatedSprite_Data*)sprite->data;
 
@@ -127,14 +127,16 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
             }
 
             SDLite_Animation *animation = &a_data->animation[a_data->current_animation];
+            if(animation->amount_frames == 0) return 1;
 
             src_rect = &animation->frames[animation->current_frame];
             texture = a_data->texture;
             if(!texture) return 1;
             
             break;
+        }
 
-        case(SDLite_STATIC_SPRITE):
+        case(SDLite_STATIC_SPRITE): {
 
             SDLite_StaticSprite_Data *s_data = (SDLite_StaticSprite_Data*)sprite->data;
 
@@ -143,8 +145,9 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
             if(!texture) return 1;
             
             break;
+        }
 
-        case(SDLite_RECT_SPRITE):
+        case(SDLite_RECT_SPRITE): {
 
             SDLite_RectSprite_Data *r_data = (SDLite_RectSprite_Data *)sprite->data;
 
@@ -163,6 +166,7 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
             if(!SDL_SetRenderDrawColor(display->renderer, 0, 0, 0, 0)) return 1;
 
             return 0;
+        }
 
         default: return 1;
     }
@@ -317,6 +321,7 @@ int SDLite_Sprite_Set_Position(SDLite_Sprite *sprite, SDL_FPoint position){
 
     sprite->render_rect.x = position.x;
     sprite->render_rect.y = position.y;
+    sprite->pivot_point = position;
 
     return 0;
 }
@@ -343,7 +348,7 @@ void SDLite_DestroySprite(SDLite_Sprite *sprite){
     if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
 
         SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
-        for(uint16_t i = 0; i < data->amount_animation; i++){
+        for(uint32_t i = 0; i < data->amount_animation; i++){
             t_free(data->animation[i].frames);
         }
         t_free(data->animation);

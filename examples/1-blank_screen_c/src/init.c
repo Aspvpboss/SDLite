@@ -1,13 +1,16 @@
 
 #define SDL_MAIN_USE_CALLBACKS 1
 
-#include "SDL3/SDL_main.h"
 #include "init.h"
+#include "SDL3/SDL_main.h"
 
-// bruh why do these need to be extern "C", I strongly dislike C++
-extern "C" SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
-    SDLite_Init(NULL, NULL, true, false);
+SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
+
+    if(SDLite_Init(NULL, NULL, true, false)){
+        SDL_Log("Error: %s\n", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
 
     (*appstate) = t_malloc(sizeof(Appstate));
     Appstate *state = (Appstate*)(*appstate);
@@ -30,12 +33,15 @@ extern "C" SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
         return SDL_APP_FAILURE;
     }
 
-    static const SDL_Color white = {255, 255, 255, 255};
+    state->font = SDLite_Create_Text_Font("assets/default.ttf", 30.0f);
+    if(!state->font){
+        SDL_Log("Error: %s\n", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
 
     state->fps_text = SDLite_CreateText(
-        state->display, NULL, "assets/default.ttf", 30, 0, 0, white);
+        state->display, NULL, state->font, 0, 0, (SDL_Color){255, 255, 255, 255});
     
-        
     if(!state->fps_text){
         SDL_Log("Error: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;        
