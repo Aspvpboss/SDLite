@@ -61,6 +61,7 @@ SDLite_Audio_Handler* SDLite_Create_AudioHandler(uint16_t track_capacity, float 
             }
 
             MIX_DestroyMixer(audio_handler->mixer);
+            t_free(audio_handler->tracks);
             t_free(audio_handler);
             return NULL;
         }

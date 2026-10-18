@@ -20,7 +20,16 @@ extern "C" {
     These functions should only be called on the thread that created the SDLite_Text
 */
 typedef struct SDLite_Text SDLite_Text;
+typedef struct SDLite_Text_Font SDLite_Text_Font;
 
+
+SDLite_API SDLite_Text_Font* SDLite_Create_Text_Font(const char *font_path);
+
+SDLite_API TTF_Font* SDLite_Text_Font_GetFont(const SDLite_Text_Font *font);
+
+SDLite_API uint64_t SDLite_Text_Font_GetRefs(const SDLite_Text_Font *font);
+
+SDLite_API void SDLite_Destroy_Text_Font(SDLite_Text_Font **font);
 
 /*
     Creates a SDLite_Text*, this must be freed using SDLite_DestroyText()
@@ -33,7 +42,7 @@ typedef struct SDLite_Text SDLite_Text;
     Use SDL_GetError() for more error details
 */
 SDLite_API SDLite_Text* SDLite_CreateText(
-    const SDLite_Display *display, const char *display_text, const char *font_path, float font_size, int x, int y, SDL_Color color);
+    const SDLite_Display *display, const char *display_text, SDLite_Text_Font *ref_font, float font_size, int x, int y, SDL_Color color);
 
 
 /*
@@ -55,7 +64,7 @@ SDLite_API void SDLite_DestroyText(SDLite_Text *text);
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDLite_API int SDLite_Text_SetFont(SDLite_Text *text, const char *font_path, float font_size);
+SDLite_API int SDLite_Text_SetFont(SDLite_Text *text, SDLite_Text_Font *new_font);
 
 
 /*
