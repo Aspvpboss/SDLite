@@ -428,6 +428,14 @@ static void test_display_and_input(SDLite_Display *display) {
     TEST_ASSERT(SDLite_Input_Update_PrevKeyState(input) == 0, "Update_PrevKeyState succeeds");
     TEST_ASSERT(SDLite_Input_Update_PrevMouseState(input) == 0, "Update_PrevMouseState succeeds");
 
+    /* Out-of-bounds scancode checks */
+    TEST_ASSERT(SDLite_Input_KeyPressed(input, (SDL_Scancode)-1) == -1, "KeyPressed with negative scancode returns -1");
+    TEST_ASSERT(SDLite_Input_KeyPressed(input, SDL_SCANCODE_COUNT) == -1, "KeyPressed with out-of-bounds scancode returns -1");
+    TEST_ASSERT(SDLite_Input_KeyJustPressed(input, (SDL_Scancode)-1) == -1, "KeyJustPressed with negative scancode returns -1");
+    TEST_ASSERT(SDLite_Input_KeyJustPressed(input, SDL_SCANCODE_COUNT) == -1, "KeyJustPressed with out-of-bounds scancode returns -1");
+    TEST_ASSERT(SDLite_Input_KeyJustReleased(input, (SDL_Scancode)-1) == -1, "KeyJustReleased with negative scancode returns -1");
+    TEST_ASSERT(SDLite_Input_KeyJustReleased(input, SDL_SCANCODE_COUNT) == -1, "KeyJustReleased with out-of-bounds scancode returns -1");
+
     SDLite_DestroyInput(input);
 }
 
@@ -591,7 +599,7 @@ static void test_textures_and_sprites(SDLite_Display *display) {
     /*
      * Strict check: partially populated animation array!
      * Allocate capacity 2, only populate index 0 (leave index 1 unpopulated),
-     * then select index 1 or destroy the sprite. Must not crash on uninitialized frames pointer!
+     * then select index 1, try updating and rendering it, or destroy the sprite.
      */
     TEST_SAFE_ASSERT(({
         void *dirty = t_malloc(256);
@@ -599,15 +607,20 @@ static void test_textures_and_sprites(SDLite_Display *display) {
             memset(dirty, 0xAB, 256);
             t_free(dirty);
         }
-        SDLite_Sprite *partial_anim = SDLite_Create_AnimatedSprite(display, NULL, (SDL_FPoint){0, 0}, (SDL_FRect){0, 0, 16, 16});
+        SDLite_Time *tmp_time = SDLite_CreateTime(-1.0);
+        SDLite_Sprite *partial_anim = SDLite_Create_AnimatedSprite(display, "assets/char_spritesheet.png", (SDL_FPoint){0, 0}, (SDL_FRect){0, 0, 16, 16});
         SDLite_Sprite_AllocAnimation(partial_anim, 2);
         SDLite_Sprite_AddAnimation(partial_anim, frames, num_frames, 30.0, 0);
-        /* Index 1 was never populated; selecting and rendering it or destroying should not dereference/free garbage */
+        /* Index 1 was never populated; selecting, updating, and rendering it should return 1 safely */
         SDLite_Sprite_SelectAnimation(partial_anim, 1);
+        SDLite_Sprite_EnableAnimation(partial_anim, 1, true);
+        SDLite_Sprite_SetLoopAnimation(partial_anim, 1, true);
+        int update_unpop = SDLite_Sprite_UpdateAnimation(partial_anim, tmp_time);
         int render_unpop = SDLite_Render_Sprite(display, partial_anim);
         SDLite_DestroySprite(partial_anim);
-        render_unpop == 1;
-    }), "Animated sprite with unpopulated animation slot must zero-initialize slots and not free/dereference garbage");
+        SDLite_DestroyTime(tmp_time);
+        (update_unpop == 1 && render_unpop == 1);
+    }), "Animated sprite with unpopulated animation slot must fail safely on update/render and not free garbage");
 
     TEST_ASSERT(SDLite_Sprite_SelectAnimation(anim, 2) == 1, "SelectAnimation out-of-bounds fails");
     TEST_ASSERT(SDLite_Sprite_SelectAnimation(anim, 1) == 0, "SelectAnimation(1) succeeds");
@@ -692,35 +705,49 @@ static void test_text(SDLite_Display *display) {
     SDLite_Destroy_Text_Font(&null_font);
     TEST_ASSERT(null_font == NULL, "Destroy_Text_Font(&null_font) leaves pointer NULL");
 
-    /* Font creation & NULL / invalid path checks */
-    TEST_ASSERT(SDLite_Create_Text_Font(NULL) == NULL, "Create_Text_Font(NULL) returns NULL");
-    TEST_ASSERT(SDLite_Create_Text_Font("assets/missing_font.ttf") == NULL, "Create_Text_Font with missing file returns NULL");
-    TEST_ASSERT(SDLite_Create_Text_Font("assets/blue.bmp") == NULL, "Create_Text_Font with non-font file returns NULL");
+    /* Font creation & NULL / invalid path / invalid size checks */
+    TEST_ASSERT(SDLite_Create_Text_Font(NULL, 20.0f) == NULL, "Create_Text_Font(NULL, 20.0f) returns NULL");
+    TEST_ASSERT(SDLite_Create_Text_Font("assets/default.ttf", 0.0f) == NULL, "Create_Text_Font(..., 0.0f) returns NULL");
+    TEST_ASSERT(SDLite_Create_Text_Font("assets/default.ttf", -12.0f) == NULL, "Create_Text_Font(..., -12.0f) returns NULL");
+    TEST_ASSERT(SDLite_Create_Text_Font("assets/missing_font.ttf", 20.0f) == NULL, "Create_Text_Font with missing file returns NULL");
+    TEST_ASSERT(SDLite_Create_Text_Font("assets/blue.bmp", 20.0f) == NULL, "Create_Text_Font with non-font file returns NULL");
     TEST_ASSERT(SDLite_Text_Font_GetFont(NULL) == NULL, "Text_Font_GetFont(NULL) returns NULL");
     TEST_ASSERT(SDLite_Text_Font_GetRefs(NULL) == 0, "Text_Font_GetRefs(NULL) returns 0");
 
-    /* Standalone font creation & destruction */
-    SDLite_Text_Font *standalone_font = SDLite_Create_Text_Font("assets/default.ttf");
-    TEST_ASSERT(standalone_font != NULL, "Create_Text_Font(\"assets/default.ttf\") succeeds");
+    float queried_size = 0.0f;
+    TEST_ASSERT(SDLite_Text_Font_GetFontSize(NULL, &queried_size) == 1, "Text_Font_GetFontSize(NULL, ...) returns 1");
+    TEST_ASSERT(SDLite_Text_Font_SetFontSize(NULL, 24.0f) == 1, "Text_Font_SetFontSize(NULL, ...) returns 1");
+
+    /* Standalone font creation, size get/set, & destruction */
+    SDLite_Text_Font *standalone_font = SDLite_Create_Text_Font("assets/default.ttf", 24.0f);
+    TEST_ASSERT(standalone_font != NULL, "Create_Text_Font(\"assets/default.ttf\", 24.0f) succeeds");
     TEST_ASSERT(SDLite_Text_Font_GetFont(standalone_font) != NULL, "Text_Font_GetFont returns valid TTF_Font*");
     TEST_ASSERT(SDLite_Text_Font_GetRefs(standalone_font) == 1, "Initial SDLite_Text_Font ref count is 1");
+    TEST_ASSERT(SDLite_Text_Font_GetFontSize(standalone_font, NULL) == 1, "Text_Font_GetFontSize(..., NULL) returns 1");
+    TEST_ASSERT(SDLite_Text_Font_GetFontSize(standalone_font, &queried_size) == 0 && FLOAT_EQ(queried_size, 24.0f, 1e-4),
+                "Text_Font_GetFontSize returns initial 24.0f");
+    TEST_ASSERT(SDLite_Text_Font_SetFontSize(standalone_font, 0.0f) == 1, "Text_Font_SetFontSize(..., 0.0f) fails");
+    TEST_ASSERT(SDLite_Text_Font_SetFontSize(standalone_font, -5.0f) == 1, "Text_Font_SetFontSize(..., -5.0f) fails");
+    TEST_ASSERT(SDLite_Text_Font_SetFontSize(standalone_font, 36.0f) == 0, "Text_Font_SetFontSize(..., 36.0f) succeeds");
+    TEST_ASSERT(SDLite_Text_Font_GetFontSize(standalone_font, &queried_size) == 0 && FLOAT_EQ(queried_size, 36.0f, 1e-4),
+                "Text_Font_GetFontSize returns updated 36.0f");
     SDLite_Destroy_Text_Font(&standalone_font);
     TEST_ASSERT(standalone_font == NULL, "Destroy_Text_Font nulls pointer when ref count reaches 0");
 
-    /* Primary shared font */
-    SDLite_Text_Font *font1 = SDLite_Create_Text_Font("assets/default.ttf");
-    SDLite_Text_Font *font2 = SDLite_Create_Text_Font("assets/default.ttf");
-    TEST_ASSERT(font1 != NULL && font2 != NULL, "Created font1 and font2 for ref sharing tests");
+    /* Primary shared fonts */
+    SDLite_Text_Font *font1 = SDLite_Create_Text_Font("assets/default.ttf", 20.0f);
+    SDLite_Text_Font *font2 = SDLite_Create_Text_Font("assets/default.ttf", 36.0f);
+    TEST_ASSERT(font1 != NULL && font2 != NULL, "Created font1 (20pt) and font2 (36pt) for ref sharing tests");
     TEST_ASSERT(SDLite_Text_Font_GetRefs(font1) == 1 && SDLite_Text_Font_GetRefs(font2) == 1,
                 "font1 and font2 start with 1 ref each");
 
     /* SDLite_CreateText NULL checks */
-    TEST_ASSERT(SDLite_CreateText(NULL, "Hi", font1, 20.0f, 0, 0, white) == NULL, "CreateText(NULL, ...) fails");
+    TEST_ASSERT(SDLite_CreateText(NULL, "Hi", font1, 0, 0, white) == NULL, "CreateText(NULL, ...) fails");
     TEST_ASSERT(SDLite_Text_Font_GetRefs(font1) == 1, "Failed CreateText does not increment font1 ref count");
-    TEST_ASSERT(SDLite_CreateText(display, "Hi", NULL, 20.0f, 0, 0, white) == NULL, "CreateText(display, \"Hi\", NULL, ...) fails");
+    TEST_ASSERT(SDLite_CreateText(display, "Hi", NULL, 0, 0, white) == NULL, "CreateText(display, \"Hi\", NULL, ...) fails");
 
     /* Create first text with NULL display_text (defaults to "") */
-    SDLite_Text *text = SDLite_CreateText(display, NULL, font1, 20.0f, 15, 25, white);
+    SDLite_Text *text = SDLite_CreateText(display, NULL, font1, 15, 25, white);
     TEST_ASSERT(text != NULL, "CreateText(display, NULL, font1, ...) succeeds");
     TEST_ASSERT(SDLite_Text_Font_GetRefs(font1) == 2, "font1 ref count increments to 2 after creating 1st SDLite_Text");
 
@@ -731,8 +758,8 @@ static void test_text(SDLite_Display *display) {
                 "GetTTFFont(text) matches SDLite_Text_Font_GetFont(font1)");
 
     /* Create second and third text sharing font1 */
-    SDLite_Text *text2 = SDLite_CreateText(display, "Shared Font Text 2", font1, 36.0f, 10, 80, white);
-    SDLite_Text *text3 = SDLite_CreateText(display, "Shared Font Text 3", font1, 14.0f, 10, 140, white);
+    SDLite_Text *text2 = SDLite_CreateText(display, "Shared Font Text 2", font1, 10, 80, white);
+    SDLite_Text *text3 = SDLite_CreateText(display, "Shared Font Text 3", font1, 10, 140, white);
     TEST_ASSERT(text2 != NULL && text3 != NULL, "Created text2 and text3 sharing font1");
     TEST_ASSERT(SDLite_Text_Font_GetRefs(font1) == 4, "font1 ref count increments to 4 when shared across 3 SDLite_Text objects");
     TEST_ASSERT(SDLite_Text_GetTTFFont(text2) == SDLite_Text_Font_GetFont(font1) &&
@@ -769,7 +796,7 @@ static void test_text(SDLite_Display *display) {
 #ifdef TRACK_ALLOCATIONS
     size_t mem_before_ephemeral = MemTrack_Memory_Usage();
 #endif
-    SDLite_Text_Font *ephemeral_font = SDLite_Create_Text_Font("assets/default.ttf");
+    SDLite_Text_Font *ephemeral_font = SDLite_Create_Text_Font("assets/default.ttf", 18.0f);
     TEST_ASSERT(ephemeral_font != NULL, "Created ephemeral_font");
     TEST_ASSERT(SDLite_Text_SetFont(text3, ephemeral_font) == 0, "Attached ephemeral_font to text3");
     TEST_ASSERT(SDLite_Text_Font_GetRefs(ephemeral_font) == 2, "ephemeral_font has 2 refs");
@@ -791,8 +818,8 @@ static void test_text(SDLite_Display *display) {
      * must not prematurely destroy the font before incrementing/preserving its ref!
      */
     TEST_SAFE_ASSERT(({
-        SDLite_Text_Font *self_font = SDLite_Create_Text_Font("assets/default.ttf");
-        SDLite_Text *self_text = SDLite_CreateText(display, "Self Font", self_font, 20.0f, 0, 0, white);
+        SDLite_Text_Font *self_font = SDLite_Create_Text_Font("assets/default.ttf", 20.0f);
+        SDLite_Text *self_text = SDLite_CreateText(display, "Self Font", self_font, 0, 0, white);
         SDLite_Destroy_Text_Font(&self_font); /* refs is now 1 (owned only by self_text) */
         int rc = SDLite_Text_SetFont(self_text, self_font);
         uint64_t refs_after = SDLite_Text_Font_GetRefs(self_font);
@@ -802,39 +829,24 @@ static void test_text(SDLite_Display *display) {
     }), "SDLite_Text_SetFont with same font when refs == 1 must not free font prematurely");
 
     /*
-     * Edge case 3: SDLite_CreateText font_size initialization before any Render_Text or SetFontSize call.
-     * A newly created SDLite_Text_Font opens TTF_Font at 1.0f; SDLite_CreateText(..., font_size=48.0f, ...)
-     * should reflect font_size=48.0f when querying SDLite_Text_Get_RenderRect immediately after creation.
+     * Edge case 3: SDLite_Create_Text_Font font_size is reflected immediately in SDLite_CreateText
+     * and SDLite_Text_Font_SetFontSize updates the render rect of all texts sharing that font.
      */
-    SDLite_Text_Font *fresh_font = SDLite_Create_Text_Font("assets/default.ttf");
-    SDLite_Text *fresh_text = SDLite_CreateText(display, "Large Initial Text", fresh_font, 48.0f, 0, 0, white);
-    SDL_FRect fresh_rect = {0, 0, 0, 0};
-    TEST_ASSERT(fresh_text != NULL && SDLite_Text_Get_RenderRect(fresh_text, &fresh_rect) == 0,
-                "Get_RenderRect on freshly created 48pt text succeeds");
-    TEST_ASSERT(fresh_rect.h >= 20.0f,
-                "SDLite_CreateText(font_size=48.0f) should produce render_rect height for 48pt (not 1.0f default)");
+    SDLite_Text_Font *fresh_font = SDLite_Create_Text_Font("assets/default.ttf", 14.0f);
+    SDLite_Text *fresh_text = SDLite_CreateText(display, "Resizable Font Text", fresh_font, 0, 0, white);
+    SDL_FRect small_rect = {0, 0, 0, 0}, large_rect = {0, 0, 0, 0};
+    TEST_ASSERT(fresh_text != NULL && SDLite_Text_Get_RenderRect(fresh_text, &small_rect) == 0,
+                "Get_RenderRect on 14pt text succeeds");
+    TEST_ASSERT(SDLite_Text_Font_SetFontSize(fresh_font, 48.0f) == 0,
+                "SDLite_Text_Font_SetFontSize(fresh_font, 48.0f) succeeds");
+    TEST_ASSERT(SDLite_Text_Get_RenderRect(fresh_text, &large_rect) == 0,
+                "Get_RenderRect after resizing font to 48pt succeeds");
+    TEST_ASSERT(large_rect.w > small_rect.w && large_rect.h > small_rect.h,
+                "Resizing SDLite_Text_Font from 14pt to 48pt increases SDLite_Text render_rect dimensions");
     SDLite_DestroyText(fresh_text);
     SDLite_Destroy_Text_Font(&fresh_font);
 
-    /*
-     * Edge case 4: Two SDLite_Text instances sharing the same SDLite_Text_Font with different font_sizes
-     * (text2 has font_size=36.0f, text3 has font_size=14.0f).
-     * Querying SDLite_Text_Get_RenderRect on each should reflect its own font_size, even after rendering the other.
-     */
-    SDL_FRect rect2 = {0, 0, 0, 0}, rect3 = {0, 0, 0, 0};
-    SDLite_Text_SetString(text2, "Same String");
-    SDLite_Text_SetString(text3, "Same String");
-    SDLite_Render_Text(text2); /* renders at 36.0f */
-    SDLite_Render_Text(text3); /* renders at 14.0f */
-    TEST_ASSERT(SDLite_Text_Get_RenderRect(text2, &rect2) == 0 && SDLite_Text_Get_RenderRect(text3, &rect3) == 0,
-                "Get_RenderRect succeeds on both text2 (36pt) and text3 (14pt) sharing font1");
-    TEST_ASSERT(rect2.w > rect3.w && rect2.h > rect3.h,
-                "Shared font: text2 (36pt) render_rect must be larger than text3 (14pt) render_rect");
-
-    /* Font size, string, position, wrap width, color, and render rect tests */
-    TEST_ASSERT(SDLite_Text_SetFontSize(NULL, 32.0f) == 1, "SetFontSize(NULL, ...) fails");
-    TEST_ASSERT(SDLite_Text_SetFontSize(text, 32.0f) == 0, "SetFontSize(32.0f) succeeds");
-
+    /* String, position, wrap width, color, and render rect tests */
     /* Strict check: SDLite_text.h says SetString fails if text is NULL OR if string is NULL */
     TEST_ASSERT(SDLite_Text_SetString(NULL, "Hello") == 1, "SetString(NULL, ...) fails");
     TEST_ASSERT(SDLite_Text_SetString(text, NULL) == 1,
@@ -860,8 +872,8 @@ static void test_text(SDLite_Display *display) {
 
     TEST_ASSERT(SDLite_Render_Text(NULL) == 1, "Render_Text(NULL) fails");
     TEST_ASSERT(SDLite_Render_Text(text) == 0, "Render_Text(text) succeeds");
-    TEST_ASSERT(SDLite_Render_Text(text2) == 0, "Render_Text(text2) with shared font and different font_size succeeds");
-    TEST_ASSERT(SDLite_Render_Text(text3) == 0, "Render_Text(text3) with shared font and different font_size succeeds");
+    TEST_ASSERT(SDLite_Render_Text(text2) == 0, "Render_Text(text2) with shared font succeeds");
+    TEST_ASSERT(SDLite_Render_Text(text3) == 0, "Render_Text(text3) with shared font succeeds");
 
     /* Destroy caller's font1 reference first while texts still own refs (like texture ref counting test) */
     SDLite_Destroy_Text_Font(&font2);

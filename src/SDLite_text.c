@@ -24,7 +24,7 @@ struct SDLite_Text_Font {
 
 
 SDLite_Text_Font* SDLite_Create_Text_Font(const char *font_path, float font_size) {
-    if(!font_path) return NULL;
+    if(!font_path || font_size <= 0.0f) return NULL;
     SDLite_Text_Font *font = t_calloc(1, sizeof(SDLite_Text_Font));
     if(!font) return NULL;
 
@@ -54,7 +54,7 @@ uint64_t SDLite_Text_Font_GetRefs(const SDLite_Text_Font *font) {
 int SDLite_Text_Font_GetFontSize(const SDLite_Text_Font *font, float *font_size) {
     if(!font || !font_size) return 1;
 
-    float result = TTF_GetFontSize(font);
+    float result = TTF_GetFontSize(font->font);
     if(result == 0.0f) return 1;
 
     *font_size = result;
@@ -67,7 +67,7 @@ int SDLite_Text_Font_SetFontSize(SDLite_Text_Font *font, float font_size) {
 
     if(!font || font_size <= 0.0f) return 1;
     
-    if(!TTF_SetFontSize(font, font_size)) return 1;
+    if(!TTF_SetFontSize(font->font, font_size)) return 1;
 
     return 0;
 }

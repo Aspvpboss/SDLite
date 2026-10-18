@@ -138,12 +138,12 @@ int main(){
         return 1;
     }
 
-    SDLite_Text_Font *font = SDLite_Create_Text_Font("assets/default.ttf");
+    SDLite_Text_Font *font = SDLite_Create_Text_Font("assets/default.ttf", 20.0f);
     if(!font){
         return 1;
     }
     const SDL_Color WHITE = {255, 255, 255, 255};
-    SDLite_Text *text = SDLite_CreateText(display, NULL, font, 20, 5, 5, WHITE);
+    SDLite_Text *text = SDLite_CreateText(display, NULL, font, 5, 5, WHITE);
     SDLite_Sprite_Manager *manager = SDLite_Create_SpriteManager(16, 16);
 
     

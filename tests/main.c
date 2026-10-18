@@ -196,13 +196,13 @@ int main(){
     } 
 
 
-    SDLite_Text_Font *font = SDLite_Create_Text_Font("assets/default.ttf");
+    SDLite_Text_Font *font = SDLite_Create_Text_Font("assets/default.ttf", 80.0f);
     if(!font){
         printf("font object failed to be created\n");
         return 1;
     }
 
-    SDLite_Text *text = SDLite_CreateText(display, NULL, font, 80, 400, 5, (SDL_Color){255, 255, 255, 255});
+    SDLite_Text *text = SDLite_CreateText(display, NULL, font, 400, 5, (SDL_Color){255, 255, 255, 255});
     if(!text){
         printf("text object failed to be created\n");
         return 1;
