@@ -10,53 +10,51 @@ This framework is intended to be a **generic SDL helper library**, slightly tail
 
 ## Patch Notes
 
-- Put all SDLite header files in a folder called 'SDLite' in the include folder. This help keeps a global environment clean.
+* #### Major Refactoring
+  * replaced old Makefile build system with CMake
+  * created extensive unit tests
+  * reorganized file structure
+  * various bug fixes
+* Added MemTrack v1.4.0
+* Added Pong example
 
 ---
 
 ## Dependencies
 
-The included folder **`SDL_libs_all`** contains all required SDL libraries used by this framework:
+* CMake
+* C & C++ compiler
 
-- SDL3 v3.5  
-- SDL3_image v3.2  
-- SDL3_mixer v3.2  
-- SDL3_ttf v3.3  
+CMake pulls the SDL3, SDL3_image, SDL3_mixer, and SDL3_ttf source code when compiling the library
 
-You must link against these libraries to build projects using SDLite.
+CMake then statically links those libraries into the SDLite and debugSDLite shared libraries
 
----
-
-## SDLite Builds
-
-Two prebuilt DLL versions of the framework are included:
-
-- **SDLite.dll**  
-  Standard release build.  
-  No memory allocation tracking.  
-  Intended for normal application or game builds.
-
-- **debugSDLite.dll**  
-  Debug build with **MemTrack** memory allocation tracking enabled.  
-  Can detect memory leaks and track allocations during development.
-
-I would recommmend using debugSDLite.dll during development, and SDLite.dll for release builds
-
----
 
 ## Documentation
 
 All public functions are documented in their header files.  
 Additionally, the included **MemTrack** library header contains documentation for memory tracking utilities and necessary macros.
 
----
+See https://github.com/Aspvpboss/MemTrack for addtional docs over MemTrack
+
+
+## SDLite Builds
+
+Two prebuilt DLL versions of the framework are included:
+
+- **SDLite**  
+  Standard release build.  
+  No memory allocation tracking.  
+  Intended for normal application or game builds.
+
+- **debugSDLite**  
+  Debug build with **MemTrack** memory allocation tracking enabled. Can detect memory leaks and track allocations during development.
 
 ## Prerequisites
 
 This framework assumes you already have a basic understanding of SDL, and are comfortable with C / C++.  
 Knowing how SDL works internally will make the SDLite much easier to understand and use effectively.
 
----
 
 ## Examples
 
@@ -66,6 +64,24 @@ Only one example project as of right is included:
   Opens a window and displays the current FPS.
 
 ---
+
+### Install System-Wide (or User-Wide)
+To install system-wide on Linux (e.g. Fedora):
+```bash
+sudo cmake --install build
+sudo ldconfig  # update dynamic linker cache for libmemtrack.so
+```
+
+
+
+Or install to user environment without root (`~/.local`):
+```bash
+cmake -B build -S . -DCMAKE_INSTALL_PREFIX=$HOME/.local
+cmake --build build
+cmake --install build
+```
+for other operating systems, just put the shared lib, header files, and cmake files where they need to go
+
 
 ## License
 
