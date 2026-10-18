@@ -125,7 +125,6 @@ SDLite_API int SDLite_Input_Mouse_GetPosition(SDLite_Input *input, int *x, int *
 /*
     Updates previous mouse state
     This function must be called for just_pressed logic to work
-    You can call this after every keyboard input call or at the end of them all
 
     Function only fails if SDLite_Input* is NULL
 
@@ -134,12 +133,15 @@ SDLite_API int SDLite_Input_Mouse_GetPosition(SDLite_Input *input, int *x, int *
 SDLite_API int SDLite_Input_Update_PrevMouseState(SDLite_Input *input);
 
 /*
-    calls both SDLite_Update_Previous_MouseState
-    and SDLite_Update_Previous_KeyboardState
 
-    This is for QOL
 
-    Function only fails if SDLite_Input* is NULL
+    This function is for QOL, it calls these functions in this order
+
+    SDLite_Input_Update_PrevMouseState
+    SDLite_Input_Update_PrevKeyState
+    SDLite_Input_Poll_Mouse 
+    
+    Function only fails if SDLite_Input* is NULL or if any of the sub functions fail
 
     returns 0 for success, returns 1 for failure
 */
