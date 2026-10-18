@@ -72,8 +72,6 @@ if(WIN32)
     target_compile_definitions(SDL3_ttf-static PRIVATE DLL_EXPORT)
 endif()
 
-find_package(Threads REQUIRED)
-
 set(SDLITE_SOURCES
     src/MemTrack_imp.c 
     src/SDLite_audio.c 
@@ -123,8 +121,6 @@ endif()
 target_link_libraries(debugSDLite
     PRIVATE
         "$<LINK_LIBRARY:WHOLE_ARCHIVE,SDL3::SDL3-static,SDL3_image::SDL3_image-static,SDL3_mixer::SDL3_mixer-static,SDL3_ttf::SDL3_ttf-static>"
-    PUBLIC
-        Threads::Threads
 )
 
 # ================= SDLite (optimized release build) =================
@@ -160,8 +156,6 @@ endif()
 target_link_libraries(SDLite
     PRIVATE
         "$<LINK_LIBRARY:WHOLE_ARCHIVE,SDL3::SDL3-static,SDL3_image::SDL3_image-static,SDL3_mixer::SDL3_mixer-static,SDL3_ttf::SDL3_ttf-static>"
-    PUBLIC
-        Threads::Threads
 )
 
 # ================= Installation & Packaging =================

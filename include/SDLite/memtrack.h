@@ -33,7 +33,9 @@ extern "C"{
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
-#include <pthread.h>
+#include <SDL3/SDL_stdinc.h>
+#include <SDL3/SDL_thread.h>
+#include <SDL3/SDL_mutex.h>
 
 // uncomment this for use in DLLs
 // #define MEMTRACK_DLL
@@ -104,21 +106,21 @@ MEMTRACK_API void* MemTrack_Debug_realloc(void *mem, size_t size, const char *fi
 MEMTRACK_API char* MemTrack_Debug_strdup(const char* src, const char *file, int line);
 MEMTRACK_API char* MemTrack_Debug_strndup(const char *src, size_t size, const char *file, int line);
 
-#define TRACK_MALLOC(size) malloc(size)
-#define TRACK_REALLOC(mem, newsize) realloc(mem, newsize)
-#define TRACK_CALLOC(num, size) calloc(num, size)
-#define TRACK_FREE(ptr) free(ptr)
-#define TRACK_STRLEN(str) strlen(str)
-#define TRACK_STRDUP(str) strdup(str)
-#define TRACK_STRNDUP(str, size) MemTrack_strndup(str, size)
-#define TRACK_MEMCPY(dst, src, len) memcpy(dst, src, len)
+#define TRACK_MALLOC(size) SDL_malloc(size)
+#define TRACK_REALLOC(mem, newsize) SDL_realloc(mem, newsize)
+#define TRACK_CALLOC(num, size) SDL_calloc(num, size)
+#define TRACK_FREE(ptr) SDL_free(ptr)
+#define TRACK_STRLEN(str) SDL_strlen(str)
+#define TRACK_STRDUP(str) SDL_strdup(str)
+#define TRACK_STRNDUP(str, size) SDL_strndup(str, size)
+#define TRACK_MEMCPY(dst, src, len) SDL_memcpy(dst, src, len)
 #define TRACK_EXIT exit(EXIT_FAILURE)
 
-#define TRACK_MUTEX_TYPE pthread_mutex_t 
-#define TRACK_MUTEX_CREATE(mutex) pthread_mutex_init(&mutex, NULL) // you may have to change this if your mutex create function doesn't take the mutex as an arg
-#define TRACK_MUTEX_DESTROY(mutex) pthread_mutex_destroy(&mutex)
-#define TRACK_MUTEX_LOCK(mutex) pthread_mutex_lock(&mutex)
-#define TRACK_MUTEX_UNLOCK(mutex) pthread_mutex_unlock(&mutex)
+#define TRACK_MUTEX_TYPE SDL_Mutex* 
+#define TRACK_MUTEX_CREATE(mutex) SDL_CreateMutex() // you may have to change this if your mutex create function doesn't take the mutex as an arg
+#define TRACK_MUTEX_DESTROY(mutex) SDL_DestroyMutex(mutex)
+#define TRACK_MUTEX_LOCK(mutex) SDL_LockMutex(mutex)
+#define TRACK_MUTEX_UNLOCK(mutex) SDL_UnlockMutex(mutex)
 
 
 #ifdef TRACK_ALLOCATIONS
@@ -235,8 +237,8 @@ int MemTrack_Init(void(*malloc_err_handler)(void*), void *handler_arg, bool auto
         TRACK_PRINTF("Memtrack already initialized\n");
         return 1;
     }
-
-    if(TRACK_MUTEX_CREATE(info.mutex)){
+    info.mutex = TRACK_MUTEX_CREATE();
+    if(!info.mutex){
         TRACK_PRINTF("Memtrack failed to create mutex\n");
         return 1;
     }
