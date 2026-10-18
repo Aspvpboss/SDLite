@@ -38,18 +38,18 @@ SDLite_Sprite_Manager* SDLite_Create_SpriteManager(uint64_t max_z_depth, uint64_
     if(!max_z_depth || !max_sprites)
         return NULL;
 
-    SDLite_Sprite_Manager *manager = t_malloc(sizeof(SDLite_Sprite_Manager));
+    SDLite_Sprite_Manager *manager = t_calloc(1, sizeof(SDLite_Sprite_Manager));
     if(!manager)
         return NULL;
 
-    manager->data = t_malloc(sizeof(Sprite_Manager_Data));
+    manager->data = t_calloc(1, sizeof(Sprite_Manager_Data));
     if(!manager->data){
         t_free(manager);
         return NULL;
     }
     Sprite_Manager_Data *data = (Sprite_Manager_Data*)manager->data;
     
-    data->layers = t_malloc(sizeof(SDLite_Render_Layer) * max_z_depth);
+    data->layers = t_calloc(max_z_depth, sizeof(SDLite_Render_Layer));
     if(!data->layers){
         t_free(manager->data);
         t_free(manager);
@@ -62,7 +62,7 @@ SDLite_Sprite_Manager* SDLite_Create_SpriteManager(uint64_t max_z_depth, uint64_
     SDLite_Render_Layer *layers = data->layers;
 
     for(uint64_t i = 0; i < max_z_depth; i++){
-        layers[i].sprites = t_malloc(sizeof(SDLite_Sprite*) * max_sprites);
+        layers[i].sprites = t_calloc(max_sprites, sizeof(SDLite_Sprite*));
 
         if(!layers[i].sprites){
             for(uint64_t a = 0; a < i; a++)

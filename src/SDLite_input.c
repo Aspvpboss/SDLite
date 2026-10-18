@@ -23,13 +23,13 @@ struct SDLite_Input{
 
 SDLite_Input* SDLite_CreateInput(){
     
-    SDLite_Input *input = t_malloc(sizeof(SDLite_Input));
+    SDLite_Input *input = t_calloc(1, sizeof(SDLite_Input));
     if(!input){
         return NULL;
     }
 
     input->current_keyboard = SDL_GetKeyboardState(&input->num_keys);
-    input->previous_keyboard = t_malloc(sizeof(bool) * input->num_keys);
+    input->previous_keyboard = t_calloc(input->num_keys, sizeof(bool));
     if(input->previous_keyboard == NULL){
         t_free(input);
         return NULL;

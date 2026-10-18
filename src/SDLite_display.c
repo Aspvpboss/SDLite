@@ -13,7 +13,7 @@ SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width,
 
     if(!window_title) return NULL;
 
-    SDLite_Display *display = t_malloc(sizeof(SDLite_Display));
+    SDLite_Display *display = t_calloc(1, sizeof(SDLite_Display));
     if(!display) return NULL;
 
     display->window = SDL_CreateWindow(window_title, window_width, window_height, window_flag);

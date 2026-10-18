@@ -34,7 +34,7 @@ SDLite_Time* SDLite_CreateTime(double fps_limit){
 
     if(fps_limit == 0) return NULL;
 
-    SDLite_Time *time = t_malloc(sizeof(SDLite_Time));
+    SDLite_Time *time = t_calloc(1, sizeof(SDLite_Time));
     if(!time) return NULL;
 
     time->collected_frames = 0;

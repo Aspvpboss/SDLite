@@ -6,7 +6,7 @@
 
 SDLite_Sprite* SDLite_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled){
 
-    SDLite_Sprite *sprite = t_malloc(sizeof(SDLite_Sprite));
+    SDLite_Sprite *sprite = t_calloc(1, sizeof(SDLite_Sprite));
 
     if(!sprite){
         return NULL;
@@ -16,7 +16,7 @@ SDLite_Sprite* SDLite_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is
 
     void **data_t = (void **)&sprite->data;
     
-    *data_t = t_malloc(sizeof(SDLite_RectSprite_Data));
+    *data_t = t_calloc(1, sizeof(SDLite_RectSprite_Data));
 
     if(!sprite->data){
         t_free(sprite);

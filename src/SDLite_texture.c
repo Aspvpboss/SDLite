@@ -7,7 +7,7 @@ SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, const char *
 
     if(!display || !file) return NULL;
 
-    SDLite_Texture *sdlite_texture = t_malloc(sizeof(SDLite_Texture));
+    SDLite_Texture *sdlite_texture = t_calloc(1, sizeof(SDLite_Texture));
     if(!sdlite_texture) return NULL;
 
     sdlite_texture->texture = IMG_LoadTexture(display->renderer, file);

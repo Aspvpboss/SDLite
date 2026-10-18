@@ -16,14 +16,14 @@ SDLite_Sprite* SDLite_Create_StaticSprite(const SDLite_Display *display, const c
     if(!display) return NULL;
 
 
-    SDLite_Sprite *sprite = t_malloc(sizeof(SDLite_Sprite));
+    SDLite_Sprite *sprite = t_calloc(1, sizeof(SDLite_Sprite));
 
     if(!sprite)
         return NULL;
 
     sprite->sprite_type = SDLite_STATIC_SPRITE;
 
-    sprite->data = t_malloc(sizeof(SDLite_StaticSprite_Data));
+    sprite->data = t_calloc(1, sizeof(SDLite_StaticSprite_Data));
 
     if(!sprite->data){
         t_free(sprite);

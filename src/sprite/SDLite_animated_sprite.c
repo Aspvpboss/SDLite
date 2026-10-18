@@ -7,14 +7,14 @@ SDLite_Sprite* SDLite_Create_AnimatedSprite(const SDLite_Display *display, const
 
     if(!display) return NULL;
 
-    SDLite_Sprite *sprite = t_malloc(sizeof(SDLite_Sprite));
+    SDLite_Sprite *sprite = t_calloc(1, sizeof(SDLite_Sprite));
 
     if(!sprite)
         return NULL;
 
     sprite->sprite_type = SDLite_ANIMATED_SPRITE;
 
-    sprite->data = t_malloc(sizeof(SDLite_AnimatedSprite_Data));
+    sprite->data = t_calloc(1, sizeof(SDLite_AnimatedSprite_Data));
 
     if(!sprite->data){
         t_free(sprite);

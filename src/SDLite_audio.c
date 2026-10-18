@@ -21,7 +21,7 @@ SDLite_Audio_Handler* SDLite_Create_AudioHandler(uint16_t track_capacity, float 
 
     if(track_capacity == 0) return NULL;
 
-    SDLite_Audio_Handler *audio_handler = t_malloc(sizeof(SDLite_Audio_Handler));
+    SDLite_Audio_Handler *audio_handler = t_calloc(1, sizeof(SDLite_Audio_Handler));
     if(!audio_handler) return NULL; 
 
     audio_handler->mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
@@ -30,7 +30,7 @@ SDLite_Audio_Handler* SDLite_Create_AudioHandler(uint16_t track_capacity, float 
         return NULL;
     }
 
-    audio_handler->tracks = t_malloc(sizeof(SDLite_Track) * track_capacity);
+    audio_handler->tracks = t_calloc(track_capacity, sizeof(SDLite_Track));
     if(!audio_handler->tracks){
         MIX_DestroyMixer(audio_handler->mixer);
         t_free(audio_handler);
