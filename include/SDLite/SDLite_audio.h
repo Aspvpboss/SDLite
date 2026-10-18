@@ -68,7 +68,7 @@ SDLite_DLL SDLite_Track* SDLite_Audio_GetTrack(SDLite_Audio_Handler *audio_handl
 */
 SDLite_DLL MIX_Mixer* SDLite_Audio_GetMixer(SDLite_Audio_Handler *audio_handler);
 
-    /*
+/*
     Plays the audio that has been loaded to the specified audio_track
 
     Function will fail if no audio has been loaded to the track
@@ -100,7 +100,8 @@ SDLite_DLL int SDLite_Audio_SetTrackAudio(SDLite_Audio_Handler *audio_handler, u
 
 
 /*
-    Sets the track volume for a specified track_volume, volume range between 0.0f - 1.0f
+    Sets the track volume for a specified track_volume
+    Will fail if master_volume is negative
 
     returns 0 for success, returns 1 for failure 
 */
@@ -118,7 +119,8 @@ SDLite_DLL int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, 
 SDLite_DLL int SDLite_Audio_SetTrackProp(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, const char *prop_name, int64_t value);
 
 /*
-    Sets the master volume of all audio, volume range between 0.0f - 1.0f
+    Sets the master volume of all audio
+    Will fail if master_volume is negative
 
     returns 0 for success, returns 1 for failure 
 */

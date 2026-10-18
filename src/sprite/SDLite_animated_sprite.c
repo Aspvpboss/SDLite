@@ -63,11 +63,13 @@ int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint32_t animat
 
         data->animation = t_malloc(sizeof(SDLite_Animation) * animation_capacity);
         if(!data->animation) return 1;
+        memset(data->animation, 0, sizeof(SDLite_Animation) * animation_capacity);
 
     } else{
 
         SDLite_Animation *new_animation = t_realloc(data->animation, sizeof(SDLite_Animation) * animation_capacity);
         if(!new_animation) return 1;
+        memset(&new_animation[data->amount_animation], 0, sizeof(SDLite_Animation) * (animation_capacity - data->amount_animation));
         data->animation = new_animation;
 
     }
