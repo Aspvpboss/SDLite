@@ -24,6 +24,9 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SDL3)
 
 
+set(SDLMIXER_SHARED OFF CACHE BOOL "Disable shared SDL_mixer" FORCE)
+set(SDLMIXER_STATIC ON  CACHE BOOL "Enable static SDL_mixer" FORCE)
+set(SDLMIXER_DEPS_SHARED OFF CACHE BOOL "Link vendored dependencies statically into SDL_mixer" FORCE)
 FetchContent_Declare(
     SDL3_mixer
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
@@ -35,6 +38,11 @@ FetchContent_MakeAvailable(SDL3_mixer)
 set(SDLIMAGE_SHARED OFF CACHE BOOL "Disable shared SDL_image" FORCE)
 set(SDLIMAGE_STATIC ON  CACHE BOOL "Enable static SDL_image" FORCE)
 set(SDLIMAGE_VENDORED ON CACHE BOOL "Use vendored libraries for SDL_image" FORCE)
+set(SDLIMAGE_DEPS_SHARED OFF CACHE BOOL "Link vendored dependencies statically into SDL_image" FORCE)
+set(SDLIMAGE_AVIF_SHARED OFF CACHE BOOL "Link libavif statically" FORCE)
+set(SDLIMAGE_PNG_SHARED OFF CACHE BOOL "Link libpng statically" FORCE)
+set(SDLIMAGE_TIF_SHARED OFF CACHE BOOL "Link libtiff statically" FORCE)
+set(SDLIMAGE_WEBP_SHARED OFF CACHE BOOL "Link libwebp statically" FORCE)
 FetchContent_Declare(
     SDL3_image
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git    
@@ -52,6 +60,17 @@ FetchContent_Declare(
     GIT_TAG release-3.2.2
 )
 FetchContent_MakeAvailable(SDL3_ttf)
+
+if(WIN32)
+    # Place .dll and .exe files in the same directory on Windows so test executables find SDLite.dll
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
+    # Ensure SDL3 and satellite functions also receive __declspec(dllexport) when linked into SDLite.dll
+    target_compile_definitions(SDL3-static PRIVATE DLL_EXPORT)
+    target_compile_definitions(SDL3_image-static PRIVATE DLL_EXPORT)
+    target_compile_definitions(SDL3_mixer-static PRIVATE DLL_EXPORT)
+    target_compile_definitions(SDL3_ttf-static PRIVATE DLL_EXPORT)
+endif()
 
 find_package(Threads REQUIRED)
 
@@ -78,6 +97,12 @@ add_library(debugSDLite SHARED ${SDLITE_SOURCES})
 target_include_directories(debugSDLite PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<BUILD_INTERFACE:${sdl3_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${sdl3_BINARY_DIR}/include-revision>
+    $<BUILD_INTERFACE:${sdl3_image_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${sdl3_mixer_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${sdl3_ttf_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
 )
 
 target_compile_definitions(debugSDLite
@@ -95,12 +120,11 @@ else()
     target_compile_options(debugSDLite PRIVATE -O0 -g)
 endif()
 
-target_link_libraries(debugSDLite PUBLIC
-    SDL3::SDL3-static
-    SDL3_image::SDL3_image-static
-    SDL3_mixer::SDL3_mixer-static
-    SDL3_ttf::SDL3_ttf-static
-    Threads::Threads
+target_link_libraries(debugSDLite
+    PRIVATE
+        "$<LINK_LIBRARY:WHOLE_ARCHIVE,SDL3::SDL3-static,SDL3_image::SDL3_image-static,SDL3_mixer::SDL3_mixer-static,SDL3_ttf::SDL3_ttf-static>"
+    PUBLIC
+        Threads::Threads
 )
 
 # ================= SDLite (optimized release build) =================
@@ -109,6 +133,12 @@ add_library(SDLite SHARED ${SDLITE_SOURCES})
 target_include_directories(SDLite PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<BUILD_INTERFACE:${sdl3_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${sdl3_BINARY_DIR}/include-revision>
+    $<BUILD_INTERFACE:${sdl3_image_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${sdl3_mixer_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${sdl3_ttf_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
 )
 
 target_compile_definitions(SDLite
@@ -127,22 +157,96 @@ else()
     target_compile_options(SDLite PRIVATE -O3)
 endif()
 
-target_link_libraries(SDLite PUBLIC
-    SDL3::SDL3-static
-    SDL3_image::SDL3_image-static
-    SDL3_mixer::SDL3_mixer-static
-    SDL3_ttf::SDL3_ttf-static
-    Threads::Threads
+target_link_libraries(SDLite
+    PRIVATE
+        "$<LINK_LIBRARY:WHOLE_ARCHIVE,SDL3::SDL3-static,SDL3_image::SDL3_image-static,SDL3_mixer::SDL3_mixer-static,SDL3_ttf::SDL3_ttf-static>"
+    PUBLIC
+        Threads::Threads
 )
 
-
+# ================= Installation & Packaging =================
+include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-configure_package_config_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/MyPackageConfig.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/MyPackageConfig.cmake"
-    INSTALL_DESTINATION lib/cmake/MyPackage
+# 1. Install SDLite and debugSDLite shared libraries
+install(TARGETS SDLite debugSDLite
+    EXPORT SDLiteTargets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
+# 2. Install CMake export targets & package config files (enables find_package(SDLite))
+install(EXPORT SDLiteTargets
+    FILE SDLiteTargets.cmake
+    NAMESPACE SDLite::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SDLite
+)
 
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/SDLiteConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/SDLiteConfig.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SDLite
+)
+
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/SDLiteConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/SDLiteConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/SDLiteConfigVersion.cmake"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SDLite
+)
+
+# 3. Install SDLite headers + SDL3/SDL3_image/SDL3_mixer/SDL3_ttf headers
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/SDLite"
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+install(DIRECTORY "${sdl3_SOURCE_DIR}/include/SDL3"
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+install(DIRECTORY "${sdl3_image_SOURCE_DIR}/include/SDL3_image"
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+install(DIRECTORY "${sdl3_mixer_SOURCE_DIR}/include/SDL3_mixer"
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+install(DIRECTORY "${sdl3_ttf_SOURCE_DIR}/include/SDL3_ttf"
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+# 4. Install default assets, README, and Licenses
+install(FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/assets/default.ttf"
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/SDLite/assets
+)
+install(FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt"
+    "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE_SDL.txt"
+    "${CMAKE_CURRENT_SOURCE_DIR}/README.md"
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/SDLite
+)
+
+# 5. CPack configuration to build .tar.gz / .zip release archives
+set(CPACK_PACKAGE_NAME "SDLite")
+set(CPACK_PACKAGE_VENDOR "Benjamin Vaughan")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SDLite - Lightweight SDL3 Wrapper Framework")
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+if(WIN32)
+    set(CPACK_GENERATOR "ZIP")
+else()
+    set(CPACK_GENERATOR "TGZ;ZIP")
+endif()
+include(CPack)
+
+
+# Run tests
+enable_testing()
 add_subdirectory(tests)
+
