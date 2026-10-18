@@ -30,7 +30,7 @@ extern "C" {
     **
     **
     
-    if bool memory_failure_abort is set to true, then if malloc fails the program will abort
+    if bool abort_if_mem_error is set to true, then if malloc fails the program will abort
 
     if bool print_memtrack_info is set to true, then MemTrack will print debug info
 
@@ -41,7 +41,7 @@ extern "C" {
     call SDL_GetError() for more info    
 */
 SDLite_DLL int SDLite_Init(
-    void (*func)(void*), void *func_data, bool memory_failure_abort, bool auto_null_pointers);
+    void (*func)(void*), void *func_data, bool abort_if_mem_error, bool auto_null_pointers);
 
 /*
     deinitializes all SDL systems, and MemTrack for SDK

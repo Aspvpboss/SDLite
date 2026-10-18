@@ -79,7 +79,7 @@ SDK_Entity* create_player(SDK_Display *display){
     SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
 
 
-    uint8_t amount_frames = 6;
+    uint16_t amount_frames = 6;
     double fps = 9.0f;
     double offset = 3.0f;
     bool loop_animation = true;

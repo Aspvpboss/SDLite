@@ -109,7 +109,7 @@ SDK1_API int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite);
 */
 SDK1_API int SDK_Sprite_AddAnimation(
     SDK_Sprite *animated_sprite, SDL_FRect src_rect, 
-    uint8_t amount_frames, double fps, double offset_width, 
+    uint16_t amount_frames, double fps, double offset_width, 
     bool loop_animation, bool play_animation);
 
 /*
