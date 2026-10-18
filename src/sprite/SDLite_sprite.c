@@ -317,6 +317,7 @@ int SDLite_Sprite_Set_Position(SDLite_Sprite *sprite, SDL_FPoint position){
 
     sprite->render_rect.x = position.x;
     sprite->render_rect.y = position.y;
+    sprite->pivot_point = position;
 
     return 0;
 }

@@ -187,7 +187,8 @@ SDLite_API int SDLite_Sprite_Get_RenderRect(const SDLite_Sprite *sprite, SDL_FRe
 
 /*
     Sets the position of the SDLite_Sprite*
-    This changes the x & y parameters of the render_rect used for rendering
+    This changes the x & y parameters of the render_rect used for rendering,
+    it also sets the pivot point to be the position
 
     Will fail if SDLite_Sprite* is NULL
 
