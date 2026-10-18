@@ -197,7 +197,7 @@ int main(){
     } 
 
 
-    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 20, window_width / 4, 5, (SDL_Color){255, 255, 255, 255});
+    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 20, 100, 5, (SDL_Color){255, 255, 255, 255});
     if(!text){
         printf("text object failed to be created\n");
         return 1;
