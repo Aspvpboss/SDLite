@@ -138,8 +138,12 @@ int main(){
         return 1;
     }
 
+    SDLite_Text_Font *font = SDLite_Create_Text_Font("assets/default.ttf");
+    if(!font){
+        return 1;
+    }
     const SDL_Color WHITE = {255, 255, 255, 255};
-    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 20, 5, 5, WHITE);
+    SDLite_Text *text = SDLite_CreateText(display, NULL, font, 20, 5, 5, WHITE);
     SDLite_Sprite_Manager *manager = SDLite_Create_SpriteManager(16, 16);
 
     
@@ -306,14 +310,15 @@ int main(){
         SDLite_Input_UpdateAllPrev(input);
     }
 
+    SDLite_DestroyText(text);
+    text = NULL;
+    SDLite_Destroy_Text_Font(&font);
     SDLite_DestroyDisplay(display);
     display = NULL;
     SDLite_DestroyInput(input);
     input = NULL;
     SDLite_DestroyTime(time);
     time = NULL;
-    SDLite_DestroyText(text);
-    text = NULL;
     SDLite_Destroy_SpriteManager(manager);
     manager = NULL;
     SDLite_Destroy_AudioHandler(audio_handler);

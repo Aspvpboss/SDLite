@@ -151,9 +151,9 @@ int SDLite_Text_SetFont(SDLite_Text *text, SDLite_Text_Font *new_font){
         return 1;
     }
 
-    text->ref_font->refs -= 1;
-    text->ref_font = new_font;    
     new_font->refs += 1;
+    SDLite_Destroy_Text_Font(&text->ref_font);
+    text->ref_font = new_font;    
 
     return 0;
 }
@@ -201,6 +201,10 @@ int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *render_rect){
     if(!text || !render_rect) return 1;
 
     int w, h;
+    
+    if(!text->ref_font || !text->ref_font->font) return 1;
+
+    if(!TTF_SetFontSize(text->ref_font->font, text->font_size)) return 1;
 
     if(!TTF_GetTextSize(text->text, &w, &h)){
         return 1;
