@@ -9,9 +9,11 @@
 
 #include "SDLite/SDLite.h"
 #include <math.h>
+#ifndef _WIN32
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,11 +39,10 @@ static int g_tests_failed = 0;
     } while (0)
 
 /*
- * Runs `cond` in a forked child process to isolate potential segfaults/aborts.
- * - If the child crashes with a signal (e.g. SIGSEGV/SIGABRT), logs a FAIL
- *   with the signal number without killing the main test runner.
- * - If the child exits normally, checks whether `cond` evaluated to true (exit 0).
+ * Runs `cond` in a forked child process on POSIX to isolate potential segfaults/aborts.
+ * Falls back to TEST_ASSERT on Windows.
  */
+#ifndef _WIN32
 #define TEST_SAFE_ASSERT(cond, msg)                                                         \
     do {                                                                                    \
         g_tests_run++;                                                                      \
@@ -67,6 +68,9 @@ static int g_tests_failed = 0;
             }                                                                               \
         }                                                                                   \
     } while (0)
+#else
+#define TEST_SAFE_ASSERT(cond, msg) TEST_ASSERT(cond, msg)
+#endif
 
 #define FLOAT_EQ(a, b, eps) (fabs((double)(a) - (double)(b)) <= (eps))
 

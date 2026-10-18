@@ -58,10 +58,11 @@ SDLite_Audio_Handler* SDLite_Create_AudioHandler(uint16_t track_capacity, float 
                 SDLite_Track *tracks = audio_handler->tracks;  
                 if(tracks[a].track) MIX_DestroyTrack(tracks[a].track);
                 if(tracks[a].track_prop) SDL_DestroyProperties(tracks[a].track_prop);
-                MIX_DestroyMixer(audio_handler->mixer);
-                t_free(audio_handler);
-                return NULL;
             }
+
+            MIX_DestroyMixer(audio_handler->mixer);
+            t_free(audio_handler);
+            return NULL;
         }
 
         SDL_SetNumberProperty(track->track_prop, MIX_PROP_PLAY_LOOPS_NUMBER, 0);
@@ -85,6 +86,7 @@ void SDLite_Destroy_AudioHandler(SDLite_Audio_Handler *audio_handler){
         
     }
 
+    MIX_DestroyMixer(audio_handler->mixer);
     t_free(audio_handler->tracks);
     t_free(audio_handler);
 
@@ -201,8 +203,8 @@ int SDLite_Audio_GetMasterVolume(SDLite_Audio_Handler *audio_handler, float *mas
 int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume){
 
     if(!audio_handler) return 1;
+    if(track_volume < 0.0f) return 1;
 
-    if(audio_track == 0) return 1;
     if(audio_track >= audio_handler->track_capacity) return 1;
     SDLite_Track *track = &audio_handler->tracks[audio_track];
     

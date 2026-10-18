@@ -72,8 +72,8 @@ typedef struct{
     SDLite_Animation *animation;
     float base_width;
     float base_height;
-    uint16_t amount_animation;
-    uint16_t current_animation;
+    uint32_t amount_animation;
+    uint32_t current_animation;
 
 } SDLite_AnimatedSprite_Data;
 

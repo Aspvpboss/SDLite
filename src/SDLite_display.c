@@ -67,6 +67,9 @@ int SDLite_DisplayPresent(SDLite_Display *display){
 void SDLite_DestroyDisplay(SDLite_Display *display){
 
     if(!display) return;
+    
+    TTF_DestroyRendererTextEngine(display->text_engine);
+    display->text_engine = NULL;
 
     SDL_DestroyWindow(display->window);
     display->window = NULL;
@@ -74,11 +77,7 @@ void SDLite_DestroyDisplay(SDLite_Display *display){
     SDL_DestroyRenderer(display->renderer);
     display->renderer = NULL;
 
-    TTF_DestroyRendererTextEngine(display->text_engine);
-    display->text_engine = NULL;
-
     t_free(display);
-
 }
 
 
