@@ -23,13 +23,18 @@ typedef struct SDLite_Text SDLite_Text;
 typedef struct SDLite_Text_Font SDLite_Text_Font;
 
 
-SDLite_API SDLite_Text_Font* SDLite_Create_Text_Font(const char *font_path);
+SDLite_API SDLite_Text_Font* SDLite_Create_Text_Font(const char *font_path, float font_size);
 
 SDLite_API TTF_Font* SDLite_Text_Font_GetFont(const SDLite_Text_Font *font);
 
 SDLite_API uint64_t SDLite_Text_Font_GetRefs(const SDLite_Text_Font *font);
 
 SDLite_API void SDLite_Destroy_Text_Font(SDLite_Text_Font **font);
+
+SDLite_API int SDLite_Text_Font_SetFontSize(SDLite_Text_Font *font, float font_size);
+
+SDLite_API int SDLite_Text_Font_GetFontSize(const SDLite_Text_Font *font, float *font_size);
+
 
 /*
     Creates a SDLite_Text*, this must be freed using SDLite_DestroyText()
@@ -42,7 +47,7 @@ SDLite_API void SDLite_Destroy_Text_Font(SDLite_Text_Font **font);
     Use SDL_GetError() for more error details
 */
 SDLite_API SDLite_Text* SDLite_CreateText(
-    const SDLite_Display *display, const char *display_text, SDLite_Text_Font *ref_font, float font_size, int x, int y, SDL_Color color);
+    const SDLite_Display *display, const char *display_text, SDLite_Text_Font *ref_font, int x, int y, SDL_Color color);
 
 
 /*
@@ -66,16 +71,6 @@ SDLite_API void SDLite_DestroyText(SDLite_Text *text);
 */
 SDLite_API int SDLite_Text_SetFont(SDLite_Text *text, SDLite_Text_Font *new_font);
 
-
-/*
-    Sets font_size of the SDLite_Text*
-
-    Will fail if SDLite_Text* is NULL
-
-    returns 0 for success, 1 for failure
-    Use SDL_GetError() for more error details
-*/
-SDLite_API int SDLite_Text_SetFontSize(SDLite_Text *text, float font_size);
 
 
 /*
