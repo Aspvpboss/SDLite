@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
-project(example-blank VERSION 1.0 LANGUAGES C)
+project(example-blank-c VERSION 1.0 LANGUAGES C)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -8,7 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(SDLite REQUIRED)
 
-add_executable(example-blank
+add_executable(example-blank-c
     src/init.c 
     src/iterate.c 
     src/render.c 
@@ -23,11 +23,11 @@ target_include_directories(example-blank-c PUBLIC
 )
 
 
-target_compile_definitions(example-blank
+target_compile_definitions(example-blank-c
     PRIVATE
         TRACK_ALLOCATIONS
 )
 
-target_link_libraries(example-blank 
+target_link_libraries(example-blank-c 
     SDLite::debugSDLite
 )
