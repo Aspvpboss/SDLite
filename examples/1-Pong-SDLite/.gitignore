@@ -1,8 +1,0 @@
-
-
-*.exe
-.vscode
-.cache
-*.json
-
-build

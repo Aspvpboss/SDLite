@@ -37,6 +37,7 @@ SDLite_API SDLite_Text* SDLite_CreateText(
 
 
 /*
+    Call This before destroying the SDLite_Display* used to create the SDLite_Text*
     Frees a SDLite_Text*
 
     Will return early if SDLite_Text is NULL

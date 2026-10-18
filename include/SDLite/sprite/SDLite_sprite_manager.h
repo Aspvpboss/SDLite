@@ -30,7 +30,7 @@ typedef struct SDLite_Sprite_Manager SDLite_Sprite_Manager;
 
     SDLite_Sprite_Manager needs to be freed by SDLite_Destroy_SpriteManager()
 
-    SDLite_Sprite_Manager allows for rendering sprites is certain orders,
+    SDLite_Sprite_Manager allows for rendering sprites in certain orders,
     it does this by using z_depth
 
     returns SDLite_Sprite_Manager* for success, returns NULL for failure

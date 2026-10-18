@@ -310,7 +310,6 @@ SDLite_API int SDLite_Sprite_EnableAnimation(const SDLite_Sprite *animated_sprit
 
 /*
     Creates a rectangle SDLite_Sprite with the specified attributes
-    If texture_path is NULL then you must set a texture using SDLite_Sprite_SetTexture() or else nothing will render
     SDLite_Sprite needs to be freed by SDLite_DestroySprite()
 
     returns SDLite_Sprite* for success, returns NULL for failure
