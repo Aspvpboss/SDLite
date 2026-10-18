@@ -20,14 +20,14 @@ typedef struct SDLite_Texture SDLite_Texture;
     returns SDLite_Texture* on success, returns NULL on failure
     call SDL_GetError() for more info
 */
-SDLite_DLL SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, const char *file);
+SDLite_API SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, const char *file);
 
 /*
     Reference counting is handled internally by SDLite
 
     The pointer of the texture will be set to NULL if the texture is actually freed
 */
-SDLite_DLL void SDLite_DestroyTexture(SDLite_Texture **texture);
+SDLite_API void SDLite_DestroyTexture(SDLite_Texture **texture);
 
 
 /*
@@ -40,7 +40,7 @@ SDLite_DLL void SDLite_DestroyTexture(SDLite_Texture **texture);
 
     returns numbers of references on success, returns 0 on failure
 */
-SDLite_DLL uint64_t SDLite_Texture_GetRefs(const SDLite_Texture *texture);
+SDLite_API uint64_t SDLite_Texture_GetRefs(const SDLite_Texture *texture);
 
 /*
     Returns the internal SDL_Texture* used by SDLite_Texture
@@ -51,7 +51,7 @@ SDLite_DLL uint64_t SDLite_Texture_GetRefs(const SDLite_Texture *texture);
 
     returns SDL_Texture* on success, returns NULL on failure
 */
-SDLite_DLL SDL_Texture* SDLite_Texture_GetSDLTexture(const SDLite_Texture *texture);    
+SDLite_API SDL_Texture* SDLite_Texture_GetSDLTexture(const SDLite_Texture *texture);    
 
 
 

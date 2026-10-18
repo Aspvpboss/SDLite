@@ -40,7 +40,7 @@ extern "C" {
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info    
 */
-SDLite_DLL int SDLite_Init(
+SDLite_API int SDLite_Init(
     void (*func)(void*), void *func_data, bool abort_if_mem_error, bool auto_null_pointers);
 
 /*
@@ -48,7 +48,7 @@ SDLite_DLL int SDLite_Init(
     
     If you are using SDK1_debug, it will print tracking info for any memory you haven't freed
 */
-SDLite_DLL void SDLite_Quit();
+SDLite_API void SDLite_Quit();
 
 #ifdef __cplusplus
 }

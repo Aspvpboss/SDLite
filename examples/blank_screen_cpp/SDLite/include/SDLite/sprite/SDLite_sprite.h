@@ -48,7 +48,7 @@ typedef struct SDLite_Sprite SDLite_Sprite;
     returns SDLite_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL SDLite_Sprite* SDLite_Create_StaticSprite(
+SDLite_API SDLite_Sprite* SDLite_Create_StaticSprite(
     const SDLite_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 
@@ -57,7 +57,7 @@ SDLite_DLL SDLite_Sprite* SDLite_Create_StaticSprite(
 
     Will return early if SDLite_Sprite is NULL
 */
-SDLite_DLL void SDLite_DestroySprite(SDLite_Sprite *sprite);
+SDLite_API void SDLite_DestroySprite(SDLite_Sprite *sprite);
 
 /*
     Renders a sprite onto the display
@@ -65,7 +65,7 @@ SDLite_DLL void SDLite_DestroySprite(SDLite_Sprite *sprite);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *sprite);
+SDLite_API int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *sprite);
 
 
 /*
@@ -75,7 +75,7 @@ SDLite_DLL int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_
     
     returns SDL_Texture* for success, returns NULL for failure
 */
-SDLite_DLL SDL_Texture* SDLite_Sprite_GetSDLTexture(const SDLite_Sprite *sprite);
+SDLite_API SDL_Texture* SDLite_Sprite_GetSDLTexture(const SDLite_Sprite *sprite);
 
 /*
     Sets the SDLite_Texture* of the given SDLite_Sprite*. The SDLite_Texture* is used when rendering the SDLite_Sprite*
@@ -88,7 +88,7 @@ SDLite_DLL SDL_Texture* SDLite_Sprite_GetSDLTexture(const SDLite_Sprite *sprite)
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *texture);
+SDLite_API int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *texture);
 
 
 /*
@@ -98,7 +98,7 @@ SDLite_DLL int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *t
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_GetScale(const SDLite_Sprite *sprite, double *scale);
+SDLite_API int SDLite_Sprite_GetScale(const SDLite_Sprite *sprite, double *scale);
 
 /*
     Scales the width and height of the render_rect relative to the original width and height when the sprite was created
@@ -108,7 +108,7 @@ SDLite_DLL int SDLite_Sprite_GetScale(const SDLite_Sprite *sprite, double *scale
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_SetScale(SDLite_Sprite *sprite, double new_scale);
+SDLite_API int SDLite_Sprite_SetScale(SDLite_Sprite *sprite, double new_scale);
 
 
 
@@ -119,7 +119,7 @@ SDLite_DLL int SDLite_Sprite_SetScale(SDLite_Sprite *sprite, double new_scale);
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_GetAngle(const SDLite_Sprite *sprite, double *angle);
+SDLite_API int SDLite_Sprite_GetAngle(const SDLite_Sprite *sprite, double *angle);
 
 
 /*
@@ -130,7 +130,7 @@ SDLite_DLL int SDLite_Sprite_GetAngle(const SDLite_Sprite *sprite, double *angle
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_SetAngle(SDLite_Sprite *sprite, double angle);
+SDLite_API int SDLite_Sprite_SetAngle(SDLite_Sprite *sprite, double angle);
 
 
 /*
@@ -140,7 +140,7 @@ SDLite_DLL int SDLite_Sprite_SetAngle(SDLite_Sprite *sprite, double angle);
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_GetPivotPoint(const SDLite_Sprite *sprite, SDL_FPoint *pivot_point);
+SDLite_API int SDLite_Sprite_GetPivotPoint(const SDLite_Sprite *sprite, SDL_FPoint *pivot_point);
 
 /*
     Sets the pivot_point of the SDLite_Sprite*
@@ -150,7 +150,7 @@ SDLite_DLL int SDLite_Sprite_GetPivotPoint(const SDLite_Sprite *sprite, SDL_FPoi
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_SetPivotPoint(SDLite_Sprite *sprite, SDL_FPoint pivot_point);
+SDLite_API int SDLite_Sprite_SetPivotPoint(SDLite_Sprite *sprite, SDL_FPoint pivot_point);
 
 
 /*
@@ -160,7 +160,7 @@ SDLite_DLL int SDLite_Sprite_SetPivotPoint(SDLite_Sprite *sprite, SDL_FPoint piv
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_GetFlipMode(const SDLite_Sprite *sprite, SDL_FlipMode *flip_mode);
+SDLite_API int SDLite_Sprite_GetFlipMode(const SDLite_Sprite *sprite, SDL_FlipMode *flip_mode);
 
 
 /*
@@ -171,7 +171,7 @@ SDLite_DLL int SDLite_Sprite_GetFlipMode(const SDLite_Sprite *sprite, SDL_FlipMo
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_SetFlipMode(SDLite_Sprite *sprite, SDL_FlipMode flip_mode);
+SDLite_API int SDLite_Sprite_SetFlipMode(SDLite_Sprite *sprite, SDL_FlipMode flip_mode);
 
 
 /*
@@ -181,7 +181,7 @@ SDLite_DLL int SDLite_Sprite_SetFlipMode(SDLite_Sprite *sprite, SDL_FlipMode fli
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_Get_RenderRect(const SDLite_Sprite *sprite, SDL_FRect *render_rect);
+SDLite_API int SDLite_Sprite_Get_RenderRect(const SDLite_Sprite *sprite, SDL_FRect *render_rect);
 
 
 
@@ -193,7 +193,7 @@ SDLite_DLL int SDLite_Sprite_Get_RenderRect(const SDLite_Sprite *sprite, SDL_FRe
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_Set_Position(SDLite_Sprite *sprite, SDL_FPoint position);
+SDLite_API int SDLite_Sprite_Set_Position(SDLite_Sprite *sprite, SDL_FPoint position);
 
 
 
@@ -220,7 +220,7 @@ SDLite_DLL int SDLite_Sprite_Set_Position(SDLite_Sprite *sprite, SDL_FPoint posi
     returns SDLite_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL SDLite_Sprite* SDLite_Create_AnimatedSprite(
+SDLite_API SDLite_Sprite* SDLite_Create_AnimatedSprite(
     const SDLite_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 
@@ -234,7 +234,7 @@ SDLite_DLL SDLite_Sprite* SDLite_Create_AnimatedSprite(
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint32_t animation_capacity);
+SDLite_API int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint32_t animation_capacity);
 
 
 /*
@@ -243,7 +243,7 @@ SDLite_DLL int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames, uint16_t amount_frames, double fps, uint16_t animation_index);
+SDLite_API int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FRect *frames, uint16_t amount_frames, double fps, uint16_t animation_index);
 
 /*
     Updates frames of an animation, must be called once per frame for animations to work
@@ -251,7 +251,7 @@ SDLite_DLL int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, SDL_FR
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL int SDLite_Sprite_UpdateAnimation(const SDLite_Sprite *animated_sprite, SDLite_Time *time);
+SDLite_API int SDLite_Sprite_UpdateAnimation(const SDLite_Sprite *animated_sprite, SDLite_Time *time);
 
 /*
     Selects an animation within the SDLite_Sprite
@@ -261,7 +261,7 @@ SDLite_DLL int SDLite_Sprite_UpdateAnimation(const SDLite_Sprite *animated_sprit
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index);
+SDLite_API int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index);
 
 
 /*
@@ -276,7 +276,7 @@ SDLite_DLL int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uin
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_SetPlayAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool play);
+SDLite_API int SDLite_Sprite_SetPlayAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool play);
 
 
 
@@ -289,7 +289,7 @@ SDLite_DLL int SDLite_Sprite_SetPlayAnimation(const SDLite_Sprite *animated_spri
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_SetLoopAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool loop);
+SDLite_API int SDLite_Sprite_SetLoopAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool loop);
 
 
 
@@ -300,7 +300,7 @@ SDLite_DLL int SDLite_Sprite_SetLoopAnimation(const SDLite_Sprite *animated_spri
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_EnableAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
+SDLite_API int SDLite_Sprite_EnableAnimation(const SDLite_Sprite *animated_sprite, uint16_t animation_index, bool enabled);
 
 
 
@@ -316,7 +316,7 @@ SDLite_DLL int SDLite_Sprite_EnableAnimation(const SDLite_Sprite *animated_sprit
     returns SDLite_Sprite* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL SDLite_Sprite* SDLite_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled);
+SDLite_API SDLite_Sprite* SDLite_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is_filled);
 
 
 
@@ -328,7 +328,7 @@ SDLite_DLL SDLite_Sprite* SDLite_Create_RectSprite(SDL_FRect rect, SDL_Color col
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_Sprite_SetRectColor(SDLite_Sprite *rect_sprite, SDL_Color color);
+SDLite_API int SDLite_Sprite_SetRectColor(SDLite_Sprite *rect_sprite, SDL_Color color);
 
 
 

@@ -28,14 +28,14 @@ typedef struct SDLite_Display SDLite_Display;
     returns SDLite_Display* for success, returns NULL for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag);
+SDLite_API SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag);
 
 /*
     Frees a SDLite_Display 
 
     Will return early if SDLite_Display is NULL
 */
-SDLite_DLL void SDLite_DestroyDisplay(SDLite_Display *display);
+SDLite_API void SDLite_DestroyDisplay(SDLite_Display *display);
 
 /*
     Clears all rendered objects (SDLite_Sprite, SDLite_Text) from the SDLite_Display,
@@ -43,7 +43,7 @@ SDLite_DLL void SDLite_DestroyDisplay(SDLite_Display *display);
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_DisplayClear(SDLite_Display *display);
+SDLite_API int SDLite_DisplayClear(SDLite_Display *display);
 
 
 /*
@@ -52,7 +52,7 @@ SDLite_DLL int SDLite_DisplayClear(SDLite_Display *display);
 
     returns 0 for success, returns 1 for failure
 */
-SDLite_DLL int SDLite_DisplayPresent(SDLite_Display *display);
+SDLite_API int SDLite_DisplayPresent(SDLite_Display *display);
 
 
 /*
@@ -61,7 +61,7 @@ SDLite_DLL int SDLite_DisplayPresent(SDLite_Display *display);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height);
+SDLite_API int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height);
 
 
 /*
@@ -71,7 +71,7 @@ SDLite_DLL int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL int SDLite_DisplaySetFullscreen(SDLite_Display *display);
+SDLite_API int SDLite_DisplaySetFullscreen(SDLite_Display *display);
 
 
 /*
@@ -82,7 +82,7 @@ SDLite_DLL int SDLite_DisplaySetFullscreen(SDLite_Display *display);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDLite_DLL int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h);
+SDLite_API int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h);
 
 
 /*
@@ -93,7 +93,7 @@ SDLite_DLL int SDLite_Display_GetSize(SDLite_Display *display, int *w, int *h);
 
     returns SDL_Renderer* on success, returns NULL on failure
 */
-SDLite_DLL SDL_Renderer* SDLite_Display_GetSDLRenderer(const SDLite_Display *display);
+SDLite_API SDL_Renderer* SDLite_Display_GetSDLRenderer(const SDLite_Display *display);
 
 
 /*
@@ -104,7 +104,7 @@ SDLite_DLL SDL_Renderer* SDLite_Display_GetSDLRenderer(const SDLite_Display *dis
 
     returns SDL_Window* on success, returns NULL on failure
 */
-SDLite_DLL SDL_Window* SDLite_Display_GetSDLWindow(const SDLite_Display *display);
+SDLite_API SDL_Window* SDLite_Display_GetSDLWindow(const SDLite_Display *display);
 
 
 /*
@@ -115,7 +115,7 @@ SDLite_DLL SDL_Window* SDLite_Display_GetSDLWindow(const SDLite_Display *display
 
     returns TTF_TextEngine* on success, returns NULL on failure
 */
-SDLite_DLL TTF_TextEngine* SDLite_Display_GetTTFTextEngine(const SDLite_Display *display);
+SDLite_API TTF_TextEngine* SDLite_Display_GetTTFTextEngine(const SDLite_Display *display);
 
 
 /*
@@ -126,7 +126,7 @@ SDLite_DLL TTF_TextEngine* SDLite_Display_GetTTFTextEngine(const SDLite_Display 
 
     returns SDL_WindowFlags on success, returns 0 on failure
 */
-SDLite_DLL SDL_WindowFlags SDLite_Display_GetWindowFlags(const SDLite_Display *display);
+SDLite_API SDL_WindowFlags SDLite_Display_GetWindowFlags(const SDLite_Display *display);
 
 
 

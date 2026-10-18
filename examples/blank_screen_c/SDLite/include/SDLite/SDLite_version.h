@@ -25,7 +25,7 @@ extern "C"{
 
     returns early if any pointer is NULL
 */
-SDLite_DLL void SDLite_Get_Version(int *major, int *minor, int *micro);
+SDLite_API void SDLite_Get_Version(int *major, int *minor, int *micro);
 
 #ifdef __cplusplus
 }

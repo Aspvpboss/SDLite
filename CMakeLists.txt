@@ -7,10 +7,13 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_C_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libraries by default" FORCE)
 set(SDL_SHARED OFF CACHE BOOL "Disable SDL shared library build" FORCE)
 set(SDL_STATIC ON  CACHE BOOL "Enable SDL static library build" FORCE)
+
 
 include(FetchContent)
 FetchContent_Declare(
@@ -157,6 +160,7 @@ target_link_libraries(SDLite
     PRIVATE
         "$<LINK_LIBRARY:WHOLE_ARCHIVE,SDL3::SDL3-static,SDL3_image::SDL3_image-static,SDL3_mixer::SDL3_mixer-static,SDL3_ttf::SDL3_ttf-static>"
 )
+
 
 # ================= Installation & Packaging =================
 include(GNUInstallDirs)
