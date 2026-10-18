@@ -124,14 +124,6 @@ SDLite_Text* SDLite_CreateText(
         return NULL;
     }
 
-    int w, h;
-
-    if(!TTF_GetTextSize(text->text, &w,  &h)){
-        TTF_DestroyText(text->text);
-        t_free(text);
-        return NULL;
-    }
-
     ref_font->refs += 1;
 
     return text;

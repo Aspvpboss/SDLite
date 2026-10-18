@@ -118,7 +118,7 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
     
     switch(sprite->sprite_type){
 
-        case(SDLite_ANIMATED_SPRITE):
+        case(SDLite_ANIMATED_SPRITE): {
 
             SDLite_AnimatedSprite_Data *a_data = (SDLite_AnimatedSprite_Data*)sprite->data;
 
@@ -134,8 +134,9 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
             if(!texture) return 1;
             
             break;
+        }
 
-        case(SDLite_STATIC_SPRITE):
+        case(SDLite_STATIC_SPRITE): {
 
             SDLite_StaticSprite_Data *s_data = (SDLite_StaticSprite_Data*)sprite->data;
 
@@ -144,8 +145,9 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
             if(!texture) return 1;
             
             break;
+        }
 
-        case(SDLite_RECT_SPRITE):
+        case(SDLite_RECT_SPRITE): {
 
             SDLite_RectSprite_Data *r_data = (SDLite_RectSprite_Data *)sprite->data;
 
@@ -164,6 +166,7 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
             if(!SDL_SetRenderDrawColor(display->renderer, 0, 0, 0, 0)) return 1;
 
             return 0;
+        }
 
         default: return 1;
     }

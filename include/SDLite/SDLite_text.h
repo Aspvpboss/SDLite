@@ -16,10 +16,6 @@ extern "C" {
 #include "SDLite/common_libs.h"
 #include "SDLite/SDLite_display.h"
 
-/*
-    These functions should only be called on the thread that created the SDLite_Text
-*/
-typedef struct SDLite_Text SDLite_Text;
 
 /*
     Light abstraction over TTF_Font*
@@ -83,10 +79,15 @@ SDLite_API int SDLite_Text_Font_SetFontSize(SDLite_Text_Font *font, float font_s
 SDLite_API int SDLite_Text_Font_GetFontSize(const SDLite_Text_Font *font, float *font_size);
 
 
+
+/*
+    These functions should only be called on the thread that created the SDLite_Text
+*/
+typedef struct SDLite_Text SDLite_Text;
+
 /*
     Creates a SDLite_Text*, this must be freed using SDLite_DestroyText()
 
-    You can pass NULL into 'const char *font_path' and 'const char *display_text'.
     If the display_text is NULL, it will just set the string to be "" 
 
     returns SDLite_Text* for success, NULL for failure
