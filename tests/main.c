@@ -187,7 +187,6 @@ int main(){
     SDLite_Sprite_AddAnimation(player, frames, num_frames, num_frames, IDLE_ANIMATION);
     SDLite_Sprite_SetLoopAnimation(player, IDLE_ANIMATION, true);
     SDLite_Sprite_EnableAnimation(player, IDLE_ANIMATION, true);
-    // player->flip_mode = SDL_FLIP_HORIZONTAL;
 
     
     SDLite_Sprite *square = SDLite_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){10.0f, 0.0f}, (SDL_FRect){0.0f, 0.0f, 400.0f, 400.0f});
