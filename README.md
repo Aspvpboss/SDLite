@@ -100,7 +100,7 @@ sudo cmake --install build
 sudo ldconfig  # update dynamic linker cache for libmemtrack.so
 ```
 
-To install on windows (needs admin privilages)
+To install on windows (may need admin privilages)
 ```bash
 cmake --install build
 # or 
