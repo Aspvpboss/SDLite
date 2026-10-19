@@ -160,7 +160,9 @@ TTF_Font* SDLite_Text_GetTTFFont(const SDLite_Text *text){
 int SDLite_Text_SetFont(SDLite_Text *text, SDLite_Text_Font *new_font){
 
     if(!text || !new_font) return 1;
-    
+
+    if(text->ref_font == new_font) return 1;
+
     if(!TTF_SetTextFont(text->text, new_font->font)){
         return 1;
     }

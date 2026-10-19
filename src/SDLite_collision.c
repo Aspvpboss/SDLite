@@ -13,10 +13,10 @@ int SDLite_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point){
     
     if(!rect || !point) return -1;
 
-    if(rect->x + rect->w <= point->x) return 0;
-    if(rect->y + rect->h <= point->y) return 0;
-    if(point->x <= rect->x) return 0;
-    if(point->y <= rect->y) return 0;
+    if(rect->x + rect->w < point->x) return 0;
+    if(rect->y + rect->h < point->y) return 0;
+    if(point->x < rect->x) return 0;
+    if(point->y < rect->y) return 0;
 
     return 1;
 }

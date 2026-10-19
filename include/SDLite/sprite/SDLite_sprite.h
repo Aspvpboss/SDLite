@@ -62,6 +62,8 @@ SDLite_API void SDLite_DestroySprite(SDLite_Sprite *sprite);
 /*
     Renders a sprite onto the display
 
+    If rendering a Rect sprite, the renderer color will be set to black after rendering
+
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */

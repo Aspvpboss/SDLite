@@ -48,7 +48,7 @@ SDLite_Sprite* SDLite_Create_StaticSprite(const SDLite_Display *display, const c
     data->base_height = src_rect.h;
     data->src_rect = src_rect;
 
-    sprite->pivot_point = sprite_pos;
+    sprite->pivot_point = (SDL_FPoint){src_rect.w, src_rect.h};
     sprite->angle = 0.0f;
     sprite->scale = 1.0f;
     sprite->flip_mode = SDL_FLIP_NONE;
@@ -67,6 +67,7 @@ int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *texture){
 
     if(sprite->sprite_type == SDLite_STATIC_SPRITE){
         SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
+        if(data == texture) return 1;
         if(data->texture) SDLite_DestroyTexture(&data->texture);
         data->texture = texture;
         texture->refs++;
@@ -75,6 +76,7 @@ int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *texture){
 
     if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
         SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
+        if(data == texture) return 1;
         if(data->texture) SDLite_DestroyTexture(&data->texture);
         data->texture = texture;
         texture->refs++; 
