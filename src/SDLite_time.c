@@ -158,7 +158,7 @@ int SDLite_CalculateFPS(SDLite_Time *time){
 int SDLite_LimitFPS(SDLite_Time *time){
 
     if(!time || time->fps_limit == 0.0f) return 1;
-    if(time->fps_limit < 0.0f) return 0;
+    if(time->fps_limit <= 0.0f) return 0;
 
 
     double target_delta_time = (1.0 / time->fps_limit); 
