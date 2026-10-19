@@ -1,1 +1,7 @@
 Bugs:
+* fix misc edge case bugs with animated sprites
+* divide by 0 bug in time.c somewhere
+
+Possible Features:
+* assets manager
+* SDLite_GetError and SDLite_SetError (for better error handling and reasons why) 
