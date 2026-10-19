@@ -28,6 +28,8 @@ This framework is intended to be a **generic SDL helper library**, slightly tail
 
 * CMake
 * C & C++ compiler
+* nasm
+* any SDL3 and SDL3 sat lib deps
 
 CMake pulls the SDL3, SDL3_image, SDL3_mixer, and SDL3_ttf source code when compiling the library
 
@@ -83,6 +85,12 @@ Run these after building the library
 ./build/tests/test_debugSDLite
 ```
 
+### Packaging the library
+```
+cd build
+cpack
+```
+
 ### Install System-Wide (or User-Wide)
 To install system-wide on Linux (e.g. Fedora):
 ```bash
@@ -90,9 +98,11 @@ sudo cmake --install build
 sudo ldconfig  # update dynamic linker cache for libmemtrack.so
 ```
 
-To install on windows
+To install on windows (needs admin privilages)
 ```bash
 cmake --install build
+# or 
+cmake --install build --prefix desired_install_path
 ```
 
 ##
