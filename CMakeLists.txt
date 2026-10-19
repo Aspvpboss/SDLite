@@ -16,6 +16,7 @@ set(SDL_SHARED OFF CACHE BOOL "Disable SDL shared library build" FORCE)
 set(SDL_STATIC ON  CACHE BOOL "Enable SDL static library build" FORCE)
 
 
+
 include(FetchContent)
 FetchContent_Declare(
     SDL3
@@ -124,6 +125,16 @@ else()
     target_compile_options(debugSDLite PRIVATE -O0 -g -Wall -Wpedantic)
 endif()
 
+# statically link 'libgcc_s_seh-1.dll' and 'libwinpthread-1.dll' into exe for windows support
+if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_link_options(debugSDLite PRIVATE 
+        -static 
+        -static-libgcc 
+        -static-libstdc++
+    )
+endif()
+
+
 target_link_libraries(debugSDLite
     PRIVATE
         "$<LINK_LIBRARY:WHOLE_ARCHIVE,SDL3::SDL3-static,SDL3_image::SDL3_image-static,SDL3_mixer::SDL3_mixer-static,SDL3_ttf::SDL3_ttf-static>"
@@ -160,6 +171,16 @@ if(MSVC)
 else()
     target_compile_options(SDLite PRIVATE -O3 -Wall -Wpedantic)
 endif()
+
+# statically link 'libgcc_s_seh-1.dll' and 'libwinpthread-1.dll' into exe for windows support
+if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_link_options(SDLite PRIVATE 
+        -static 
+        -static-libgcc 
+        -static-libstdc++
+    )
+endif()
+
 
 target_link_libraries(SDLite
     PRIVATE
