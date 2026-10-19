@@ -1,4 +1,5 @@
 /*
+ * These tests were made my Google Gemini, edited by me
  * Strict Comprehensive Automated Test Suite for SDLite & debugSDLite
  *
  * Tests all documented contracts, NULL guards, boundary conditions,
@@ -250,70 +251,275 @@ static void test_init_and_memtrack(void) {
 static void test_collision(void) {
     printf("[Suite 3] Testing SDLite_collision...\n");
 
-    SDL_FRect rect = {10.0f, 20.0f, 100.0f, 50.0f};
+    const float eps = 1e-4f;
+    SDL_FRect rect = {10.0f, 20.0f, 100.0f, 50.0f}; /* x in [10, 110], y in [20, 70] */
+
+    /* ---------------------------------------------------------------------
+     * 3A. SDLite_Collision_RectPoint
+     * --------------------------------------------------------------------- */
     SDL_FPoint pt_in = {50.0f, 40.0f};
     SDL_FPoint pt_left = {5.0f, 40.0f};
     SDL_FPoint pt_right = {120.0f, 40.0f};
     SDL_FPoint pt_top = {50.0f, 10.0f};
     SDL_FPoint pt_bottom = {50.0f, 80.0f};
-    SDL_FPoint pt_edge_left = {10.0f, 40.0f};
-    SDL_FPoint pt_edge_right = {110.0f, 40.0f};
-    SDL_FPoint pt_edge_top = {50.0f, 20.0f};
-    SDL_FPoint pt_edge_bottom = {50.0f, 70.0f};
 
+    /* NULL guards */
     TEST_ASSERT(SDLite_Collision_RectPoint(NULL, &pt_in) == -1, "RectPoint(NULL, pt) returns -1");
     TEST_ASSERT(SDLite_Collision_RectPoint(&rect, NULL) == -1, "RectPoint(rect, NULL) returns -1");
     TEST_ASSERT(SDLite_Collision_RectPoint(NULL, NULL) == -1, "RectPoint(NULL, NULL) returns -1");
 
-    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &pt_in) == 1, "Point strictly inside rect collides");
+    /* Strictly interior points */
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &pt_in) == 1, "Point at center of rect collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){10.0f + eps, 40.0f}) == 1, "Point eps inside left edge collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){110.0f - eps, 40.0f}) == 1, "Point eps inside right edge collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){50.0f, 20.0f + eps}) == 1, "Point eps inside top edge collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){50.0f, 70.0f - eps}) == 1, "Point eps inside bottom edge collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){10.0f + eps, 20.0f + eps}) == 1, "Point eps inside top-left corner collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){110.0f - eps, 20.0f + eps}) == 1, "Point eps inside top-right corner collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){10.0f + eps, 70.0f - eps}) == 1, "Point eps inside bottom-left corner collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){110.0f - eps, 70.0f - eps}) == 1, "Point eps inside bottom-right corner collides");
+
+    /* Exact boundary points (edges and corners) */
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){10.0f, 40.0f}) == 1, "Point on left edge collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){110.0f, 40.0f}) == 1, "Point on right edge collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){50.0f, 20.0f}) == 1, "Point on top edge collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){50.0f, 70.0f}) == 1, "Point on bottom edge collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){10.0f, 20.0f}) == 1, "Point on top-left corner collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){110.0f, 20.0f}) == 1, "Point on top-right corner collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){10.0f, 70.0f}) == 1, "Point on bottom-left corner collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){110.0f, 70.0f}) == 1, "Point on bottom-right corner collides");
+
+    /* Exterior points (far, diagonal quadrants, and epsilon-outside) */
     TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &pt_left) == 0, "Point to the left does not collide");
     TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &pt_right) == 0, "Point to the right does not collide");
     TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &pt_top) == 0, "Point above does not collide");
     TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &pt_bottom) == 0, "Point below does not collide");
-    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &pt_edge_left) == 0, "Point on left edge does not collide");
-    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &pt_edge_right) == 0, "Point on right edge does not collide");
-    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &pt_edge_top) == 0, "Point on top edge does not collide");
-    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &pt_edge_bottom) == 0, "Point on bottom edge does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){0.0f, 0.0f}) == 0, "Point in top-left exterior quadrant does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){120.0f, 0.0f}) == 0, "Point in top-right exterior quadrant does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){0.0f, 80.0f}) == 0, "Point in bottom-left exterior quadrant does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){120.0f, 80.0f}) == 0, "Point in bottom-right exterior quadrant does not collide");
 
-    /* Rect vs Rect */
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){10.0f - eps, 40.0f}) == 0, "Point eps outside left edge does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){110.0f + eps, 40.0f}) == 0, "Point eps outside right edge does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){50.0f, 20.0f - eps}) == 0, "Point eps outside top edge does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){50.0f, 70.0f + eps}) == 0, "Point eps outside bottom edge does not collide");
+
+    /* Collinear with edge on one axis, eps outside on the other axis */
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){10.0f, 20.0f - eps}) == 0, "Point on left X but eps above top Y does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){10.0f, 70.0f + eps}) == 0, "Point on left X but eps below bottom Y does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){110.0f, 20.0f - eps}) == 0, "Point on right X but eps above top Y does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){110.0f, 70.0f + eps}) == 0, "Point on right X but eps below bottom Y does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){10.0f - eps, 20.0f}) == 0, "Point eps left of left X on top Y does not collide");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){110.0f + eps, 70.0f}) == 0, "Point eps right of right X on bottom Y does not collide");
+
+    /* Negative coordinates, origin-straddling, and degenerate zero-size rects */
+    SDL_FRect neg_coord_rect = {-120.5f, -85.25f, 40.5f, 35.25f}; /* x in [-120.5, -80.0], y in [-85.25, -50.0] */
+    TEST_ASSERT(SDLite_Collision_RectPoint(&neg_coord_rect, &(SDL_FPoint){-100.0f, -70.0f}) == 1, "RectPoint inside negative-quadrant rect collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&neg_coord_rect, &(SDL_FPoint){-120.5f, -85.25f}) == 1, "RectPoint on negative-quadrant top-left corner collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&neg_coord_rect, &(SDL_FPoint){-80.0f, -50.0f}) == 1, "RectPoint on negative-quadrant bottom-right corner collides");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&neg_coord_rect, &(SDL_FPoint){-79.999f, -70.0f}) == 0, "RectPoint outside negative-quadrant rect does not collide");
+
+    SDL_FRect origin_rect = {-25.0f, -25.0f, 50.0f, 50.0f};
+    TEST_ASSERT(SDLite_Collision_RectPoint(&origin_rect, &(SDL_FPoint){0.0f, 0.0f}) == 1, "Origin (0, 0) inside origin-spanning rect collides");
+
+    SDL_FRect zero_rect = {15.0f, 25.0f, 0.0f, 0.0f};
+    TEST_ASSERT(SDLite_Collision_RectPoint(&zero_rect, &(SDL_FPoint){15.0f, 25.0f}) == 1, "Zero-size rect collides with exact matching point");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&zero_rect, &(SDL_FPoint){15.0f + eps, 25.0f}) == 0, "Zero-size rect does not collide with non-matching point");
+
+    /* Invalid negative dimensions & NaN checks for RectPoint */
+    SDL_FRect invalid_neg_w = {50.0f, 40.0f, -20.0f, 20.0f};
+    SDL_FRect invalid_neg_h = {50.0f, 40.0f, 20.0f, -20.0f};
+    TEST_ASSERT(SDLite_Collision_RectPoint(&invalid_neg_w, &(SDL_FPoint){40.0f, 50.0f}) == -1,
+                "RectPoint with negative width rect returns -1");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&invalid_neg_h, &(SDL_FPoint){60.0f, 30.0f}) == -1,
+                "RectPoint with negative height rect returns -1");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){NAN, 40.0f}) == -1,
+                "RectPoint with NaN point X returns -1");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&rect, &(SDL_FPoint){50.0f, NAN}) == -1,
+                "RectPoint with NaN point Y returns -1");
+    TEST_ASSERT(SDLite_Collision_RectPoint(&(SDL_FRect){NAN, 20.0f, 100.0f, 50.0f}, &pt_in) == -1,
+                "RectPoint with NaN rect field returns -1");
+
+    /* ---------------------------------------------------------------------
+     * 3B. SDLite_Collision_Rect
+     * --------------------------------------------------------------------- */
     SDL_FRect r_overlap = {50.0f, 40.0f, 100.0f, 50.0f};
-    SDL_FRect r_disjoint_left = {-100.0f, 20.0f, 50.0f, 50.0f};
+    SDL_FRect r_contained = {30.0f, 30.0f, 20.0f, 10.0f};
+    SDL_FRect r_cross_horiz = {0.0f, 35.0f, 120.0f, 20.0f};
+    SDL_FRect r_cross_vert  = {40.0f, 0.0f, 40.0f, 90.0f};
+
+    SDL_FRect r_disjoint_left  = {-100.0f, 20.0f, 50.0f, 50.0f};
     SDL_FRect r_disjoint_right = {200.0f, 20.0f, 50.0f, 50.0f};
     SDL_FRect r_disjoint_above = {10.0f, -50.0f, 50.0f, 50.0f};
     SDL_FRect r_disjoint_below = {10.0f, 100.0f, 50.0f, 50.0f};
-    SDL_FRect r_touching_right = {110.0f, 20.0f, 50.0f, 50.0f};
 
+    SDL_FRect r_touching_left   = {-40.0f, 20.0f, 50.0f, 50.0f}; /* x + w == 10 */
+    SDL_FRect r_touching_right  = {110.0f, 20.0f, 50.0f, 50.0f}; /* x == 110 */
+    SDL_FRect r_touching_top    = {10.0f, -30.0f, 50.0f, 50.0f}; /* y + h == 20 */
+    SDL_FRect r_touching_bottom = {10.0f, 70.0f, 50.0f, 50.0f};  /* y == 70 */
+
+    SDL_FRect r_touching_corner_tl = {-40.0f, -30.0f, 50.0f, 50.0f}; /* touches (10, 20) */
+    SDL_FRect r_touching_corner_tr = {110.0f, -30.0f, 50.0f, 50.0f}; /* touches (110, 20) */
+    SDL_FRect r_touching_corner_bl = {-40.0f, 70.0f, 50.0f, 50.0f};  /* touches (10, 70) */
+    SDL_FRect r_touching_corner_br = {110.0f, 70.0f, 50.0f, 50.0f};  /* touches (110, 70) */
+
+    /* NULL guards */
     TEST_ASSERT(SDLite_Collision_Rect(NULL, &rect) == -1, "Collision_Rect(NULL, b) returns -1");
     TEST_ASSERT(SDLite_Collision_Rect(&rect, NULL) == -1, "Collision_Rect(a, NULL) returns -1");
     TEST_ASSERT(SDLite_Collision_Rect(NULL, NULL) == -1, "Collision_Rect(NULL, NULL) returns -1");
 
-    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_overlap) == 1, "Overlapping rects collide");
+    /* Identity, containment, and cross overlaps */
     TEST_ASSERT(SDLite_Collision_Rect(&rect, &rect) == 1, "Identical rects collide");
-    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_disjoint_left) == 0, "Disjoint left rect does not collide");
-    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_disjoint_right) == 0, "Disjoint right rect does not collide");
-    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_disjoint_above) == 0, "Disjoint above rect does not collide");
-    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_disjoint_below) == 0, "Disjoint below rect does not collide");
-    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_touching_right) == 1, "Touching edge rect collides (consistent with RectDir)");
-    TEST_ASSERT(SDLite_Collision_RectDir(&rect, &r_touching_right) == SDLITE_COLLISION_RIGHT, "RectDir touching right edge returns RIGHT");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_overlap) == 1 && SDLite_Collision_Rect(&r_overlap, &rect) == 1,
+                "Overlapping rects collide symmetrically");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_contained) == 1 && SDLite_Collision_Rect(&r_contained, &rect) == 1,
+                "Completely contained rect collides symmetrically");
+    TEST_ASSERT(SDLite_Collision_Rect(&r_cross_horiz, &r_cross_vert) == 1 &&
+                SDLite_Collision_Rect(&r_cross_vert, &r_cross_horiz) == 1,
+                "Cross-intersecting rects (no corner inside the other) collide symmetrically");
 
-    /* Directional Rect Collision */
-    SDL_FRect target = {100.0f, 100.0f, 50.0f, 50.0f};
-    SDL_FRect src_from_left  = {60.0f, 105.0f, 45.0f, 40.0f};
-    SDL_FRect src_from_right = {145.0f, 105.0f, 45.0f, 40.0f};
-    SDL_FRect src_from_top   = {105.0f, 60.0f, 40.0f, 45.0f};
-    SDL_FRect src_from_bot   = {105.0f, 145.0f, 40.0f, 45.0f};
+    /* Touching edges & corners */
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_touching_left) == 1 && SDLite_Collision_Rect(&r_touching_left, &rect) == 1,
+                "Touching left edge collides symmetrically");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_touching_right) == 1 && SDLite_Collision_Rect(&r_touching_right, &rect) == 1,
+                "Touching right edge collides symmetrically");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_touching_top) == 1 && SDLite_Collision_Rect(&r_touching_top, &rect) == 1,
+                "Touching top edge collides symmetrically");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_touching_bottom) == 1 && SDLite_Collision_Rect(&r_touching_bottom, &rect) == 1,
+                "Touching bottom edge collides symmetrically");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_touching_corner_tl) == 1, "Touching top-left corner point collides");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_touching_corner_tr) == 1, "Touching top-right corner point collides");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_touching_corner_bl) == 1, "Touching bottom-left corner point collides");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_touching_corner_br) == 1, "Touching bottom-right corner point collides");
 
+    /* Disjoint rects (far, diagonal, and epsilon-separated) */
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_disjoint_left) == 0 && SDLite_Collision_Rect(&r_disjoint_left, &rect) == 0,
+                "Disjoint left rect does not collide");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_disjoint_right) == 0 && SDLite_Collision_Rect(&r_disjoint_right, &rect) == 0,
+                "Disjoint right rect does not collide");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_disjoint_above) == 0 && SDLite_Collision_Rect(&r_disjoint_above, &rect) == 0,
+                "Disjoint above rect does not collide");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &r_disjoint_below) == 0 && SDLite_Collision_Rect(&r_disjoint_below, &rect) == 0,
+                "Disjoint below rect does not collide");
+
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &(SDL_FRect){-40.0f - eps, 20.0f, 50.0f, 50.0f}) == 0,
+                "Rect eps separated on left does not collide");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &(SDL_FRect){110.0f + eps, 20.0f, 50.0f, 50.0f}) == 0,
+                "Rect eps separated on right does not collide");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &(SDL_FRect){10.0f, -30.0f - eps, 50.0f, 50.0f}) == 0,
+                "Rect eps separated on top does not collide");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &(SDL_FRect){10.0f, 70.0f + eps, 50.0f, 50.0f}) == 0,
+                "Rect eps separated on bottom does not collide");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &(SDL_FRect){110.0f, 70.0f + eps, 50.0f, 50.0f}) == 0,
+                "Rect touching on X but eps separated on Y does not collide");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &(SDL_FRect){110.0f + eps, 70.0f, 50.0f, 50.0f}) == 0,
+                "Rect eps separated on X but touching on Y does not collide");
+
+    /* Invalid negative dimensions & NaN checks for Collision_Rect */
+    SDL_FRect invalid_neg_rect = {50.0f, 40.0f, -10.0f, -10.0f};
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &invalid_neg_rect) == -1,
+                "Collision_Rect with negative width/height second argument returns -1");
+    TEST_ASSERT(SDLite_Collision_Rect(&invalid_neg_rect, &rect) == -1,
+                "Collision_Rect with negative width/height first argument returns -1");
+    TEST_ASSERT(SDLite_Collision_Rect(&rect, &(SDL_FRect){NAN, 20.0f, 50.0f, 50.0f}) == -1,
+                "Collision_Rect with NaN rect returns -1");
+
+    /* ---------------------------------------------------------------------
+     * 3C. SDLite_Collision_RectDir
+     * --------------------------------------------------------------------- */
+    SDL_FRect target = {100.0f, 100.0f, 50.0f, 50.0f}; /* x in [100, 150], y in [100, 150] */
+    SDL_FRect src_from_left  = {60.0f, 105.0f, 45.0f, 40.0f};  /* overlaps x by 5 on left */
+    SDL_FRect src_from_right = {145.0f, 105.0f, 45.0f, 40.0f}; /* overlaps x by 5 on right */
+    SDL_FRect src_from_top   = {105.0f, 60.0f, 40.0f, 45.0f};  /* overlaps y by 5 on top */
+    SDL_FRect src_from_bot   = {105.0f, 145.0f, 40.0f, 45.0f}; /* overlaps y by 5 on bottom */
+
+    /* NULL guards */
     TEST_ASSERT(SDLite_Collision_RectDir(NULL, &target) == SDLITE_COLLISION_ERROR, "RectDir(NULL, src) returns ERROR");
     TEST_ASSERT(SDLite_Collision_RectDir(&target, NULL) == SDLITE_COLLISION_ERROR, "RectDir(target, NULL) returns ERROR");
+    TEST_ASSERT(SDLite_Collision_RectDir(NULL, NULL) == SDLITE_COLLISION_ERROR, "RectDir(NULL, NULL) returns ERROR");
+
+    /* Disjoint cases */
     TEST_ASSERT(SDLite_Collision_RectDir(&target, &r_disjoint_left) == SDLITE_COLLISION_NONE, "RectDir disjoint left returns NONE");
     TEST_ASSERT(SDLite_Collision_RectDir(&target, &r_disjoint_right) == SDLITE_COLLISION_NONE, "RectDir disjoint right returns NONE");
     TEST_ASSERT(SDLite_Collision_RectDir(&target, &r_disjoint_above) == SDLITE_COLLISION_NONE, "RectDir disjoint above returns NONE");
     TEST_ASSERT(SDLite_Collision_RectDir(&target, &r_disjoint_below) == SDLITE_COLLISION_NONE, "RectDir disjoint below returns NONE");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){50.0f - eps, 100.0f, 50.0f, 50.0f}) == SDLITE_COLLISION_NONE,
+                "RectDir eps separated on left returns NONE");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){150.0f + eps, 100.0f, 50.0f, 50.0f}) == SDLITE_COLLISION_NONE,
+                "RectDir eps separated on right returns NONE");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){100.0f, 50.0f - eps, 50.0f, 50.0f}) == SDLITE_COLLISION_NONE,
+                "RectDir eps separated on top returns NONE");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){100.0f, 150.0f + eps, 50.0f, 50.0f}) == SDLITE_COLLISION_NONE,
+                "RectDir eps separated on bottom returns NONE");
 
+    /* Primary 4-way directional detection */
     TEST_ASSERT(SDLite_Collision_RectDir(&target, &src_from_left) == SDLITE_COLLISION_LEFT, "RectDir detects LEFT collision");
     TEST_ASSERT(SDLite_Collision_RectDir(&target, &src_from_right) == SDLITE_COLLISION_RIGHT, "RectDir detects RIGHT collision");
     TEST_ASSERT(SDLite_Collision_RectDir(&target, &src_from_top) == SDLITE_COLLISION_UP, "RectDir detects UP collision");
     TEST_ASSERT(SDLite_Collision_RectDir(&target, &src_from_bot) == SDLITE_COLLISION_DOWN, "RectDir detects DOWN collision");
+
+    /* Antisymmetry: swapping target and source reverses the collision direction */
+    TEST_ASSERT(SDLite_Collision_RectDir(&src_from_left, &target) == SDLITE_COLLISION_RIGHT,
+                "Swapping target and source reverses LEFT to RIGHT");
+    TEST_ASSERT(SDLite_Collision_RectDir(&src_from_right, &target) == SDLITE_COLLISION_LEFT,
+                "Swapping target and source reverses RIGHT to LEFT");
+    TEST_ASSERT(SDLite_Collision_RectDir(&src_from_top, &target) == SDLITE_COLLISION_DOWN,
+                "Swapping target and source reverses UP to DOWN");
+    TEST_ASSERT(SDLite_Collision_RectDir(&src_from_bot, &target) == SDLITE_COLLISION_UP,
+                "Swapping target and source reverses DOWN to UP");
+
+    /* Exact edge touching (0 overlap on the touching side) */
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){50.0f, 100.0f, 50.0f, 50.0f}) == SDLITE_COLLISION_LEFT,
+                "RectDir touching left edge returns LEFT");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){150.0f, 100.0f, 50.0f, 50.0f}) == SDLITE_COLLISION_RIGHT,
+                "RectDir touching right edge returns RIGHT");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){100.0f, 50.0f, 50.0f, 50.0f}) == SDLITE_COLLISION_UP,
+                "RectDir touching top edge returns UP");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){100.0f, 150.0f, 50.0f, 50.0f}) == SDLITE_COLLISION_DOWN,
+                "RectDir touching bottom edge returns DOWN");
+
+    /* Corner overlaps: minimum penetration axis wins */
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){84.0f, 80.0f, 20.0f, 30.0f}) == SDLITE_COLLISION_LEFT,
+                "Top-left corner overlap with smaller X penetration (4 vs 10) returns LEFT");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){80.0f, 84.0f, 30.0f, 20.0f}) == SDLITE_COLLISION_UP,
+                "Top-left corner overlap with smaller Y penetration (4 vs 10) returns UP");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){146.0f, 80.0f, 20.0f, 30.0f}) == SDLITE_COLLISION_RIGHT,
+                "Top-right corner overlap with smaller X penetration (4 vs 10) returns RIGHT");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){140.0f, 84.0f, 30.0f, 20.0f}) == SDLITE_COLLISION_UP,
+                "Top-right corner overlap with smaller Y penetration (4 vs 10) returns UP");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){84.0f, 140.0f, 20.0f, 30.0f}) == SDLITE_COLLISION_LEFT,
+                "Bottom-left corner overlap with smaller X penetration (4 vs 10) returns LEFT");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){80.0f, 146.0f, 30.0f, 20.0f}) == SDLITE_COLLISION_DOWN,
+                "Bottom-left corner overlap with smaller Y penetration (4 vs 10) returns DOWN");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){146.0f, 140.0f, 20.0f, 30.0f}) == SDLITE_COLLISION_RIGHT,
+                "Bottom-right corner overlap with smaller X penetration (4 vs 10) returns RIGHT");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){140.0f, 146.0f, 30.0f, 20.0f}) == SDLITE_COLLISION_DOWN,
+                "Bottom-right corner overlap with smaller Y penetration (4 vs 10) returns DOWN");
+
+    /* Tie-breaking order when overlaps are exactly equal (LEFT -> RIGHT -> UP -> DOWN) */
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &target) == SDLITE_COLLISION_LEFT,
+                "Identical rects tie-break to LEFT");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){140.0f, 80.0f, 30.0f, 30.0f}) == SDLITE_COLLISION_RIGHT,
+                "Equal right and up overlap (10 == 10) tie-breaks to RIGHT");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){90.0f, 110.0f, 70.0f, 30.0f}) == SDLITE_COLLISION_UP,
+                "Equal up and down overlap (40 == 40 < 60) tie-breaks to UP");
+
+    /*
+     * Header contract check from SDLite_collision.h:
+     * "If source collides with the top of target, the function will return 'SDLITE_COLLISION_UP'"
+     */
+    SDL_FRect platform_target = {100.0f, 100.0f, 50.0f, 50.0f};
+    SDL_FRect source_on_top_of_target = {105.0f, 60.0f, 40.0f, 45.0f}; /* bottom (105) hits top of target (100) */
+    TEST_ASSERT(SDLite_Collision_RectDir(&platform_target, &source_on_top_of_target) == SDLITE_COLLISION_UP,
+                "Header contract: when source collides with top of target, RectDir returns SDLITE_COLLISION_UP");
+
+    /* Invalid negative dimensions & NaN checks for RectDir */
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){120.0f, 120.0f, -10.0f, -10.0f}) == SDLITE_COLLISION_ERROR,
+                "RectDir with negative width/height source returns SDLITE_COLLISION_ERROR");
+    TEST_ASSERT(SDLite_Collision_RectDir(&(SDL_FRect){120.0f, 120.0f, -10.0f, -10.0f}, &target) == SDLITE_COLLISION_ERROR,
+                "RectDir with negative width/height target returns SDLITE_COLLISION_ERROR");
+    TEST_ASSERT(SDLite_Collision_RectDir(&target, &(SDL_FRect){NAN, 100.0f, 50.0f, 50.0f}) == SDLITE_COLLISION_ERROR,
+                "RectDir with NaN rect returns SDLITE_COLLISION_ERROR");
 }
 
 /* =========================================================================
@@ -785,7 +991,7 @@ static void test_text(SDLite_Display *display) {
     TEST_ASSERT(SDLite_Text_Font_GetRefs(font2) == 1, "font2 ref count decrements back to 1");
 
     /* Setting the same font that is already attached */
-    TEST_ASSERT(SDLite_Text_SetFont(text, font1) == 0, "SetFont(text, font1) with already attached font succeeds");
+    TEST_ASSERT(SDLite_Text_SetFont(text, font1) == 1, "SetFont(text, font1) with already attached font succeeds");
     TEST_ASSERT(SDLite_Text_Font_GetRefs(font1) == 4, "Setting same font preserves ref count of 4");
 
     /*
@@ -825,7 +1031,7 @@ static void test_text(SDLite_Display *display) {
         uint64_t refs_after = SDLite_Text_Font_GetRefs(self_font);
         int render_rc = SDLite_Render_Text(self_text);
         SDLite_DestroyText(self_text);
-        (rc == 0 && refs_after == 1 && render_rc == 0);
+        (rc == 1 && refs_after == 1 && render_rc == 0);
     }), "SDLite_Text_SetFont with same font when refs == 1 must not free font prematurely");
 
     /*

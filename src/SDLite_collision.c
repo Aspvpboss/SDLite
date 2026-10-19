@@ -7,11 +7,27 @@
 
 #include "SDLite/SDLite_collision.h"
 
+static bool is_valid_rect(const SDL_FRect *rect){
+    if(!rect) return false;
+    if(SDL_isnanf(rect->x) || SDL_isnanf(rect->y) || SDL_isnanf(rect->w) || SDL_isnanf(rect->h))
+        return false;
+    if(rect->w < 0.0f || rect->h < 0.0f)
+        return false;
+    return true;
+}
+
+static bool is_valid_point(const SDL_FPoint *point){
+    if(!point) return false;
+    if(SDL_isnanf(point->x) || SDL_isnanf(point->y))
+        return false;
+    return true;
+}
+
 
 
 int SDLite_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point){
     
-    if(!rect || !point) return -1;
+    if(!is_valid_rect(rect) || !is_valid_point(point)) return -1;
 
     if(rect->x + rect->w < point->x) return 0;
     if(rect->y + rect->h < point->y) return 0;
@@ -25,7 +41,7 @@ int SDLite_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point){
 
 int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b){
 
-    if(!a || !b) return -1;
+    if(!is_valid_rect(a) || !is_valid_rect(b)) return -1;
 
     if(a->x + a->w < b->x) return 0; 
     if(a->x > b->x + b->w) return 0; 
@@ -40,7 +56,7 @@ int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b){
 
 enum SDLite_CollisionType SDLite_Collision_RectDir(const SDL_FRect *target, const SDL_FRect *source){
 
-    if(!source || !target)
+    if(!is_valid_rect(target) || !is_valid_rect(source))
         return SDLITE_COLLISION_ERROR;
 
     if(source->x + source->w < target->x) return SDLITE_COLLISION_NONE;

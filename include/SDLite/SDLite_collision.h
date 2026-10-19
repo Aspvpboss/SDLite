@@ -49,7 +49,7 @@ SDLite_API int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b);
 /*
     Checks relative collisions between SDL_Rects 'target' and 'source'
 
-    If target collides with the top of source, the function will return 'SDLite_COLLISION_UP'
+    If source collides with the top of target, the function will return 'SDLITE_COLLISION_UP'
 
     returns enum SDLite_CollisionType for success, returns SDLite_COLLISION_ERROR for failure  
 */
