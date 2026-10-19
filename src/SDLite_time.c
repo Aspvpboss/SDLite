@@ -14,17 +14,17 @@
 struct SDLite_Time{
 
     double dt;
-    bool fps_updated;
     double fps;
     double fps_limit;
 
+    double total;
+    double dt_buffer[MAX_SAMPLES];
+    double fps_update_count;
     uint64_t previous_counter;
     uint64_t counter_frequency;
     uint16_t frame;
     uint16_t collected_frames;
-    double total;
-    double dt_buffer[MAX_SAMPLES];
-    double fps_update_count;
+    bool fps_updated;
 
 };
 
