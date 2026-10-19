@@ -63,7 +63,6 @@ int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint32_t animat
 
         data->animation = t_calloc(animation_capacity, sizeof(SDLite_Animation));
         if(!data->animation) return 1;
-        memset(data->animation, 0, sizeof(SDLite_Animation) * animation_capacity);
 
     } else{
 
