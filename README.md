@@ -20,7 +20,7 @@ This framework is intended to be a **generic SDL helper library**, slightly tail
 
 ---
 
-## Screenshots
+## Screenshots & GIFs
 <img width="800" height="533" alt="output" src="https://github.com/user-attachments/assets/ea8d70fa-389c-47b1-bebd-98ec84a3f9dc" />
 <img width="800" height="672" alt="output" src="https://github.com/user-attachments/assets/1f49bbab-cc89-4e9c-ba02-7232da04c66d" />
 
