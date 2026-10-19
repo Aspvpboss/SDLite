@@ -61,7 +61,7 @@ int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint32_t animat
 
     if(data->amount_animation == 0){
 
-        data->animation = t_malloc(sizeof(SDLite_Animation) * animation_capacity);
+        data->animation = t_calloc(animation_capacity, sizeof(SDLite_Animation));
         if(!data->animation) return 1;
         memset(data->animation, 0, sizeof(SDLite_Animation) * animation_capacity);
 
@@ -101,7 +101,7 @@ int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, const SDL_FRect *
     if(animation->frames){
         t_free(animation->frames);
     }
-    animation->frames = t_malloc(sizeof(SDL_FRect) * amount_frames);
+    animation->frames = t_calloc(amount_frames, sizeof(SDL_FRect));
     if(!animation->frames) return 1;
     SDL_memcpy(animation->frames, frames, sizeof(SDL_FRect) * amount_frames); 
 
