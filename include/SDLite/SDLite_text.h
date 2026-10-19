@@ -24,7 +24,7 @@ extern "C" {
 typedef struct SDLite_Text_Font SDLite_Text_Font;
 
 /*
-    Creates a SDLite_Text_Font*, this must be freed using SDLite_Destory_Text_Font
+    Creates a SDLite_Text_Font*, this must be freed using SDLite_Destroy_Text_Font
 
     returns SDLite_Text_Font* on success, and returns NULL on failure
     Use SDL_GetError() for more error details
@@ -52,7 +52,7 @@ SDLite_API TTF_Font* SDLite_Text_Font_GetFont(const SDLite_Text_Font *font);
     Returns number of references to the SDLite_Text_Font*
 
     This function only really exists for debugging purposes. 
-    You could use this to check if a texture hasn't been freed by the end of the program
+    You could use this to check if a font hasn't been freed by the end of the program
 
     Will fail if const SDLite_Text_Font* is NULL
 

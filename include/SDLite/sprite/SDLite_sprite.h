@@ -154,7 +154,7 @@ SDLite_API int SDLite_Sprite_SetPivotPoint(SDLite_Sprite *sprite, SDL_FPoint piv
 
 
 /*
-    Fills in SDL_FPoint* with the SDL_FlipMode of the SDLite_Sprite*
+    Fills in SDL_FlipMode* with the SDL_FlipMode of the SDLite_Sprite*
 
     Will fail if SDLite_Sprite* is NULL or if SDL_FlipMode* is NULL
 
@@ -257,7 +257,7 @@ SDLite_API int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, con
 /*
     Selects an animation within the SDLite_Sprite
 
-    function will fail if 'animation_select' is greater than the amount of animations allocated in the sprite
+    function will fail if 'animation_index' is greater than or equal to the amount of animations allocated in the sprite
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
@@ -284,7 +284,7 @@ SDLite_API int SDLite_Sprite_SetPlayAnimation(SDLite_Sprite *animated_sprite, ui
 /*
     Sets the bool that loops the selected animation
     If you set the bool to true it will loop the animation
-    If you set the bool to false it will stop looping the animatio
+    If you set the bool to false it will stop looping the animation
 
     Animation will not play if it isn't enabled by SDLite_Sprite_EnableAnimation();
 

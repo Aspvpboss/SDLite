@@ -23,7 +23,7 @@ typedef struct SDLite_Input SDLite_Input;
 
 /*
     Creates a SDLite_Input
-    Access mouse_x && mouse_y for mouse coordiates
+    Use SDLite_Input_Mouse_GetPosition for mouse coordinates
 
     SDLite_Input must be freed with SDLite_DestroyInput
 
@@ -40,7 +40,7 @@ SDLite_API SDLite_Input* SDLite_CreateInput(void);
 SDLite_API void SDLite_DestroyInput(SDLite_Input *input);
 
 /*
-    returns 1 if the specified keyboard key i pressed
+    returns 1 if the specified keyboard key is pressed
 
     Function only fails if SDLite_Input* is NULL
 
@@ -116,7 +116,7 @@ SDLite_API int SDLite_Input_Poll_Mouse(SDLite_Input *input);
 /*
     Fills in values of the mouse x and y position into the int*
 
-    Functions only fails if SDLite_Input* other if either of the int* are NULL
+    Function only fails if SDLite_Input* or if either of the int* are NULL
 
     returns 0 for success, returns 1 for failure
 */

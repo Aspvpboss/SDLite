@@ -1,7 +1,7 @@
 # SDLite Version 1.3.0
 
 
-SDLite is a lightweight cross-platform C / C++ framework built on top of **SDL3** and the **SDL3 satelite libraries** (listed below), designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
+SDLite is a lightweight cross-platform C / C++ framework built on top of **SDL3** and the **SDL3 satellite libraries** (listed below), designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
 
 This framework is intended to be a **generic SDL helper library**, slightly tailored toward 2D game development.
 
@@ -44,7 +44,7 @@ CMake then statically links those libraries into the SDLite and debugSDLite shar
 All public functions are documented in their header files.  
 Additionally, the included **MemTrack** library header contains documentation for memory tracking utilities and necessary macros.
 
-See https://github.com/Aspvpboss/MemTrack for addtional docs over MemTrack
+See https://github.com/Aspvpboss/MemTrack for additional docs over MemTrack
 
 
 ## SDLite Builds
@@ -72,7 +72,7 @@ Knowing how SDL works internally will make the SDLite much easier to understand 
 
 ---
 
-## Building and Testing with Cmake
+## Building and Testing with CMake
 
 ### Build
 This builds both the debug and release version of SDLite, and packages them in the build directory
@@ -98,7 +98,7 @@ cpack
 To install system-wide on Linux (e.g. Fedora):
 ```bash
 sudo cmake --install build
-sudo ldconfig  # update dynamic linker cache for libmemtrack.so
+sudo ldconfig  # update dynamic linker cache for libSDLite.so
 ```
 
 To install on windows (may need admin privilages)
@@ -108,7 +108,7 @@ cmake --install build
 cmake --install build --prefix desired_install_path
 ```
 
-##
+---
 
 
 

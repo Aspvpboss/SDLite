@@ -141,7 +141,7 @@ SDLite_API int SDLite_CalculateFPS(SDLite_Time *time);
 /*
     This function limits the fps of the application. 
 
-    It uses 'int fps_limit' within SDLite_Time as the fps limit.
+    It uses 'double fps_limit' within SDLite_Time as the fps limit.
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
