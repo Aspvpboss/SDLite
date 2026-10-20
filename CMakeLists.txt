@@ -88,6 +88,7 @@ set(SDLITE_SOURCES
     src/SDLite_texture.c 
     src/SDLite_time.c 
     src/SDLite_version.c
+    src/SDLite_error.c
     src/sprite/SDLite_animated_sprite.c
     src/sprite/SDLite_rect_sprite.c
     src/sprite/SDLite_sprite_manager.c
