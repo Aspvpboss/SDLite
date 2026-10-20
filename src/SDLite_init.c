@@ -61,6 +61,8 @@ int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_i
 
 void SDLite_Quit(void){
 
+    if(!init) return;
+
     const char *err = NULL;
     SDLite_Reset_Get_Error_Index();
     while((err = SDLite_GetError())){
