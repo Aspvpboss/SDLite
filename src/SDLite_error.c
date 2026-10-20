@@ -21,16 +21,19 @@ int SDLite_Init_Error_Logger(){
     errors.mutex = SDL_CreateMutex();
     if(!errors.mutex) return 1;
 
+    errors.init = true;
+
     return 0;
 }
 
 void SDLite_Destroy_Error_Logger(){
     SDL_DestroyMutex(errors.mutex);
+    errors.init = false;
 }
 
 
 void SDLite_SetError(const char *err_format, ...) {
-    if(!err_format) return;
+    if(errors.init == false || !err_format) return;
 
     va_list args;
     va_start(args, err_format);
@@ -46,6 +49,7 @@ void SDLite_SetError(const char *err_format, ...) {
 
 
 const char* SDLite_GetError() {
+    if(errors.init == false) return NULL;
 
     SDL_LockMutex(errors.mutex);
 

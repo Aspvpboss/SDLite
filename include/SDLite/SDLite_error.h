@@ -16,10 +16,13 @@ extern "C" {
 #include "SDLite/common_libs.h"
 
 /*
-    Logs an error message
+    Logs an error message with the format
+    Uses normal printf string formatting
 
+    Each error log message is capped at 128 characters
+    Max of 128 errors before it stops storing themm
 */
-void SDLite_SetError(const char *err_message);
+SDLite_API void SDLite_SetError(const char *err_format, ...);
 
 /*
     Polls the internal error logger for errors
@@ -29,7 +32,7 @@ void SDLite_SetError(const char *err_message);
 
     returns const char* for success, returns NULL for no errors or failure
 */
-const char* SDLite_GetError();
+SDLite_API const char* SDLite_GetError();
 
 #ifdef __cplusplus
 }

@@ -8,8 +8,11 @@
 #include "SDLite/SDLite_init.h"
 #include "SDLite_error_internal.h"
 
+static bool init = false;
 
 int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_if_mem_error, bool auto_null_pointers){
+
+    if(init) return 1;
 
     if(!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)){
         return 1;
@@ -50,6 +53,8 @@ int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_i
         return 1;
     }
 
+    init = true;
+
     return 0;
 }
 
@@ -71,4 +76,5 @@ void SDLite_Quit(void){
 
     MemTrack_Quit();
 
+    init = false;
 }
