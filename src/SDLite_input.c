@@ -25,12 +25,14 @@ SDLite_Input* SDLite_CreateInput(void){
     
     SDLite_Input *input = t_calloc(1, sizeof(SDLite_Input));
     if(!input){
+        SDLite_SetError("Failed to allocate input handler");
         return NULL;
     }
 
     input->current_keyboard = SDL_GetKeyboardState(&input->num_keys);
     input->previous_keyboard = t_calloc(input->num_keys, sizeof(bool));
     if(input->previous_keyboard == NULL){
+        SDLite_SetError("Failed to allocate previous keyboard state");
         t_free(input);
         return NULL;
     }
@@ -60,10 +62,15 @@ void SDLite_DestroyInput(SDLite_Input *input){
 
 int SDLite_Input_Update_PrevKeyState(SDLite_Input *input){
     
-    if(!input) return 1;
-
-    if(input->current_keyboard == NULL)
+    if(!input){
+        SDLite_SetError("Input handler is NULL");
         return 1;
+    }
+
+    if(input->current_keyboard == NULL){
+        SDLite_SetError("Current keyboard state is NULL");
+        return 1;
+    }
 
     SDL_memcpy(input->previous_keyboard, input->current_keyboard, sizeof(bool) * input->num_keys);
 
@@ -75,7 +82,14 @@ int SDLite_Input_Update_PrevKeyState(SDLite_Input *input){
 
 int SDLite_Input_KeyPressed(const SDLite_Input *input, SDL_Scancode scancode){
 
-    if(!input || scancode < 0 || scancode >= input->num_keys) return -1;
+    if(!input){
+        SDLite_SetError("Input handler is NULL");
+        return -1;
+    }
+    if(scancode < 0 || scancode >= input->num_keys){
+        SDLite_SetError("Scancode %d out of bounds", (int)scancode);
+        return -1;
+    }
 
     return input->current_keyboard[scancode];
 }
@@ -85,7 +99,14 @@ int SDLite_Input_KeyPressed(const SDLite_Input *input, SDL_Scancode scancode){
 
 int SDLite_Input_KeyJustPressed(const SDLite_Input *input, SDL_Scancode scancode){
 
-    if(!input || scancode < 0 || scancode >= input->num_keys) return -1;
+    if(!input){
+        SDLite_SetError("Input handler is NULL");
+        return -1;
+    }
+    if(scancode < 0 || scancode >= input->num_keys){
+        SDLite_SetError("Scancode %d out of bounds", (int)scancode);
+        return -1;
+    }
 
     return input->current_keyboard[scancode] && !input->previous_keyboard[scancode];
 }
@@ -95,7 +116,14 @@ int SDLite_Input_KeyJustPressed(const SDLite_Input *input, SDL_Scancode scancode
 
 int SDLite_Input_KeyJustReleased(const SDLite_Input *input, SDL_Scancode scancode){
 
-    if(!input || scancode < 0 || scancode >= input->num_keys) return -1;
+    if(!input){
+        SDLite_SetError("Input handler is NULL");
+        return -1;
+    }
+    if(scancode < 0 || scancode >= input->num_keys){
+        SDLite_SetError("Scancode %d out of bounds", (int)scancode);
+        return -1;
+    }
 
     return !input->current_keyboard[scancode] && input->previous_keyboard[scancode];
 }
@@ -105,7 +133,10 @@ int SDLite_Input_KeyJustReleased(const SDLite_Input *input, SDL_Scancode scancod
 
 int SDLite_Input_Update_PrevMouseState(SDLite_Input *input){
 
-    if(!input) return 1;
+    if(!input){
+        SDLite_SetError("Input handler is NULL");
+        return 1;
+    }
     
     input->previous_mouse = input->current_mouse;
 
@@ -117,7 +148,10 @@ int SDLite_Input_Update_PrevMouseState(SDLite_Input *input){
 
 int SDLite_Input_MousePressed(const SDLite_Input *input, uint32_t SDL_MouseButtonMask){
 
-    if(!input) return -1;
+    if(!input){
+        SDLite_SetError("Input handler is NULL");
+        return -1;
+    }
 
     return (input->current_mouse & SDL_MouseButtonMask) != 0;
 }
@@ -127,7 +161,10 @@ int SDLite_Input_MousePressed(const SDLite_Input *input, uint32_t SDL_MouseButto
 
 int SDLite_Input_MouseJustPressed(const SDLite_Input *input, uint32_t SDL_MouseButtonMask){
     
-    if(!input) return -1;
+    if(!input){
+        SDLite_SetError("Input handler is NULL");
+        return -1;
+    }
 
     return ((input->current_mouse & SDL_MouseButtonMask) && !(input->previous_mouse & SDL_MouseButtonMask)) != 0;
 }
@@ -137,7 +174,10 @@ int SDLite_Input_MouseJustPressed(const SDLite_Input *input, uint32_t SDL_MouseB
 
 int SDLite_Input_MouseJustReleased(const SDLite_Input *input, uint32_t SDL_MouseButtonMask){
 
-    if(!input) return -1;
+    if(!input){
+        SDLite_SetError("Input handler is NULL");
+        return -1;
+    }
    
     return (!(input->current_mouse & SDL_MouseButtonMask) && (input->previous_mouse & SDL_MouseButtonMask)) != 0;
 }
@@ -147,7 +187,10 @@ int SDLite_Input_MouseJustReleased(const SDLite_Input *input, uint32_t SDL_Mouse
 
 int SDLite_Input_Poll_Mouse(SDLite_Input *input){
 
-    if(!input) return 1;
+    if(!input){
+        SDLite_SetError("Input handler is NULL");
+        return 1;
+    }
 
     input->current_mouse = SDL_GetMouseState(&input->mouse_pos.x, &input->mouse_pos.y);
 
@@ -158,7 +201,10 @@ int SDLite_Input_Poll_Mouse(SDLite_Input *input){
 
 int SDLite_Input_Mouse_GetPosition(const SDLite_Input *input, int *x, int *y){
 
-    if(!input || !x || !y) return 1;
+    if(!input || !x || !y){
+        SDLite_SetError("Invalid argument in SDLite_Input_Mouse_GetPosition");
+        return 1;
+    }
 
     *x = input->mouse_pos.x;
     *y = input->mouse_pos.y;

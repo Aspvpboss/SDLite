@@ -37,7 +37,7 @@ typedef struct SDLite_Time SDLite_Time;
     Will fail if fps_limit == 0.0f or if malloc fails
 
     returns SDLite_Time* for success, returns NULL for failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API SDLite_Time* SDLite_CreateTime(double fps_limit);
 
@@ -54,6 +54,7 @@ SDLite_API void SDLite_DestroyTime(SDLite_Time *time);
     Will fail if SDLite_Time* is NULL
 
     returns the fps for success, returns -1.0f for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API double SDLite_Time_GetFPS(const SDLite_Time *time);
 
@@ -63,6 +64,7 @@ SDLite_API double SDLite_Time_GetFPS(const SDLite_Time *time);
     Will fail if SDLite_Time* is NULL
 
     returns the delta time for success, returns -1.0f for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API double SDLite_Time_GetDT(const SDLite_Time *time);
 
@@ -73,6 +75,7 @@ SDLite_API double SDLite_Time_GetDT(const SDLite_Time *time);
     Will fail if SDLite_Time* is NULL
 
     returns a bool of the fps updated for success, returns false for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API bool SDLite_Time_Is_FPSUpdated(const SDLite_Time *time);
 
@@ -83,6 +86,7 @@ SDLite_API bool SDLite_Time_Is_FPSUpdated(const SDLite_Time *time);
     Will fail if SDLite_Time* is NULL
 
     returns the fps_limit for success, returns 0.0f for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API double SDLite_Time_Get_FPSLimit(const SDLite_Time *time);
 
@@ -95,6 +99,7 @@ SDLite_API double SDLite_Time_Get_FPSLimit(const SDLite_Time *time);
     Will fail if SDLite_Time* is NULL or if new_fps_limit == 0.0f
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Time_Set_FPSLimit(SDLite_Time *time, double new_fps_limit);
 
@@ -114,7 +119,7 @@ SDLite_API int SDLite_Time_Set_FPSLimit(SDLite_Time *time, double new_fps_limit)
     SDLite_CalculateFPS(time);  
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_TimeFunctions(SDLite_Time *time);
 
@@ -123,7 +128,7 @@ SDLite_API int SDLite_TimeFunctions(SDLite_Time *time);
     Updates 'dt' within SDLite_Time with current delta time
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_CalculateDT(SDLite_Time *time);
 
@@ -134,7 +139,7 @@ SDLite_API int SDLite_CalculateDT(SDLite_Time *time);
     over a defined amount of frame for a smoother fps.
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_CalculateFPS(SDLite_Time *time);
 
@@ -144,7 +149,7 @@ SDLite_API int SDLite_CalculateFPS(SDLite_Time *time);
     It uses 'double fps_limit' within SDLite_Time as the fps limit.
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_LimitFPS(SDLite_Time *time);
 

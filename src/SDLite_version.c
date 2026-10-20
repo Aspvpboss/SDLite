@@ -9,7 +9,10 @@
 // some complex stuff here
 #include "SDLite/SDLite_version.h"
 void SDLite_Get_Version(int *major, int *minor, int *micro){
-    if(!major || !minor || !micro) return; 
+    if(!major || !minor || !micro){
+        SDLite_SetError("Invalid argument in SDLite_Get_Version");
+        return; 
+    } 
 
     *major = SDLITE_MAJOR_VERSION;
     *minor = SDLITE_MINOR_VERSION;

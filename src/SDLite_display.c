@@ -11,19 +11,27 @@
 
 SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag){
 
-    if(!window_title) return NULL;
+    if(!window_title){
+        SDLite_SetError("Window title cannot be NULL");
+        return NULL;
+    }
 
     SDLite_Display *display = t_calloc(1, sizeof(SDLite_Display));
-    if(!display) return NULL;
+    if(!display){
+        SDLite_SetError("Failed to allocate display");
+        return NULL;
+    }
 
     display->window = SDL_CreateWindow(window_title, window_width, window_height, window_flag);
     if(!display->window){
+        SDLite_SetError("SDL_CreateWindow failed: %s", SDL_GetError());
         t_free(display);
         return NULL;
     }
 
     display->renderer = SDL_CreateRenderer(display->window, NULL);
     if(!display->renderer){
+        SDLite_SetError("SDL_CreateRenderer failed: %s", SDL_GetError());
         SDL_DestroyWindow(display->window);
         t_free(display);
         return NULL;
@@ -31,6 +39,7 @@ SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width,
 
     display->text_engine = TTF_CreateRendererTextEngine(display->renderer);
     if(!display->text_engine){
+        SDLite_SetError("TTF_CreateRendererTextEngine failed: %s", SDL_GetError());
         SDL_DestroyRenderer(display->renderer);
         SDL_DestroyWindow(display->window);
         t_free(display);
@@ -43,9 +52,13 @@ SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width,
 
 int SDLite_DisplayClear(SDLite_Display *display){
 
-    if(!display) return 1;
+    if(!display){
+        SDLite_SetError("Display is NULL");
+        return 1;
+    }
 
     if(!SDL_RenderClear(display->renderer)){
+        SDLite_SetError("SDL_RenderClear failed: %s", SDL_GetError());
         return 1;
     }
 
@@ -55,9 +68,13 @@ int SDLite_DisplayClear(SDLite_Display *display){
 
 int SDLite_DisplayPresent(SDLite_Display *display){
 
-    if(!display) return 1;
+    if(!display){
+        SDLite_SetError("Display is NULL");
+        return 1;
+    }
 
     if(!SDL_RenderPresent(display->renderer)){
+        SDLite_SetError("SDL_RenderPresent failed: %s", SDL_GetError());
         return 1;
     }
 
@@ -85,13 +102,18 @@ void SDLite_DestroyDisplay(SDLite_Display *display){
 
 int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height){
 
-    if(!display) return 1;
+    if(!display){
+        SDLite_SetError("Display is NULL");
+        return 1;
+    }
 
     if(!SDL_SetWindowFullscreen(display->window, 0)){
+        SDLite_SetError("SDL_SetWindowFullscreen failed: %s", SDL_GetError());
         return 1;
     }
 
     if(!SDL_SetWindowSize(display->window, width, height)){
+        SDLite_SetError("SDL_SetWindowSize failed: %s", SDL_GetError());
         return 1;
     }
 
@@ -101,9 +123,13 @@ int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height){
 
 int SDLite_DisplaySetFullscreen(SDLite_Display *display){
 
-    if(!display) return 1;
+    if(!display){
+        SDLite_SetError("Display is NULL");
+        return 1;
+    }
     
     if(!SDL_SetWindowFullscreen(display->window, 1)){
+        SDLite_SetError("SDL_SetWindowFullscreen failed: %s", SDL_GetError());
         return 1;
     }
 
@@ -113,9 +139,15 @@ int SDLite_DisplaySetFullscreen(SDLite_Display *display){
 
 int SDLite_Display_GetSize(const SDLite_Display *display, int *w, int *h){
 
-    if(!display || !w || !h) return 1;
+    if(!display || !w || !h){
+        SDLite_SetError("Invalid argument in SDLite_Display_GetSize");
+        return 1;
+    }
 
-    if(!SDL_GetWindowSize(display->window, w, h)) return 1;
+    if(!SDL_GetWindowSize(display->window, w, h)){
+        SDLite_SetError("SDL_GetWindowSize failed: %s", SDL_GetError());
+        return 1;
+    }
 
     return 0;
 }
@@ -123,7 +155,10 @@ int SDLite_Display_GetSize(const SDLite_Display *display, int *w, int *h){
 
 SDL_Renderer* SDLite_Display_GetSDLRenderer(const SDLite_Display *display){
 
-    if(!display) return NULL;
+    if(!display){
+        SDLite_SetError("Display is NULL");
+        return NULL;
+    }
 
     return display->renderer;
 }
@@ -131,7 +166,10 @@ SDL_Renderer* SDLite_Display_GetSDLRenderer(const SDLite_Display *display){
 
 SDL_Window* SDLite_Display_GetSDLWindow(const SDLite_Display *display){
 
-    if(!display) return NULL;
+    if(!display){
+        SDLite_SetError("Display is NULL");
+        return NULL;
+    }
 
     return display->window;
 }
@@ -139,7 +177,10 @@ SDL_Window* SDLite_Display_GetSDLWindow(const SDLite_Display *display){
 
 TTF_TextEngine* SDLite_Display_GetTTFTextEngine(const SDLite_Display *display){
 
-    if(!display) return NULL;
+    if(!display){
+        SDLite_SetError("Display is NULL");
+        return NULL;
+    }
 
     return display->text_engine;
 }
@@ -147,7 +188,10 @@ TTF_TextEngine* SDLite_Display_GetTTFTextEngine(const SDLite_Display *display){
 
 SDL_WindowFlags SDLite_Display_GetWindowFlags(const SDLite_Display *display){
 
-    if(!display) return 0;
+    if(!display){
+        SDLite_SetError("Display is NULL");
+        return 0;
+    }
 
     return SDL_GetWindowFlags(display->window);
 }

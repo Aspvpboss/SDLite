@@ -32,10 +32,16 @@ struct SDLite_Time{
 
 SDLite_Time* SDLite_CreateTime(double fps_limit){
 
-    if(fps_limit == 0) return NULL;
+    if(fps_limit == 0){
+        SDLite_SetError("FPS limit cannot be 0");
+        return NULL;
+    }
 
     SDLite_Time *time = t_calloc(1, sizeof(SDLite_Time));
-    if(!time) return NULL;
+    if(!time){
+        SDLite_SetError("Failed to allocate time handler");
+        return NULL;
+    }
 
     time->collected_frames = 0;
     time->frame = 0;
@@ -64,14 +70,20 @@ void SDLite_DestroyTime(SDLite_Time *time){
 
 double SDLite_Time_GetFPS(const SDLite_Time *time){
     
-    if(!time) return -1.0f;
+    if(!time){
+        SDLite_SetError("Time handler is NULL");
+        return -1.0f;
+    }
 
     return time->fps;
 }
 
 double SDLite_Time_GetDT(const SDLite_Time *time){
     
-    if(!time) return -1.0f;
+    if(!time){
+        SDLite_SetError("Time handler is NULL");
+        return -1.0f;
+    }
 
     return time->dt;
 }
@@ -79,7 +91,10 @@ double SDLite_Time_GetDT(const SDLite_Time *time){
 
 bool SDLite_Time_Is_FPSUpdated(const SDLite_Time *time){
 
-    if(!time) return false;
+    if(!time){
+        SDLite_SetError("Time handler is NULL");
+        return false;
+    }
 
     return time->fps_updated;
 }
@@ -87,14 +102,24 @@ bool SDLite_Time_Is_FPSUpdated(const SDLite_Time *time){
 
 double SDLite_Time_Get_FPSLimit(const SDLite_Time *time){
 
-    if(!time) return 0.0f;
+    if(!time){
+        SDLite_SetError("Time handler is NULL");
+        return 0.0f;
+    }
 
     return time->fps_limit;
 }
 
 int SDLite_Time_Set_FPSLimit(SDLite_Time *time, double new_fps_limit){
 
-    if(!time || new_fps_limit == 0.0f) return 1;
+    if(!time){
+        SDLite_SetError("Time handler is NULL");
+        return 1;
+    }
+    if(new_fps_limit == 0.0f){
+        SDLite_SetError("FPS limit cannot be 0");
+        return 1;
+    }
 
     time->fps_limit = new_fps_limit;
 
@@ -105,7 +130,10 @@ int SDLite_Time_Set_FPSLimit(SDLite_Time *time, double new_fps_limit){
 
 int SDLite_CalculateDT(SDLite_Time *time){
 
-    if(!time) return 1;
+    if(!time){
+        SDLite_SetError("Time handler is NULL");
+        return 1;
+    }
 
     if(time->counter_frequency == 0){
         time->counter_frequency = SDL_GetPerformanceFrequency();
@@ -126,7 +154,10 @@ int SDLite_CalculateDT(SDLite_Time *time){
 
 int SDLite_CalculateFPS(SDLite_Time *time){
 
-    if(!time) return 1;
+    if(!time){
+        SDLite_SetError("Time handler is NULL");
+        return 1;
+    }
 
     if(time->fps_updated == true){
         time->fps_updated = false;
@@ -161,7 +192,14 @@ int SDLite_CalculateFPS(SDLite_Time *time){
 
 int SDLite_LimitFPS(SDLite_Time *time){
 
-    if(!time || time->counter_frequency == 0 || time->previous_counter == 0) return 1;
+    if(!time){
+        SDLite_SetError("Time handler is NULL");
+        return 1;
+    }
+    if(time->counter_frequency == 0 || time->previous_counter == 0){
+        SDLite_SetError("Performance counter uninitialized");
+        return 1;
+    }
     if(time->fps_limit <= 0.0f) return 0;
 
 

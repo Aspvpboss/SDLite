@@ -18,6 +18,8 @@ static SDLite_Error_Logger errors = {0};
 
 int SDLite_Init_Error_Logger(){
 
+    if(errors.init) return 0;
+
     errors.mutex = SDL_CreateMutex();
     if(!errors.mutex) return 1;
 
@@ -29,6 +31,7 @@ int SDLite_Init_Error_Logger(){
 }
 
 void SDLite_Destroy_Error_Logger(){
+    if(!errors.init) return;
     SDL_DestroyMutex(errors.mutex);
     errors.mutex = NULL;
     errors.get_error_index = 0;

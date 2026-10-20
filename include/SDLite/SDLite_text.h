@@ -27,7 +27,7 @@ typedef struct SDLite_Text_Font SDLite_Text_Font;
     Creates a SDLite_Text_Font*, this must be freed using SDLite_Destroy_Text_Font
 
     returns SDLite_Text_Font* on success, and returns NULL on failure
-    Use SDL_GetError() for more error details
+    call SDLite_GetError() for more details
 */
 SDLite_API SDLite_Text_Font* SDLite_Create_Text_Font(const char *font_path, float font_size);
 
@@ -45,6 +45,7 @@ SDLite_API void SDLite_Destroy_Text_Font(SDLite_Text_Font **font);
     Do not destroy this reference
 
     returns TTF_Font* on success, NULL for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API TTF_Font* SDLite_Text_Font_GetFont(const SDLite_Text_Font *font);
 
@@ -57,6 +58,7 @@ SDLite_API TTF_Font* SDLite_Text_Font_GetFont(const SDLite_Text_Font *font);
     Will fail if const SDLite_Text_Font* is NULL
 
     returns numbers of references on success, returns 0 on failure
+    call SDLite_GetError() for more details
 */
 SDLite_API uint64_t SDLite_Text_Font_GetRefs(const SDLite_Text_Font *font);
 
@@ -66,6 +68,7 @@ SDLite_API uint64_t SDLite_Text_Font_GetRefs(const SDLite_Text_Font *font);
     Will fail if SDLite_Text_Font* is NULL, if font_size <= 0.0f, or if SDL_ttf fails
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Text_Font_SetFontSize(SDLite_Text_Font *font, float font_size);
 
@@ -75,6 +78,7 @@ SDLite_API int SDLite_Text_Font_SetFontSize(SDLite_Text_Font *font, float font_s
     Will fail if SDLite_Text_Font* or font_size is NULL, or if SDL_ttf fails
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Text_Font_GetFontSize(const SDLite_Text_Font *font, float *font_size);
 
@@ -91,7 +95,7 @@ typedef struct SDLite_Text SDLite_Text;
     If the display_text is NULL, it will just set the string to be "" 
 
     returns SDLite_Text* for success, NULL for failure
-    Use SDL_GetError() for more error details
+    call SDLite_GetError() for more details
 */
 SDLite_API SDLite_Text* SDLite_CreateText(
     const SDLite_Display *display, const char *display_text, SDLite_Text_Font *ref_font, int x, int y, SDL_Color color);
@@ -114,7 +118,7 @@ SDLite_API void SDLite_DestroyText(SDLite_Text *text);
     If the SDLite_Text* already has a font it will properly destroy it before setting the new one
 
     returns 0 for success, 1 for failure
-    Use SDL_GetError() for more error details
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Text_SetFont(SDLite_Text *text, SDLite_Text_Font *new_font);
 
@@ -126,7 +130,7 @@ SDLite_API int SDLite_Text_SetFont(SDLite_Text *text, SDLite_Text_Font *new_font
     Will fail if SDLite_Text* is NULL or if char* is NULL
 
     returns 0 for success, 1 for failure
-    Use SDL_GetError() for more error details
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Text_SetString(SDLite_Text *text, const char *string);
 
@@ -137,7 +141,7 @@ SDLite_API int SDLite_Text_SetString(SDLite_Text *text, const char *string);
     Will fail if SDLite_Text* is NULL
 
     returns 0 for success, 1 for failure
-    Use SDL_GetError() for more error details
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Text_SetPosition(SDLite_Text *text, int x, int y);
 
@@ -149,7 +153,7 @@ SDLite_API int SDLite_Text_SetPosition(SDLite_Text *text, int x, int y);
     Will fail if SDLite_Text* is NULL
 
     returns 0 for success, 1 for failure
-    Use SDL_GetError() for more error details
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Text_SetWrapWidth(SDLite_Text *text, int wrap_width_pixels);
 
@@ -160,7 +164,7 @@ SDLite_API int SDLite_Text_SetWrapWidth(SDLite_Text *text, int wrap_width_pixels
     Will fail if SDLite_Text* is NULL
 
     returns 0 for success, 1 for failure
-    Use SDL_GetError() for more error details
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Text_SetColor(SDLite_Text *text, SDL_Color color);
 
@@ -171,7 +175,7 @@ SDLite_API int SDLite_Text_SetColor(SDLite_Text *text, SDL_Color color);
     Will fail if SDLite_Text* is NULL or if SDL_FRect* is NULL
 
     returns 0 for success, returns 1 for failure
-    Use SDL_GetError() for more error details
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *render_rect);
 
@@ -183,6 +187,7 @@ SDLite_API int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *re
     Will fail if SDLite_Text* is NULL
 
     returns TTF_Text* on success, returns NULL on failure
+    call SDLite_GetError() for more details
 */
 SDLite_API TTF_Text* SDLite_Text_GetTTFText(const SDLite_Text *text);
 
@@ -194,6 +199,7 @@ SDLite_API TTF_Text* SDLite_Text_GetTTFText(const SDLite_Text *text);
     Will fail if SDLite_Text* is NULL
 
     returns TTF_Font* on success, returns NULL on failure
+    call SDLite_GetError() for more details
 */
 SDLite_API TTF_Font* SDLite_Text_GetTTFFont(const SDLite_Text *text);
 
@@ -204,7 +210,7 @@ SDLite_API TTF_Font* SDLite_Text_GetTTFFont(const SDLite_Text *text);
     Will fail if SDLite_Text* is NULL
     
     returns 0 for success, 1 for failure
-    Use SDL_GetError() for more error details
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Render_Text(SDLite_Text *text);
 

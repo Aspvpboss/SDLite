@@ -1175,6 +1175,33 @@ static void test_audio(void) {
     SDLite_Destroy_AudioHandler(audio);
 }
 
+/* =========================================================================
+ * 10. Error Logging Tests
+ * ========================================================================= */
+static void test_error(void) {
+    printf("[Suite 10] Testing SDLite Error Logging...\n");
+
+    const char *err = NULL;
+    int count = 0;
+    while ((err = SDLite_GetError()) != NULL) {
+        TEST_ASSERT(strlen(err) < 128, "Existing error message length < 128");
+        count++;
+    }
+    printf("  Found %d logged errors from previous negative-path tests\n", count);
+
+    /* Explicit test of SDLite_SetError formatting */
+    SDLite_SetError("Test error number %d: %s", 42, "hello");
+    err = SDLite_GetError();
+    TEST_ASSERT(err != NULL && strcmp(err, "Test error number 42: hello") == 0,
+                "SDLite_SetError formatted string verified");
+
+    /* Verify an error occurs on invalid function call */
+    SDLite_Collision_Rect(NULL, NULL);
+    err = SDLite_GetError();
+    TEST_ASSERT(err != NULL && strstr(err, "Invalid rect") != NULL,
+                "SDLite_Collision_Rect(NULL, NULL) logged expected error");
+}
+
 int main(void) {
 #ifdef TRACK_ALLOCATIONS
     const char *build_mode = "debugSDLite (TRACK_ALLOCATIONS)";
@@ -1204,6 +1231,7 @@ int main(void) {
     }
 
     test_version_and_headers();
+    test_error();
     test_init_and_memtrack();
     test_collision();
     test_time();

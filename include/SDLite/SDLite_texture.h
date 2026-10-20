@@ -21,7 +21,7 @@ typedef struct SDLite_Texture SDLite_Texture;
     or if the file fails to load
 
     returns SDLite_Texture* on success, returns NULL on failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, const char *file);
 
@@ -42,6 +42,7 @@ SDLite_API void SDLite_DestroyTexture(SDLite_Texture **texture);
     Will fail if const SDLite_Texture* is NULL
 
     returns numbers of references on success, returns 0 on failure
+    call SDLite_GetError() for more details
 */
 SDLite_API uint64_t SDLite_Texture_GetRefs(const SDLite_Texture *texture);
 
@@ -53,6 +54,7 @@ SDLite_API uint64_t SDLite_Texture_GetRefs(const SDLite_Texture *texture);
     Will fail if const SDLite_Texture* is NULL
 
     returns SDL_Texture* on success, returns NULL on failure
+    call SDLite_GetError() for more details
 */
 SDLite_API SDL_Texture* SDLite_Texture_GetSDLTexture(const SDLite_Texture *texture);    
 
