@@ -40,7 +40,7 @@ SDLite_Sprite* SDLite_Create_AnimatedSprite(const SDLite_Display *display, const
     data->base_width = src_rect.w;
     data->base_height = src_rect.h;
 
-    sprite->pivot_point = sprite_pos;
+    sprite->pivot_point = (SDL_FPoint){src_rect.w / 2.0f, src_rect.h / 2.0f};
     sprite->angle = 0.0f;
     sprite->scale = 1.0f;
     sprite->flip_mode = SDL_FLIP_NONE;

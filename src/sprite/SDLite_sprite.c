@@ -48,7 +48,7 @@ SDLite_Sprite* SDLite_Create_StaticSprite(const SDLite_Display *display, const c
     data->base_height = src_rect.h;
     data->src_rect = src_rect;
 
-    sprite->pivot_point = (SDL_FPoint){src_rect.w, src_rect.h};
+    sprite->pivot_point = (SDL_FPoint){src_rect.w / 2.0f, src_rect.h / 2.0f};
     sprite->angle = 0.0f;
     sprite->scale = 1.0f;
     sprite->flip_mode = SDL_FLIP_NONE;
@@ -323,7 +323,6 @@ int SDLite_Sprite_Set_Position(SDLite_Sprite *sprite, SDL_FPoint position){
 
     sprite->render_rect.x = position.x;
     sprite->render_rect.y = position.y;
-    sprite->pivot_point = position;
 
     return 0;
 }
