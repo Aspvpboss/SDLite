@@ -6,6 +6,7 @@
 */
 
 #include "SDLite/SDLite_init.h"
+#include "SDLite_error_internal.h"
 
 
 int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_if_mem_error, bool auto_null_pointers){
@@ -14,7 +15,15 @@ int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_i
         return 1;
     }
 
+    if(!SDLite_Init_Error_Logger()){
+        SDL_QuitSubSystem(SDL_INIT_VIDEO);
+        SDL_QuitSubSystem(SDL_INIT_AUDIO);
+        SDL_Quit();
+        return 1;
+    }
+
     if(!TTF_Init()){
+        SDLite_Destroy_Error_Logger();
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
         SDL_QuitSubSystem(SDL_INIT_AUDIO);
         SDL_Quit();
@@ -22,6 +31,7 @@ int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_i
     }
 
     if(!MIX_Init()){
+        SDLite_Destroy_Error_Logger();
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
         SDL_QuitSubSystem(SDL_INIT_AUDIO);
         TTF_Quit();
@@ -29,7 +39,9 @@ int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_i
         return 1;
     }
 
+
     if(MemTrack_Init(malloc_err_handler, func_data, auto_null_pointers, abort_if_mem_error)){
+        SDLite_Destroy_Error_Logger();
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
         SDL_QuitSubSystem(SDL_INIT_AUDIO);
         TTF_Quit();
@@ -44,6 +56,10 @@ int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_i
 
 void SDLite_Quit(void){
 
+    // const char *err = NULL;
+    // while(err = SDLite)
+
+    SDLite_Destroy_Error_Logger();
     TTF_Quit();
     MIX_Quit();
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
