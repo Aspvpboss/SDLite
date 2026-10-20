@@ -8,28 +8,6 @@
 #include "SDLite_texture_internal.h"
 
 
-enum SDLite_SpriteType{
-
-    SDLite_STATIC_SPRITE,
-    SDLite_ANIMATED_SPRITE,
-    SDLite_RECT_SPRITE
-
-};
-
-
-struct SDLite_Sprite{
-
-    enum SDLite_SpriteType sprite_type;
-    void *data;
-
-    SDL_FRect render_rect;
-    SDL_FlipMode flip_mode;
-    SDL_FPoint pivot_point;
-    double scale;
-    double angle;
-
-};
-
 
 
 typedef struct{
@@ -79,5 +57,27 @@ typedef struct{
 
 
 
+
+enum SDLite_SpriteType{
+
+    SDLite_STATIC_SPRITE,
+    SDLite_ANIMATED_SPRITE,
+    SDLite_RECT_SPRITE
+
+};
+
+
+struct SDLite_Sprite{
+
+    enum SDLite_SpriteType sprite_type;
+    void *data;
+
+    SDL_FRect render_rect;
+    SDL_FlipMode flip_mode;
+    SDL_FPoint pivot_point;
+    double scale;
+    double angle;
+
+};
 
 #endif
