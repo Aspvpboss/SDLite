@@ -56,9 +56,8 @@ void SDLite_SetError(const char *err_format, ...) {
 
     if(errors.len < MAX_ERRORS){
         vsnprintf(errors.err_buff[errors.len], MAX_CHARACTERS, err_format, args); 
-        errors.len = SDL_min(errors.len + 1, MAX_ERRORS);
+        errors.len %= MAX_ERRORS;
     }
-
 
     va_end(args);
 
