@@ -142,7 +142,11 @@ int SDLite_CalculateFPS(SDLite_Time *time){
     if(time->collected_frames < MAX_SAMPLES) time->collected_frames++;
 
     time->frame = (time->frame + 1) % MAX_SAMPLES;
-    time->fps = 1 / (time->total / time->collected_frames);
+    if(time->total <= 0.0f){
+        time->fps = 0.0f;
+    } else{
+        time->fps = 1 / (time->total / time->collected_frames);
+    }
 
     
     if(time->fps_update_count > 1.0f){
@@ -157,7 +161,7 @@ int SDLite_CalculateFPS(SDLite_Time *time){
 
 int SDLite_LimitFPS(SDLite_Time *time){
 
-    if(!time || time->fps_limit == 0.0f) return 1;
+    if(!time || time->counter_frequency == 0 || time->previous_counter == 0) return 1;
     if(time->fps_limit <= 0.0f) return 0;
 
 

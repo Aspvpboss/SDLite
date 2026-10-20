@@ -67,7 +67,7 @@ int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *texture){
 
     if(sprite->sprite_type == SDLite_STATIC_SPRITE){
         SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
-        if(data == texture) return 1;
+        if(data->texture == texture) return 1;
         if(data->texture) SDLite_DestroyTexture(&data->texture);
         data->texture = texture;
         texture->refs++;

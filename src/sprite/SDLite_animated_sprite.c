@@ -99,6 +99,7 @@ int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, const SDL_FRect *
 
     if(animation->frames){
         t_free(animation->frames);
+        animation->amount_frames = 0;
     }
     animation->frames = t_calloc(amount_frames, sizeof(SDL_FRect));
     if(!animation->frames) return 1;
@@ -154,13 +155,19 @@ int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, const SDLite_T
     if(animation->time_elapsed < animation->frame_duration)
         return 0;
 
-    int frames_advanced = (int)(animation->time_elapsed / animation->frame_duration);
+    uint64_t frames_advanced = (uint64_t)(animation->time_elapsed / animation->frame_duration);
     animation->time_elapsed -= frames_advanced * animation->frame_duration;
-    animation->current_frame = (animation->current_frame + frames_advanced) % animation->amount_frames;
 
+    if(animation->current_frame + frames_advanced >= animation->amount_frames){
+        animation->play_animation = false;
+        if(!animation->loop_animation){
+            animation->current_frame = 0;
+            animation->time_elapsed = 0.0f;
+            return 0;
+        }
+    }
 
-    if(animation->current_frame == 0)
-        animation->play_animation = false;    
+    animation->current_frame = (uint16_t)((animation->current_frame + frames_advanced) % animation->amount_frames);
 
     return 0;
 }
