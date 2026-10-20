@@ -16,7 +16,7 @@ This framework is intended to be a **generic SDL helper library**, slightly tail
   * various bug fixes
 * Added SDLite_Text_Font, a shared ref for fonts
 * Added MemTrack v1.4.0
-* Added Pong example (as a github repo in examples below)
+* Added Pong example (as a GitHub repo in examples below)
 
 ---
 
@@ -31,12 +31,12 @@ This framework is intended to be a **generic SDL helper library**, slightly tail
 
 * CMake
 * C & C++ compiler
-* nasm
-* any SDL3 and SDL3 sat lib deps
+* NASM
+* Any SDL3 and SDL3 satellite library dependencies
 
-CMake pulls the SDL3, SDL3_image, SDL3_mixer, and SDL3_ttf source code when compiling the library
+CMake pulls the SDL3, SDL3_image, SDL3_mixer, and SDL3_ttf source code when compiling the library.
 
-CMake then statically links those libraries into the SDLite and debugSDLite shared libraries
+CMake then statically links those libraries into the SDLite and debugSDLite shared libraries.
 
 
 ## Documentation
@@ -44,7 +44,7 @@ CMake then statically links those libraries into the SDLite and debugSDLite shar
 All public functions are documented in their header files.  
 Additionally, the included **MemTrack** library header contains documentation for memory tracking utilities and necessary macros.
 
-See https://github.com/Aspvpboss/MemTrack for additional docs over MemTrack
+See https://github.com/Aspvpboss/MemTrack for additional docs on MemTrack.
 
 
 ## SDLite Builds
@@ -59,30 +59,30 @@ See https://github.com/Aspvpboss/MemTrack for additional docs over MemTrack
 
 ## Prerequisites
 
-This framework assumes you already have a basic understanding of SDL, and are comfortable with C / C++.  
-Knowing how SDL works internally will make the SDLite much easier to understand and use effectively.
+This framework assumes you already have a basic understanding of SDL and are comfortable with C / C++.  
+Knowing how SDL works internally will make SDLite much easier to understand and use effectively.
 
 
 ## Examples
 
-- **Template Example** (in C/C++) 
+- **Template Example** (in C/C++) - in examples/ 
   - Opens a window and displays the current FPS.
 - **Pong** (in C) - https://github.com/Aspvpboss/Pong-SDLite
-  - Basic game of pong, includes main menu, main loop, and win screen
+  - Basic game of Pong, includes main menu, main loop, and win screen
 
 ---
 
 ## Building and Testing with CMake
 
 ### Build
-This builds both the debug and release version of SDLite, and packages them in the build directory
+This builds both the debug and release versions of SDLite and packages them in the build directory.
 ```
 cmake -B build -S .
 cmake --build build
 ```
 
 ### Run Tests
-Run these after building the library
+Run these after building the library.
 ```
 ./build/tests/test_SDLite
 ./build/tests/test_debugSDLite
@@ -95,13 +95,13 @@ cpack
 ```
 
 ### Install System-Wide (or User-Wide)
-To install system-wide on Linux (e.g. Fedora):
+To install system-wide on Linux (e.g., Fedora):
 ```bash
 sudo cmake --install build
 sudo ldconfig  # update dynamic linker cache for libSDLite.so
 ```
 
-To install on windows (may need admin privilages)
+To install on Windows (may need admin privileges):
 ```bash
 cmake --install build
 # or 
