@@ -1,0 +1,222 @@
+/*
+ * Copyright (c) 2026 Benjamin Vaughan
+ *
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for license information.
+*/
+
+#ifndef SDLite_TEXT_H
+#define SDLite_TEXT_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+#include "SDLite/common_libs.h"
+#include "SDLite/SDLite_display.h"
+
+
+/*
+    Light abstraction over TTF_Font*
+    Uses ref counting to shared over multiple SDLite_Text
+*/
+typedef struct SDLite_Text_Font SDLite_Text_Font;
+
+/*
+    Creates a SDLite_Text_Font*, this must be freed using SDLite_Destroy_Text_Font
+
+    returns SDLite_Text_Font* on success, and returns NULL on failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API SDLite_Text_Font* SDLite_Create_Text_Font(const char *font_path, float font_size);
+
+/*
+    Frees a SDLite_Text_Font*
+    Reference counting is handled internally
+    The pointer will be set to NULL when font is actually freed
+
+    returns early if NULL
+*/
+SDLite_API void SDLite_Destroy_Text_Font(SDLite_Text_Font **font);
+
+/*
+    Gets the reference to the internal TTF_Font*
+    Do not destroy this reference
+
+    returns TTF_Font* on success, NULL for failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API TTF_Font* SDLite_Text_Font_GetFont(const SDLite_Text_Font *font);
+
+/*
+    Returns number of references to the SDLite_Text_Font*
+
+    This function only really exists for debugging purposes. 
+    You could use this to check if a font hasn't been freed by the end of the program
+
+    Will fail if const SDLite_Text_Font* is NULL
+
+    returns numbers of references on success, returns 0 on failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API uint64_t SDLite_Text_Font_GetRefs(const SDLite_Text_Font *font);
+
+/*
+    Sets a font's font_size
+
+    Will fail if SDLite_Text_Font* is NULL, if font_size <= 0.0f, or if SDL_ttf fails
+
+    returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API int SDLite_Text_Font_SetFontSize(SDLite_Text_Font *font, float font_size);
+
+/*
+    Gets a font's font_size
+
+    Will fail if SDLite_Text_Font* or font_size is NULL, or if SDL_ttf fails
+
+    returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API int SDLite_Text_Font_GetFontSize(const SDLite_Text_Font *font, float *font_size);
+
+
+
+/*
+    These functions should only be called on the thread that created the SDLite_Text
+*/
+typedef struct SDLite_Text SDLite_Text;
+
+/*
+    Creates a SDLite_Text*, this must be freed using SDLite_DestroyText()
+
+    If the display_text is NULL, it will just set the string to be "" 
+
+    returns SDLite_Text* for success, NULL for failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API SDLite_Text* SDLite_CreateText(
+    const SDLite_Display *display, const char *display_text, SDLite_Text_Font *ref_font, int x, int y, SDL_Color color);
+
+
+/*
+    Frees a SDLite_Text*
+    Call This before destroying the SDLite_Display* used to create the SDLite_Text*
+
+    Will return early if SDLite_Text is NULL
+*/
+SDLite_API void SDLite_DestroyText(SDLite_Text *text);
+
+
+/*
+    Sets the SDLite_Text* font with a SDLite_Text_Font* reference
+
+    Will fail if SDLite_Text* or SDLite_Text_Font* is NULL
+
+    If the SDLite_Text* already has a font it will properly destroy it before setting the new one
+
+    returns 0 for success, 1 for failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API int SDLite_Text_SetFont(SDLite_Text *text, SDLite_Text_Font *new_font);
+
+
+
+/*
+    Sets text of SDLite_Text*
+
+    Will fail if SDLite_Text* is NULL or if char* is NULL
+
+    returns 0 for success, 1 for failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API int SDLite_Text_SetString(SDLite_Text *text, const char *string);
+
+
+/*
+    Sets position of the SDLite_Text*
+
+    Will fail if SDLite_Text* is NULL
+
+    returns 0 for success, 1 for failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API int SDLite_Text_SetPosition(SDLite_Text *text, int x, int y);
+
+
+/*
+    Sets wrap width of a SDLite_Text in pixels
+    Set wrap_width to 0 for no wrap around
+    
+    Will fail if SDLite_Text* is NULL
+
+    returns 0 for success, 1 for failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API int SDLite_Text_SetWrapWidth(SDLite_Text *text, int wrap_width_pixels);
+
+
+/*
+    Sets color of a SDLite_Text
+
+    Will fail if SDLite_Text* is NULL
+
+    returns 0 for success, 1 for failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API int SDLite_Text_SetColor(SDLite_Text *text, SDL_Color color);
+
+
+/*
+    Fills values of SDL_FRect of the current x, y, w, and h of the SDLite_Text*
+
+    Will fail if SDLite_Text* is NULL or if SDL_FRect* is NULL
+
+    returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API int SDLite_Text_Get_RenderRect(const SDLite_Text *text, SDL_FRect *render_rect);
+
+
+/*
+    Gets the TTF_Text* stored within SDLite_Text. 
+    Use it at your own discretion, but do not destroy the TTF_Text*
+
+    Will fail if SDLite_Text* is NULL
+
+    returns TTF_Text* on success, returns NULL on failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API TTF_Text* SDLite_Text_GetTTFText(const SDLite_Text *text);
+
+
+/*
+    Gets the TTF_Font* stored within SDLite_Text. 
+    Use it at your own discretion, but do not close the TTF_Font*
+
+    Will fail if SDLite_Text* is NULL
+
+    returns TTF_Font* on success, returns NULL on failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API TTF_Font* SDLite_Text_GetTTFFont(const SDLite_Text *text);
+
+
+/*
+    Renders the SDLite_Text to the display it was created with
+
+    Will fail if SDLite_Text* is NULL
+    
+    returns 0 for success, 1 for failure
+    call SDLite_GetError() for more details
+*/
+SDLite_API int SDLite_Render_Text(SDLite_Text *text);
+
+#ifdef __cplusplus
+}
+#endif
+
+
+#endif

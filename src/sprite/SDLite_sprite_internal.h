@@ -1,0 +1,87 @@
+#ifndef SDLite_SPRITE_INTERNAL_H
+#define SDLite_SPRITE_INTERNAL_H
+
+#include "SDLite/common_libs.h"
+#include "SDLite/SDLite_display.h"
+#include "SDLite/SDLite_time.h"
+#include "SDLite/SDLite_texture.h"
+#include "SDLite_texture_internal.h"
+
+
+
+
+typedef struct{
+
+    SDL_FRect src_rect;
+    SDLite_Texture *texture;
+    float base_width;
+    float base_height;
+    
+
+} SDLite_StaticSprite_Data;
+
+
+typedef struct{
+
+    float base_width;
+    float base_height;
+    SDL_Color color;
+    bool is_filled;
+
+} SDLite_RectSprite_Data;
+
+
+typedef struct{
+
+    SDL_FRect *frames;
+    double frame_duration;
+    double time_elapsed;
+    uint16_t amount_frames;
+    uint16_t current_frame;
+    bool play_animation;
+    bool loop_animation;
+    bool enable_animation;
+
+} SDLite_Animation;
+
+typedef struct{
+
+    SDLite_Texture *texture;
+    SDLite_Animation *animation;
+    float base_width;
+    float base_height;
+    uint32_t amount_animation;
+    uint32_t current_animation;
+
+} SDLite_AnimatedSprite_Data;
+
+
+
+
+enum SDLite_SpriteType{
+
+    SDLite_STATIC_SPRITE,
+    SDLite_ANIMATED_SPRITE,
+    SDLite_RECT_SPRITE
+
+};
+
+
+struct SDLite_Sprite{
+
+    enum SDLite_SpriteType sprite_type;
+    SDL_FRect render_rect;
+    SDL_FlipMode flip_mode;
+    SDL_FPoint pivot_point;
+    union {
+        SDLite_StaticSprite_Data _static; // need to add _ because static is a keyword
+        SDLite_RectSprite_Data _rect;
+        SDLite_AnimatedSprite_Data _animated;
+    } data;
+
+    double scale;
+    double angle;
+
+};
+
+#endif
