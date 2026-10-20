@@ -24,17 +24,17 @@ int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_i
     if(!MIX_Init()){
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
         SDL_QuitSubSystem(SDL_INIT_AUDIO);
-        SDL_Quit();
         TTF_Quit();
+        SDL_Quit();
         return 1;
     }
 
     if(MemTrack_Init(malloc_err_handler, func_data, auto_null_pointers, abort_if_mem_error)){
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
         SDL_QuitSubSystem(SDL_INIT_AUDIO);
-        SDL_Quit();
         TTF_Quit();
         MIX_Quit();
+        SDL_Quit();
         return 1;
     }
 
