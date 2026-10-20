@@ -70,11 +70,15 @@ enum SDLite_SpriteType{
 struct SDLite_Sprite{
 
     enum SDLite_SpriteType sprite_type;
-    void *data;
-
     SDL_FRect render_rect;
     SDL_FlipMode flip_mode;
     SDL_FPoint pivot_point;
+    union {
+        SDLite_StaticSprite_Data _static; // need to add _ because static is a keyword
+        SDLite_RectSprite_Data _rect;
+        SDLite_AnimatedSprite_Data _animated;
+    } data;
+
     double scale;
     double angle;
 

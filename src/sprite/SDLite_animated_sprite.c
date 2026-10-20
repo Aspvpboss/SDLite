@@ -19,20 +19,11 @@ SDLite_Sprite* SDLite_Create_AnimatedSprite(const SDLite_Display *display, const
 
     sprite->sprite_type = SDLite_ANIMATED_SPRITE;
 
-    sprite->data = t_calloc(1, sizeof(SDLite_AnimatedSprite_Data));
-
-    if(!sprite->data){
-        SDLite_SetError("Failed to allocate animated sprite data");
-        t_free(sprite);
-        return NULL;
-    }
-
-    SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
+    SDLite_AnimatedSprite_Data *data = &sprite->data._animated;
 
     if(texture_path){
         data->texture = SDLite_CreateTexture(display, texture_path);
         if(!data->texture){
-            t_free(data);
             t_free(sprite);
             return NULL;
         }
@@ -74,7 +65,7 @@ int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint32_t animat
         return 1;
     }
 
-    SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
+    SDLite_AnimatedSprite_Data *data = &animated_sprite->data._animated;
 
     if(data->amount_animation == 0){
 
@@ -133,7 +124,7 @@ int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, const SDL_FRect *
         return 1;
     }
 
-    SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
+    SDLite_AnimatedSprite_Data *data = &animated_sprite->data._animated;
 
     if(animation_index >= data->amount_animation){
         SDLite_SetError("Animation index %u out of bounds", (unsigned int)animation_index);
@@ -184,14 +175,14 @@ int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, const SDLite_T
     if(animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE)
         return 0;
 
-    SDLite_AnimatedSprite_Data *m_data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
+    SDLite_AnimatedSprite_Data *data = &animated_sprite->data._animated;
 
-    if(m_data->current_animation >= m_data->amount_animation){
-        SDLite_SetError("Animation index %u out of bounds", (unsigned int)m_data->current_animation);
+    if(data->current_animation >= data->amount_animation){
+        SDLite_SetError("Animation index %u out of bounds", (unsigned int)data->current_animation);
         return 1;
     }
 
-    SDLite_Animation *animation = &m_data->animation[m_data->current_animation];
+    SDLite_Animation *animation = &data->animation[data->current_animation];
 
     if(animation->amount_frames == 0 || animation->frame_duration == 0.0f){
         SDLite_SetError("Animation has 0 frames or invalid duration");
@@ -205,8 +196,6 @@ int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, const SDLite_T
 
         return 0;
     }
-
-
 
     animation->time_elapsed += SDLite_Time_GetDT(time);
 
@@ -244,7 +233,7 @@ int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uint16_t anima
         return 1;
     }
 
-    SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
+    SDLite_AnimatedSprite_Data *data = &animated_sprite->data._animated;
 
     if(animation_index >= data->amount_animation){
         SDLite_SetError("Animation index %u out of bounds", (unsigned int)animation_index);
@@ -270,7 +259,7 @@ int SDLite_Sprite_SetPlayAnimation(SDLite_Sprite *animated_sprite, uint16_t anim
         return 1;
     }
 
-    SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
+    SDLite_AnimatedSprite_Data *data = &animated_sprite->data._animated;
     if(animation_index >= data->amount_animation){
         SDLite_SetError("Animation index %u out of bounds", (unsigned int)animation_index);
         return 1;
@@ -295,7 +284,7 @@ int SDLite_Sprite_SetLoopAnimation(SDLite_Sprite *animated_sprite, uint16_t anim
         return 1;
     }
 
-    SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
+    SDLite_AnimatedSprite_Data *data = &animated_sprite->data._animated;
     if(animation_index >= data->amount_animation){
         SDLite_SetError("Animation index %u out of bounds", (unsigned int)animation_index);
         return 1;
@@ -320,7 +309,7 @@ int SDLite_Sprite_EnableAnimation(SDLite_Sprite *animated_sprite, uint16_t anima
         return 1;
     }
 
-    SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
+    SDLite_AnimatedSprite_Data *data = &animated_sprite->data._animated;
     if(animation_index >= data->amount_animation){
         SDLite_SetError("Animation index %u out of bounds", (unsigned int)animation_index);
         return 1;
