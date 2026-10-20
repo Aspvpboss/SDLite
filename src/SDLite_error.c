@@ -22,12 +22,17 @@ int SDLite_Init_Error_Logger(){
     if(!errors.mutex) return 1;
 
     errors.init = true;
+    errors.get_error_index = 0;
+    errors.len = 0;
 
     return 0;
 }
 
 void SDLite_Destroy_Error_Logger(){
     SDL_DestroyMutex(errors.mutex);
+    errors.mutex = NULL;
+    errors.get_error_index = 0;
+    errors.len = 0;
     errors.init = false;
 }
 
@@ -46,9 +51,11 @@ void SDLite_SetError(const char *err_format, ...) {
 
     SDL_LockMutex(errors.mutex);
 
-    vsnprintf(errors.err_buff[errors.len], MAX_CHARACTERS, err_format, args); 
+    if(errors.len < MAX_ERRORS){
+        vsnprintf(errors.err_buff[errors.len], MAX_CHARACTERS, err_format, args); 
+        errors.len = SDL_min(errors.len + 1, MAX_ERRORS);
+    }
 
-    errors.len = SDL_min(errors.len + 1, MAX_ERRORS);
 
     va_end(args);
 
@@ -56,13 +63,12 @@ void SDLite_SetError(const char *err_format, ...) {
 }
 
 
-const char* SDLite_GetError() {
+const char* SDLite_GetError(void) {
     if(errors.init == false) return NULL;
 
     SDL_LockMutex(errors.mutex);
 
     if(errors.get_error_index >= errors.len){
-        errors.get_error_index = 0;
         SDL_UnlockMutex(errors.mutex);
         return NULL;
     }

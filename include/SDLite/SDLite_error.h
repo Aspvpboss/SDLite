@@ -36,7 +36,7 @@ SDLite_API void SDLite_SetError(const char *err_format, ...);
 
     returns const char* for success, returns NULL for no errors or failure
 */
-SDLite_API const char* SDLite_GetError();
+SDLite_API const char* SDLite_GetError(void);
 
 #ifdef __cplusplus
 }

@@ -31,6 +31,7 @@ extern "C"{
 #include "SDLite/SDLite_audio.h"
 #include "SDLite/SDLite_version.h"
 #include "SDLite/SDLite_texture.h"
+#include "SDLite/SDLite_error.h"
 
 #include "SDLite/sprite/SDLite_sprite.h"
 #include "SDLite/sprite/SDLite_sprite_manager.h"
