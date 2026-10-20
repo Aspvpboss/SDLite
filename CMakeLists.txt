@@ -169,7 +169,12 @@ target_compile_definitions(SDLite
 if(MSVC)
     target_compile_options(SDLite PRIVATE /O2 /W4)
 else()
-    target_compile_options(SDLite PRIVATE -O3 -Wall -Wpedantic)
+    target_compile_options(SDLite PRIVATE -O3 -g0 -Wall -Wpedantic)
+    if(APPLE)
+        target_link_options(SDLite PRIVATE -Wl,-S -Wl,-x -Wl,-dead_strip)
+    else()
+        target_link_options(SDLite PRIVATE -s -Wl,--gc-sections)
+    endif()
 endif()
 
 # statically link 'libgcc_s_seh-1.dll' and 'libwinpthread-1.dll' into exe for windows support
