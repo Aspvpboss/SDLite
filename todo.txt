@@ -1,5 +1,5 @@
 Bugs:
+N/A
 
 Possible Features:
-* assets manager
-* SDLite_GetError and SDLite_SetError (for better error handling and reasons why) 
+N/A
