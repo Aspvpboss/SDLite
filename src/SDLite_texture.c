@@ -59,7 +59,9 @@ void SDLite_DestroyTexture(SDLite_Texture **texture){
 
     if(!texture || !(*texture)) return;
 
-    (*texture)->refs--;
+    if((*texture)->refs > 0){
+        (*texture)->refs--;
+    }
     if((*texture)->refs == 0){
         SDL_DestroyTexture((*texture)->texture);
         t_free((*texture));

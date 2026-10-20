@@ -67,12 +67,6 @@ void SDLite_Quit(void){
         return;
     }
 
-    const char *err = NULL;
-    SDLite_Reset_Get_Error_Index();
-    while((err = SDLite_GetError())){
-        fprintf(stderr, "%s\n", err);
-    }
-
     SDLite_Destroy_Error_Logger();
     TTF_Quit();
     MIX_Quit();
