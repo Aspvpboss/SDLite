@@ -22,7 +22,7 @@ extern "C"{
 /*
     Three main sprite types
 
-    Rect - renders a simple color rect, either filled or not filled 
+    Rectangle - renders a simple color rect, either filled or not filled 
 
     Static - renders a texture that was loaded from an image
 

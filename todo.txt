@@ -1,7 +1,4 @@
 Bugs:
-* fix misc edge case bugs with animated sprites
-* divide by 0 bug in time.c somewhere
-* pivot point in sprite not specified as local point, not world point
 
 Possible Features:
 * assets manager
