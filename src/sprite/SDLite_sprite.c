@@ -27,20 +27,11 @@ SDLite_Sprite* SDLite_Create_StaticSprite(const SDLite_Display *display, const c
 
     sprite->sprite_type = SDLite_STATIC_SPRITE;
 
-    sprite->data = t_calloc(1, sizeof(SDLite_StaticSprite_Data));
-
-    if(!sprite->data){
-        SDLite_SetError("Failed to allocate static sprite data");
-        t_free(sprite);
-        return NULL;
-    }
-
-    SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
+    SDLite_StaticSprite_Data *data = &sprite->data._static;
 
     if(texture_path){
         data->texture = SDLite_CreateTexture(display, texture_path); 
         if(!data->texture){
-            t_free(data);
             t_free(sprite);
             return NULL;
         }
@@ -78,7 +69,7 @@ int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *texture){
     }
 
     if(sprite->sprite_type == SDLite_STATIC_SPRITE){
-        SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
+        SDLite_StaticSprite_Data *data = &sprite->data._static;
         if(data->texture == texture){
             SDLite_SetError("Texture is identical to current texture");
             return 1;
@@ -90,7 +81,7 @@ int SDLite_Sprite_SetTexture(SDLite_Sprite *sprite, SDLite_Texture *texture){
     }
 
     if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
-        SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
+        SDLite_AnimatedSprite_Data *data = &sprite->data._animated;
         if(data->texture == texture){
             SDLite_SetError("Texture is identical to current texture");
             return 1;
@@ -116,7 +107,7 @@ SDL_Texture* SDLite_Sprite_GetSDLTexture(const SDLite_Sprite *sprite){
     }
 
     if(sprite->sprite_type == SDLite_STATIC_SPRITE){
-        SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
+        const SDLite_StaticSprite_Data *data = &sprite->data._static;
         if(!data->texture){
             SDLite_SetError("Sprite texture is NULL");
             return NULL;
@@ -125,7 +116,7 @@ SDL_Texture* SDLite_Sprite_GetSDLTexture(const SDLite_Sprite *sprite){
     }
 
     if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
-        SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
+        const SDLite_AnimatedSprite_Data *data = &sprite->data._animated;
         if(!data->texture){
             SDLite_SetError("Sprite texture is NULL");
             return NULL;
@@ -158,14 +149,14 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
 
         case(SDLite_ANIMATED_SPRITE): {
 
-            SDLite_AnimatedSprite_Data *a_data = (SDLite_AnimatedSprite_Data*)sprite->data;
+            const SDLite_AnimatedSprite_Data *a_data = &sprite->data._animated;
 
             if(a_data->current_animation >= a_data->amount_animation){
                 SDLite_SetError("Animation index %u out of bounds", (unsigned int)a_data->current_animation);
                 return 1;
             }
 
-            SDLite_Animation *animation = &a_data->animation[a_data->current_animation];
+            const SDLite_Animation *animation = &a_data->animation[a_data->current_animation];
             if(animation->amount_frames == 0){
                 SDLite_SetError("Animation has 0 frames");
                 return 1;
@@ -183,7 +174,7 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
 
         case(SDLite_STATIC_SPRITE): {
 
-            SDLite_StaticSprite_Data *s_data = (SDLite_StaticSprite_Data*)sprite->data;
+            const SDLite_StaticSprite_Data *s_data = &sprite->data._static;
 
             src_rect = &s_data->src_rect;
             texture = s_data->texture;
@@ -197,7 +188,7 @@ int SDLite_Render_Sprite(const SDLite_Display *display, const SDLite_Sprite *spr
 
         case(SDLite_RECT_SPRITE): {
 
-            SDLite_RectSprite_Data *r_data = (SDLite_RectSprite_Data *)sprite->data;
+            const SDLite_RectSprite_Data *r_data = &sprite->data._rect;
 
             src_rect = &sprite->render_rect;
 
@@ -284,7 +275,7 @@ int SDLite_Sprite_SetScale(SDLite_Sprite *sprite, double new_scale){
 
     if(sprite->sprite_type == SDLite_STATIC_SPRITE){
 
-        SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
+        SDLite_StaticSprite_Data *data = &sprite->data._static;
 
         SDL_FRect *render_rect = &sprite->render_rect;
         sprite->scale = new_scale;
@@ -294,7 +285,7 @@ int SDLite_Sprite_SetScale(SDLite_Sprite *sprite, double new_scale){
     
     } else if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
 
-        SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
+        SDLite_AnimatedSprite_Data *data = &sprite->data._animated;
 
         SDL_FRect *render_rect = &sprite->render_rect;
         sprite->scale = new_scale;
@@ -304,7 +295,7 @@ int SDLite_Sprite_SetScale(SDLite_Sprite *sprite, double new_scale){
 
     } else if(sprite->sprite_type == SDLite_RECT_SPRITE){
 
-        SDLite_RectSprite_Data *data = (SDLite_RectSprite_Data*)sprite->data;
+        SDLite_RectSprite_Data *data = &sprite->data._rect;
 
         SDL_FRect *render_rect = &sprite->render_rect;
         sprite->scale = new_scale;
@@ -447,23 +438,17 @@ void SDLite_DestroySprite(SDLite_Sprite *sprite){
 
     if(sprite->sprite_type == SDLite_ANIMATED_SPRITE){
 
-        SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)sprite->data;
+        SDLite_AnimatedSprite_Data *data = &sprite->data._animated;
         for(uint32_t i = 0; i < data->amount_animation; i++){
             t_free(data->animation[i].frames);
         }
         t_free(data->animation);
         SDLite_DestroyTexture(&data->texture);
-        t_free(sprite->data);
 
     } else if(sprite->sprite_type == SDLite_STATIC_SPRITE){
 
-        SDLite_StaticSprite_Data *data = (SDLite_StaticSprite_Data*)sprite->data;
+        SDLite_StaticSprite_Data *data = &sprite->data._static;
         SDLite_DestroyTexture(&data->texture);
-        t_free(sprite->data);
-
-    } else if(sprite->sprite_type == SDLite_RECT_SPRITE){
-
-       t_free(sprite->data); 
 
     }
 

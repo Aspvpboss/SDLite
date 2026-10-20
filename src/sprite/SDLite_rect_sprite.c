@@ -15,16 +15,7 @@ SDLite_Sprite* SDLite_Create_RectSprite(SDL_FRect rect, SDL_Color color, bool is
 
     sprite->sprite_type = SDLite_RECT_SPRITE;
 
-    
-    sprite->data = t_calloc(1, sizeof(SDLite_RectSprite_Data));
-
-    if(!sprite->data){
-        SDLite_SetError("Failed to allocate rect sprite data");
-        t_free(sprite);
-        return NULL;
-    }
-
-    SDLite_RectSprite_Data *data = (SDLite_RectSprite_Data*)sprite->data;
+    SDLite_RectSprite_Data *data = &sprite->data._rect;
   
     sprite->render_rect = rect;
     sprite->scale = 1.0f;
@@ -54,7 +45,7 @@ int SDLite_Sprite_SetRectColor(SDLite_Sprite *rect_sprite, SDL_Color color){
         return 1;
     }
 
-    SDLite_RectSprite_Data *data = (SDLite_RectSprite_Data *)rect_sprite->data;
+    SDLite_RectSprite_Data *data = &rect_sprite->data._rect;
 
     data->color = color;
 
