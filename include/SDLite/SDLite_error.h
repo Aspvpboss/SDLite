@@ -16,6 +16,8 @@ extern "C" {
 #include "SDLite/common_libs.h"
 
 /*
+    Safe to call from any thread
+
     Logs an error message with the format
     Uses normal printf string formatting
 
@@ -25,6 +27,8 @@ extern "C" {
 SDLite_API void SDLite_SetError(const char *err_format, ...);
 
 /*
+    Safe to call from any thread
+    
     Polls the internal error logger for errors
     Will keep returning errs each function call until there are no more
 

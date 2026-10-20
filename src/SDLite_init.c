@@ -18,7 +18,7 @@ int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_i
         return 1;
     }
 
-    if(!SDLite_Init_Error_Logger()){
+    if(SDLite_Init_Error_Logger()){
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
         SDL_QuitSubSystem(SDL_INIT_AUDIO);
         SDL_Quit();
@@ -62,8 +62,9 @@ int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_i
 void SDLite_Quit(void){
 
     const char *err = NULL;
-    while(err = SDLite_GetError()){
-        fprintf(stderr, "%s", err);
+    SDLite_Reset_Get_Error_Index();
+    while((err = SDLite_GetError())){
+        fprintf(stderr, "%s\n", err);
     }
 
     SDLite_Destroy_Error_Logger();

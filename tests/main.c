@@ -117,7 +117,12 @@ int main(){
         return 1;
     }
 
+    SDLite_SetError("burger %d", 10);
+    SDLite_SetError("burger %d", 10);
+    SDLite_SetError("burger %d", 10);
+    SDLite_SetError("burger %d", 10);
 
+    printf("%s\n", SDLite_GetError());
 
     void *data = NULL;
     SDL_Thread *thread = SDL_CreateThread(thread_func, "function", data);
