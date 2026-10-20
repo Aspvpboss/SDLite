@@ -27,7 +27,10 @@ static bool is_valid_point(const SDL_FPoint *point){
 
 int SDLite_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point){
     
-    if(!is_valid_rect(rect) || !is_valid_point(point)) return -1;
+    if(!is_valid_rect(rect) || !is_valid_point(point)){
+        SDLite_SetError("Invalid rect or point in SDLite_Collision_RectPoint");
+        return -1;
+    }
 
     if(rect->x + rect->w < point->x) return 0;
     if(rect->y + rect->h < point->y) return 0;
@@ -41,7 +44,10 @@ int SDLite_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point){
 
 int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b){
 
-    if(!is_valid_rect(a) || !is_valid_rect(b)) return -1;
+    if(!is_valid_rect(a) || !is_valid_rect(b)){
+        SDLite_SetError("Invalid rect in SDLite_Collision_Rect");
+        return -1;
+    }
 
     if(a->x + a->w < b->x) return 0; 
     if(a->x > b->x + b->w) return 0; 
@@ -56,8 +62,10 @@ int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b){
 
 enum SDLite_CollisionType SDLite_Collision_RectDir(const SDL_FRect *target, const SDL_FRect *source){
 
-    if(!is_valid_rect(target) || !is_valid_rect(source))
+    if(!is_valid_rect(target) || !is_valid_rect(source)){
+        SDLite_SetError("Invalid rect in SDLite_Collision_RectDir");
         return SDLITE_COLLISION_ERROR;
+    }
 
     if(source->x + source->w < target->x) return SDLITE_COLLISION_NONE;
     if(source->x > target->x + target->w) return SDLITE_COLLISION_NONE;

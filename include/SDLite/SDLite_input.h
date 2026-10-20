@@ -28,7 +28,7 @@ typedef struct SDLite_Input SDLite_Input;
     SDLite_Input must be freed with SDLite_DestroyInput
 
     returns SDLite_Input* for success, returns NULL for failure
-    call SDL_GetError() for more info    
+    call SDLite_GetError() for more details    
 */
 SDLite_API SDLite_Input* SDLite_CreateInput(void);
 
@@ -45,6 +45,7 @@ SDLite_API void SDLite_DestroyInput(SDLite_Input *input);
     Function only fails if SDLite_Input* is NULL
 
     returns 0 for no keyboard key pressed, returns 1 for keyboard key pressed, returns -1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Input_KeyPressed(const SDLite_Input *input, SDL_Scancode scancode);
 
@@ -54,6 +55,7 @@ SDLite_API int SDLite_Input_KeyPressed(const SDLite_Input *input, SDL_Scancode s
     Function only fails if SDLite_Input* is NULL
 
     returns 0 for no keyboard key pressed, returns 1 for keyboard key pressed, returns -1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Input_KeyJustPressed(const SDLite_Input *input, SDL_Scancode scancode);
 
@@ -63,6 +65,7 @@ SDLite_API int SDLite_Input_KeyJustPressed(const SDLite_Input *input, SDL_Scanco
     Function only fails if SDLite_Input* is NULL
 
     returns 0 for no keyboard key pressed, returns 1 for keyboard key pressed, returns -1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Input_KeyJustReleased(const SDLite_Input *input, SDL_Scancode scancode);
 
@@ -74,6 +77,7 @@ SDLite_API int SDLite_Input_KeyJustReleased(const SDLite_Input *input, SDL_Scanc
     Function only fails if SDLite_Input* is NULL
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Input_Update_PrevKeyState(SDLite_Input *input);
 
@@ -83,6 +87,7 @@ SDLite_API int SDLite_Input_Update_PrevKeyState(SDLite_Input *input);
     Function only fails if SDLite_Input* is NULL
 
     returns 0 for no mouse button pressed, returns 1 for mouse button pressed, returns -1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Input_MousePressed(const SDLite_Input *input, uint32_t SDL_MouseButtonMask);
 
@@ -92,6 +97,7 @@ SDLite_API int SDLite_Input_MousePressed(const SDLite_Input *input, uint32_t SDL
     Function only fails if SDLite_Input* is NULL
 
     returns 0 for no mouse button pressed, returns 1 for mouse button pressed, returns -1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Input_MouseJustPressed(const SDLite_Input *input, uint32_t SDL_MouseButtonMask);
 
@@ -101,6 +107,7 @@ SDLite_API int SDLite_Input_MouseJustPressed(const SDLite_Input *input, uint32_t
     Function only fails if SDLite_Input* is NULL
 
     returns 0 for no mouse button pressed, returns 1 for mouse button pressed, returns -1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Input_MouseJustReleased(const SDLite_Input *input, uint32_t SDL_MouseButtonMask);
 
@@ -111,6 +118,7 @@ SDLite_API int SDLite_Input_MouseJustReleased(const SDLite_Input *input, uint32_
     Function only fails if SDLite_Input* is NULL or if the SDL backend fails
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Input_Poll_Mouse(SDLite_Input *input);
 /*
@@ -119,6 +127,7 @@ SDLite_API int SDLite_Input_Poll_Mouse(SDLite_Input *input);
     Function only fails if SDLite_Input* or if either of the int* are NULL
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Input_Mouse_GetPosition(const SDLite_Input *input, int *x, int *y);
 
@@ -129,6 +138,7 @@ SDLite_API int SDLite_Input_Mouse_GetPosition(const SDLite_Input *input, int *x,
     Function only fails if SDLite_Input* is NULL
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Input_Update_PrevMouseState(SDLite_Input *input);
 
@@ -144,6 +154,7 @@ SDLite_API int SDLite_Input_Update_PrevMouseState(SDLite_Input *input);
     Function only fails if SDLite_Input* is NULL or if any of the sub functions fail
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Input_UpdateAllPrev(SDLite_Input *input);
 

@@ -34,6 +34,7 @@ enum SDLite_CollisionType{
     Checks for a collision between a SDL_FRect and a SDL_FPoint
 
     returns 0 for no collision, 1 for collision, and -1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoint *point);
 
@@ -43,6 +44,7 @@ SDLite_API int SDLite_Collision_RectPoint(const SDL_FRect *rect, const SDL_FPoin
     Checks for a collision between two SDL_FRects
 
     returns 0 for no collision, 1 for collision, and -1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b);
 
@@ -52,6 +54,7 @@ SDLite_API int SDLite_Collision_Rect(const SDL_FRect *a, const SDL_FRect *b);
     If source collides with the top of target, the function will return 'SDLITE_COLLISION_UP'
 
     returns enum SDLite_CollisionType for success, returns SDLite_COLLISION_ERROR for failure  
+    call SDLite_GetError() for more details
 */
 SDLite_API enum SDLite_CollisionType SDLite_Collision_RectDir(const SDL_FRect *target, const SDL_FRect *source);
 

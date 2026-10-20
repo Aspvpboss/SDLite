@@ -27,7 +27,7 @@ extern "C" {
     Arguments are for MemTrack configuration
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info    
+    call SDLite_GetError() for more details    
 */
 SDLite_API int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_if_mem_error, bool auto_null_pointers);
     

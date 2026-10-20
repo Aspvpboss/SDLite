@@ -5,18 +5,24 @@
 
 SDLite_Sprite* SDLite_Create_AnimatedSprite(const SDLite_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
 
-    if(!display) return NULL;
+    if(!display){
+        SDLite_SetError("Display is NULL");
+        return NULL;
+    }
 
     SDLite_Sprite *sprite = t_calloc(1, sizeof(SDLite_Sprite));
 
-    if(!sprite)
+    if(!sprite){
+        SDLite_SetError("Failed to allocate sprite");
         return NULL;
+    }
 
     sprite->sprite_type = SDLite_ANIMATED_SPRITE;
 
     sprite->data = t_calloc(1, sizeof(SDLite_AnimatedSprite_Data));
 
     if(!sprite->data){
+        SDLite_SetError("Failed to allocate animated sprite data");
         t_free(sprite);
         return NULL;
     }
@@ -55,21 +61,41 @@ SDLite_Sprite* SDLite_Create_AnimatedSprite(const SDLite_Display *display, const
 
 int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint32_t animation_capacity){
 
-    if(!animated_sprite|| animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE || animation_capacity == 0) return 1;
+    if(!animated_sprite){
+        SDLite_SetError("Sprite is NULL");
+        return 1;
+    }
+    if(animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE){
+        SDLite_SetError("Sprite is not an animated sprite");
+        return 1;
+    }
+    if(animation_capacity == 0){
+        SDLite_SetError("Animation capacity cannot be 0");
+        return 1;
+    }
 
     SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
 
     if(data->amount_animation == 0){
 
         data->animation = t_calloc(animation_capacity, sizeof(SDLite_Animation));
-        if(!data->animation) return 1;
+        if(!data->animation){
+            SDLite_SetError("Failed to allocate animation buffer");
+            return 1;
+        }
 
     } else{
 
-        if(data->amount_animation >= animation_capacity) return 1;
+        if(data->amount_animation >= animation_capacity){
+            SDLite_SetError("Animation capacity must be greater than current capacity");
+            return 1;
+        }
 
         SDLite_Animation *new_animation = t_realloc(data->animation, sizeof(SDLite_Animation) * animation_capacity);
-        if(!new_animation) return 1;
+        if(!new_animation){
+            SDLite_SetError("Failed to allocate animation buffer");
+            return 1;
+        }
         memset(&new_animation[data->amount_animation], 0, sizeof(SDLite_Animation) * (animation_capacity - data->amount_animation));
         data->animation = new_animation;
 
@@ -85,15 +111,34 @@ int SDLite_Sprite_AllocAnimation(SDLite_Sprite *animated_sprite, uint32_t animat
 
 int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, const SDL_FRect *frames, uint16_t amount_frames, double fps, uint16_t animation_index){
 
-    if(!animated_sprite || !frames || animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE)
+    if(!animated_sprite){
+        SDLite_SetError("Sprite is NULL");
         return 1;
+    }
+    if(animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE){
+        SDLite_SetError("Sprite is not an animated sprite");
+        return 1;
+    }
+    if(!frames){
+        SDLite_SetError("Frames array cannot be NULL");
+        return 1;
+    }
 
-    if(amount_frames == 0) return 1;
-    if(fps <= 0.0f) return 1;
+    if(amount_frames == 0){
+        SDLite_SetError("Amount of frames cannot be 0");
+        return 1;
+    }
+    if(fps <= 0.0f){
+        SDLite_SetError("FPS must be greater than 0");
+        return 1;
+    }
 
     SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
 
-    if(animation_index >= data->amount_animation) return 1;
+    if(animation_index >= data->amount_animation){
+        SDLite_SetError("Animation index %u out of bounds", (unsigned int)animation_index);
+        return 1;
+    }
 
     SDLite_Animation *animation = &data->animation[animation_index];
 
@@ -102,7 +147,10 @@ int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, const SDL_FRect *
         animation->amount_frames = 0;
     }
     animation->frames = t_calloc(amount_frames, sizeof(SDL_FRect));
-    if(!animation->frames) return 1;
+    if(!animation->frames){
+        SDLite_SetError("Failed to allocate frames buffer");
+        return 1;
+    }
     SDL_memcpy(animation->frames, frames, sizeof(SDL_FRect) * amount_frames); 
 
     animation->amount_frames = amount_frames;
@@ -124,8 +172,14 @@ int SDLite_Sprite_AddAnimation(SDLite_Sprite *animated_sprite, const SDL_FRect *
 
 int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, const SDLite_Time *time){
 
-    if(!animated_sprite || !time)
+    if(!animated_sprite){
+        SDLite_SetError("Sprite is NULL");
         return 1;
+    }
+    if(!time){
+        SDLite_SetError("Time handler is NULL");
+        return 1;
+    }
 
     if(animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE)
         return 0;
@@ -133,12 +187,16 @@ int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, const SDLite_T
     SDLite_AnimatedSprite_Data *m_data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
 
     if(m_data->current_animation >= m_data->amount_animation){
+        SDLite_SetError("Animation index %u out of bounds", (unsigned int)m_data->current_animation);
         return 1;
     }
 
     SDLite_Animation *animation = &m_data->animation[m_data->current_animation];
 
-    if(animation->amount_frames == 0 || animation->frame_duration == 0.0f) return 1;
+    if(animation->amount_frames == 0 || animation->frame_duration == 0.0f){
+        SDLite_SetError("Animation has 0 frames or invalid duration");
+        return 1;
+    }
 
     if((!animation->loop_animation && !animation->play_animation) || !animation->enable_animation){
 
@@ -177,13 +235,21 @@ int SDLite_Sprite_UpdateAnimation(SDLite_Sprite *animated_sprite, const SDLite_T
 
 int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index){
 
-    if(!animated_sprite || animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE)
+    if(!animated_sprite){
+        SDLite_SetError("Sprite is NULL");
         return 1;
+    }
+    if(animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE){
+        SDLite_SetError("Sprite is not an animated sprite");
+        return 1;
+    }
 
     SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
 
-    if(animation_index >= data->amount_animation)
+    if(animation_index >= data->amount_animation){
+        SDLite_SetError("Animation index %u out of bounds", (unsigned int)animation_index);
         return 1;
+    }
 
     data->current_animation = animation_index;
 
@@ -195,10 +261,20 @@ int SDLite_Sprite_SelectAnimation(SDLite_Sprite *animated_sprite, uint16_t anima
 
 int SDLite_Sprite_SetPlayAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool play){
 
-    if(!animated_sprite || animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE) return 1;
+    if(!animated_sprite){
+        SDLite_SetError("Sprite is NULL");
+        return 1;
+    }
+    if(animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE){
+        SDLite_SetError("Sprite is not an animated sprite");
+        return 1;
+    }
 
     SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
-    if(animation_index >= data->amount_animation) return 1;
+    if(animation_index >= data->amount_animation){
+        SDLite_SetError("Animation index %u out of bounds", (unsigned int)animation_index);
+        return 1;
+    }
 
     data->animation[animation_index].play_animation = play;
 
@@ -210,10 +286,20 @@ int SDLite_Sprite_SetPlayAnimation(SDLite_Sprite *animated_sprite, uint16_t anim
 
 int SDLite_Sprite_SetLoopAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool loop){
 
-    if(!animated_sprite || animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE) return 1;
+    if(!animated_sprite){
+        SDLite_SetError("Sprite is NULL");
+        return 1;
+    }
+    if(animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE){
+        SDLite_SetError("Sprite is not an animated sprite");
+        return 1;
+    }
 
     SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
-    if(animation_index >= data->amount_animation) return 1;
+    if(animation_index >= data->amount_animation){
+        SDLite_SetError("Animation index %u out of bounds", (unsigned int)animation_index);
+        return 1;
+    }
 
     data->animation[animation_index].loop_animation = loop;
     
@@ -225,10 +311,20 @@ int SDLite_Sprite_SetLoopAnimation(SDLite_Sprite *animated_sprite, uint16_t anim
 
 int SDLite_Sprite_EnableAnimation(SDLite_Sprite *animated_sprite, uint16_t animation_index, bool enabled){
     
-    if(!animated_sprite || animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE) return 1;
+    if(!animated_sprite){
+        SDLite_SetError("Sprite is NULL");
+        return 1;
+    }
+    if(animated_sprite->sprite_type != SDLite_ANIMATED_SPRITE){
+        SDLite_SetError("Sprite is not an animated sprite");
+        return 1;
+    }
 
     SDLite_AnimatedSprite_Data *data = (SDLite_AnimatedSprite_Data*)animated_sprite->data;
-    if(animation_index >= data->amount_animation) return 1;
+    if(animation_index >= data->amount_animation){
+        SDLite_SetError("Animation index %u out of bounds", (unsigned int)animation_index);
+        return 1;
+    }
     
     data->animation[animation_index].enable_animation = enabled;
 

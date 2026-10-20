@@ -26,7 +26,7 @@ typedef struct SDLite_Display SDLite_Display;
     SDLite_Display needs to be freed by SDLite_DestroyDisplay()
 
     returns SDLite_Display* for success, returns NULL for failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API SDLite_Display* SDLite_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag);
 
@@ -42,6 +42,7 @@ SDLite_API void SDLite_DestroyDisplay(SDLite_Display *display);
     or all that was rendered using the SDL_Renderer* stored within
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_DisplayClear(SDLite_Display *display);
 
@@ -51,6 +52,7 @@ SDLite_API int SDLite_DisplayClear(SDLite_Display *display);
     or all that is rendered using the SDL_Renderer* stored within
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_DisplayPresent(SDLite_Display *display);
 
@@ -59,7 +61,7 @@ SDLite_API int SDLite_DisplayPresent(SDLite_Display *display);
     This sets a SDLite_Display to be windowed at a specified width and height
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int height);
 
@@ -69,7 +71,7 @@ SDLite_API int SDLite_DisplaySetWindowed(SDLite_Display *display, int width, int
     update to the size of the fullscreen window
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_DisplaySetFullscreen(SDLite_Display *display);
 
@@ -80,7 +82,7 @@ SDLite_API int SDLite_DisplaySetFullscreen(SDLite_Display *display);
     Will fail if SDLite_Display*, or if int* is NULL
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Display_GetSize(const SDLite_Display *display, int *w, int *h);
 
@@ -92,6 +94,7 @@ SDLite_API int SDLite_Display_GetSize(const SDLite_Display *display, int *w, int
     Will fail if SDLite_Display* is NULL
 
     returns SDL_Renderer* on success, returns NULL on failure
+    call SDLite_GetError() for more details
 */
 SDLite_API SDL_Renderer* SDLite_Display_GetSDLRenderer(const SDLite_Display *display);
 
@@ -103,6 +106,7 @@ SDLite_API SDL_Renderer* SDLite_Display_GetSDLRenderer(const SDLite_Display *dis
     Will fail if SDLite_Display* is NULL
 
     returns SDL_Window* on success, returns NULL on failure
+    call SDLite_GetError() for more details
 */
 SDLite_API SDL_Window* SDLite_Display_GetSDLWindow(const SDLite_Display *display);
 
@@ -114,6 +118,7 @@ SDLite_API SDL_Window* SDLite_Display_GetSDLWindow(const SDLite_Display *display
     Will fail if SDLite_Display* is NULL
 
     returns TTF_TextEngine* on success, returns NULL on failure
+    call SDLite_GetError() for more details
 */
 SDLite_API TTF_TextEngine* SDLite_Display_GetTTFTextEngine(const SDLite_Display *display);
 
@@ -125,6 +130,7 @@ SDLite_API TTF_TextEngine* SDLite_Display_GetTTFTextEngine(const SDLite_Display 
     Will fail if SDLite_Display* is NULL
 
     returns SDL_WindowFlags on success, returns 0 on failure
+    call SDLite_GetError() for more details
 */
 SDLite_API SDL_WindowFlags SDLite_Display_GetWindowFlags(const SDLite_Display *display);
 

@@ -36,6 +36,7 @@ typedef struct SDLite_Audio_Handler SDLite_Audio_Handler;
     Use SDLite_Destroy_AudioHandler to free SDLite_Audio_Handler
 
     returns SDLite_Audio_Handler* for success, returns NULL for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API SDLite_Audio_Handler* SDLite_Create_AudioHandler(uint16_t track_capacity, float master_volume);
 
@@ -55,6 +56,7 @@ SDLite_API void SDLite_Destroy_AudioHandler(SDLite_Audio_Handler *audio_handler)
     Do not free SDLite_Track. It is owned by SDLite_Audio_Handler*   
     
     returns SDLite_Track* for success, returns NULL for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API SDLite_Track* SDLite_Audio_GetTrack(const SDLite_Audio_Handler *audio_handler, uint16_t audio_track);
 
@@ -65,6 +67,7 @@ SDLite_API SDLite_Track* SDLite_Audio_GetTrack(const SDLite_Audio_Handler *audio
     Will fail if SDLite_Audio_Handler* is NULL
 
     returns MIX_Mixer* for success, returns NULL for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API MIX_Mixer* SDLite_Audio_GetMixer(const SDLite_Audio_Handler *audio_handler);
 
@@ -74,6 +77,7 @@ SDLite_API MIX_Mixer* SDLite_Audio_GetMixer(const SDLite_Audio_Handler *audio_ha
     Function will fail if no audio has been loaded to the track
 
     returns 0 for success, returns 1 for failure 
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Audio_PlayTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track);
 
@@ -83,6 +87,7 @@ SDLite_API int SDLite_Audio_PlayTrack(SDLite_Audio_Handler *audio_handler, uint1
     Function will fail if no audio has been loaded to the track
 
     returns 0 for success, returns 1 for failure 
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Audio_StopTrack(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, int64_t fade_out_frames);
 
@@ -95,6 +100,7 @@ SDLite_API int SDLite_Audio_StopTrack(SDLite_Audio_Handler *audio_handler, uint1
     Look at the SDL_Mixer documentation for more information
 
     returns 0 for success, returns 1 for failure 
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Audio_SetTrackAudio(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, MIX_Audio *audio);
 
@@ -104,6 +110,7 @@ SDLite_API int SDLite_Audio_SetTrackAudio(SDLite_Audio_Handler *audio_handler, u
     Will fail if track_volume is negative
 
     returns 0 for success, returns 1 for failure 
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, float track_volume);
 
@@ -115,6 +122,7 @@ SDLite_API int SDLite_Audio_SetTrackVolume(SDLite_Audio_Handler *audio_handler, 
     Look at the SDL_Mixer properties for more info
 
     returns 0 for success, returns 1 for failure 
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Audio_SetTrackProp(SDLite_Audio_Handler *audio_handler, uint16_t audio_track, const char *prop_name, int64_t value);
 
@@ -123,6 +131,7 @@ SDLite_API int SDLite_Audio_SetTrackProp(SDLite_Audio_Handler *audio_handler, ui
     Will fail if master_volume is negative
 
     returns 0 for success, returns 1 for failure 
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Audio_SetMasterVolume(SDLite_Audio_Handler *audio_handler, float master_volume);
 
@@ -132,6 +141,7 @@ SDLite_API int SDLite_Audio_SetMasterVolume(SDLite_Audio_Handler *audio_handler,
     Will fail if either SDLite_Audio_Handler* or float* is NULL
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Audio_GetMasterVolume(const SDLite_Audio_Handler *audio_handler, float *master_volume);
 

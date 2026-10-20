@@ -34,7 +34,7 @@ typedef struct SDLite_Sprite_Manager SDLite_Sprite_Manager;
     it does this by using z_depth
 
     returns SDLite_Sprite_Manager* for success, returns NULL for failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API SDLite_Sprite_Manager* SDLite_Create_SpriteManager(uint64_t max_z_depth, uint64_t max_sprites);
 
@@ -56,6 +56,7 @@ SDLite_API void SDLite_Destroy_SpriteManager(SDLite_Sprite_Manager *manager);
     rendering itself. The queue is cleared after rendering.
 
     returns 0 for success, returns 1 for failure
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_SpriteManager_QueueSprite(SDLite_Sprite_Manager *manager, SDLite_Sprite *sprite, uint64_t z_depth);
 
@@ -67,7 +68,7 @@ SDLite_API int SDLite_SpriteManager_QueueSprite(SDLite_Sprite_Manager *manager, 
     but the function will continue to render all of the sprites before returns a failure
 
     returns 0 for success, returns 1 for failure
-    call SDL_GetError() for more info
+    call SDLite_GetError() for more details
 */
 SDLite_API int SDLite_Render_SpriteManager(const SDLite_Display *display, SDLite_Sprite_Manager *manager);
 

@@ -5,13 +5,24 @@
 
 SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, const char *file){
 
-    if(!display || !file) return NULL;
+    if(!display){
+        SDLite_SetError("Display is NULL");
+        return NULL;
+    }
+    if(!file){
+        SDLite_SetError("File path cannot be NULL");
+        return NULL;
+    }
 
     SDLite_Texture *sdlite_texture = t_calloc(1, sizeof(SDLite_Texture));
-    if(!sdlite_texture) return NULL;
+    if(!sdlite_texture){
+        SDLite_SetError("Failed to allocate texture");
+        return NULL;
+    }
 
     sdlite_texture->texture = IMG_LoadTexture(display->renderer, file);
     if(!sdlite_texture->texture){
+        SDLite_SetError("IMG_LoadTexture failed: %s", SDL_GetError());
         t_free(sdlite_texture);
         return NULL;
     }
@@ -24,7 +35,10 @@ SDLite_Texture* SDLite_CreateTexture(const SDLite_Display *display, const char *
 
 SDL_Texture* SDLite_Texture_GetSDLTexture(const SDLite_Texture *texture){
 
-    if(!texture) return NULL;
+    if(!texture){
+        SDLite_SetError("Texture is NULL");
+        return NULL;
+    }
 
     return texture->texture;
 }
@@ -32,7 +46,10 @@ SDL_Texture* SDLite_Texture_GetSDLTexture(const SDLite_Texture *texture){
 
 uint64_t SDLite_Texture_GetRefs(const SDLite_Texture *texture){
 
-    if(!texture) return 0;
+    if(!texture){
+        SDLite_SetError("Texture is NULL");
+        return 0;
+    }
     
     return texture->refs;
 }
@@ -42,7 +59,9 @@ void SDLite_DestroyTexture(SDLite_Texture **texture){
 
     if(!texture || !(*texture)) return;
 
-    (*texture)->refs--;
+    if((*texture)->refs > 0){
+        (*texture)->refs--;
+    }
     if((*texture)->refs == 0){
         SDL_DestroyTexture((*texture)->texture);
         t_free((*texture));

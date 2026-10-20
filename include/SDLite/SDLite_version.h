@@ -24,6 +24,7 @@ extern "C"{
     Can be called from any thread
 
     returns early if any pointer is NULL
+    call SDLite_GetError() for more details
 */
 SDLite_API void SDLite_Get_Version(int *major, int *minor, int *micro);
 
