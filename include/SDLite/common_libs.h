@@ -30,6 +30,7 @@ extern "C"{
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include "SDLite/memtrack.h"
+#include "SDLite/SDLite_error.h"
 
 #include <stdio.h>
 #include <stdint.h>

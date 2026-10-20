@@ -61,8 +61,10 @@ int SDLite_Init(void (*malloc_err_handler)(void*), void *func_data, bool abort_i
 
 void SDLite_Quit(void){
 
-    // const char *err = NULL;
-    // while(err = SDLite)
+    const char *err = NULL;
+    while(err = SDLite_GetError()){
+        fprintf(stderr, "%s", err);
+    }
 
     SDLite_Destroy_Error_Logger();
     TTF_Quit();
