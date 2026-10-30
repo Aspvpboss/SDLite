@@ -124,6 +124,7 @@ static void test_version_and_headers(void) {
     TEST_ASSERT(major == SDLITE_MAJOR_VERSION, "SDLite major version matches macro");
     TEST_ASSERT(minor == SDLITE_MINOR_VERSION, "SDLite minor version matches macro");
     TEST_ASSERT(micro == SDLITE_MICRO_VERSION, "SDLite micro version matches macro");
+    TEST_ASSERT(major == 1 && minor == 3 && micro == 1, "SDLite version is 1.3.1");
 
     /* Null pointer safety */
     major = 99; minor = 99; micro = 99;

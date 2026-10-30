@@ -1,4 +1,4 @@
-# SDLite Version 1.3.0
+# SDLite Version 1.3.1
 
 
 SDLite is a lightweight cross-platform C / C++ framework built on top of **SDL3** and the **SDL3 satellite libraries** (listed below), designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
@@ -9,15 +9,7 @@ This framework is intended to be a **generic SDL helper library**, slightly tail
 
 ## Patch Notes
 
-* #### Major Refactoring
-  * replaced old Makefile build system with CMake
-  * created extensive unit tests
-  * reorganized file structure
-  * various bug fixes
-* Added SDLite_Text_Font, a shared ref for fonts
-* Added standardized SDLite_GetError and SDLite_SetError
-* Added MemTrack v1.4.0
-* Added Pong example (as a GitHub repo in examples below)
+* Change MIT license to MPL 2.0 license for better protection of library
 
 ---
 
