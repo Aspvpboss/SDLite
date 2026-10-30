@@ -115,5 +115,5 @@ cmake --install build --prefix desired_install_path
 
 ## License
 
-This project is licensed under the MIT License.  
+This project is licensed under the Mozilla Public License 2.0 (MPL 2.0).  
 See LICENSE.txt and LICENSE_SDL.txt for more details.
